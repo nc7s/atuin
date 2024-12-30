@@ -5,14 +5,14 @@ mod common;
 #[tokio::test]
 async fn registration() {
     let path = format!("/{}", uuid_v7().as_simple());
-    let (address, shutdown, server) = common::start_server(&path).await;
+    let (address, shutdown, server, temp_db) = common::sqlite::start_server(&path).await;
     dbg!(&address);
 
     // -- REGISTRATION --
 
     let username = uuid_v7().as_simple().to_string();
     let password = uuid_v7().as_simple().to_string();
-    let client = common::register_inner(&address, &username, &password).await;
+    let client = common::sqlite::register_inner(&address, &username, &password).await;
 
     // the session token works
     let status = client.status().await.unwrap();
@@ -20,7 +20,7 @@ async fn registration() {
 
     // -- LOGIN --
 
-    let client = common::login(&address, username.clone(), password).await;
+    let client = common::sqlite::login(&address, username.clone(), password).await;
 
     // the session token works
     let status = client.status().await.unwrap();
@@ -28,18 +28,19 @@ async fn registration() {
 
     shutdown.send(()).unwrap();
     server.await.unwrap();
+	temp_db.close().unwrap();
 }
 
 #[tokio::test]
 async fn change_password() {
     let path = format!("/{}", uuid_v7().as_simple());
-    let (address, shutdown, server) = common::start_server(&path).await;
+    let (address, shutdown, server, temp_db) = common::sqlite::start_server(&path).await;
 
     // -- REGISTRATION --
 
     let username = uuid_v7().as_simple().to_string();
     let password = uuid_v7().as_simple().to_string();
-    let client = common::register_inner(&address, &username, &password).await;
+    let client = common::sqlite::register_inner(&address, &username, &password).await;
 
     // the session token works
     let status = client.status().await.unwrap();
@@ -58,7 +59,7 @@ async fn change_password() {
 
     // -- LOGIN --
 
-    let client = common::login(&address, username.clone(), new_password).await;
+    let client = common::sqlite::login(&address, username.clone(), new_password).await;
 
     // login with new password yields a working token
     let status = client.status().await.unwrap();
@@ -66,19 +67,20 @@ async fn change_password() {
 
     shutdown.send(()).unwrap();
     server.await.unwrap();
+	temp_db.close().unwrap();
 }
 
 #[tokio::test]
 async fn multi_user_test() {
     let path = format!("/{}", uuid_v7().as_simple());
-    let (address, shutdown, server) = common::start_server(&path).await;
+    let (address, shutdown, server, temp_db) = common::sqlite::start_server(&path).await;
     dbg!(&address);
 
     // -- REGISTRATION --
 
     let user_one = uuid_v7().as_simple().to_string();
     let password_one = uuid_v7().as_simple().to_string();
-    let client_one = common::register_inner(&address, &user_one, &password_one).await;
+    let client_one = common::sqlite::register_inner(&address, &user_one, &password_one).await;
 
     // the session token works
     let status = client_one.status().await.unwrap();
@@ -86,7 +88,7 @@ async fn multi_user_test() {
 
     let user_two = uuid_v7().as_simple().to_string();
     let password_two = uuid_v7().as_simple().to_string();
-    let client_two = common::register_inner(&address, &user_two, &password_two).await;
+    let client_two = common::sqlite::register_inner(&address, &user_two, &password_two).await;
 
     // the session token works
     let status = client_two.status().await.unwrap();
@@ -105,8 +107,8 @@ async fn multi_user_test() {
 
     // -- LOGIN --
 
-    let client_one = common::login(&address, user_one.clone(), new_password).await;
-    let client_two = common::login(&address, user_two.clone(), password_two).await;
+    let client_one = common::sqlite::login(&address, user_one.clone(), new_password).await;
+    let client_two = common::sqlite::login(&address, user_two.clone(), password_two).await;
 
     // login with new password yields a working token
     let status = client_one.status().await.unwrap();
@@ -118,4 +120,5 @@ async fn multi_user_test() {
 
     shutdown.send(()).unwrap();
     server.await.unwrap();
+	temp_db.close().unwrap();
 }

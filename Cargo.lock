@@ -230,7 +230,9 @@ dependencies = [
  "atuin-dotfiles",
  "atuin-history",
  "atuin-server",
+ "atuin-server-database",
  "atuin-server-postgres",
+ "atuin-server-sqlite",
  "base64 0.22.1",
  "clap",
  "clap_complete",
@@ -256,6 +258,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sysinfo",
+ "tempfile",
  "time",
  "tiny-bip39",
  "tokio",
@@ -447,6 +450,7 @@ dependencies = [
  "tower 0.4.13",
  "tower-http",
  "tracing",
+ "url",
  "uuid",
 ]
 
@@ -479,6 +483,22 @@ dependencies = [
  "tracing",
  "url",
  "uuid",
+]
+
+[[package]]
+name = "atuin-server-sqlite"
+version = "18.4.0"
+dependencies = [
+ "async-trait",
+ "atuin-common",
+ "atuin-server-database",
+ "futures-util",
+ "metrics",
+ "serde",
+ "sqlx",
+ "time",
+ "tracing",
+ "url",
 ]
 
 [[package]]

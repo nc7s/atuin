@@ -3,7 +3,7 @@ use std::{io::prelude::*, path::PathBuf};
 use config::{Config, Environment, File as ConfigFile, FileFormat};
 use eyre::{eyre, Result};
 use fs_err::{create_dir_all, File};
-use serde::{de::DeserializeOwned, Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 
 static EXAMPLE_CONFIG: &str = include_str!("../server.toml");
 
@@ -52,8 +52,39 @@ impl Default for Metrics {
     }
 }
 
+pub struct DbUri(String);
+
+impl std::ops::Deref for DbUri {
+    type Target = str;
+
+    fn deref(&self) -> &Self::Target {
+        self.0.as_ref()
+    }
+}
+
+impl From<String> for DbUri {
+    fn from(value: String) -> Self {
+        Self(value)
+    }
+}
+
+// Do our best to redact passwords so they're not logged in the event of an error.
+impl std::fmt::Debug for DbUri {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let redacted_uri = url::Url::parse(self)
+            .map(|mut url| {
+                let _ = url.set_password(Some("****"));
+                url.to_string()
+            })
+            .unwrap_or_else(|_| self.0.clone());
+        f.debug_struct("PostgresSettings")
+            .field("db_uri", &redacted_uri)
+            .finish()
+    }
+}
+
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Settings<DbSettings> {
+pub struct Settings {
     pub host: String,
     pub port: u16,
     pub path: String,
@@ -74,11 +105,10 @@ pub struct Settings<DbSettings> {
     /// notifying users when the server runs something that is not a stable release.
     pub fake_version: Option<String>,
 
-    #[serde(flatten)]
-    pub db_settings: DbSettings,
+    pub db_uri: String,
 }
 
-impl<DbSettings: DeserializeOwned> Settings<DbSettings> {
+impl Settings {
     pub fn new() -> Result<Self> {
         let mut config_file = if let Ok(p) = std::env::var("ATUIN_CONFIG_DIR") {
             PathBuf::from(p)

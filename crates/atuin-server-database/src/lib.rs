@@ -44,7 +44,7 @@ pub type DbResult<T> = Result<T, DbError>;
 #[async_trait]
 pub trait Database: Sized + Clone + Send + Sync + 'static {
     type Settings: Debug + Clone + DeserializeOwned + Serialize + Send + Sync + 'static;
-    async fn new(settings: &Self::Settings) -> DbResult<Self>;
+    async fn new(uri: &str) -> DbResult<Self>;
 
     async fn get_session(&self, token: &str) -> DbResult<Session>;
     async fn get_session_user(&self, token: &str) -> DbResult<User>;

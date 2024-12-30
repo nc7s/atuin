@@ -6,9 +6,9 @@ mod common;
 #[tokio::test]
 async fn sync() {
     let path = format!("/{}", uuid_v7().as_simple());
-    let (address, shutdown, server) = common::start_server(&path).await;
+    let (address, shutdown, server, temp_db) = common::sqlite::start_server(&path).await;
 
-    let client = common::register(&address).await;
+    let client = common::sqlite::register(&address).await;
     let hostname = uuid_v7().as_simple().to_string();
     let now = OffsetDateTime::now_utc();
 
@@ -42,4 +42,5 @@ async fn sync() {
 
     shutdown.send(()).unwrap();
     server.await.unwrap();
+	temp_db.close().unwrap();
 }
