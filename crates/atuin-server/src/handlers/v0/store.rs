@@ -26,7 +26,7 @@ pub async fn delete<DB: Database>(
 
     if let Err(e) = database.delete_store(&user).await {
         #[cfg(feature = "metrics")]
-        counter!("atuin_store_delete_failed", 1);
+        counter!("atuin_store_delete_failed").increment(1);
         error!("failed to delete store {e:?}");
 
         return Err(ErrorResponse::reply("failed to delete store")
@@ -34,7 +34,7 @@ pub async fn delete<DB: Database>(
     }
 
     #[cfg(feature = "metrics")]
-    counter!("atuin_store_deleted", 1);
+    counter!("atuin_store_deleted").increment(1);
 
     Ok(())
 }

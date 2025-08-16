@@ -27,7 +27,7 @@ pub async fn post<DB: Database>(
     );
 
     #[cfg(feature = "metrics")]
-    counter!("atuin_record_uploaded", records.len() as u64);
+    counter!("atuin_record_uploaded").increment(records.len() as u64);
 
     let keep = records
         .iter()
@@ -35,7 +35,7 @@ pub async fn post<DB: Database>(
 
     if !keep {
         #[cfg(feature = "metrics")]
-        counter!("atuin_record_too_large", 1);
+        counter!("atuin_record_too_large").increment(1);
 
         return Err(
             ErrorResponse::reply("could not add records; record too large")
@@ -112,7 +112,7 @@ pub async fn next<DB: Database>(
     };
 
     #[cfg(feature = "metrics")]
-    counter!("atuin_record_downloaded", records.len() as u64);
+    counter!("atuin_record_downloaded").increment(records.len() as u64);
 
     Ok(Json(records))
 }

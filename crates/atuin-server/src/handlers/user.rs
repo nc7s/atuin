@@ -148,7 +148,7 @@ pub async fn register<DB: Database>(
     }
 
     #[cfg(feature = "metrics")]
-    counter!("atuin_users_registered", 1);
+    counter!("atuin_users_registered").increment(1);
 
     match db.add_session(&new_session).await {
         Ok(_) => Ok(Json(RegisterResponse { session: token })),
@@ -176,7 +176,7 @@ pub async fn delete<DB: Database>(
     };
 
     #[cfg(feature = "metrics")]
-    counter!("atuin_users_deleted", 1);
+    counter!("atuin_users_deleted").increment(1);
 
     Ok(Json(DeleteUserResponse {}))
 }
