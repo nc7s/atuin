@@ -8,7 +8,7 @@ use atuin_client::settings::DiskUsageLimit;
 use eyre::Result;
 use fjall::{OptimisticTxDatabase, PersistMode};
 
-use super::super::maintenance::{MaintainedStore, resolve_budget};
+use super::super::maintenance::{MaintainedStore, MaintenanceStats, resolve_budget};
 use super::{FjallBlobStore, FjallStorageInner, Maintenance};
 use crate::output_capture::DeleteOutputError;
 
@@ -31,8 +31,8 @@ impl FjallBlobStore {
         })
     }
 
-    pub(in crate::output_capture) async fn stop_maintenance(&mut self) {
-        Maintenance::shutdown(self.maintenance.take()).await;
+    pub(in crate::output_capture) async fn stop_maintenance(&mut self) -> MaintenanceStats {
+        Maintenance::shutdown(self.maintenance.take()).await
     }
 
     pub(in crate::output_capture) fn persist_for_benchmark(&self) -> Result<()> {

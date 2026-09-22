@@ -22,7 +22,7 @@ use redb::{
 
 use super::fjall::ActiveSchema;
 use super::fjall::schema::Schema as _;
-use super::maintenance::{MaintainedStore, Maintenance, resolve_budget};
+use super::maintenance::{MaintainedStore, Maintenance, MaintenanceStats, resolve_budget};
 use super::{CaptureError, DeleteOutputError, GetOutputError, StorageError};
 
 const OUTPUT: TableDefinition<&[u8; 16], &[u8]> = TableDefinition::new(ActiveSchema::NAME);
@@ -63,8 +63,8 @@ impl RedbBackend {
         })
     }
 
-    pub(in crate::output_capture) async fn stop_maintenance(&mut self) {
-        Maintenance::shutdown(self.maintenance.take()).await;
+    pub(in crate::output_capture) async fn stop_maintenance(&mut self) -> MaintenanceStats {
+        Maintenance::shutdown(self.maintenance.take()).await
     }
 
     pub(in crate::output_capture) fn persist(&self) -> Result<()> {

@@ -3,7 +3,7 @@
 #[cfg(test)]
 mod failing;
 pub(in crate::output_capture) mod fjall;
-mod maintenance;
+pub(in crate::output_capture) mod maintenance;
 mod nop;
 #[cfg(feature = "output-store-bench")]
 pub(in crate::output_capture) mod redb;

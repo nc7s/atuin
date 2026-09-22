@@ -1,5 +1,6 @@
 use std::path::PathBuf;
 
+use atuin_client::settings::{CaptureLimits, DiskUsageLimit};
 use clap::Parser;
 use serde::Serialize;
 
@@ -18,6 +19,9 @@ pub struct Config {
     pub output: PathBuf,
     #[arg(long, default_value_os_t = super::corpus::default_path())]
     pub corpus: PathBuf,
+    /// Wall-clock GC budget. Binding budgets fail the equal-data comparison; use a larger limit.
+    #[arg(long, default_value_t = CaptureLimits::default().max_disk_usage)]
+    pub max_disk_usage: DiskUsageLimit,
     #[arg(long, value_enum, value_delimiter = ',', default_value = "sizes,year")]
     pub scenarios: Vec<Scenario>,
     /// Independent fresh-database sizes, replaying identical prefixes of the workload.

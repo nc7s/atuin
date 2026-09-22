@@ -2,6 +2,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::path::PathBuf;
 
 use atuin_client::history::HistoryId;
+use atuin_client::settings::DiskUsageLimit;
 use atuin_daemon::CaptureError;
 use atuin_daemon::output_store_benchmark::{Engine, Store, serialized_value_len};
 use eyre::{Result, ensure};
@@ -10,7 +11,7 @@ use serde::Serialize;
 use super::config::{Config, Scenario};
 use super::corpus::Kind;
 use super::measure::{Snapshot, disk_usage};
-use super::workload::{BURST_COMMANDS, Workload};
+use super::workload::Workload;
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize)]
 pub struct LogicalSize {
@@ -95,9 +96,6 @@ impl Simulation {
                 "duplicate capture was not rejected"
             );
         }
-        if (index + 1).is_multiple_of(u64::from(BURST_COMMANDS)) {
-            store.persist()?;
-        }
         Ok(())
     }
 
@@ -115,7 +113,6 @@ impl Simulation {
                 self.live.remove(&id.into_bytes());
             }
         }
-        store.persist()?;
         Ok(())
     }
 
@@ -178,6 +175,7 @@ struct Run {
     engine: Engine,
     path: PathBuf,
     scenario: String,
+    limit: DiskUsageLimit,
     snapshots: Vec<Snapshot>,
 }
 
@@ -187,8 +185,13 @@ impl Run {
             engine,
             path: config.output.join(&scenario).join(engine.to_string()),
             scenario,
+            limit: config.max_disk_usage,
             snapshots: Vec::new(),
         }
+    }
+
+    fn open(&self) -> Result<Store> {
+        Store::open_with_limit(self.engine, &self.path, self.limit)
     }
 
     async fn checkpoint(
@@ -197,11 +200,14 @@ impl Run {
         phase: &str,
         simulation: &Simulation,
     ) -> Result<Store> {
-        store.persist()?;
-        /* Closing stops workers before traversing files and includes clean-shutdown maintenance. */
-        drop(store);
+        /* Drain timer I/O before traversing files, including the final durable commit. */
+        let maintenance = store.close().await?;
+        ensure!(
+            maintenance.gc_reclaimed_bytes == 0,
+            "wall-clock GC evicted data at {phase}; increase --max-disk-usage for an equal-data comparison"
+        );
         let disk = disk_usage(&self.path)?;
-        let store = Store::open(self.engine, &self.path)?;
+        let store = self.open()?;
         let live = simulation.verify(&store).await?;
         let snapshot = Snapshot {
             engine: self.engine.to_string(),
@@ -211,6 +217,7 @@ impl Run {
             live,
             generated: simulation.generated.clone(),
             disk,
+            maintenance,
         };
         snapshot.print();
         self.snapshots.push(snapshot);
@@ -223,7 +230,7 @@ impl Run {
         store.compact()?;
         store = self.checkpoint(store, "compacted", simulation).await?;
         store = self.checkpoint(store, "reopened", simulation).await?;
-        drop(store);
+        store.close().await?;
         Ok(())
     }
 }
@@ -248,7 +255,7 @@ async fn run_size(
     count: u32,
 ) -> Result<Vec<Snapshot>> {
     let mut run = Run::new(engine, config, format!("records-{count}"));
-    let mut store = Store::open(engine, &run.path)?;
+    let mut store = run.open()?;
     let mut simulation = Simulation::new(workload);
     store = run.checkpoint(store, "empty", &simulation).await?;
     for index in 0..u64::from(count) {
@@ -270,7 +277,7 @@ async fn run_size(
 
 async fn run_year(engine: Engine, config: &Config, workload: Workload) -> Result<Vec<Snapshot>> {
     let mut run = Run::new(engine, config, "year".to_owned());
-    let mut store = Store::open(engine, &run.path)?;
+    let mut store = run.open()?;
     let mut simulation = Simulation::new(workload);
     store = run.checkpoint(store, "empty", &simulation).await?;
     for day in 0..config.days {

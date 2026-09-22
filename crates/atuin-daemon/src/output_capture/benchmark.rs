@@ -1,15 +1,16 @@
 //! Experimental output-store comparison API, enabled only by `output-store-bench`.
 //!
 //! Both engines use the reference serialization, CRUD operations and wall-clock maintenance.
-//! `Store::open` disables Atuin's timers for reproducible, caller-driven simulations;
-//! engine-internal maintenance remains enabled. Synchronous measurement methods block the caller.
+//! `Store::open` enables Atuin's timers with the production capture budget by default.
+//! Synchronous measurement methods block the caller.
 
 use std::path::Path;
 
 use atuin_client::history::{CommandCapture, HistoryId};
-use atuin_client::settings::DiskUsageLimit;
-use eyre::Result;
+use atuin_client::settings::{CaptureLimits, DiskUsageLimit};
+use eyre::{Result, ensure};
 
+pub use super::persistence::blob::maintenance::{GC_INTERVAL, MaintenanceStats, SYNC_INTERVAL};
 use super::persistence::blob::redb::RedbBackend;
 use super::persistence::{BlobStore as _, FjallBlobStore};
 use super::{CaptureError, DeleteOutputError, GetOutputError};
@@ -44,8 +45,14 @@ impl Store {
         Ok(Self { backend })
     }
 
-    /// Disable Atuin's timers so the caller can drive durability and retention explicitly.
+    /// Enable wall-clock flushing and GC with the default production capture budget.
+    /// Requires a Tokio runtime, just like `open_with_limit`.
     pub fn open(engine: Engine, path: &Path) -> Result<Self> {
+        Self::open_with_limit(engine, path, CaptureLimits::default().max_disk_usage)
+    }
+
+    /// Explicit opt-out for tests that drive durability and retention themselves.
+    pub fn open_without_maintenance(engine: Engine, path: &Path) -> Result<Self> {
         let backend = match engine {
             Engine::Fjall => Backend::Fjall(FjallBlobStore::open_for_benchmark(path)?),
             Engine::Redb => Backend::Redb(RedbBackend::open_for_benchmark(path)?),
@@ -55,14 +62,17 @@ impl Store {
 
     /// Stop timers, await in-flight maintenance I/O, persist, and release the database lock.
     /// Use this before inspecting files or reopening a wall-clock store; Drop only aborts timers.
-    pub async fn close(mut self) -> Result<()> {
-        match &mut self.backend {
+    /// Return completed timer work, or an error if any maintenance operation failed.
+    pub async fn close(mut self) -> Result<MaintenanceStats> {
+        let stats = match &mut self.backend {
             Backend::Fjall(store) => store.stop_maintenance().await,
             Backend::Redb(store) => store.stop_maintenance().await,
-        }
+        };
         tokio::task::spawn_blocking(move || self.persist())
             .await
-            .expect("store close task panicked")
+            .expect("store close task panicked")?;
+        ensure!(stats.errors == 0, "wall-clock maintenance reported {} errors", stats.errors);
+        Ok(stats)
     }
 
     pub async fn capture(

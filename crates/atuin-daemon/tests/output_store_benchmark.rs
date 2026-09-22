@@ -4,10 +4,10 @@ use std::sync::Arc;
 use std::time::Duration;
 
 use atuin_client::history::{CommandCapture, HistoryId};
-use atuin_client::settings::DiskUsageLimit;
+use atuin_client::settings::{CaptureLimits, DiskUsageLimit};
 use atuin_common::units::ByteSize;
 use atuin_daemon::CaptureError;
-use atuin_daemon::output_store_benchmark::{Engine, Store, serialized_value_len};
+use atuin_daemon::output_store_benchmark::{Engine, GC_INTERVAL, Store, serialized_value_len};
 use proptest::prelude::*;
 use proptest::test_runner::{Config, TestRunner};
 use rstest::{fixture, rstest};
@@ -154,16 +154,33 @@ async fn persistence_materialization_and_compaction_preserve_live_data(
     store.remove((1..=10).map(id).collect()).await.unwrap();
     store.persist().unwrap();
     let expected = store.entries().unwrap();
-    drop(store);
+    store.close().await.unwrap();
     store = Store::open(engine, directory.path()).unwrap();
     assert_eq!(store.entries().unwrap(), expected);
     store.compact().unwrap();
-    drop(store);
+    store.close().await.unwrap();
     let store = Store::open(engine, directory.path()).unwrap();
     assert_eq!(store.entries().unwrap(), expected);
     for n in 1..=20 {
         assert_eq!(store.get(id(n)).await.unwrap(), (n > 10).then(|| value.clone()));
     }
+}
+
+#[rstest]
+#[tokio::test(start_paused = true)]
+async fn default_stores_enable_wall_clock_maintenance(
+    directory: TempDir,
+    #[values(Engine::Fjall, Engine::Redb)] engine: Engine,
+) {
+    let store = Store::open(engine, directory.path()).unwrap();
+    store.capture(id(1), capture("timer-driven capture", None)).await.unwrap();
+    tokio::time::advance(GC_INTERVAL).await;
+    tokio::task::yield_now().await;
+    let stats = store.close().await.unwrap();
+    assert!(stats.flushes > 0);
+    assert!(stats.gc_checks > 0);
+    assert_eq!(stats.gc_reclaimed_bytes, 0);
+    assert_eq!(stats.errors, 0);
 }
 
 #[rstest]
@@ -204,7 +221,9 @@ async fn wall_clock_gc_applies_the_budget_on_open(
     })
     .await
     .expect("startup GC did not evict over-budget output");
-    store.close().await.unwrap();
+    let stats = store.close().await.unwrap();
+    assert!(stats.gc_checks > 0);
+    assert!(stats.gc_reclaimed_bytes > 0);
     let store = Store::open(engine, directory.path()).unwrap();
     assert!(store.entries().unwrap().is_empty());
 }
@@ -215,7 +234,7 @@ fn generated_captures_round_trip(
     #[values(Engine::Fjall, Engine::Redb)] engine: Engine,
 ) {
     let runtime = tokio::runtime::Builder::new_current_thread().enable_all().build().unwrap();
-    let store = Store::open(engine, directory.path()).unwrap();
+    let store = Store::open_without_maintenance(engine, directory.path()).unwrap();
     let strategy = (
         "[^\\p{C}]{0,128}",
         prop::option::of("[^\\p{C}]{0,128}"),
@@ -279,11 +298,17 @@ async fn benchmark_lifecycle_keeps_identical_data(directory: TempDir) {
         "--checkpoint-days",
         "1",
     ]);
+    assert_eq!(config.max_disk_usage, CaptureLimits::default().max_disk_usage);
     let corpus = Arc::new(corpus::Corpus::load(&config.corpus).unwrap());
     let workload = workload::Workload::new(config.seed, config.commands_per_day, corpus);
     let fjall = simulation::run(Engine::Fjall, &config, &workload).await.unwrap();
     let redb = simulation::run(Engine::Redb, &config, &workload).await.unwrap();
     assert_eq!(fjall.len(), redb.len());
+    for snapshots in [&fjall, &redb] {
+        assert!(snapshots.iter().any(|row| row.maintenance.gc_checks > 0));
+        assert!(snapshots.iter().all(|row| row.maintenance.errors == 0));
+        assert!(snapshots.iter().all(|row| row.maintenance.gc_reclaimed_bytes == 0));
+    }
     for (fjall, redb) in fjall.iter().zip(&redb) {
         assert_eq!(fjall.phase, redb.phase);
         assert_eq!(fjall.live, redb.live);

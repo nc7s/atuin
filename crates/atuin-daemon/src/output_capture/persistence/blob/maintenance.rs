@@ -7,7 +7,7 @@ use std::future::Future;
 #[cfg(any(test, feature = "output-store-bench"))]
 use std::path::Path;
 use std::sync::Arc;
-use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::time::Duration;
 
 #[cfg(any(test, feature = "output-store-bench"))]
@@ -29,10 +29,28 @@ pub(super) trait MaintainedStore: Send + Sync + 'static {
     ) -> impl Future<Output = Result<u64, DeleteOutputError>> + Send;
 }
 
-pub(super) const SYNC_INTERVAL: Duration = Duration::from_secs(5);
-pub(super) const GC_INTERVAL: Duration = Duration::from_secs(60);
+pub const SYNC_INTERVAL: Duration = Duration::from_secs(5);
+pub const GC_INTERVAL: Duration = Duration::from_secs(60);
 const TRIGGER_SHARE: Percent = Percent::new(95.0);
 const TARGET_SHARE: Percent = Percent::new(90.0);
+
+/// Completed wall-clock work since the store was opened; excludes caller-driven persistence.
+#[cfg(feature = "output-store-bench")]
+#[derive(Clone, Debug, Default, serde::Serialize)]
+pub struct MaintenanceStats {
+    pub flushes: u64,
+    pub gc_checks: u64,
+    pub gc_reclaimed_bytes: u64,
+    pub errors: u64,
+}
+
+#[derive(Debug, Default)]
+struct MaintenanceCounters {
+    flushes: AtomicU64,
+    gc_checks: AtomicU64,
+    gc_reclaimed_bytes: AtomicU64,
+    errors: AtomicU64,
+}
 
 /// Owned only by backend handles, never by the tasks that drive the store.
 #[derive(Debug)]
@@ -42,31 +60,42 @@ pub(super) struct Maintenance {
         expect(dead_code, reason = "owns timer tasks")
     )]
     tasks: Vec<BackgroundTask>,
+    #[cfg(feature = "output-store-bench")]
+    counters: Arc<MaintenanceCounters>,
 }
 
 impl Maintenance {
     pub(super) fn spawn<S: MaintainedStore>(inner: Arc<S>, budget: Option<ByteSize>) -> Self {
-        let mut tasks = vec![spawn_flusher(inner.clone())];
+        let counters = Arc::new(MaintenanceCounters::default());
+        let mut tasks = vec![spawn_flusher(inner.clone(), counters.clone())];
         if let Some(budget) = budget {
-            tasks.push(spawn_gc(inner, budget));
+            tasks.push(spawn_gc(inner, budget, counters.clone()));
         }
-        Self { tasks }
+        Self {
+            tasks,
+            #[cfg(feature = "output-store-bench")]
+            counters,
+        }
     }
 
     /// Wait for in-flight blocking I/O before a benchmark closes or reopens the database.
     #[cfg(feature = "output-store-bench")]
-    pub(super) async fn shutdown(maintenance: Option<Arc<Self>>) {
-        if let Some(maintenance) = maintenance {
-            let maintenance = Arc::try_unwrap(maintenance)
-                .expect("cannot shut down maintenance while backend clones exist");
-            for mut task in maintenance.tasks {
-                drop(task.stop.take());
-                task.task
-                    .take()
-                    .expect("maintenance task")
-                    .await
-                    .expect("maintenance task panicked");
-            }
+    pub(super) async fn shutdown(maintenance: Option<Arc<Self>>) -> MaintenanceStats {
+        let Some(maintenance) = maintenance else {
+            return MaintenanceStats::default();
+        };
+        let maintenance = Arc::try_unwrap(maintenance)
+            .expect("cannot shut down maintenance while backend clones exist");
+        for mut task in maintenance.tasks {
+            drop(task.stop.take());
+            task.task.take().expect("maintenance task").await.expect("maintenance task panicked");
+        }
+        let counters = maintenance.counters;
+        MaintenanceStats {
+            flushes: counters.flushes.load(Ordering::Relaxed),
+            gc_checks: counters.gc_checks.load(Ordering::Relaxed),
+            gc_reclaimed_bytes: counters.gc_reclaimed_bytes.load(Ordering::Relaxed),
+            errors: counters.errors.load(Ordering::Relaxed),
         }
     }
 }
@@ -86,7 +115,10 @@ impl Drop for BackgroundTask {
     }
 }
 
-fn spawn_flusher<S: MaintainedStore>(inner: Arc<S>) -> BackgroundTask {
+fn spawn_flusher<S: MaintainedStore>(
+    inner: Arc<S>,
+    counters: Arc<MaintenanceCounters>,
+) -> BackgroundTask {
     let (stop, mut stopped) = oneshot::channel();
     let task = tokio::spawn(async move {
         let mut interval = tokio::time::interval(SYNC_INTERVAL);
@@ -104,12 +136,18 @@ fn spawn_flusher<S: MaintainedStore>(inner: Arc<S>) -> BackgroundTask {
                 continue;
             }
             let store = inner.clone();
-            if let Err(err) = tokio::task::spawn_blocking(move || store.persist())
+            match tokio::task::spawn_blocking(move || store.persist())
                 .await
                 .expect("persistence task shouldn't panic")
             {
-                tracing::error!(?err, "failed to persist data on disk. will try again...");
-                inner.dirty().store(true, Ordering::Relaxed);
+                Ok(()) => {
+                    counters.flushes.fetch_add(1, Ordering::Relaxed);
+                }
+                Err(err) => {
+                    counters.errors.fetch_add(1, Ordering::Relaxed);
+                    tracing::error!(?err, "failed to persist data on disk. will try again...");
+                    inner.dirty().store(true, Ordering::Relaxed);
+                }
             }
         }
     });
@@ -119,7 +157,11 @@ fn spawn_flusher<S: MaintainedStore>(inner: Arc<S>) -> BackgroundTask {
     }
 }
 
-fn spawn_gc<S: MaintainedStore>(inner: Arc<S>, budget: ByteSize) -> BackgroundTask {
+fn spawn_gc<S: MaintainedStore>(
+    inner: Arc<S>,
+    budget: ByteSize,
+    counters: Arc<MaintenanceCounters>,
+) -> BackgroundTask {
     let (stop, mut stopped) = oneshot::channel();
     let task = tokio::spawn(async move {
         let mut interval = tokio::time::interval(GC_INTERVAL);
@@ -131,8 +173,15 @@ fn spawn_gc<S: MaintainedStore>(inner: Arc<S>, budget: ByteSize) -> BackgroundTa
                 _ = interval.tick() => {}
             }
 
-            if let Err(err) = collect_garbage(inner.clone(), budget).await {
-                tracing::warn!(?err, "output capture gc failed to reclaim entries");
+            match collect_garbage(inner.clone(), budget).await {
+                Ok(bytes) => {
+                    counters.gc_checks.fetch_add(1, Ordering::Relaxed);
+                    counters.gc_reclaimed_bytes.fetch_add(bytes, Ordering::Relaxed);
+                }
+                Err(err) => {
+                    counters.errors.fetch_add(1, Ordering::Relaxed);
+                    tracing::warn!(?err, "output capture gc failed to reclaim entries");
+                }
             }
         }
     });
@@ -145,16 +194,16 @@ fn spawn_gc<S: MaintainedStore>(inner: Arc<S>, budget: ByteSize) -> BackgroundTa
 async fn collect_garbage<S: MaintainedStore>(
     inner: Arc<S>,
     budget: ByteSize,
-) -> Result<(), StorageError> {
+) -> Result<u64, StorageError> {
     let store = inner.clone();
     let size = tokio::task::spawn_blocking(move || store.estimated_disk_space())
         .await
         .expect("disk-usage task shouldn't panic")?;
     let budget = budget.as_u64();
     if size >= budget * TRIGGER_SHARE {
-        inner.reclaim_oldest(size.saturating_sub(budget * TARGET_SHARE)).await?;
+        return Ok(inner.reclaim_oldest(size.saturating_sub(budget * TARGET_SHARE)).await?);
     }
-    Ok(())
+    Ok(0)
 }
 
 #[cfg(test)]

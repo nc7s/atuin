@@ -13,7 +13,7 @@ version.workspace = true
 
 [features]
 # Experimental backend and measurement hooks; never selected by the daemon.
-output-store-bench = ["dep:redb"]
+output-store-bench = ['dep:redb', 'dep:serde']
 
 [dependencies]
 atuin-client = { workspace = true }
@@ -39,6 +39,7 @@ prost-types = { workspace = true }
 rand = { workspace = true }
 redb = { workspace = true, optional = true }
 reqwest = { workspace = true }
+serde = { workspace = true, optional = true }
 sqlx = { workspace = true }
 thiserror = { workspace = true }
 time = { workspace = true }

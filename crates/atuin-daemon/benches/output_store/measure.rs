@@ -1,5 +1,6 @@
 use std::path::Path;
 
+use atuin_daemon::output_store_benchmark::MaintenanceStats;
 use eyre::{Result, ensure};
 use serde::Serialize;
 
@@ -27,6 +28,8 @@ pub struct Snapshot {
     pub generated: LogicalSize,
     pub disk: DiskUsage,
     pub verified_captures: u64,
+    /// Completed wall-clock work since the previous checkpoint opened this store.
+    pub maintenance: MaintenanceStats,
 }
 
 impl Snapshot {

@@ -114,7 +114,7 @@ async fn gc_uses_reference_trigger_and_target(
     #[case] expected: u64,
 ) {
     store.size.store(size, Ordering::Relaxed);
-    collect_garbage(store.clone(), ByteSize::b(budget)).await.unwrap();
+    assert_eq!(collect_garbage(store.clone(), ByteSize::b(budget)).await.unwrap(), expected);
     assert_eq!(store.reclaimed.load(Ordering::Relaxed), expected);
 }
 
@@ -171,7 +171,10 @@ async fn graceful_shutdown_waits_for_in_flight_blocking_io(store: Arc<TestStore>
     tokio::task::yield_now().await;
     assert!(!shutdown.is_finished());
     release.send(()).unwrap();
-    shutdown.await.unwrap();
+    let stats = shutdown.await.unwrap();
+    assert_eq!(stats.flushes, 1);
+    assert_eq!(stats.gc_checks, 0);
+    assert_eq!(stats.errors, 0);
     assert_eq!(Arc::strong_count(&store), 1);
 }
 
