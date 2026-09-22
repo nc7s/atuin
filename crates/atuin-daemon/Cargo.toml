@@ -56,11 +56,19 @@ listenfd = { workspace = true }
 
 [dev-dependencies]
 atuin-common = { workspace = true, features = ["os", "sqlite"] }
+clap = { workspace = true }
 divan = { workspace = true }
 proptest = { workspace = true }
 rstest = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
 tempfile = { workspace = true }
 tokio = { workspace = true, features = ['test-util'] }
+
+[[bench]]
+name = "output_store"
+harness = false
+required-features = ["output-store-bench"]
 
 [build-dependencies]
 protox = { workspace = true }
