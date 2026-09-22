@@ -7,6 +7,8 @@ pub(in crate::output_capture) mod maintenance;
 mod nop;
 #[cfg(feature = "output-store-bench")]
 pub(in crate::output_capture) mod redb;
+#[cfg(feature = "output-store-bench")]
+pub(in crate::output_capture) mod sqlite;
 
 use atuin_client::history::{CommandCapture, HistoryId};
 use atuin_common::futures::stream::ChunkedStream;

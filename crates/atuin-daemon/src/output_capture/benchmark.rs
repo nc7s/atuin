@@ -1,6 +1,6 @@
 //! Experimental output-store comparison API, enabled only by `output-store-bench`.
 //!
-//! Both engines use the reference serialization, CRUD operations and wall-clock maintenance.
+//! All engines use the reference serialization, CRUD operations and wall-clock maintenance.
 //! `Store::open` enables Atuin's timers with the production capture budget by default.
 //! Synchronous measurement methods block the caller.
 
@@ -12,6 +12,7 @@ use eyre::{Result, ensure};
 
 pub use super::persistence::blob::maintenance::{GC_INTERVAL, MaintenanceStats, SYNC_INTERVAL};
 use super::persistence::blob::redb::RedbBackend;
+use super::persistence::blob::sqlite::SqliteBackend;
 use super::persistence::{BlobStore as _, FjallBlobStore};
 use super::{CaptureError, DeleteOutputError, GetOutputError};
 
@@ -21,11 +22,18 @@ pub enum Engine {
     Fjall,
     #[display("redb")]
     Redb,
+    #[display("sqlite")]
+    Sqlite,
+}
+
+impl Engine {
+    pub const ALL: [Self; 3] = [Self::Fjall, Self::Redb, Self::Sqlite];
 }
 
 enum Backend {
     Fjall(FjallBlobStore),
     Redb(RedbBackend),
+    Sqlite(SqliteBackend),
 }
 
 pub struct Store {
@@ -41,6 +49,7 @@ impl Store {
                 Backend::Fjall(FjallBlobStore::open_with_limit_for_benchmark(path, limit)?)
             }
             Engine::Redb => Backend::Redb(RedbBackend::open(path, limit)?),
+            Engine::Sqlite => Backend::Sqlite(SqliteBackend::open(path, limit)?),
         };
         Ok(Self { backend })
     }
@@ -56,6 +65,7 @@ impl Store {
         let backend = match engine {
             Engine::Fjall => Backend::Fjall(FjallBlobStore::open_for_benchmark(path)?),
             Engine::Redb => Backend::Redb(RedbBackend::open_for_benchmark(path)?),
+            Engine::Sqlite => Backend::Sqlite(SqliteBackend::open_for_benchmark(path)?),
         };
         Ok(Self { backend })
     }
@@ -67,10 +77,17 @@ impl Store {
         let stats = match &mut self.backend {
             Backend::Fjall(store) => store.stop_maintenance().await,
             Backend::Redb(store) => store.stop_maintenance().await,
+            Backend::Sqlite(store) => store.stop_maintenance().await,
         };
-        tokio::task::spawn_blocking(move || self.persist())
-            .await
-            .expect("store close task panicked")?;
+        tokio::task::spawn_blocking(move || {
+            self.persist()?;
+            if let Backend::Sqlite(store) = self.backend {
+                store.close()?;
+            }
+            Ok::<_, eyre::Report>(())
+        })
+        .await
+        .expect("store close task panicked")?;
         ensure!(stats.errors == 0, "wall-clock maintenance reported {} errors", stats.errors);
         Ok(stats)
     }
@@ -83,6 +100,7 @@ impl Store {
         match &self.backend {
             Backend::Fjall(store) => store.capture(id, capture).await,
             Backend::Redb(store) => store.capture(id, capture).await,
+            Backend::Sqlite(store) => store.capture(id, capture).await,
         }
     }
 
@@ -90,6 +108,7 @@ impl Store {
         match &self.backend {
             Backend::Fjall(store) => store.get(id).await,
             Backend::Redb(store) => store.get(id).await,
+            Backend::Sqlite(store) => store.get(id).await,
         }
     }
 
@@ -97,6 +116,7 @@ impl Store {
         match &self.backend {
             Backend::Fjall(store) => store.remove(ids.into_iter()).await,
             Backend::Redb(store) => store.remove(ids).await,
+            Backend::Sqlite(store) => store.remove(ids).await,
         }
     }
 
@@ -105,6 +125,7 @@ impl Store {
         match &self.backend {
             Backend::Fjall(store) => store.reclaim_for_benchmark(bytes).await,
             Backend::Redb(store) => store.reclaim(bytes).await,
+            Backend::Sqlite(store) => store.reclaim(bytes).await,
         }
     }
 
@@ -113,14 +134,16 @@ impl Store {
         match &self.backend {
             Backend::Fjall(store) => store.persist_for_benchmark(),
             Backend::Redb(store) => store.persist(),
+            Backend::Sqlite(store) => store.persist(),
         }
     }
 
-    /// Flush Fjall memtables to SSTs/blob files; redb has no corresponding extra layer.
+    /// Flush Fjall memtables to SSTs/blob files; the other engines need only persistence.
     pub fn materialize(&self) -> Result<()> {
         match &self.backend {
             Backend::Fjall(store) => store.materialize_for_benchmark(),
             Backend::Redb(store) => store.persist(),
+            Backend::Sqlite(store) => store.persist(),
         }
     }
 
@@ -129,6 +152,7 @@ impl Store {
         match &self.backend {
             Backend::Fjall(store) => store.compact_for_benchmark(),
             Backend::Redb(store) => store.compact(),
+            Backend::Sqlite(store) => store.compact(),
         }
     }
 
@@ -137,11 +161,12 @@ impl Store {
         match &self.backend {
             Backend::Fjall(store) => store.entries_for_benchmark(),
             Backend::Redb(store) => store.entries(),
+            Backend::Sqlite(store) => store.entries(),
         }
     }
 }
 
-/// Size of the exact uncompressed MessagePack payload used by both engines.
+/// Size of the exact uncompressed MessagePack payload used by all engines.
 pub fn serialized_value_len(capture: CommandCapture) -> Result<u64> {
     use super::persistence::blob::fjall::ActiveSchema;
     use super::persistence::blob::fjall::schema::Schema as _;
