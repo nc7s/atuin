@@ -5,42 +5,54 @@
 //! optimistic transaction so the check-then-insert is atomic against concurrent
 //! writers, and all blocking fjall I/O runs on tokio's blocking pool via
 //! `spawn_blocking`.
-mod schema;
+pub(in crate::output_capture) mod schema;
+
+#[cfg(feature = "output-store-bench")]
+mod benchmark;
 
 use std::num::NonZeroUsize;
 use std::path::Path;
 use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
-use std::time::Duration;
 
 use atuin_client::history::{CommandCapture, HistoryId};
 use atuin_common::futures::stream::ChunkedStream;
 use fjall::{OptimisticTxDatabase, OptimisticTxKeyspace, PersistMode, Readable};
 use schema::{Schema as _, SchemaV2};
-use tokio::task::JoinHandle;
 use tokio_stream::wrappers::ReceiverStream;
 use tracing::error;
 
-use super::{BlobStore, CaptureError, DeleteOutputError, GetOutputError};
+use super::maintenance::{MaintainedStore, Maintenance};
+use super::{BlobStore, CaptureError, DeleteOutputError, GetOutputError, StorageError};
 
 /// The schema currently in use for stored output.
-type ActiveSchema = SchemaV2;
+pub(in crate::output_capture) type ActiveSchema = SchemaV2;
 
 /// The store and every operation on it.
 ///
-/// This structure is shared between the [`FjallBlobStore`] and the task in [`Flusher`].
+/// This structure is shared between the [`FjallBlobStore`] and its [`Maintenance`] tasks.
 struct FjallStorageInner {
     db: OptimisticTxDatabase,
     keyspace: OptimisticTxKeyspace,
-    /// Set on every mutation; the flusher clears it and persists. See `Flusher` for the
-    /// memory-ordering rationale.
+    /// Set on every mutation; the shared maintenance flusher clears it before persisting.
     dirty: Arc<AtomicBool>,
     /// Running estimate of stored bytes for the disk budget.
     estimated_usage: AtomicU64,
 }
 
 impl FjallStorageInner {
-    fn estimated_disk_space(&self) -> u64 {
+    fn new(db: OptimisticTxDatabase) -> fjall::Result<Self> {
+        let keyspace = db.keyspace(ActiveSchema::NAME, ActiveSchema::create_options)?;
+        let seed = keyspace.inner().disk_space();
+        Ok(Self {
+            db,
+            keyspace,
+            dirty: Arc::new(AtomicBool::new(false)),
+            estimated_usage: AtomicU64::new(seed),
+        })
+    }
+
+    fn estimated_usage(&self) -> u64 {
         self.estimated_usage.load(Ordering::Relaxed)
     }
 
@@ -121,14 +133,14 @@ impl FjallStorageInner {
         .expect("output-capture contains task panicked")
     }
 
-    async fn remove(&self, ids: impl Iterator<Item = HistoryId>) -> Result<(), DeleteOutputError> {
+    async fn remove(&self, ids: impl Iterator<Item = HistoryId>) -> Result<u64, DeleteOutputError> {
         let keys: Vec<_> = ids
             .map(|id| {
                 ActiveSchema::serialize_key(id).expect("history id serialization is infallible")
             })
             .collect();
         if keys.is_empty() {
-            return Ok(());
+            return Ok(0);
         }
 
         let db = self.db.clone();
@@ -161,7 +173,7 @@ impl FjallStorageInner {
         .expect("output-capture delete task panicked")?;
 
         self.sub_estimated(freed);
-        Ok(())
+        Ok(freed)
     }
 
     /// Every stored id, oldest first (fjall key order), streamed in chunks.
@@ -243,86 +255,23 @@ impl FjallStorageInner {
     }
 }
 
-/// Task responsible for flushing fjall data buffered in memory onto the disk.
-#[derive(Debug)]
-struct Flusher {
-    /// Handle to the background task.
-    task: JoinHandle<()>,
-}
-
-impl Flusher {
-    /// How often to try to flush.
-    ///
-    /// We'd expect flush itself to take anywhere between 1-10ms, so this is plenty of overhead.
-    const SYNC_INTERVAL: Duration = Duration::from_secs(5);
-
-    pub fn spawn(inner: Arc<FjallStorageInner>) -> Self {
-        let task = tokio::task::spawn(async move {
-            let mut interval = tokio::time::interval(Self::SYNC_INTERVAL);
-            interval.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
-            loop {
-                interval.tick().await;
-
-                // TODO(markovejnovic): @taylordotfish and I were wondering whether it is possible
-                // to use relaxed here. @taylordotfish claims that's not possible and I am more and
-                // more convinced by her argument.
-                //
-                // The concern is that one thread may perform some writes
-                //
-                // db-write
-                // db-write
-                // dirty-set
-                //
-                // while another thread does
-                //
-                // dirty-load
-                // persist
-                //
-                // In the pathological case, the db writes can be re-ordered after the dirty-set
-                // (under relaxed semantics):
-                //
-                // dirty-set
-                // db-write
-                // db-write
-                //
-                // while the other thread does
-                //
-                // dirty-load
-                // persist
-                //
-                // Well the persist won't observe those db-writes.
-                //
-                // The counter-argument is that both db-write and persist acquire the same mutex,
-                // so must be seq-cst-ordered?
-                //
-                // Unsure but would be curious to learn more.
-                //
-                // @taylordotfish mentioned we shouldn't rely on the internal implementation
-                // details.
-                if !inner.dirty.swap(false, Ordering::Acquire) {
-                    continue;
-                }
-
-                let db = inner.db.clone();
-                if let Err(err) =
-                    tokio::task::spawn_blocking(move || db.persist(PersistMode::SyncAll))
-                        .await
-                        .expect("persistence task shouldn't panic")
-                {
-                    error!(?err, "failed to persist data on disk. will try again...");
-                    inner.dirty.store(true, Ordering::Relaxed);
-                }
-            }
-        });
-
-        Self { task }
+impl MaintainedStore for FjallStorageInner {
+    fn dirty(&self) -> &AtomicBool {
+        &self.dirty
     }
-}
 
-impl Drop for Flusher {
-    fn drop(&mut self) {
-        // Stop the background loop once nothing is holding the flusher any more.
-        self.task.abort();
+    fn persist(&self) -> Result<(), StorageError> {
+        self.db.persist(PersistMode::SyncAll)?;
+        Ok(())
+    }
+
+    fn estimated_disk_space(&self) -> Result<u64, StorageError> {
+        Ok(self.estimated_usage())
+    }
+
+    async fn reclaim_oldest(self: Arc<Self>, bytes: u64) -> Result<u64, DeleteOutputError> {
+        let ids = self.eviction_candidates(bytes).await?;
+        self.remove(ids.into_iter()).await
     }
 }
 
@@ -330,8 +279,13 @@ impl Drop for Flusher {
 pub struct FjallBlobStore {
     #[debug(skip)]
     inner: Arc<FjallStorageInner>,
+    /* Tasks hold only inner, so the last backend drop stops them without a reference cycle. */
     #[debug(skip)]
-    _flusher: Arc<Flusher>,
+    #[cfg_attr(
+        not(feature = "output-store-bench"),
+        expect(dead_code, reason = "owns timer tasks")
+    )]
+    maintenance: Option<Arc<Maintenance>>,
 }
 
 impl FjallBlobStore {
@@ -342,22 +296,10 @@ impl FjallBlobStore {
     }
 
     pub fn new(db: OptimisticTxDatabase) -> fjall::Result<Self> {
-        let keyspace = db.keyspace(ActiveSchema::NAME, ActiveSchema::create_options)?;
-        let seed = keyspace.inner().disk_space();
-
-        let inner = Arc::new(FjallStorageInner {
-            db,
-            keyspace,
-            dirty: Arc::new(AtomicBool::new(false)),
-            estimated_usage: AtomicU64::new(seed),
-        });
-
-        let flusher = Arc::new(Flusher::spawn(inner.clone()));
-
-        Ok(Self {
-            inner,
-            _flusher: flusher,
-        })
+        let inner = Arc::new(FjallStorageInner::new(db)?);
+        /* Production GC belongs to the engine so it also removes search-index entries. */
+        let maintenance = Some(Arc::new(Maintenance::spawn(inner.clone(), None)));
+        Ok(Self { inner, maintenance })
     }
 
     /// Store bytes under `id` that `get` cannot decode, standing in for disk corruption.
@@ -383,11 +325,11 @@ impl BlobStore for FjallBlobStore {
     }
 
     async fn remove(&self, ids: impl Iterator<Item = HistoryId>) -> Result<(), DeleteOutputError> {
-        self.inner.remove(ids).await
+        self.inner.remove(ids).await.map(|_| ())
     }
 
     fn estimated_disk_space(&self) -> u64 {
-        self.inner.estimated_disk_space()
+        self.inner.estimated_usage()
     }
 
     async fn all_ids(&self) -> ChunkedStream<Result<HistoryId, GetOutputError>> {
@@ -405,6 +347,7 @@ impl BlobStore for FjallBlobStore {
 #[cfg(test)]
 mod tests {
     use easy_cast::Conv;
+    use rstest::rstest;
     use uuid::Uuid;
 
     use super::*;
@@ -429,6 +372,7 @@ mod tests {
         }
     }
 
+    #[rstest]
     #[tokio::test]
     async fn round_trips_output_by_history_id() {
         let (store, _dir) = temp_storage();
@@ -450,6 +394,7 @@ mod tests {
         }
     }
 
+    #[rstest]
     #[tokio::test]
     async fn round_trips_a_capture_that_lost_its_middle() {
         let (store, _dir) = temp_storage();
@@ -464,6 +409,7 @@ mod tests {
         assert_eq!(got.output_observed_bytes, 10_000, "the observed count is not the kept count");
     }
 
+    #[rstest]
     #[tokio::test]
     async fn an_empty_tail_is_not_the_same_as_no_tail() {
         // `Some("")` means "everything after the start was discarded"; `None` means "nothing was".
@@ -478,12 +424,14 @@ mod tests {
         assert_eq!(whole.output_end, None);
     }
 
+    #[rstest]
     #[tokio::test]
     async fn missing_id_returns_none() {
         let (store, _dir) = temp_storage();
         assert!(store.get(hid(9)).await.expect("get").is_none());
     }
 
+    #[rstest]
     #[tokio::test]
     async fn second_capture_for_same_id_is_rejected() {
         let (store, _dir) = temp_storage();
@@ -494,6 +442,7 @@ mod tests {
         assert_eq!(store.get(hid(1)).await.expect("get").expect("present").output_start, "first");
     }
 
+    #[rstest]
     #[tokio::test]
     async fn concurrent_writers_store_exactly_one() {
         let (store, _dir) = temp_storage();
@@ -514,6 +463,7 @@ mod tests {
         assert_eq!(ok, 1, "exactly one writer wins, no TOCTOU double-store");
     }
 
+    #[rstest]
     #[tokio::test]
     async fn remove_removes_stored_output() {
         let (store, _dir) = temp_storage();
@@ -522,6 +472,7 @@ mod tests {
         assert!(store.get(hid(1)).await.expect("get").is_none());
     }
 
+    #[rstest]
     #[tokio::test]
     async fn remove_of_absent_ids_is_ok() {
         let (store, _dir) = temp_storage();
@@ -529,6 +480,7 @@ mod tests {
         store.remove(std::iter::once(hid(9))).await.expect("remove of an absent id is idempotent");
     }
 
+    #[rstest]
     #[tokio::test]
     async fn remove_only_removes_requested_ids() {
         let (store, _dir) = temp_storage();
@@ -541,6 +493,7 @@ mod tests {
         assert!(store.get(hid(3)).await.expect("get").is_none());
     }
 
+    #[rstest]
     #[tokio::test]
     async fn removed_id_can_be_captured_again() {
         let (store, _dir) = temp_storage();
@@ -551,6 +504,7 @@ mod tests {
         assert_eq!(store.get(hid(1)).await.expect("get").expect("present").output_start, "second");
     }
 
+    #[rstest]
     #[tokio::test]
     async fn remove_after_removal_is_idempotent() {
         let (store, _dir) = temp_storage();
@@ -561,6 +515,7 @@ mod tests {
         store.remove([hid(1), hid(9)].into_iter()).await.expect("remove again");
     }
 
+    #[rstest]
     #[tokio::test]
     async fn eviction_candidates_names_oldest_until_budget_met() {
         let (store, _dir) = temp_storage();
@@ -579,6 +534,7 @@ mod tests {
         assert_eq!(all, vec![hid(1), hid(2), hid(3)]);
     }
 
+    #[rstest]
     #[tokio::test]
     async fn eviction_candidates_for_zero_bytes_is_empty() {
         let (store, _dir) = temp_storage();
@@ -586,6 +542,7 @@ mod tests {
         assert!(store.eviction_candidates(0).await.expect("candidates").is_empty());
     }
 
+    #[rstest]
     #[tokio::test]
     async fn all_ids_lists_every_stored_id_oldest_first() {
         let (store, _dir) = temp_storage();
@@ -596,6 +553,7 @@ mod tests {
         assert_eq!(ids, vec![hid(1), hid(2), hid(3)]);
     }
 
+    #[rstest]
     #[tokio::test]
     async fn all_ids_streams_every_id_across_chunk_boundaries() {
         let (store, _dir) = temp_storage();
@@ -611,6 +569,7 @@ mod tests {
         assert_eq!(ids, expected);
     }
 
+    #[rstest]
     #[tokio::test]
     async fn all_ids_skips_unreadable_keys_and_keeps_walking() {
         let (store, _dir) = temp_storage();
@@ -630,6 +589,7 @@ mod tests {
         assert_eq!(ids, vec![hid(1), hid(2), hid(3)], "the bad key is skipped, the rest survive");
     }
 
+    #[rstest]
     #[tokio::test]
     async fn get_surfaces_an_error_for_an_undecodable_value() {
         let (store, _dir) = temp_storage();
@@ -642,6 +602,7 @@ mod tests {
         assert!(matches!(err, GetOutputError::Storage(_)));
     }
 
+    #[rstest]
     #[tokio::test]
     async fn estimated_disk_space_shrinks_when_entries_are_removed() {
         let (store, _dir) = temp_storage();

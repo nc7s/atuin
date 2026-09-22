@@ -1,3 +1,5 @@
+#[cfg(feature = "output-store-bench")]
+pub mod benchmark;
 mod engine;
 mod persistence;
 

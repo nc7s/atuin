@@ -119,6 +119,7 @@ pulldown-cmark = "0.13"
 rand = { version = "0.8", features = ["std"] }
 ratatui = "0.30"
 ratatui-core = "0.1"
+redb = "4.3.0"
 regex = "1"
 reqwest = {
     version = "0.13",

@@ -2,8 +2,11 @@
 
 #[cfg(test)]
 mod failing;
-mod fjall;
+pub(in crate::output_capture) mod fjall;
+mod maintenance;
 mod nop;
+#[cfg(feature = "output-store-bench")]
+pub(in crate::output_capture) mod redb;
 
 use atuin_client::history::{CommandCapture, HistoryId};
 use atuin_common::futures::stream::ChunkedStream;

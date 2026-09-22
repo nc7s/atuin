@@ -31,6 +31,8 @@ pub use history_journal::{
     CmdCancelError, CmdDeleteError, CmdEvent, CmdFinishError, CmdRebuildError, FinishedCmd,
     GetCmdInFlightError, HistoryJournal, RegisterOutputError,
 };
+#[cfg(feature = "output-store-bench")]
+pub use output_capture::benchmark as output_store_benchmark;
 pub use output_capture::{
     CaptureError, DeleteOutputError, GetOutputError, OutputCaptureEngine, OutputLine, OutputMatch,
 };

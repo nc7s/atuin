@@ -1,4 +1,4 @@
-mod blob;
+pub(super) mod blob;
 mod index;
 
 use atuin_client::history::{CommandCapture, HistoryId};
@@ -218,6 +218,7 @@ mod tests {
     use std::path::Path;
 
     use easy_cast::Conv;
+    use rstest::rstest;
     use uuid::Uuid;
 
     use super::*;
@@ -246,6 +247,7 @@ mod tests {
         store.search(query, limit, Some(0)).await.try_collect().await.expect("search")
     }
 
+    #[rstest]
     #[tokio::test]
     async fn capture_then_search_finds_the_output() {
         let dir = tempfile::tempdir().expect("tempdir");
@@ -260,6 +262,7 @@ mod tests {
         assert_eq!(hits[0].history_id, hid(1));
     }
 
+    #[rstest]
     #[tokio::test]
     async fn search_matches_the_visible_text_of_colorized_output() {
         let dir = tempfile::tempdir().expect("tempdir");
@@ -274,6 +277,7 @@ mod tests {
         assert_eq!(plain.ranges, vec![0..5]);
     }
 
+    #[rstest]
     #[tokio::test]
     async fn remove_drops_the_output_from_search() {
         let dir = tempfile::tempdir().expect("tempdir");
@@ -283,6 +287,7 @@ mod tests {
         assert!(search_hits(&backend, "searchable", 10).await.is_empty());
     }
 
+    #[rstest]
     #[tokio::test]
     async fn search_hides_index_entries_whose_capture_is_gone() {
         let dir = tempfile::tempdir().expect("tempdir");
@@ -300,6 +305,7 @@ mod tests {
         assert_eq!(hits[0].history_id, hid(1));
     }
 
+    #[rstest]
     #[tokio::test]
     async fn capture_and_remove_survive_an_erroring_index() {
         // The index is derived, so a live index failure must not fail the capture or the removal;
@@ -318,6 +324,7 @@ mod tests {
         assert!(store.get(hid(1)).await.expect("get").is_none());
     }
 
+    #[rstest]
     #[tokio::test]
     async fn reconcile_indexes_captures_missing_from_the_index() {
         let dir = tempfile::tempdir().expect("tempdir");
@@ -332,6 +339,7 @@ mod tests {
         assert_eq!(hits[0].history_id, hid(1));
     }
 
+    #[rstest]
     #[tokio::test]
     async fn reconcile_skips_an_unreadable_capture_and_indexes_the_rest() {
         use std::collections::HashSet;
@@ -352,6 +360,7 @@ mod tests {
         assert_eq!(indexed, [hid(1), hid(3)].into_iter().collect());
     }
 
+    #[rstest]
     #[tokio::test]
     async fn reconcile_drops_index_entries_without_a_capture() {
         let dir = tempfile::tempdir().expect("tempdir");
@@ -362,6 +371,7 @@ mod tests {
         assert!(search_hits(&backend, "ghost", 10).await.is_empty());
     }
 
+    #[rstest]
     #[tokio::test]
     async fn reconcile_syncs_a_mixed_index_in_one_pass() {
         use std::collections::HashSet;
