@@ -47,7 +47,7 @@ fn capture(output: &str, tail: Option<&str>) -> CommandCapture {
 #[tokio::test]
 async fn captures_round_trip_without_overwriting(
     directory: TempDir,
-    #[values(Engine::Fjall, Engine::Redb)] engine: Engine,
+    #[values(Engine::Fjall, Engine::Redb, Engine::Sqlite)] engine: Engine,
     #[values(None, Some(""), Some("last line: λ\n"))] tail: Option<&str>,
 ) {
     let store = Store::open(engine, directory.path()).unwrap();
@@ -66,7 +66,7 @@ async fn captures_round_trip_without_overwriting(
 #[tokio::test]
 async fn concurrent_writers_have_exactly_one_winner(
     directory: TempDir,
-    #[values(Engine::Fjall, Engine::Redb)] engine: Engine,
+    #[values(Engine::Fjall, Engine::Redb, Engine::Sqlite)] engine: Engine,
 ) {
     let store = Arc::new(Store::open(engine, directory.path()).unwrap());
     let barrier = Arc::new(tokio::sync::Barrier::new(16));
@@ -96,7 +96,7 @@ async fn concurrent_writers_have_exactly_one_winner(
 #[tokio::test]
 async fn deletion_is_selective_idempotent_and_allows_recapture(
     directory: TempDir,
-    #[values(Engine::Fjall, Engine::Redb)] engine: Engine,
+    #[values(Engine::Fjall, Engine::Redb, Engine::Sqlite)] engine: Engine,
 ) {
     let store = Store::open(engine, directory.path()).unwrap();
     for n in 1..=3 {
@@ -120,7 +120,7 @@ async fn deletion_is_selective_idempotent_and_allows_recapture(
 #[tokio::test]
 async fn reclaim_uses_key_order_and_serialized_value_lengths(
     directory: TempDir,
-    #[values(Engine::Fjall, Engine::Redb)] engine: Engine,
+    #[values(Engine::Fjall, Engine::Redb, Engine::Sqlite)] engine: Engine,
     #[case] bytes: u64,
     #[case] removed: usize,
 ) {
@@ -143,7 +143,7 @@ async fn reclaim_uses_key_order_and_serialized_value_lengths(
 #[tokio::test]
 async fn persistence_materialization_and_compaction_preserve_live_data(
     directory: TempDir,
-    #[values(Engine::Fjall, Engine::Redb)] engine: Engine,
+    #[values(Engine::Fjall, Engine::Redb, Engine::Sqlite)] engine: Engine,
 ) {
     let mut store = Store::open(engine, directory.path()).unwrap();
     let value = capture(&"build output\n".repeat(1000), Some("last line"));
@@ -170,7 +170,7 @@ async fn persistence_materialization_and_compaction_preserve_live_data(
 #[tokio::test(start_paused = true)]
 async fn default_stores_enable_wall_clock_maintenance(
     directory: TempDir,
-    #[values(Engine::Fjall, Engine::Redb)] engine: Engine,
+    #[values(Engine::Fjall, Engine::Redb, Engine::Sqlite)] engine: Engine,
 ) {
     let store = Store::open(engine, directory.path()).unwrap();
     store.capture(id(1), capture("timer-driven capture", None)).await.unwrap();
@@ -187,7 +187,7 @@ async fn default_stores_enable_wall_clock_maintenance(
 #[tokio::test]
 async fn wall_clock_stores_compact_and_close_before_reopening(
     directory: TempDir,
-    #[values(Engine::Fjall, Engine::Redb)] engine: Engine,
+    #[values(Engine::Fjall, Engine::Redb, Engine::Sqlite)] engine: Engine,
     #[values(DiskUsageLimit::Unlimited, DiskUsageLimit::Bytes(ByteSize::b(1 << 30)))]
     limit: DiskUsageLimit,
 ) {
@@ -205,7 +205,7 @@ async fn wall_clock_stores_compact_and_close_before_reopening(
 #[tokio::test]
 async fn wall_clock_gc_applies_the_budget_on_open(
     directory: TempDir,
-    #[values(Engine::Fjall, Engine::Redb)] engine: Engine,
+    #[values(Engine::Fjall, Engine::Redb, Engine::Sqlite)] engine: Engine,
 ) {
     let store = Store::open(engine, directory.path()).unwrap();
     store.capture(id(1), capture(&"output".repeat(1000), None)).await.unwrap();
@@ -231,7 +231,7 @@ async fn wall_clock_gc_applies_the_budget_on_open(
 #[rstest]
 fn generated_captures_round_trip(
     directory: TempDir,
-    #[values(Engine::Fjall, Engine::Redb)] engine: Engine,
+    #[values(Engine::Fjall, Engine::Redb, Engine::Sqlite)] engine: Engine,
 ) {
     let runtime = tokio::runtime::Builder::new_current_thread().enable_all().build().unwrap();
     let store = Store::open_without_maintenance(engine, directory.path()).unwrap();
@@ -269,11 +269,52 @@ fn generated_captures_round_trip(
 #[rstest]
 fn unusable_paths_fail_instead_of_silently_discarding_output(
     directory: TempDir,
-    #[values(Engine::Fjall, Engine::Redb)] engine: Engine,
+    #[values(Engine::Fjall, Engine::Redb, Engine::Sqlite)] engine: Engine,
 ) {
     let path = directory.path().join("not-a-directory");
     std::fs::write(&path, "occupied").unwrap();
     assert!(Store::open(engine, &path).is_err());
+}
+
+#[rstest]
+#[case("fjall-redb-sqlite", [Engine::Fjall, Engine::Redb, Engine::Sqlite])]
+#[case("fjall-sqlite-redb", [Engine::Fjall, Engine::Sqlite, Engine::Redb])]
+#[case("redb-fjall-sqlite", [Engine::Redb, Engine::Fjall, Engine::Sqlite])]
+#[case("redb-sqlite-fjall", [Engine::Redb, Engine::Sqlite, Engine::Fjall])]
+#[case("sqlite-fjall-redb", [Engine::Sqlite, Engine::Fjall, Engine::Redb])]
+#[case("sqlite-redb-fjall", [Engine::Sqlite, Engine::Redb, Engine::Fjall])]
+fn benchmark_accepts_every_engine_order(#[case] order: &str, #[case] expected: [Engine; 3]) {
+    use clap::Parser as _;
+
+    let config = config::Config::try_parse_from([
+        "output-store",
+        "--output",
+        "unused",
+        "--engine-order",
+        order,
+    ])
+    .unwrap();
+    assert_eq!(config.engine_order.engines(), expected);
+    assert_eq!(serde_json::to_value(config.engine_order).unwrap(), order);
+}
+
+#[rstest]
+#[case("fjall-fjall-sqlite")]
+#[case("redb-sqlite")]
+#[case("sqlite-redb-fjall-sqlite")]
+fn benchmark_rejects_incomplete_or_repeated_engines(#[case] order: &str) {
+    use clap::Parser as _;
+
+    assert!(
+        config::Config::try_parse_from([
+            "output-store",
+            "--output",
+            "unused",
+            "--engine-order",
+            order,
+        ])
+        .is_err()
+    );
 }
 
 #[rstest]
@@ -299,24 +340,28 @@ async fn benchmark_lifecycle_keeps_identical_data(directory: TempDir) {
         "1",
     ]);
     assert_eq!(config.max_disk_usage, CaptureLimits::default().max_disk_usage);
+    assert_eq!(config.engine_order.engines(), Engine::ALL);
     let corpus = Arc::new(corpus::Corpus::load(&config.corpus).unwrap());
     let workload = workload::Workload::new(config.seed, config.commands_per_day, corpus);
     let fjall = simulation::run(Engine::Fjall, &config, &workload).await.unwrap();
-    let redb = simulation::run(Engine::Redb, &config, &workload).await.unwrap();
-    assert_eq!(fjall.len(), redb.len());
-    for snapshots in [&fjall, &redb] {
-        assert!(snapshots.iter().any(|row| row.maintenance.gc_checks > 0));
-        assert!(snapshots.iter().all(|row| row.maintenance.errors == 0));
-        assert!(snapshots.iter().all(|row| row.maintenance.gc_reclaimed_bytes == 0));
-    }
-    for (fjall, redb) in fjall.iter().zip(&redb) {
-        assert_eq!(fjall.phase, redb.phase);
-        assert_eq!(fjall.live, redb.live);
-        assert_eq!(fjall.generated, redb.generated);
-        assert_eq!(fjall.verified_captures, fjall.live.records);
-        assert_eq!(redb.verified_captures, redb.live.records);
-        assert!(fjall.disk.file_bytes > 0);
-        assert!(redb.disk.file_bytes > 0);
+    for engine in Engine::ALL.into_iter().filter(|engine| *engine != Engine::Fjall) {
+        let snapshots = simulation::run(engine, &config, &workload).await.unwrap();
+        assert_eq!(fjall.len(), snapshots.len());
+        for snapshots in [&fjall, &snapshots] {
+            assert!(snapshots.iter().any(|row| row.maintenance.gc_checks > 0));
+            assert!(snapshots.iter().all(|row| row.maintenance.errors == 0));
+            assert!(snapshots.iter().all(|row| row.maintenance.gc_reclaimed_bytes == 0));
+        }
+        for (fjall, candidate) in fjall.iter().zip(&snapshots) {
+            assert_eq!(fjall.scenario, candidate.scenario);
+            assert_eq!(fjall.phase, candidate.phase);
+            assert_eq!(fjall.live, candidate.live);
+            assert_eq!(fjall.generated, candidate.generated);
+            assert_eq!(fjall.verified_captures, fjall.live.records);
+            assert_eq!(candidate.verified_captures, candidate.live.records);
+            assert!(fjall.disk.file_bytes > 0);
+            assert!(candidate.disk.file_bytes > 0);
+        }
     }
     let loaded: Vec<_> =
         fjall.iter().filter(|row| row.phase == "loaded").map(|row| row.live.records).collect();

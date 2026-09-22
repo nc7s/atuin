@@ -1,6 +1,6 @@
 # Output-store space benchmark
 
-Compare the reference Fjall backend with an experimental, uncompressed redb backend by replaying real command output. The measurements are stored bytes and correctness properties, not throughput. Production still selects Fjall; redb and the measurement API are only compiled with `output-store-bench`. The benchmark compares blob storage only, excluding the SQLite search index and its reconciliation.
+Compare the reference Fjall backend with experimental, uncompressed redb and SQLite backends by replaying real command output. The measurements are stored bytes and correctness properties, not throughput. Production still selects Fjall; the alternative blob backends and measurement API are only compiled with `output-store-bench`. The benchmark compares blob storage only, excluding the SQLite search index and its reconciliation.
 
 ## Running
 
@@ -11,7 +11,9 @@ cargo bench -p atuin-daemon --features output-store-bench --bench output_store -
   --output /tmp/atuin-output-store
 ```
 
-The default matrix includes **100, 1,000, 2,000 and 5,000 records**, each in a fresh database, plus the year-long simulation. All cases run against both engines with wall-clock flushing and GC enabled. `--max-disk-usage` defaults to the production capture limit, currently `10%` of the filesystem's total capacity; absolute limits such as `1GB` are also accepted. `unlimited` explicitly disables GC, but not flushing. The output directory must not exist. It contains the databases under each scenario and `report.json`; remove it when no longer needed. Allow several GB of free space for a full run, in addition to build artifacts.
+The default matrix includes **100, 1,000, 2,000 and 5,000 records**, each in a fresh database, plus the year-long simulation. All cases run against all three engines with wall-clock flushing and GC enabled. `--max-disk-usage` defaults to the production capture limit, currently `10%` of the filesystem's total capacity; absolute limits such as `1GB` are also accepted. `unlimited` explicitly disables GC, but not flushing. The output directory must not exist. It contains the databases under each scenario and `report.json`; remove it when no longer needed. Allow several GB of free space for a full run, in addition to build artifacts.
+
+The default execution order is Fjall, redb, SQLite. Use `--engine-order sqlite-redb-fjall` or any of the six permutations shown by `--help` to counterbalance repeated runs. Every order still compares both alternatives against Fjall; the report records the selected order and lists snapshots in execution order. Backend settings and workload generation do not depend on the order.
 
 Run just the four record counts:
 
@@ -20,7 +22,7 @@ cargo bench -p atuin-daemon --features output-store-bench --bench output_store -
   --output /tmp/atuin-output-store-sizes --scenarios sizes
 ```
 
-Run just the year simulation with `--scenarios year`. For a quick end-to-end smoke test of both scenarios:
+Run just the year simulation with `--scenarios year`. For a quick end-to-end smoke test of both scenarios across all three engines:
 
 ```sh
 cargo bench -p atuin-daemon --features output-store-bench --bench output_store -- \
@@ -87,7 +89,7 @@ Lengths and fixed content come from the recorded output. A command's text is nev
 
 A finite corpus is not an indefinitely evolving year of real development. In particular, the long simulation reuses outputs heavily. **The report exposes both distinct sampled commands and distinct source outputs**, for generated and retained data, so this limitation is measurable rather than hidden. Empty outputs from different commands count as one source output. Inspect these counts, the corpus byte-size distribution and the retained activity mix when interpreting results. Try several seeds and other corpora; this is a reproducible replay model, not an empirical claim about every Atuin user.
 
-IDs have UUIDv7 layout and advance through eight-hour workdays with weekend gaps. Each record has an independent seeded RNG; both engines and all size cases receive identical workload prefixes, regardless of scheduling. The corpus is loaded once and shared, rather than storing a separate in-memory copy of the entire year.
+IDs have UUIDv7 layout and advance through eight-hour workdays with weekend gaps. Each record has an independent seeded RNG; all engines and size cases receive identical workload prefixes, regardless of scheduling. The corpus is loaded once and shared, rather than storing a separate in-memory copy of the entire year.
 
 ## Matrix and phases
 
@@ -97,7 +99,7 @@ Each requested size starts from a fresh database, without deleting any records d
 
 - `empty`: Initial database overhead
 - `loaded`: Exactly 100, 1,000, 2,000 or 5,000 durable captures
-- `loaded-materialized`: Explicitly flush Fjall memtables to SSTs/blob files; redb only needs its normal durable commit
+- `loaded-materialized`: Explicitly flush Fjall memtables to SSTs/blob files; redb commits durably and SQLite checkpoints its WAL
 - `half-deleted`: Evict the oldest half without requesting compaction
 - `refilled`: Insert new IDs until the original record count is restored, exposing space reuse
 - `final-materialized`: Flush remaining Fjall memtables before the final compaction experiment
@@ -114,17 +116,31 @@ The defaults are 300 commands per workday, 260 workdays of accumulation, a trim 
 
 ## Backend comparability
 
-Both engines use the existing reference UUID keys and V2 MessagePack values, with one transaction per capture and atomic duplicate rejection. Reads and writes use Tokio's blocking pool. Fjall keeps its existing LZ4 compression, KV separation and default database options. redb stores the same serialized values without compression, packing, dictionaries or a custom blob layer.
+All engines use the existing reference UUID keys and V2 MessagePack values, with one transaction per capture and atomic duplicate rejection. Reads and writes use Tokio's blocking pool. Fjall keeps its existing LZ4 compression, KV separation and default database options. redb and SQLite store the same serialized values without compression, packing, dictionaries or a custom blob layer.
 
-The record-count and year scenarios use `Store::open_with_limit` with wall-clock flushing and GC enabled, including after every checkpoint reopen. `Store::open` uses the same policy with the production capture budget; tests that need caller-driven maintenance must explicitly use `Store::open_without_maintenance`. Command timestamps model bursts of five, but playback runs as fast as the machine allows: simulated days do not advance the wall clock. There are no forced commits per burst or day. The five-second timer drives durability during playback, and every checkpoint gracefully stops maintenance, waits for in-flight I/O and durably commits before measuring files. Fjall uses `persist(SyncAll)`; redb uses non-durable writes followed by an immediate commit that also persists preceding transactions. Fjall's own background flushing and compaction remain enabled. Timing and machine speed affect transaction grouping and checkpoint sizes; repeat runs when investigating differences.
+The record-count and year scenarios use `Store::open_with_limit` with wall-clock flushing and GC enabled, including after every checkpoint reopen. `Store::open` uses the same policy with the production capture budget; tests that need caller-driven maintenance must explicitly use `Store::open_without_maintenance`. Command timestamps model bursts of five, but playback runs as fast as the machine allows: simulated days do not advance the wall clock. There are no forced commits per burst or day. The five-second timer drives durability during playback, and every checkpoint gracefully stops maintenance, waits for in-flight I/O and durably commits before measuring files. Fjall uses `persist(SyncAll)`; redb uses non-durable writes followed by an immediate commit that also persists preceding transactions; SQLite uses WAL/NORMAL commits followed by a full WAL checkpoint. SQLite's native 1,000-page WAL auto-checkpoint and Fjall's own background flushing and compaction remain enabled. Timing and machine speed affect transaction grouping and checkpoint sizes; repeat runs when investigating differences.
 
-Explicit retention evicts the same oldest records from both stores. The requested reclamation amount is the sum of their serialized-value sizes, matching Fjall's eviction-candidate selection followed by removal. Wall-clock budget checks also run, but these scenarios require a nonbinding budget to preserve equal retained data. The benchmark fails if GC evicts captures or the retained data differs from the replay model; increase `--max-disk-usage` in that case. An enabled GC task is not evidence of physical reclamation: inspect the reported check and reclaimed-byte counts. Tight-budget behavior is covered separately by backend tests, since engine-specific estimates can retain different records.
+Explicit retention evicts the same oldest records from all stores. The requested reclamation amount is the sum of their serialized-value sizes, matching Fjall's eviction-candidate selection followed by removal. Wall-clock budget checks also run, but these scenarios require a nonbinding budget to preserve equal retained data. The benchmark fails if GC evicts captures or the retained data differs from the replay model; increase `--max-disk-usage` in that case. An enabled GC task is not evidence of physical reclamation: inspect the reported check and reclaimed-byte counts. Tight-budget behavior is covered separately by backend tests, since engine-specific estimates can retain different records.
 
-The native maintenance operations are not equivalent algorithms. redb compaction needs exclusive mutable access and no outstanding transactions; Fjall's major compaction and blob reclamation have their own policies. The last row is not a guarantee of the smallest theoretically possible layout. The benchmark does not migrate existing stores, expose redb in daemon configuration, or change Fjall's production settings.
+The native maintenance operations are not equivalent algorithms. redb compaction needs exclusive mutable access and no outstanding transactions; SQLite uses `VACUUM` followed by a full WAL checkpoint; Fjall's major compaction and blob reclamation have their own policies. The last row is not a guarantee of the smallest theoretically possible layout. The benchmark does not migrate existing stores, expose alternative blob engines in daemon configuration, or change Fjall's production settings.
+
+### SQLite configuration
+
+SQLite uses the project's existing SQLx dependency and bundled SQLite library; no additional database wrapper or SQLite version is introduced. Each store has one SQLx connection, with complete operations serialized under a mutex. SQLx's independent worker services its futures; foreground calls use Tokio's blocking pool, and synchronous maintenance hooks do not depend on the caller's Tokio executor progressing. The graceful close path joins the worker before inspecting files. This implementation is suitable for the serialized replay but does not measure pooled-read concurrency.
+
+- Ordinary rowid table with a unique binary 16-byte UUID primary-key index and uncompressed MessagePack BLOB values
+- Strict column types, non-null keys and values, and a 16-byte key-length constraint
+- Default-sized 4 KiB pages and an 8 MiB page-cache target
+- WAL mode with `synchronous=NORMAL`, a five-second busy timeout and native auto-checkpointing at 1,000 WAL pages
+- A 4 MiB retained WAL-size limit, matching Atuin's usual SQLite journal-size hint; this is not a hard limit during active writes or blocked checkpoints
+- No automatic vacuum; reusable pages remain available until explicit `VACUUM` compaction
+- Prepared/bound statements, conflict handling limited to the UUID uniqueness constraint, and immediate transactions for multi-record removal and oldest-first reclamation
+
+A rowid table is deliberate: its table-leaf BLOB layout avoids the lower inline-payload threshold of index B-trees used by `WITHOUT ROWID`. This costs a separate UUID index but is a reasonable general configuration for variable-sized output; it is not a claim that one schema is optimal for every corpus. A full WAL checkpoint is the explicit durability barrier for NORMAL-mode commits. Busy or incomplete checkpoints are errors, not reported as successful flushes. Tests exercise a blocking reader and successful retry after it releases its snapshot. Checkpoints do not imply vacuuming, and automatic WAL checkpoints can make some writes durable sooner than the shared five-second timer.
 
 ### Wall-clock maintenance
 
-`Store::open_with_limit(engine, path, max_disk_usage)` enables the same maintenance implementation for either engine and must run inside Tokio. `DiskUsageLimit::Unlimited` enables flushing only; absolute and percentage limits also enable GC, with percentage budgets resolved against the filesystem containing the store as in the reference backend. This API remains behind `output-store-bench`; the daemon still selects Fjall. Flushing is shared with the production blob store. Benchmark GC applies the engine's thresholds to blobs only; production GC remains in `OutputCaptureEngine`, where removal also updates the search index.
+`Store::open_with_limit(engine, path, max_disk_usage)` enables the same maintenance implementation for every engine and must run inside Tokio. `DiskUsageLimit::Unlimited` enables flushing only; absolute and percentage limits also enable GC, with percentage budgets resolved against the filesystem containing the store as in the reference backend. This API remains behind `output-store-bench`; the daemon still selects Fjall. Flushing is shared with the production blob store. Benchmark GC applies the engine's thresholds to blobs only; production GC remains in `OutputCaptureEngine`, where removal also updates the search index.
 
 - Flush dirty stores every five seconds, with the reference immediate startup tick and delayed missed ticks
 - Mark successful captures, removals and reclamation transactions dirty; reject duplicates atomically without scheduling a flush
@@ -133,18 +149,18 @@ The native maintenance operations are not equivalent algorithms. redb compaction
 - At 95% of the budget, request oldest-first reclamation of enough serialized-value bytes to target 90%
 - Stop background tasks when the last backend handle is dropped, without a reference cycle
 
-Fjall persists with `SyncAll`; redb uses an immediate commit to persist preceding non-durable transactions. GC estimates remain engine-specific: Fjall seeds its estimate from segment and blob bytes on open, then adds or subtracts serialized-value bytes on captures and removals so the estimate shrinks promptly. redb sums live table data, indexing metadata and within-page fragmentation. redb excludes free pages, obsolete copy-on-write pages and file preallocation. Using raw file length would repeatedly evict live records to address already-reusable capacity. This is an approximate live-page budget, not a hard cap on redb's file length; explicit compaction remains a separate operation and is not run on every GC tick.
+Fjall persists with `SyncAll`; redb uses an immediate commit to persist preceding non-durable transactions; SQLite completes a full WAL checkpoint. GC estimates remain engine-specific: Fjall seeds its estimate from segment and blob bytes on open, then adds or subtracts serialized-value bytes on captures and removals. redb sums live table data, indexing metadata and within-page fragmentation, excluding free pages, obsolete copy-on-write pages and file preallocation. SQLite uses `(page_count - freelist_count) * page_size`, including occupied pages and their internal fragmentation but excluding reusable freelist pages and WAL copies. SQLite's estimate decreases at page granularity and retains a schema/root-page floor even in an empty store. Using raw file length would repeatedly evict live records to address already-reusable capacity. These are approximate live-storage budgets, not hard caps on file length; explicit compaction remains separate and is not run on every GC tick.
 
-The same budget need not retain the same records in the two engines. Use the replay scenarios with a sufficiently large budget for equal-data space comparisons, and backend tests for budget-driven eviction. The replay executable enables the timers but does not wait out simulated days or claim production-paced maintenance coverage.
+The same budget need not retain the same records across engines. Use the replay scenarios with a sufficiently large budget for equal-data space comparisons, and backend tests for budget-driven eviction. The replay executable enables the timers but does not wait out simulated days or claim production-paced maintenance coverage.
 
-For a wall-clock store, call `store.close().await?` before reopening or inspecting database files. It stops the timer loops, waits for in-flight maintenance I/O and durably commits before releasing the database. A plain drop aborts timers but does not wait for an already-running blocking operation. redb's explicit compaction takes exclusive access to the database, including against live maintenance and backend clones, because its native API requires mutable access with no outstanding transactions.
+For a wall-clock store, call `store.close().await?` before reopening or inspecting database files. It stops the timer loops, waits for in-flight maintenance I/O and durably commits before releasing the database. A plain drop aborts timers but does not wait for an already-running blocking operation. redb's explicit compaction takes exclusive access to the database, including against live maintenance and backend clones, because its native API requires mutable access with no outstanding transactions. SQLite's connection mutex likewise excludes concurrent local operations during checkpointing and vacuuming.
 
 ## Measurements and checks
 
 The console prints a table; `report.json` format version 3 contains exact byte counts, corpus statistics, workload parameters, generated/live record counts and activity mixes, reuse counts, verified-capture counts and per-file sizes. It also records the wall-clock intervals, resolved budget, elapsed replay time and completed maintenance activity for each checkpoint interval: successful timer flushes, successful GC checks, logical bytes evicted by GC and maintenance errors. Caller-driven persistence and retention are excluded from those counters. Any maintenance error fails the run. Each checkpoint gracefully closes the database before walking its files, preventing races with in-flight maintenance or background file deletion. It then reopens and verifies every retained capture.
 
 - `output_bytes`: Retained start/end text, before MessagePack encoding
-- `serialized_value_bytes`: Exact live MessagePack payload shared by both engines
+- `serialized_value_bytes`: Exact live MessagePack payload shared by all engines
 - `values_below_1kib`: Live values below Fjall's default KV-separation threshold
 - `unique_samples`: Distinct recorded commands selected from the corpus
 - `unique_source_outputs`: Distinct raw output files represented by those commands
@@ -152,8 +168,8 @@ The console prints a table; `report.json` format version 3 contains exact byte c
 - `allocated_bytes`: On Unix, allocated filesystem blocks for files and directories, including sparse-file effects; unavailable elsewhere
 - `file/logical`: File bytes divided by live MessagePack bytes plus 16 key bytes per record; combines compression and storage overhead, not a pure compression ratio
 
-Measurements include clean-shutdown behavior and periodic reopen/recovery. They are checkpoint sizes, **not peak disk usage**: they do not capture transient compaction growth or every intermediate write. Filesystem compression, reflinks and allocation accounting can affect results. Run both stores on the same filesystem and record the platform and filesystem. Pay particular attention to allocated bytes when comparing sparse files at small record counts.
+Measurements include clean-shutdown behavior and periodic reopen/recovery. They are checkpoint sizes, **not peak disk usage**: they do not capture transient compaction growth or every intermediate write. Filesystem compression, reflinks and allocation accounting can affect results. Run all stores on the same filesystem and record the platform and filesystem. Pay particular attention to allocated bytes when comparing sparse files at small record counts.
 
-The executable fails on storage errors or a model mismatch. Every checkpoint verifies the complete live ID set, ordering, serialized lengths and all capture fields after reopening. Both engines must report identical logical data and generated workload statistics at every phase. Playback also checks duplicate rejection, immediate lookup, idempotent history deletion and exact logical bytes evicted.
+The executable fails on storage errors or a model mismatch. Every checkpoint verifies the complete live ID set, ordering, serialized lengths and all capture fields after reopening. All engines must report identical logical data and generated workload statistics at every phase. Playback also checks duplicate rejection, immediate lookup, idempotent history deletion and exact logical bytes evicted.
 
-Integration tests additionally cover concurrent same-ID writers, selective removal, recapture after deletion, zero/oversized reclamation requests, empty versus absent tails, generated Unicode round-trips, corpus diversity, capture-limit boundaries, and persistence through materialization and compaction. Wall-clock tests cover startup GC and graceful close/reopen for both engines. Unit tests cover flush timing and retry, concurrent dirty marking, GC thresholds and timing, unlimited budgets, task lifetime, redb live-page accounting and compaction with maintenance enabled. These are not process-kill or power-loss recovery tests.
+Integration tests additionally cover concurrent same-ID writers, selective removal, recapture after deletion, zero/oversized reclamation requests, empty versus absent tails, generated Unicode round-trips, corpus diversity, capture-limit boundaries, and persistence through materialization and compaction. Wall-clock tests cover startup GC and graceful close/reopen for all engines. Unit tests cover flush timing and retry, concurrent dirty marking, GC thresholds and timing, unlimited budgets, task lifetime, redb and SQLite live-page accounting, and compaction with maintenance enabled. SQLite-specific tests also cover configured pragmas, transaction rollback on deletion failure, non-uniqueness constraint errors, incomplete checkpoints, and worker shutdown. These are not process-kill or power-loss recovery tests.

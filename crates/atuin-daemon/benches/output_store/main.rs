@@ -76,20 +76,7 @@ async fn main() -> Result<()> {
         "engine scenario       phase                  records output MiB encoded MiB ",
         "file MiB allocated MiB file/logical"
     ));
-    let mut snapshots = simulation::run(Engine::Fjall, &config, &workload).await?;
-    let redb = simulation::run(Engine::Redb, &config, &workload).await?;
-    ensure!(snapshots.len() == redb.len(), "engines produced different checkpoint counts");
-    for (fjall, redb) in snapshots.iter().zip(&redb) {
-        ensure!(
-            fjall.scenario == redb.scenario
-                && fjall.phase == redb.phase
-                && fjall.live == redb.live
-                && fjall.generated == redb.generated,
-            "engines retained different logical data at {}",
-            fjall.phase
-        );
-    }
-    snapshots.extend(redb);
+    let snapshots = compare_engines(&config, &workload).await?;
     let path = config.output.join("report.json");
     let report = Report {
         format_version: 3,
@@ -103,4 +90,34 @@ async fn main() -> Result<()> {
     serde_json::to_writer_pretty(std::fs::File::create_new(&path)?, &report)?;
     println!("All retained captures verified after every reopen. Report: {}", path.display());
     Ok(())
+}
+
+async fn compare_engines(config: &Config, workload: &Workload) -> Result<Vec<Snapshot>> {
+    let mut runs = Vec::new();
+    for engine in config.engine_order.engines() {
+        runs.push((engine, simulation::run(engine, config, workload).await?));
+    }
+    let reference = &runs
+        .iter()
+        .find(|(engine, _)| *engine == Engine::Fjall)
+        .expect("every execution order includes Fjall")
+        .1;
+    for (engine, snapshots) in runs.iter().filter(|(engine, _)| *engine != Engine::Fjall) {
+        ensure!(
+            reference.len() == snapshots.len(),
+            "{engine} produced different checkpoint counts"
+        );
+        for (fjall, candidate) in reference.iter().zip(snapshots) {
+            ensure!(
+                fjall.scenario == candidate.scenario
+                    && fjall.phase == candidate.phase
+                    && fjall.live == candidate.live
+                    && fjall.generated == candidate.generated,
+                "{engine} retained different logical data at {}/{}",
+                fjall.scenario,
+                fjall.phase
+            );
+        }
+    }
+    Ok(runs.into_iter().flat_map(|(_, snapshots)| snapshots).collect())
 }

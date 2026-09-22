@@ -1,6 +1,7 @@
 use std::path::PathBuf;
 
 use atuin_client::settings::{CaptureLimits, DiskUsageLimit};
+use atuin_daemon::output_store_benchmark::Engine;
 use clap::Parser;
 use serde::Serialize;
 
@@ -11,10 +12,36 @@ pub enum Scenario {
     Year,
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq, clap::ValueEnum, Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum EngineOrder {
+    FjallRedbSqlite,
+    FjallSqliteRedb,
+    RedbFjallSqlite,
+    RedbSqliteFjall,
+    SqliteFjallRedb,
+    SqliteRedbFjall,
+}
+
+impl EngineOrder {
+    pub fn engines(self) -> [Engine; 3] {
+        use Engine::{Fjall, Redb, Sqlite};
+
+        match self {
+            Self::FjallRedbSqlite => [Fjall, Redb, Sqlite],
+            Self::FjallSqliteRedb => [Fjall, Sqlite, Redb],
+            Self::RedbFjallSqlite => [Redb, Fjall, Sqlite],
+            Self::RedbSqliteFjall => [Redb, Sqlite, Fjall],
+            Self::SqliteFjallRedb => [Sqlite, Fjall, Redb],
+            Self::SqliteRedbFjall => [Sqlite, Redb, Fjall],
+        }
+    }
+}
+
 #[derive(Debug, Parser, Serialize)]
 #[command(about = "Compare output-store space usage, not operation throughput")]
 pub struct Config {
-    /// New directory for both databases and report.json. Existing paths are refused.
+    /// New directory for all databases and report.json. Existing paths are refused.
     #[arg(long)]
     pub output: PathBuf,
     #[arg(long, default_value_os_t = super::corpus::default_path())]
@@ -24,6 +51,9 @@ pub struct Config {
     pub max_disk_usage: DiskUsageLimit,
     #[arg(long, value_enum, value_delimiter = ',', default_value = "sizes,year")]
     pub scenarios: Vec<Scenario>,
+    /// Execution order only; every backend is still compared against Fjall.
+    #[arg(long, value_enum, default_value = "fjall-redb-sqlite")]
+    pub engine_order: EngineOrder,
     /// Independent fresh-database sizes, replaying identical prefixes of the workload.
     #[arg(long, value_delimiter = ',', default_value = "100,1000,2000,5000",
         value_parser = clap::value_parser!(u32).range(1..=1_000_000))]
