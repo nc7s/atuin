@@ -1,0 +1,5 @@
+18:struct ShellInfo {
+19:    pub name: String,
+22:    pub default: String,
+26:    pub plugins: Vec<String>,
+29:    pub preexec: Option<String>,

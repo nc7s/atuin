@@ -1,0 +1,80 @@
+2:use crate::StorageError;
+23:pub(crate) struct TransactionId(u64);
+25:impl TransactionId {
+26:    pub(crate) fn new(value: u64) -> TransactionId {
+30:    pub(crate) fn raw_id(self) -> u64 {
+34:    pub(crate) fn next(self) -> TransactionId {
+38:    pub(crate) fn increment(&mut self) -> TransactionId {
+46:pub(crate) struct SavepointId(pub u64);
+50:pub(crate) struct LocalSavepointId(u64);
+52:struct SavepointRegistration {
+57:impl SavepointId {
+58:    pub(crate) fn next(self) -> SavepointId {
+63:impl Value for SavepointId {
+67:    fn fixed_width() -> Option<usize> {
+71:    fn from_bytes<'a>(data: &'a [u8]) -> Self::SelfType<'a>
+78:    fn as_bytes<'a, 'b: 'a>(value: &'a Self::SelfType<'b>) -> Self::AsBytes<'a>
+85:    fn type_name() -> TypeName {
+90:impl Key for SavepointId {
+91:    fn compare(data1: &[u8], data2: &[u8]) -> Ordering {
+99:enum WriteSlotState {
+113:struct State {
+139:impl State {
+140:    fn register_savepoint(
+151:        assert!(self.valid_savepoints.insert(id, registration).is_none());
+158:    fn active_transaction_lock_references(&self, id: TransactionId) -> u64 {
+175:    fn add_active_transaction_lock_reference(
+195:    fn remove_active_transaction_lock_reference(
+210:    fn release_active_transaction_lock(mem: &TransactionalMemory, id: TransactionId) {
+212:            if matches!(failure, StorageError::DatabaseClosed) {
+227:    fn reference_persistent_savepoint(&mut self, id: TransactionId) {
+232:    fn dereference_persistent_savepoint(&mut self, id: TransactionId) {
+243:    fn convert_reference_to_persistent_savepoint(
+257:    fn decrement_reference_count(&mut self, id: TransactionId) {
+266:pub(crate) struct TransactionTracker {
+271:impl TransactionTracker {
+272:    pub(crate) fn new(next_transaction_id: TransactionId) -> Self {
+294:    pub(crate) fn take_write_slot(&self) {
+305:    pub(crate) fn issue_write_transaction_id(
+311:        assert_eq!(state.write_slot, WriteSlotState::Initializing);
+323:    pub(crate) fn begin_finalizing(&self) {
+325:        assert!(matches!(state.write_slot, WriteSlotState::Live(_)));
+330:    pub(crate) fn holds_writer_byte(&self) -> bool {
+339:    pub(crate) fn write_transaction_live(&self) -> bool {
+345:    pub(crate) fn end_write_transaction(&self) -> Option<Arc<TransactionalMemory>> {
+350:        assert!(matches!(
+355:        assert_ne!(state.write_slot, WriteSlotState::Free);
+366:    pub(crate) fn defer_close_if_write_transaction_live(
+379:    pub(crate) fn clear_pending_non_durable_commits(&self, memory: &TransactionalMemory) {
+387:    pub(crate) fn is_unprocessed_non_durable_commit(&self, id: TransactionId) -> bool {
+392:    pub(crate) fn mark_non_durable_freed_pages_processed(
+394:        ids: impl IntoIterator<Item = TransactionId>,
+402:    pub(crate) fn oldest_unprocessed_non_durable_commit(&self) -> Option<TransactionId> {
+414:    pub(crate) fn register_non_durable_commit(
+430:        assert!(
+445:    pub(crate) fn reserve_transaction_id(
+451:        assert_eq!(
+455:        assert_eq!(id, state.next_transaction_id.next());
+461:    pub(crate) fn reserve_repair_transaction_id(&self, id: TransactionId) {
+463:        assert_eq!(state.write_slot, WriteSlotState::Free);
+469:    pub(crate) fn restore_savepoint_counter_state(&self, next_savepoint: SavepointId) {
+475:    pub(crate) fn sync_persistent_savepoints(
+505:    pub(crate) fn convert_savepoint_to_persistent(
+516:    pub(crate) fn register_read_transaction(
+539:    pub(crate) fn deallocate_read_transaction(&self, mem: &TransactionalMemory, id: TransactionId) {
+544:    pub(crate) fn any_savepoint_exists(&self) -> bool {
+548:    pub(crate) fn any_persistent_savepoint_exists(&self) -> bool {
+554:    pub(crate) fn any_ephemeral_savepoint_exists(&self) -> bool {
+564:    pub(crate) fn any_user_read_reference_exists(&self) -> bool {
+579:    pub(crate) fn allocate_savepoint(
+591:    pub(crate) fn remove_savepoint_registration(&self, savepoint: SavepointId) {
+598:    pub(crate) fn deallocate_persistent_savepoint(
+610:    pub(crate) fn savepoint_local_id(&self, id: SavepointId) -> Option<LocalSavepointId> {
+619:    pub(crate) fn list_savepoints_after(&self, id: SavepointId) -> Vec<SavepointId> {
+639:    pub(crate) fn invalidate_savepoints(&self, savepoints: impl IntoIterator<Item = SavepointId>) {
+650:    pub(crate) fn oldest_savepoint_excluding(
+663:    pub(crate) fn oldest_local_referenced_transaction(&self) -> Option<TransactionId> {
+675:    pub(crate) fn oldest_live_read_nondurable_transaction(&self) -> Option<TransactionId> {
+692:    fn memory() -> TransactionalMemory {
+710:    fn non_durable_commit_without_freed_pages_is_not_unprocessed() {
+717:        assert_eq!(None, tracker.oldest_unprocessed_non_durable_commit());

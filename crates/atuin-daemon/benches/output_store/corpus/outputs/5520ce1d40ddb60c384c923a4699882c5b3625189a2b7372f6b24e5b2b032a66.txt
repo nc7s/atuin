@@ -1,0 +1,30 @@
+tests/multiprocess_tests.rs:33:    fn value(db: &impl ReadableDatabase) -> u64 {
+tests/multiprocess_tests.rs:103:    impl redb::StorageBackend for CrashBackend {
+tests/multiprocess_tests.rs:572:    fn check_abandoned_savepoint(abandon: impl Fn(redb::WriteTransaction)) {
+tests/multimap_tests.rs:22:    table: &impl ReadableMultimapTable<&'static str, &'static str>,
+tests/integration_tests.rs:51:impl BlockingSyncState {
+tests/integration_tests.rs:106:impl StorageBackend for BlockingSyncBackend {
+tests/integration_tests.rs:138:impl StorageBackend for SharedInMemoryBackend {
+tests/integration_tests.rs:186:impl StorageBackend for WriteCountingBackend {
+tests/integration_tests.rs:231:impl FailingBackend {
+tests/integration_tests.rs:241:impl StorageBackend for FailingBackend {
+tests/integration_tests.rs:562:    impl FaultBackend {
+tests/integration_tests.rs:586:    impl StorageBackend for FaultBackend {
+tests/check_integrity_nondurable.rs:24:impl PatchBackend {
+tests/check_integrity_nondurable.rs:53:impl StorageBackend for PatchBackend {
+tests/cursor_tests.rs:451:fn populate_u64_table(db: &Database, entries: impl Iterator<Item = (u64, u64)>) {
+tests/check_integrity_failure.rs:18:impl PatchBackend {
+tests/check_integrity_failure.rs:41:impl StorageBackend for PatchBackend {
+tests/crash_consistency.rs:39:impl CrashBackend {
+tests/crash_consistency.rs:60:impl StorageBackend for CrashBackend {
+tests/backward_compatibility.rs:14:impl redb::Value for CollidingUserType {
+tests/backward_compatibility.rs:41:impl redb2_6::Value for CollidingUserType {
+tests/backward_compatibility.rs:78:impl TestData for u8 {
+tests/backward_compatibility.rs:88:impl TestData for u16 {
+tests/backward_compatibility.rs:98:impl TestData for u32 {
+tests/backward_compatibility.rs:108:impl TestData for u64 {
+tests/backward_compatibility.rs:118:impl TestData for u128 {
+tests/backward_compatibility.rs:128:impl TestData for i8 {
+tests/basic_tests.rs:3262:    impl Value for ReverseKey {
+tests/basic_tests.rs:3296:    impl Key for ReverseKey {
+tests/basic_tests.rs:4163:    impl StorageBackend for RecordingBackend {

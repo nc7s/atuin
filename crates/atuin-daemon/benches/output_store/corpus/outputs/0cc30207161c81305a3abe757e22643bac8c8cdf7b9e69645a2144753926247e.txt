@@ -1,0 +1,1 @@
+64 crates/atuin/src/command/client/account/change_password.rs

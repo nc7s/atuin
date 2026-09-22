@@ -1,0 +1,5 @@
+4:struct EnumVisitor;
+9:    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+13:    fn visit_enum<A>(self, data: A) -> Result<Self::Value, A::Error>
+24:fn test() {
+28:    assert!(err.to_string().contains("key must be a string"));

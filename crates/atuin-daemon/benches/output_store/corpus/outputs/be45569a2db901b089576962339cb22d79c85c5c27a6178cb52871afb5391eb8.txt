@@ -1,0 +1,5 @@
+1:pub mod pb;
+12:use tokio_stream::wrappers::errors::BroadcastStreamRecvError;
+240:pub struct Service {
+247:impl Service {
+249:    pub fn new(journal: Arc<HistoryJournal>, daemon_handle: DaemonHandle) -> Self {

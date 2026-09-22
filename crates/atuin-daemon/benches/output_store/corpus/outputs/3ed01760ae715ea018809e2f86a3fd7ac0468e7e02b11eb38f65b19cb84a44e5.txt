@@ -1,0 +1,2 @@
+tests/searcher.rs:15:            use std::str::pattern::{Pattern, Searcher};
+tests/searcher.rs:16:            use std::str::pattern::SearchStep::{Match, Reject, Done};

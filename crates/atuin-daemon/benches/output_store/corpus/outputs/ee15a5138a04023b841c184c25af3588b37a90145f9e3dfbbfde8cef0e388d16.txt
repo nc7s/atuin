@@ -1,0 +1,20 @@
+//! Session service abstraction and manager.
+//!
+//! The TUI interacts with sessions through `SessionManager`, which wraps a
+//! `SessionService` trait. Today the only implementation is `LocalSessionService`
+//! (direct SQLite). When the daemon owns session state, a gRPC-backed
+//! implementation can be swapped in without changing the TUI code.
+
+use std::time::Duration;
+
+use async_trait::async_trait;
+use eyre::Result;
+
+use crate::event_serde;
+use crate::store::{AiSessionStore, StoredEvent, StoredSession};
+use crate::tui::ConversationEvent;
+use crate::usage::UsageSnapshot;
+
+// ---------------------------------------------------------------------------
+// Trait
+// ---------------------------------------------------------------------------

@@ -1,0 +1,60 @@
+use std::env;
+
+use async_trait::async_trait;
+use atuin_client::database::Sqlite;
+use atuin_client::history::History;
+use atuin_client::import::bash::Bash;
+use atuin_client::import::fish::Fish;
+use atuin_client::import::nu::Nu;
+use atuin_client::import::nu_histdb::NuHistDb;
+use atuin_client::import::powershell::PowerShell;
+use atuin_client::import::replxx::Replxx;
+use atuin_client::import::resh::Resh;
+use atuin_client::import::xonsh::Xonsh;
+use atuin_client::import::xonsh_sqlite::XonshSqlite;
+use atuin_client::import::zsh::Zsh;
+use atuin_client::import::zsh_histdb::ZshHistDb;
+use atuin_client::import::{Importer, Loader};
+use clap::Parser;
+use easy_cast::Conv;
+use eyre::Result;
+use indicatif::ProgressBar;
+use tracing::instrument;
+
+#[derive(Parser, Debug)]
+#[command(infer_subcommands = true)]
+pub enum Cmd {
+    /// Import history for the current shell
+    Auto,
+
+    /// Import history from the zsh history file
+    Zsh,
+    /// Import history from the zsh history file
+    ZshHistDb,
+    /// Import history from the bash history file
+    Bash,
+    /// Import history from the replxx history file
+    Replxx,
+    /// Import history from the resh history file
+    Resh,
+    /// Import history from the fish history file
+    Fish,
+    /// Import history from the nu history file
+    Nu,
+    /// Import history from the nu history file
+    NuHistDb,
+    /// Import history from xonsh json files
+    Xonsh,
+    /// Import history from xonsh sqlite db
+    XonshSqlite,
+    /// Import history from the powershell history file
+    Powershell,
+}
+
+const BATCH_SIZE: usize = 100;
+
+impl Cmd {
+    #[allow(clippy::cognitive_complexity)]
+    #[instrument(level = "trace", skip_all, err)]
+    pub async fn run(&self, db: &Sqlite) -> Result<()> {
+        println!("        Atuin         ");

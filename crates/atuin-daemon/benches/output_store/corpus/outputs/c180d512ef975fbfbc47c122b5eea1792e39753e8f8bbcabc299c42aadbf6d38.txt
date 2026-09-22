@@ -1,0 +1,7 @@
+tests/regression/issue845.rs:4:use std::fmt::{self, Display};
+tests/regression/issue845.rs:15:    <T as TryFrom<u64>>::Error: Display,
+tests/regression/issue845.rs:16:    <T as TryFrom<i64>>::Error: Display,
+tests/regression/issue845.rs:17:    <T as FromStr>::Err: Display,
+tests/regression/issue845.rs:51:    <T as TryFrom<u64>>::Error: Display,
+tests/regression/issue845.rs:52:    <T as TryFrom<i64>>::Error: Display,
+tests/regression/issue845.rs:53:    <T as FromStr>::Err: Display,

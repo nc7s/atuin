@@ -1,0 +1,119 @@
+crates/atuin-client/src/database.rs:32:    pub git_root: Option<PathBuf>,
+crates/atuin-client/src/database.rs:37:    pub exit: Option<i64>,
+crates/atuin-client/src/database.rs:38:    pub exclude_exit: Option<i64>,
+crates/atuin-client/src/database.rs:43:    pub cwd: Option<&'a str>,
+crates/atuin-client/src/database.rs:44:    pub exclude_cwd: Option<&'a str>,
+crates/atuin-client/src/database.rs:45:    pub before: Option<&'a str>,
+crates/atuin-client/src/database.rs:46:    pub after: Option<&'a str>,
+crates/atuin-client/src/database.rs:47:    pub limit: Option<i64>,
+crates/atuin-client/src/settings/output.rs:20:    pub const fn limits(&self) -> Option<&CaptureLimits> {
+crates/atuin-client/src/settings/disk_usage_limit.rs:44:    pub fn resolve(self, disk_size: ByteSize) -> Option<ByteSize> {
+crates/atuin-client/src/settings/disk_usage_limit.rs:181:        #[case] expected: Option<u64>,
+crates/atuin-client/src/theme.rs:57:    pub parent: Option<String>,
+crates/atuin-client/src/theme.rs:66:    pub parent: Option<String>,
+crates/atuin-client/src/theme.rs:104:        parent: Option<String>,
+crates/atuin-client/src/theme.rs:138:        parent: Option<&Self>,
+crates/atuin-client/src/theme.rs:166:        parent: Option<&Self>,
+crates/atuin-client/src/theme.rs:363:    override_theme_dir: Option<String>,
+crates/atuin-client/src/theme.rs:369:    pub fn new(debug: Option<bool>, theme_dir: Option<String>) -> Self {
+crates/atuin-client/src/theme.rs:444:        let parent: Option<&Theme> = match theme_config.theme.parent {
+crates/atuin-client/src/hub.rs:61:        reason: Option<String>,
+crates/atuin-client/src/hub.rs:69:fn status_message(status: StatusCode, reason: Option<&str>) -> impl std::fmt::Display {
+crates/atuin-client/src/hub.rs:206:pub async fn get_session_token() -> Result<Option<String>> {
+crates/atuin-client/src/settings.rs:466:    pub when: Option<String>,
+crates/atuin-client/src/settings.rs:520:    pub debug: Option<bool>,
+crates/atuin-client/src/settings.rs:523:    pub max_depth: Option<u8>,
+crates/atuin-client/src/settings.rs:578:    pub enabled: Option<bool>,
+crates/atuin-client/src/settings.rs:581:    pub level: Option<LogLevel>,
+crates/atuin-client/src/settings.rs:584:    pub retention: Option<u64>,
+crates/atuin-client/src/settings.rs:649:    pub enabled: Option<bool>,
+crates/atuin-client/src/settings.rs:653:    pub endpoint: Option<Url>,
+crates/atuin-client/src/settings/shells.rs:37:        F: FnOnce() -> Option<String>,
+crates/atuin-client/src/settings/shells.rs:145:    fn deserialize(#[case] toml: &str, #[case] expected: Option<Shells>) {
+crates/atuin-client/src/settings/shells.rs:179:        #[case] current_shell: Option<&str>,
+crates/atuin-client/src/plugin.rs:53:    pub fn get_plugin(&self, name: &str) -> Option<&OfficialPlugin> {
+crates/atuin-client/src/plugin.rs:63:    pub fn get_install_message(&self, name: &str) -> Option<&str> {
+crates/atuin-client/src/plugin.rs:76:    _update_on_windows: Option<UpdateOnWindowsContext>,
+crates/atuin-client/src/plugin.rs:95:    initial_exe: Option<std::path::PathBuf>,
+crates/atuin-client/src/distro.rs:20:fn detect_from_os_release() -> Option<String> {
+crates/atuin-client/src/distro.rs:30:fn detect_from_debian_version() -> Option<String> {
+crates/atuin-client/src/distro.rs:34:fn detect_from_centos_release() -> Option<String> {
+crates/atuin-client/src/distro.rs:38:fn detect_from_redhat_release() -> Option<String> {
+crates/atuin-client/src/distro.rs:42:fn detect_from_fedora_release() -> Option<String> {
+crates/atuin-client/src/distro.rs:46:fn detect_from_arch_release() -> Option<String> {
+crates/atuin-client/src/distro.rs:53:fn detect_from_alpine_release() -> Option<String> {
+crates/atuin-client/src/distro.rs:57:fn detect_from_suse_release() -> Option<String> {
+crates/atuin-client/src/settings/daemon.rs:29:    pub socket_path: Option<PathBuf>,
+crates/atuin-client/src/settings/daemon.rs:159:    fn runtime_dir(&self) -> Option<PathBuf> {
+crates/atuin-client/src/settings/daemon.rs:185:    fn runtime_socket_path(&self) -> Option<PathBuf> {
+crates/atuin-client/src/settings/daemon.rs:295:    fn daemon(socket_path: Option<PathBuf>, systemd_socket: bool) -> Daemon {
+crates/atuin-client/src/settings/daemon.rs:319:        runtime_dir: Option<&'a Path>,
+crates/atuin-client/src/settings/daemon.rs:341:        fn runtime_dir(&self) -> Option<PathBuf> {
+crates/atuin-client/src/settings/daemon.rs:396:        #[case] configured: Option<&str>,
+crates/atuin-client/src/meta.rs:74:    pub async fn get(&self, key: &str) -> Result<Option<String>> {
+crates/atuin-client/src/meta.rs:75:        let row: Option<(String,)> = db::query_as("SELECT value FROM meta WHERE key = ?1")
+crates/atuin-client/src/meta.rs:144:    pub async fn latest_version(&self) -> Result<Option<String>> {
+crates/atuin-client/src/meta.rs:152:    pub async fn session_token(&self) -> Result<Option<String>> {
+crates/atuin-client/src/meta.rs:170:    pub async fn hub_session_token(&self) -> Result<Option<String>> {
+crates/atuin-client/src/history.rs:69:    pub fn probe_current() -> Option<Self> {
+crates/atuin-client/src/history.rs:125:pub fn probe_author() -> Option<String> {
+crates/atuin-client/src/history.rs:143:    pub fn from_name(s: &str) -> Option<Self> {
+crates/atuin-client/src/history.rs:176:    pub fn max_fields(&self) -> Option<u32> {
+crates/atuin-client/src/history.rs:323:    pub intent: Option<String>,
+crates/atuin-client/src/history.rs:325:    pub deleted_at: Option<OffsetDateTime>,
+crates/atuin-client/src/history.rs:327:    pub shell: Option<String>,
+crates/atuin-client/src/history.rs:331:    pub author_kind: Option<AuthorKind>,
+crates/atuin-client/src/auth.rs:26:        auth_type: Option<String>,
+crates/atuin-client/src/auth.rs:54:        totp_code: Option<&str>,
+crates/atuin-client/src/auth.rs:65:        totp_code: Option<&str>,
+crates/atuin-client/src/auth.rs:72:        totp_code: Option<&str>,
+crates/atuin-client/src/auth.rs:105:    session_token: Option<String>,
+crates/atuin-client/src/auth.rs:115:        session_token: Option<String>,
+crates/atuin-client/src/auth.rs:150:        _totp_code: Option<&str>,
+crates/atuin-client/src/auth.rs:188:        _totp_code: Option<&str>,
+crates/atuin-client/src/api_client.rs:317:    pub async fn one(self) -> Result<Option<Record<EncryptedData>>> {
+crates/atuin-client/src/logs.rs:13:    type Output = Option<Self>;
+crates/atuin-client/src/logs.rs:15:    fn from_settings(settings: &settings::Logs, child: &settings::LogConfig) -> Option<Self> {
+crates/atuin-client/src/history/store.rs:375:    async fn decode(&self, id: RecordId) -> Option<HistoryRecord> {
+crates/atuin-client/src/import/xonsh_sqlite.rs:26:    rtn: Option<i64>,
+crates/atuin-client/src/import/xonsh_sqlite.rs:70:fn xonsh_db_path(xonsh_data_dir: Option<String>) -> Result<PathBuf> {
+crates/atuin-client/src/packfile/packer.rs:28:    cap: Option<PackfileCap>,
+crates/atuin-client/src/history/capture.rs:21:    pub output_end: Option<String>,
+crates/atuin-client/src/import/xonsh.rs:38:    rtn: Option<i64>,
+crates/atuin-client/src/import/xonsh.rs:49:fn xonsh_hist_dir(xonsh_data_dir: Option<String>) -> Result<PathBuf> {
+crates/atuin-client/src/import/xonsh.rs:83:fn load_session(path: &Path) -> Result<Option<HistoryData>> {
+crates/atuin-client/src/record/sqlite_store.rs:250:    ) -> Result<Option<Record<paseto_v4::EncryptedData>>> {
+crates/atuin-client/src/record/sqlite_store.rs:270:    ) -> Result<Option<Record<paseto_v4::EncryptedData>>> {
+crates/atuin-client/src/record/sqlite_store.rs:312:        let gap: Option<i64> = db::query_scalar(
+crates/atuin-client/src/record/sqlite_store.rs:354:    ) -> Result<Option<Record<paseto_v4::EncryptedData>>> {
+crates/atuin-client/src/history/builder.rs:22:    session: Option<String>,
+crates/atuin-client/src/history/builder.rs:24:    cmd_origin: Option<CmdOrigin>,
+crates/atuin-client/src/history/builder.rs:26:    author: Option<String>,
+crates/atuin-client/src/history/builder.rs:28:    intent: Option<String>,
+crates/atuin-client/src/history/builder.rs:30:    shell: Option<String>,
+crates/atuin-client/src/history/builder.rs:32:    author_kind: Option<AuthorKind>,
+crates/atuin-client/src/history/builder.rs:73:    author: Option<String>,
+crates/atuin-client/src/history/builder.rs:75:    cmd_origin: Option<CmdOrigin>,
+crates/atuin-client/src/import/zsh.rs:57:    pub timestamp: Option<OffsetDateTime>,
+crates/atuin-client/src/import/zsh.rs:59:    pub duration: Option<i64>,
+crates/atuin-client/src/import/zsh.rs:160:fn unmetafy(line: &[u8]) -> Option<Cow<'_, str>> {
+crates/atuin-client/src/import/zsh.rs:216:        #[case] timestamp: Option<i64>,
+crates/atuin-client/src/import/zsh.rs:217:        #[case] duration: Option<i64>,
+crates/atuin-client/src/import/zsh.rs:242:        #[case] timestamp: Option<i64>,
+crates/atuin-client/src/import/zsh.rs:243:        #[case] duration: Option<i64>,
+crates/atuin-client/src/import/powershell.rs:16:    line_count: Option<usize>,
+crates/atuin-client/src/import/fish.rs:60:        let mut time: Option<OffsetDateTime> = None;
+crates/atuin-client/src/import/fish.rs:61:        let mut cmd: Option<String> = None;
+crates/atuin-client/src/import/fish.rs:63:        let mut process_cmd = async |cmd: &mut Option<String>, time: Option<OffsetDateTime>| {
+crates/atuin-client/src/import/mod.rs:53:    fn next(&mut self) -> Option<Self::Item> {
+crates/atuin-client/src/record/sync/builder.rs:20:        caps: Option<Arc<CapClient>>,
+crates/atuin-client/src/import/replxx.rs:80:fn try_parse_line_as_timestamp(line: &str) -> Option<OffsetDateTime> {
+crates/atuin-client/src/import/bash.rs:129:fn try_parse_line_as_timestamp(line: &str) -> Option<OffsetDateTime> {
+crates/atuin-client/src/record/sync/mod.rs:117:        remote: Option<RecordIdx>,
+crates/atuin-client/src/record/sync/mod.rs:136:    page_size_override: Option<NonZeroU64>,
+crates/atuin-client/src/record/sync/mod.rs:145:    key_check: MutEagerFutureCell<Option<SyncError>>,
+crates/atuin-client/src/record/sync/mod.rs:190:    async fn check_encryption_key(&self, key: &paseto_v4::Key) -> Option<SyncError> {
+crates/atuin-client/src/record/sync/mod.rs:204:    ) -> Option<SyncError> {
+crates/atuin-client/src/record/sync/mod.rs:335:        remote: Option<RecordIdx>,
+crates/atuin-client/src/record/sync/mod.rs:665:    pub async fn key_valid(&self) -> Option<SyncError> {
+crates/atuin-client/src/record/sync/mod.rs:673:    pub async fn key_valid_against(&self, remote_index: &RecordStatus) -> Option<SyncError> {

@@ -1,0 +1,20 @@
+use crate::BackendError;
+use crate::db::FULL_RANGE;
+use crate::{DatabaseError, Result, StorageBackend};
+use std::fs::{File, TryLockError};
+use std::io;
+use std::io::{Read, Seek, SeekFrom, Write};
+use std::ops::Bound;
+use std::sync::Mutex;
+use std::sync::atomic::{AtomicBool, Ordering};
+
+/// Stores a database as a file on-disk.
+#[derive(Debug)]
+pub struct FileBackend {
+    whole_file_locked: AtomicBool,
+    file: Mutex<File>,
+}
+
+impl FileBackend {
+    /// Creates a new backend which stores data to the given file.
+    pub fn new(file: File) -> Result<Self, DatabaseError> {

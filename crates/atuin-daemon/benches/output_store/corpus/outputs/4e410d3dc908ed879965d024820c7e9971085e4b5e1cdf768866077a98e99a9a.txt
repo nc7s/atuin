@@ -1,0 +1,20 @@
+use atuin_client::history::HistoryId;
+use atuin_client::settings::Settings;
+use ratatui::text::{Line, Span, Text};
+use tokio::task::JoinHandle;
+
+type LoadedCapture = Result<(Output, String), &'static str>;
+const UNAVAILABLE: &str = "Output unavailable — could not read from the daemon";
+
+/// A cancellable background fetch. Completed captures are immutable and reusable;
+/// missing/unavailable captures are retried only when the reader is reopened.
+#[derive(Default)]
+pub(super) struct Capture {
+    id: Option<HistoryId>,
+    task: Option<JoinHandle<LoadedCapture>>,
+    ready: Option<LoadedCapture>,
+}
+
+impl Capture {
+    pub fn reopen(&mut self) {
+        if matches!(self.ready, Some(Err(_))) {

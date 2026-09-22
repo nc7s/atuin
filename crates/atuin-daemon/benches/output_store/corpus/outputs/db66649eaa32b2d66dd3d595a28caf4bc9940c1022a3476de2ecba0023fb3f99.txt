@@ -1,0 +1,20 @@
+16:fn calculate_usable_order(pages: u32) -> u8 {
+21:fn next_higher_order(page_number: u32) -> u32 {
+25:fn buddy_page(page_number: u32) -> u32 {
+32:pub(crate) struct BuddyAllocator {
+38:impl BuddyAllocator {
+39:    pub(crate) fn new(num_pages: u32, max_page_capacity: u32) -> Self {
+69:        assert_eq!(accounted_pages, num_pages);
+78:    pub(crate) fn xxh3_hash(&self) -> u128 {
+93:    pub(crate) fn to_vec(&self) -> Vec<u8> {
+118:    pub(crate) fn from_bytes(data: &[u8]) -> Self {
+149:    pub(crate) fn highest_free_order(&self) -> Option<u8> {
+155:    pub(crate) fn count_allocated_pages(&self) -> u32 {
+159:    pub(crate) fn count_free_pages(&self) -> u32 {
+167:    pub(crate) fn get_max_order(&self) -> u8 {
+171:    fn find_free_order(&self, mut page: u32) -> Option<u8> {
+181:    pub(crate) fn trailing_free_pages(&self) -> u32 {
+196:    #[cfg_attr(not(debug_assertions), expect(dead_code))]
+199:    pub(crate) fn check_allocated_pages(&self, region: u32, allocated_pages: &[PageNumber]) {
+214:            assert_eq!(free_check, check_result);
+218:    pub(crate) fn len(&self) -> u32 {

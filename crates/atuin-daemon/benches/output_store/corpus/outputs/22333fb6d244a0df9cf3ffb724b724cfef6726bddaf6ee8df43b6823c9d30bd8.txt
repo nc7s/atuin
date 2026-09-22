@@ -1,0 +1,108 @@
+crates/atuin-common/src/shell.rs:52:        let shell = shell.strip_prefix('-').unwrap_or(&shell);
+crates/atuin-common/src/shell.rs:83:        let sys = System::name().unwrap_or("".to_string()).to_lowercase();
+crates/atuin-common/src/shell.rs:105:        Ok(Self::from_string(&shell.unwrap().to_string_lossy()))
+crates/atuin-common/src/shell.rs:150:        Ok(String::from_utf8(output.stdout).unwrap())
+crates/atuin-common/src/shell.rs:170:    let shell = shell.strip_prefix('-').unwrap_or(&shell);
+crates/atuin-common/src/os/unix.rs:147:        .unwrap();
+crates/atuin-common/src/os/unix.rs:148:        assert_eq!(fs_err::symlink_metadata(path).unwrap().mtime(), 0);
+crates/atuin-common/src/os/unix.rs:153:        let tmp = tempfile::tempdir().unwrap();
+crates/atuin-common/src/os/unix.rs:155:        let _listener = UnixListener::bind(&path).unwrap();
+crates/atuin-common/src/os/unix.rs:157:        touch_file(&path).unwrap();
+crates/atuin-common/src/os/unix.rs:158:        assert!(fs_err::symlink_metadata(&path).unwrap().mtime() > 0);
+crates/atuin-common/src/os/unix.rs:163:        let tmp = tempfile::tempdir().unwrap();
+crates/atuin-common/src/os/unix.rs:165:        fs_err::File::create(&target).unwrap();
+crates/atuin-common/src/units/percent.rs:188:        assert_eq!(input.parse::<Percent>().unwrap(), Percent::new(expected));
+crates/atuin-common/src/units/percent.rs:282:        assert_eq!(serde_json::to_string(&Percent::new(2.5)).unwrap(), r#""2.5%""#);
+crates/atuin-common/src/units/percent.rs:283:        assert_eq!(serde_json::from_str::<Percent>(r#""2.5%""#).unwrap(), Percent::new(2.5));
+crates/atuin-common/src/units/percent.rs:292:            prop_assert_eq!(pct.to_string().parse::<Percent>().unwrap(), pct);
+crates/atuin-common/src/string.rs:171:        format!("{:?}", Safe(&Url::parse(url).unwrap()))
+crates/atuin-common/src/secrets.rs:395:    RegexSet::new(SECRET_PATTERNS.iter().map(|pattern| pattern.prefilter.unwrap_or(pattern.regex)))
+crates/atuin-common/src/secrets.rs:404:                .unwrap_or_else(|e| panic!("failed to compile regex for {}: {e}", pattern.name))
+crates/atuin-common/src/secrets.rs:909:                    regex::Regex::new(prefilter).unwrap().is_match(&s),
+crates/atuin-common/src/secrets.rs:910:                    regex::Regex::new(pattern.regex).unwrap().is_match(&s),
+crates/atuin-common/src/secrets.rs:1160:        let before = (0..3).map(|_| time(&quiet)).min().unwrap();
+crates/atuin-common/src/os/unix/process.rs:112:        let child = Command::new("sleep").arg("30").current_dir(dir).spawn().unwrap();
+crates/atuin-common/src/os/unix/process.rs:113:        let pid = Pid::from_raw(child.id().cast_signed()).unwrap();
+crates/atuin-common/src/os/unix/process.rs:136:        let dir = tempfile::tempdir().unwrap();
+crates/atuin-common/src/os/unix/process.rs:139:        let expected = dir.path().canonicalize().unwrap();
+crates/atuin-common/src/os/unix/process.rs:144:        child.kill().unwrap();
+crates/atuin-common/src/os/unix/process.rs:145:        child.wait().unwrap();
+crates/atuin-common/src/os/unix/process.rs:153:        let dir = tempfile::tempdir().unwrap();
+crates/atuin-common/src/os/unix/process.rs:154:        let expected = dir.path().canonicalize().unwrap();
+crates/atuin-common/src/sync/eager_future_cell.rs:184:        let rt = tokio::runtime::Runtime::new().unwrap();
+crates/atuin-common/src/logs.rs:42:        self.path.parent().unwrap_or_else(|| Path::new(""))
+crates/atuin-common/src/logs.rs:47:        self.path.file_name().unwrap_or_else(|| OsStr::new(""))
+crates/atuin-common/src/utils.rs:89:    while gitdir.parent().is_some() && !has_git_dir(gitdir.to_str().unwrap()) {
+crates/atuin-common/src/utils.rs:136:        env_abspath("XDG_CONFIG_HOME").unwrap_or_else(|| home_dir().join(".config"));
+crates/atuin-common/src/utils.rs:143:        env_abspath("XDG_DATA_HOME").unwrap_or_else(|| home_dir().join(".local").join("share"));
+crates/atuin-common/src/utils.rs:175:    let quote = s.chars().next().unwrap();
+crates/atuin-common/src/utils.rs:182:    if s.chars().last().unwrap() != quote {
+crates/atuin-common/src/utils.rs:315:        std::fs::create_dir_all(&subdir).unwrap();
+crates/atuin-common/src/utils.rs:316:        std::fs::create_dir_all(tmp.join(".git")).unwrap();
+crates/atuin-common/src/utils.rs:318:        let result = in_git_repo(subdir.to_str().unwrap());
+crates/atuin-common/src/os/unix/tty.rs:64:        let master = openpt(OpenptFlags::RDWR | OpenptFlags::NOCTTY).unwrap();
+crates/atuin-common/src/os/unix/tty.rs:65:        grantpt(&master).unwrap();
+crates/atuin-common/src/os/unix/tty.rs:66:        unlockpt(&master).unwrap();
+crates/atuin-common/src/os/unix/tty.rs:67:        let name = ptsname(&master, Vec::new()).unwrap();
+crates/atuin-common/src/os/unix/tty.rs:69:        let slave = File::options().read(true).write(true).open(&path).unwrap();
+crates/atuin-common/src/os/unix/tty.rs:78:        let meta = std::fs::metadata(&path).unwrap();
+crates/atuin-common/src/os/unix/tty.rs:102:                rustix::stdio::dup2_stdin(&self.saved).unwrap();
+crates/atuin-common/src/os/unix/tty.rs:106:        let saved = rustix::io::dup(std::io::stdin()).unwrap();
+crates/atuin-common/src/os/process.rs:17:    factor: NonZeroU32::new(2).unwrap(),
+crates/atuin-common/src/db/sqlite/info.rs:109:            factor: NonZeroU32::new(2).unwrap(),
+crates/atuin-common/src/db/sqlite/info.rs:222:        self.ffi_info.variable_number_limit.unwrap_or(Self::MAX_BIND_PARAMS_FALLBACK)
+crates/atuin-common/src/range/py_style.rs:40:        let len = u64::try_from(slice.len()).unwrap_or(u64::MAX);
+crates/atuin-common/src/range/py_style.rs:52:        let start = norm(self.start).unwrap_or_default().clamp(0, len);
+crates/atuin-common/src/futures/stream.rs:21:///     chunk_by_bounded(stream::iter([1, 1, 1, 2, 2, 3]), NonZeroUsize::new(5).unwrap(), |x| *x)
+crates/atuin-common/src/futures/stream.rs:28:///     chunk_by_bounded(stream::iter([1, 1, 1, 1]), NonZeroUsize::new(2).unwrap(), |x| *x).collect(),
+crates/atuin-common/src/futures/stream.rs:102:            chunk_by_bounded(stream::iter([2, 4, 3, 6, 5]), NonZeroUsize::new(5).unwrap(), |x| {
+crates/atuin-common/src/futures/stream.rs:133:                    prop_assert_ne!(pair[0].last().unwrap(), pair[1].first().unwrap());
+crates/atuin-common/src/string/non_nul_str.rs:84:        assert_eq!(NonNulStr::new(input).unwrap().as_str(), input);
+crates/atuin-common/src/string/non_nul_str.rs:98:        let json = serde_json::to_string(&NonNulStr::new("echo hi").unwrap()).unwrap();
+crates/atuin-common/src/string/non_nul_str.rs:104:        let c: NonNulStr<String> = serde_json::from_str(r#""echo hi""#).unwrap();
+crates/atuin-common/src/string/non_nul_str.rs:110:    #[case::embedded_nul(serde_json::to_string("echo hi\0rm -rf /").unwrap())]
+crates/atuin-common/src/string/non_nul_str.rs:114:        let err = serde_json::from_str::<NonNulStr<String>>(&json).unwrap_err();
+crates/atuin-common/src/string/non_nul_str.rs:125:                    let command = result.unwrap();
+crates/atuin-common/src/string/non_nul_str.rs:128:                Some(index) => prop_assert_eq!(result.unwrap_err().index, index),
+crates/atuin-common/src/string/non_nul_str.rs:135:            let original = NonNulStr::new(s).unwrap();
+crates/atuin-common/src/futures/mod.rs:61:            let nanos = u64::try_from(delay.as_nanos()).unwrap_or(u64::MAX);
+crates/atuin-common/src/encryption/paseto_v4.rs:500:            Ok(wpk.unwrap_key(&wrapping_key)?.into())
+crates/atuin-common/src/encryption/paseto_v4.rs:681:/// The dual to [`encrypt_sync`]: unwrap the CEK with `key`, decrypt the PASETO token with it, then
+crates/atuin-common/src/encryption/paseto_v4.rs:784:            serde_json::to_string(&data).unwrap(),
+crates/atuin-common/src/encryption/paseto_v4.rs:790:            serde_json::from_str(r#"{"data":"R","content_encryption_key":"C"}"#).unwrap();
+crates/atuin-common/src/encryption/paseto_v4.rs:794:        let from_alias: EncryptedData = serde_json::from_str(r#"{"raw":"R","cek":"C"}"#).unwrap();
+crates/atuin-common/src/encryption/paseto_v4.rs:812:        assert_eq!(Key::try_load_from_path(&path).unwrap(), old);
+crates/atuin-common/src/encryption/paseto_v4.rs:816:        assert_eq!(Key::try_load_from_path(&path).unwrap(), new);
+crates/atuin-common/src/encryption/paseto_v4.rs:842:                                .unwrap_or_else(|e| panic!("round {round}: {e}"))
+crates/atuin-common/src/range/chunks.rs:39:                NonZero::new(size).unwrap_or(<NonZero<$t>>::MIN)
+crates/atuin-common/src/range/chunks.rs:136:        assert_eq!(plan.size(), NonZero::new(4u64).unwrap());
+crates/atuin-common/src/db/sqlite/builder.rs:62:            .unwrap_or(raw);
+crates/atuin-common/src/db/mod.rs:301:        let url: OwnedDbUrl = uri.parse().unwrap();
+crates/atuin-common/src/db/mod.rs:311:        let owned: OwnedDbUrl = uri.parse().unwrap();
+crates/atuin-common/src/db/mod.rs:319:        let url: OwnedDbUrl = uri.parse().unwrap();
+crates/atuin-common/src/db/mod.rs:332:        let owned: OwnedDbUrl = "postgres://user:hunter2@host/atuin".parse().unwrap();
+crates/atuin-common/src/db/mod.rs:333:        let json = serde_json::to_string(&owned).unwrap();
+crates/atuin-common/src/db/mod.rs:336:        assert_eq!(serde_json::from_str::<OwnedDbUrl>(&json).unwrap(), owned);
+crates/atuin-common/src/db/mod.rs:387:        let sqlite = AtuinSqlite::builder_in_memory().open().await.unwrap();
+crates/atuin-common/src/db/mod.rs:388:        let mut conn = sqlite.pool().acquire().await.unwrap();
+crates/atuin-common/src/url.rs:28:    /// let base = url::Url::parse("https://host.example/atuin").unwrap();
+crates/atuin-common/src/url.rs:34:    /// assert_eq!(base.join("foo/bar").unwrap().as_str(), "https://host.example/foo/bar");
+crates/atuin-common/src/url.rs:54:    /// let base = url::Url::parse("https://host.example/atuin").unwrap();
+crates/atuin-common/src/url.rs:107:        Url::parse(s).unwrap()
+crates/atuin-common/src/url.rs:127:        assert_eq!(parse(base).append([segment]).unwrap().as_str(), expected);
+crates/atuin-common/src/url.rs:155:            parse("https://h.example").append(["...", ".hidden", "a.b"]).unwrap().as_str(),
+crates/atuin-common/src/url.rs:165:            parse("https://h.example").append(["user", "john doe"]).unwrap().as_str(),
+crates/atuin-common/src/url.rs:172:            parse("https://h.example").append(["a", "b/c"]).unwrap().as_str(),
+crates/atuin-common/src/rmp/decode.rs:79:/// keep unwrapping and re-creating the [`Bytes`] object.
+crates/atuin-common/src/rmp/decode.rs:100:/// also more convenient than [`read_str_from_slice`] because you don't have to unwrap and re-create
+crates/atuin-common/src/rmp/decode.rs:251:            use `array::map` to call `Option::unwrap` on each element. Besides the overhead of
+crates/atuin-common/src/rmp/decode.rs:252:            `unwrap`, `array::map` is noted as being inefficient on large arrays."
+crates/atuin-common/src/time/utc_offset.rs:29:        Self::current_local_offset().unwrap_or_else(|e| {
+crates/atuin-common/src/time/utc_offset.rs:112:        let spec = UtcOffsetSpec::from_str("+09:30").unwrap();
+crates/atuin-common/src/time/utc_offset.rs:133:        assert_eq!(UtcOffset::resolve_spec(spec).unwrap().as_hms(), (h, m, s));
+crates/atuin-common/src/time/duration.rs:198:        std::time::Duration::try_from(self).unwrap_or_default().display()
+crates/atuin-common/src/time/duration.rs:229:        assert_eq!(std::time::Duration::try_new(secs, nsecs).unwrap().as_nanos(), expected);
+crates/atuin-common/src/time/duration.rs:231:            <time::Duration as DurationExt<_>>::try_new(secs, nsecs).unwrap().whole_nanoseconds(),
+crates/atuin-common/src/time/offset_date_time.rs:178:        std::time::Duration::try_from(self - earlier).unwrap_or_default()
+crates/atuin-common/src/time/offset_date_time.rs:325:        assert_eq!(t.display().ymd_hms().to_string(), t.format(YMD_HMS).unwrap());
+crates/atuin-common/src/time/offset_date_time.rs:326:        assert_eq!(t.display().ymd_hm().to_string(), t.format(YMD_HM).unwrap());

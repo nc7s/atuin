@@ -1,0 +1,41 @@
+3:use thiserror::Error;
+6:#[derive(Debug, Clone, Copy, PartialEq, Eq, Error)]
+7:pub enum UrlAppendError {
+19:pub trait UrlAppendExt {
+30:    /// assert_eq!(base.append(["foo/bar"])?.as_str(), "https://host.example/atuin/foo%2Fbar");
+31:    /// assert_eq!(base.append(["foo", "bar"])?.as_str(), "https://host.example/atuin/foo/bar");
+34:    /// assert_eq!(base.join("foo/bar").unwrap().as_str(), "https://host.example/foo/bar");
+35:    /// # Ok::<(), atuin_common::url::UrlAppendError>(())
+38:    /// # Errors
+40:    /// See [`UrlAppendError`].
+41:    fn append<I, S>(&self, segments: I) -> Result<Url, UrlAppendError>
+55:    /// assert_eq!(
+59:    /// # Ok::<(), atuin_common::url::UrlAppendError>(())
+62:    /// # Errors
+64:    /// See [`UrlAppendError`].
+65:    fn append_path(&self, path: &'static str) -> Result<Url, UrlAppendError> {
+70:impl UrlAppendExt for Url {
+71:    fn append<I, S>(&self, segments: I) -> Result<Url, UrlAppendError>
+81:        let mut path = url.path_segments_mut().map_err(|()| UrlAppendError::NonSplittable)?;
+90:                return Err(UrlAppendError::DotSegment);
+106:    fn parse(s: &str) -> Url {
+126:    fn append_cases(#[case] base: &str, #[case] segment: &str, #[case] expected: &str) {
+127:        assert_eq!(parse(base).append([segment]).unwrap().as_str(), expected);
+133:    fn dot_segments_are_rejected(#[case] segment: &str) {
+134:        assert_eq!(
+136:            Err(UrlAppendError::DotSegment),
+138:        assert_eq!(
+140:            Err(UrlAppendError::DotSegment),
+145:    fn dot_segments_are_rejected_by_append_path() {
+146:        assert_eq!(
+148:            Err(UrlAppendError::DotSegment),
+153:    fn dot_lookalikes_are_still_appended() {
+154:        assert_eq!(
+161:    fn append_encodes_each_segment_independently() {
+164:        assert_eq!(
+171:        assert_eq!(
+185:    fn append_path_cases(#[case] base: &str, #[case] path: &'static str, #[case] expected: &str) {
+186:        assert_eq!(parse(base).append_path(path).unwrap().as_str(), expected);
+190:    fn cannot_be_a_base_url_is_an_error() {
+192:        assert_eq!(url.append(["x"]), Err(UrlAppendError::NonSplittable));
+193:        assert_eq!(url.append_path("a/b"), Err(UrlAppendError::NonSplittable));

@@ -1,0 +1,30 @@
+15:use atuin_daemon::{CaptureError, CmdEvent, RegisterOutputError};
+23:enum Op {
+32:fn op() -> impl Strategy<Value = Op> {
+44:enum State {
+52:enum Kind {
+58:fn kind_of(event: &CmdEvent) -> (Kind, HistoryId) {
+66:struct Model {
+73:impl Model {
+74:    fn new() -> Self {
+84:    fn id(&self, slot: u8) -> HistoryId {
+88:    fn persisted(&self) -> HashSet<HistoryId> {
+95:async fn apply(env: &TestEnv, model: &mut Model, op: &Op) {
+103:            assert_eq!(id, h.id);
+116:                assert!(result.is_err(), "finish of a {state:?} command must fail");
+129:                assert!(result.is_err(), "cancel of a {state:?} command must fail");
+139:            assert_eq!(deleted, slots.len());
+166:                (State::InFlight | State::Persisted, true) => assert!(
+169:                        Err(RegisterOutputError::Capture(CaptureError::AlreadyExists))
+173:                (State::Fresh | State::Gone, _) => assert!(
+174:                    matches!(result, Err(RegisterOutputError::NotLive(_))),
+187:async fn check_invariants(env: &TestEnv, model: &Model, step: usize, op: &Op) {
+190:        assert_eq!(
+198:    assert_eq!(env.active_ids().await, persisted, "{ctx}: history db");
+199:    assert_eq!(env.index_count().await, persisted.len(), "{ctx}: index size");
+202:        assert_eq!(
+211:        assert_eq!(stored, model.has_output[slot], "{ctx}: captured output of {}", h.command);
+212:        assert!(
+224:    assert_eq!(replayed_ids, persisted, "{ctx}: another machine's replay of the store");
+231:    fn journal_agrees_with_its_model(ops in proptest::collection::vec(op(), 1..24)) {
+248:            prop_assert_eq!(observed, model.expected_events);

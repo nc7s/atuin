@@ -1,0 +1,20 @@
+30:pub const UUID_TICKS_BETWEEN_EPOCHS: u64 = 0x01B2_1DD2_1381_4000;
+43:pub struct Timestamp {
+50:impl Timestamp {
+55:    pub fn now(context: impl ClockSequence<Output = impl Into<u128>>) -> Self {
+71:    /// Construct a `Timestamp` from the number of 100 nanosecond ticks since 00:00:00.00,
+79:    pub const fn from_gregorian_time(ticks: u64, counter: u16) -> Self {
+90:    /// Construct a `Timestamp` from a Unix timestamp and up to a 128-bit counter, as used in version 7 UUIDs.
+91:    pub const fn from_unix_time(
+105:    /// Construct a `Timestamp` from a Unix timestamp and up to a 128-bit counter, as used in version 7 UUIDs.
+106:    pub fn from_unix(
+107:        context: impl ClockSequence<Output = impl Into<u128>>,
+133:    pub const fn to_gregorian(&self) -> (u64, u16) {
+143:    pub(crate) const fn counter(&self) -> (u128, u8) {
+148:    pub const fn to_unix(&self) -> (u64, u32) {
+152:    const fn unix_to_gregorian_ticks(seconds: u64, nanos: u32) -> u64 {
+158:    const fn gregorian_to_unix(ticks: u64) -> (u64, u32) {
+167:impl Timestamp {
+172:    pub const fn from_rfc4122(ticks: u64, counter: u16) -> Self {
+177:    pub const fn to_rfc4122(&self) -> (u64, u16) {
+185:    pub const fn to_unix_nanos(&self) -> u32 {

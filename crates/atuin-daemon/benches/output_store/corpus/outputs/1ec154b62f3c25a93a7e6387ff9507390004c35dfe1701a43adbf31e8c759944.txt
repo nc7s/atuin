@@ -1,0 +1,5 @@
+17:#[derive(Debug, thiserror::Error)]
+18:pub enum ParseError {
+27:        source: serde_json::Error,
+33:pub enum HookEvent {
+47:impl From<WireHookEvent> for Option<HookEvent> {

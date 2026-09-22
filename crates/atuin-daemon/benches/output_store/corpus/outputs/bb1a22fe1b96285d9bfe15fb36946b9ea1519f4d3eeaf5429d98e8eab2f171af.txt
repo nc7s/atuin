@@ -1,0 +1,3 @@
+13:pub use proto::*;
+24:pub fn truncate_query(query: &str) -> &str {
+30:pub use index::{IndexFilterMode, SearchIndex};

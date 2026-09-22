@@ -1,0 +1,20 @@
+5:use crate::{Error, RegexSetBuilder};
+76:/// assert_eq!(vec!["foo", "bar"], matches);
+105:/// assert!(set.is_match("foo@example.com"));
+109:/// assert_eq!(vec![0, 1], matches);
+113:/// assert_eq!(vec![1], matches);
+117:/// assert!(matches.is_empty());
+132:pub struct RegexSet {
+137:impl RegexSet {
+152:    /// assert!(set.is_match("foo"));
+154:    pub fn new<I, S>(exprs: I) -> Result<RegexSet, Error>
+175:    /// assert!(set.is_empty());
+177:    /// assert!(!set.is_match(""));
+179:    pub fn empty() -> RegexSet {
+206:    /// assert!(set.is_match("foo"));
+207:    /// assert!(!set.is_match("☃"));
+210:    pub fn is_match(&self, haystack: &str) -> bool {
+230:    /// assertions won't work correctly. Instead, you can use this method to
+239:    /// assert!(set.is_match(&hay[3..]));
+240:    /// // No match because the  assertions take the context into account.
+241:    /// assert!(!set.is_match_at(hay, 3));

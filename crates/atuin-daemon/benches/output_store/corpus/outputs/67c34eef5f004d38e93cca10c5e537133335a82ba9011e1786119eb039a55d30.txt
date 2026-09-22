@@ -1,0 +1,20 @@
+21:use crate::{AccessGuard, MultimapTableHandle, Result, StorageError, WriteTransaction};
+35:pub(crate) struct LeafKeyIter<'a, V: Key + 'static> {
+49:    fn new(
+73:    fn inline_bytes(&self) -> &[u8] {
+77:    fn num_values(&self) -> u64 {
+86:    fn key_at(&self, n: usize) -> Option<AccessGuard<'static, V>> {
+98:    fn next_key(&mut self) -> Option<AccessGuard<'static, V>> {
+106:    fn next_key_back(&mut self) -> Option<AccessGuard<'static, V>> {
+115:enum ValueIterState<'a, V: Key + 'static> {
+120:pub struct MultimapValue<'a, V: Key + 'static> {
+132:    fn new_subtree(
+149:    fn new_subtree_free_on_drop(
+170:    fn new_inline(inner: LeafKeyIter<'a, V>, guard: Arc<TransactionGuard>) -> Self {
+184:    fn from_collection(
+211:    fn from_collection_free_on_drop(
+250:    pub fn len(&self) -> u64 {
+254:    pub fn is_empty(&self) -> bool {
+262:    fn next(&mut self) -> Option<Self::Item> {
+290:    fn next_back(&mut self) -> Option<Self::Item> {
+314:    fn drop(&mut self) {

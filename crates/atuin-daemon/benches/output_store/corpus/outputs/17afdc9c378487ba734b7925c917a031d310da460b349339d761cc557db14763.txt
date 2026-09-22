@@ -1,0 +1,5 @@
+10:fn output() -> Output {
+19:fn a_check_that_ran_exits_zero_even_when_the_answer_is_no(output: Output) {
+23:    assert!(
+32:fn the_answer_is_reported_on_stdout(output: Output) {
+35:    assert_eq!(answer.trim(), "0", "with no terminal there is no proxy to be attached to");

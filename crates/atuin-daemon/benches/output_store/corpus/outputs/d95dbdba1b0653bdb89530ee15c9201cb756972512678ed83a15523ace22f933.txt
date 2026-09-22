@@ -1,0 +1,20 @@
+//! Model-based check of the journal: any interleaving of start / finish / cancel / delete /
+//! rebuild / register-output over a fixed set of commands must keep five views in agreement -- the
+//! in-flight map, the history db, the search index, what another machine would rebuild from the
+//! record store, and which commands have captured output -- and must emit exactly the events a
+//! shell watching `atuin history tail` expects.
+#![cfg(unix)]
+
+mod common;
+
+use std::collections::HashSet;
+use std::time::Duration;
+
+use atuin_client::history::{History, HistoryId};
+use atuin_client::settings::Search;
+use atuin_daemon::{CaptureError, CmdEvent, RegisterOutputError};
+use common::{TestEnv, capture, history};
+use futures::{FutureExt, StreamExt};
+use proptest::prelude::*;
+
+const SLOTS: u8 = 10;

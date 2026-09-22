@@ -1,0 +1,9 @@
+tests/suite_string_set.rs:9:fn default() -> Result<()> {
+tests/suite_string_set.rs:41:) -> anyhow::Result<CompiledRegex> {
+tests/suite_string.rs:11:fn default() -> Result<()> {
+tests/suite_string.rs:57:) -> anyhow::Result<CompiledRegex> {
+tests/suite_bytes_set.rs:9:fn default() -> Result<()> {
+tests/suite_bytes_set.rs:33:) -> anyhow::Result<CompiledRegex> {
+tests/suite_bytes.rs:11:fn default() -> Result<()> {
+tests/suite_bytes.rs:49:) -> anyhow::Result<CompiledRegex> {
+tests/lib.rs:19:fn suite() -> anyhow::Result<regex_test::RegexTests> {

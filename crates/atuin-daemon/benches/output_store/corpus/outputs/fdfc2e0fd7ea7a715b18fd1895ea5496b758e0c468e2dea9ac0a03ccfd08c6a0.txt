@@ -1,0 +1,20 @@
+//! Persistence as an actor: one task owns the `SessionManager` and applies
+//! jobs in channel order.
+//!
+//! `SessionManager`'s methods take `&mut self`, and writes must not be
+//! reordered (each job snapshots the full event list — an older snapshot
+//! landing after a newer one would roll the session back). A single owning
+//! task gives both properties without locks; the old driver got them by
+//! blocking its thread.
+
+use tokio::sync::mpsc::{UnboundedSender, unbounded_channel};
+
+use crate::session::SessionManager;
+use crate::tui::state::ConversationEvent;
+use crate::usage::UsageSnapshot;
+
+#[derive(Debug)]
+pub enum PersistJob {
+    /// Snapshot of the conversation and its trackers.
+    Session {
+        events: Vec<ConversationEvent>,

@@ -1,0 +1,80 @@
+1:use crate::error::{Error, ErrorCode, Result};
+11:impl Serialize for Value {
+13:    fn serialize<S>(&self, serializer: S) -> result::Result<S::Ok, S::Error>
+49:/// use serde_json::{Error, Value};
+51:/// pub fn to_value<T>(input: T) -> Result<Value, Error>
+58:pub struct Serializer;
+60:impl serde::Serializer for Serializer {
+62:    type Error = Error;
+73:    fn serialize_bool(self, value: bool) -> Result<Value> {
+78:    fn serialize_i8(self, value: i8) -> Result<Value> {
+83:    fn serialize_i16(self, value: i16) -> Result<Value> {
+88:    fn serialize_i32(self, value: i32) -> Result<Value> {
+92:    fn serialize_i64(self, value: i64) -> Result<Value> {
+96:    fn serialize_i128(self, value: i128) -> Result<Value> {
+109:                Err(Error::syntax(ErrorCode::NumberOutOfRange, 0, 0))
+115:    fn serialize_u8(self, value: u8) -> Result<Value> {
+120:    fn serialize_u16(self, value: u16) -> Result<Value> {
+125:    fn serialize_u32(self, value: u32) -> Result<Value> {
+130:    fn serialize_u64(self, value: u64) -> Result<Value> {
+134:    fn serialize_u128(self, value: u128) -> Result<Value> {
+145:                Err(Error::syntax(ErrorCode::NumberOutOfRange, 0, 0))
+151:    fn serialize_f32(self, float: f32) -> Result<Value> {
+156:    fn serialize_f64(self, float: f64) -> Result<Value> {
+161:    fn serialize_char(self, value: char) -> Result<Value> {
+168:    fn serialize_str(self, value: &str) -> Result<Value> {
+172:    fn serialize_bytes(self, value: &[u8]) -> Result<Value> {
+178:    fn serialize_unit(self) -> Result<Value> {
+183:    fn serialize_unit_struct(self, _name: &'static str) -> Result<Value> {
+188:    fn serialize_unit_variant(
+198:    fn serialize_newtype_struct<T>(self, _name: &'static str, value: &T) -> Result<Value>
+205:    fn serialize_newtype_variant<T>(
+221:    fn serialize_none(self) -> Result<Value> {
+226:    fn serialize_some<T>(self, value: &T) -> Result<Value>
+233:    fn serialize_seq(self, len: Option<usize>) -> Result<Self::SerializeSeq> {
+239:    fn serialize_tuple(self, len: usize) -> Result<Self::SerializeTuple> {
+243:    fn serialize_tuple_struct(
+251:    fn serialize_tuple_variant(
+264:    fn serialize_map(self, len: Option<usize>) -> Result<Self::SerializeMap> {
+271:    fn serialize_struct(self, name: &'static str, len: usize) -> Result<Self::SerializeStruct> {
+281:    fn serialize_struct_variant(
+294:    fn collect_str<T>(self, value: &T) -> Result<Value>
+302:pub struct SerializeVec {
+306:pub struct SerializeTupleVariant {
+311:pub enum SerializeMap {
+322:pub struct SerializeStructVariant {
+327:impl serde::ser::SerializeSeq for SerializeVec {
+329:    type Error = Error;
+331:    fn serialize_element<T>(&mut self, value: &T) -> Result<()>
+339:    fn end(self) -> Result<Value> {
+344:impl serde::ser::SerializeTuple for SerializeVec {
+346:    type Error = Error;
+348:    fn serialize_element<T>(&mut self, value: &T) -> Result<()>
+355:    fn end(self) -> Result<Value> {
+360:impl serde::ser::SerializeTupleStruct for SerializeVec {
+362:    type Error = Error;
+364:    fn serialize_field<T>(&mut self, value: &T) -> Result<()>
+371:    fn end(self) -> Result<Value> {
+376:impl serde::ser::SerializeTupleVariant for SerializeTupleVariant {
+378:    type Error = Error;
+380:    fn serialize_field<T>(&mut self, value: &T) -> Result<()>
+388:    fn end(self) -> Result<Value> {
+397:impl serde::ser::SerializeMap for SerializeMap {
+399:    type Error = Error;
+401:    fn serialize_key<T>(&mut self, key: &T) -> Result<()>
+417:    fn serialize_value<T>(&mut self, value: &T) -> Result<()>
+437:    fn end(self) -> Result<Value> {
+448:struct MapKeySerializer;
+450:fn key_must_be_a_string() -> Error {
+451:    Error::syntax(ErrorCode::KeyMustBeAString, 0, 0)
+454:fn float_key_must_be_finite() -> Error {
+455:    Error::syntax(ErrorCode::FloatKeyMustBeFinite, 0, 0)
+458:impl serde::Serializer for MapKeySerializer {
+460:    type Error = Error;
+462:    type SerializeSeq = Impossible<String, Error>;
+463:    type SerializeTuple = Impossible<String, Error>;
+464:    type SerializeTupleStruct = Impossible<String, Error>;
+465:    type SerializeTupleVariant = Impossible<String, Error>;
+466:    type SerializeMap = Impossible<String, Error>;
+467:    type SerializeStruct = Impossible<String, Error>;
+468:    type SerializeStructVariant = Impossible<String, Error>;

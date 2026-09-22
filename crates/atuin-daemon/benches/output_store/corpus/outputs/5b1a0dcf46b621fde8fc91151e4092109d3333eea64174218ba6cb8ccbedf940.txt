@@ -1,0 +1,37 @@
+4:pub use rmp::encode::{
+5:    ByteBuf, RmpWrite, RmpWriteErr, ValueWriteError, write_array_len, write_bin, write_bin_len,
+12:/// This is currently just a wrapper around [`ValueWriteError`] with a better error message.
+15:#[derive(Debug, thiserror::Error)]
+16:pub enum EncodeError<E: RmpWriteErr = Infallible> {
+18:    ValueWrite(#[from] ValueWriteError<E>),
+33:pub fn write_optional<W, T, F, E>(
+37:) -> Result<(), EncodeError<W::Error>>
+41:    E: Into<EncodeError<W::Error>>,
+45:        None => write_nil(writer).map_err(|e| ValueWriteError::InvalidMarkerWrite(e).into()),
+52:pub fn write_array<W, S, T, F, E>(
+56:) -> Result<(), EncodeError<W::Error>>
+61:    E: Into<EncodeError<W::Error>>,
+67:pub fn write_binary_array<W, B>(writer: &mut W, bytes: B) -> Result<(), EncodeError<W::Error>>
+76:        |writer, byte| writer.write_u8(byte).map_err(ValueWriteError::InvalidDataWrite),
+81:/// Error returned by [`try_write_array`].
+82:#[derive(Debug, thiserror::Error)]
+84:pub enum TryEncodeError<E: RmpWriteErr, Inner> {
+86:    Encode(EncodeError<E>),
+91:impl<E: RmpWriteErr, Inner> From<EncodeError<E>> for TryEncodeError<E, Inner> {
+92:    fn from(e: EncodeError<E>) -> Self {
+97:impl<E: RmpWriteErr> From<TryEncodeError<E, Infallible>> for EncodeError<E> {
+98:    fn from(e: TryEncodeError<E, Infallible>) -> Self {
+100:            TryEncodeError::Encode(e) => e,
+109:/// return [`TryEncodeError::Inner`] with that error.
+112:pub fn try_write_array<W, S, T, E, F, WrErr>(
+116:) -> Result<(), TryEncodeError<W::Error, E>>
+121:    WrErr: Into<EncodeError<W::Error>>,
+127:fn try_write_array_impl<W, S, T, E, L, F, WrErr>(
+132:) -> Result<(), TryEncodeError<W::Error, E>>
+137:    L: FnOnce(&mut W, u32) -> Result<Marker, ValueWriteError<W::Error>>,
+139:    WrErr: Into<EncodeError<W::Error>>,
+142:    let len = u32::try_from(iter.len()).map_err(|_| EncodeError::ArrayOverflow)?;
+143:    write_len(writer, len).map_err(EncodeError::from)?;
+158:        let item = result.map_err(TryEncodeError::Inner)?;
+159:        write(writer, item).map_err(|e| TryEncodeError::from(e.into()))
+162:    assert_eq!(len, count, "programming error: incorrect implementation of ExactSizeIterator");

@@ -1,0 +1,5 @@
+9:use atuin_common::os::unix::{SecureTempDirError, create_secure_temp_dir};
+15:pub enum Msg {
+25:pub fn socket_path(tty_id: TtyId) -> Result<PathBuf, SecureTempDirError> {
+31:fn socket_name(tty_id: TtyId) -> String {
+36:fn socket_dir() -> Result<PathBuf, SecureTempDirError> {

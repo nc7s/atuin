@@ -1,0 +1,17 @@
+tests/multiprocess_tests.rs:98:    struct CrashBackend {
+tests/check_integrity_nondurable.rs:20:struct PatchBackend {
+tests/check_integrity_failure.rs:14:struct PatchBackend {
+tests/integration_tests.rs:43:struct BlockingSyncState {
+tests/integration_tests.rs:101:struct BlockingSyncBackend {
+tests/integration_tests.rs:134:struct SharedInMemoryBackend {
+tests/integration_tests.rs:181:struct WriteCountingBackend {
+tests/integration_tests.rs:225:struct FailingBackend {
+tests/integration_tests.rs:553:    struct FaultBackend {
+tests/integration_tests.rs:665:    struct CountingBackend {
+tests/integration_tests.rs:4254:struct DelegatingTable<K: Key + 'static, V: Value + 'static, T: ReadableTable<K, V>> {
+tests/crash_consistency.rs:19:struct CrashState {
+tests/crash_consistency.rs:32:// A backend that can reconstruct the file image left by a crash in which the header write reached
+tests/crash_consistency.rs:35:struct CrashBackend {
+tests/backward_compatibility.rs:12:struct CollidingUserType;
+tests/basic_tests.rs:3260:    struct ReverseKey(Vec<u8>);
+tests/basic_tests.rs:4158:    struct RecordingBackend {

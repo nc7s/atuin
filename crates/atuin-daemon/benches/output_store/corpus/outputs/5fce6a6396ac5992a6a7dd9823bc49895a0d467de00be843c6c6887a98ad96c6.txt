@@ -1,0 +1,20 @@
+13:pub struct RawSkillFile {
+15:    pub path: PathBuf,
+17:    pub dir_name: String,
+20:    pub is_project: bool,
+22:    pub content: String,
+29:pub async fn discover(
+49:pub fn global_skills_dir() -> PathBuf {
+54:pub fn project_skills_dir(project_root: &Path) -> PathBuf {
+59:async fn scan_dir(dir: &Path, is_project: bool, out: &mut Vec<RawSkillFile>) {
+109:    fn setup_skill(dir: &Path, rel_path: &str, content: &str) {
+116:    async fn discovers_project_skills() {
+122:        assert_eq!(files.len(), 1);
+123:        assert_eq!(files[0].dir_name, "deploy");
+124:        assert!(files[0].is_project);
+128:    async fn discovers_global_skills() {
+134:        assert_eq!(files.len(), 1);
+135:        assert_eq!(files[0].dir_name, "review");
+136:        assert!(!files[0].is_project);
+140:    async fn discovers_nested_skills() {
+147:        assert_eq!(files.len(), 2);

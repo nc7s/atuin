@@ -1,0 +1,152 @@
+crates/atuin-client/src/database.rs:63:pub async fn query_context() -> eyre::Result<Context> {
+crates/atuin-client/src/database.rs:80:pub async fn current_context() -> eyre::Result<Context> {
+crates/atuin-client/src/database.rs:324:    pub async fn new(path: impl AsRef<OsStr>, timeout: Duration) -> eyre::Result<Self> {
+crates/atuin-client/src/database.rs:331:    pub async fn in_memory(timeout: Duration) -> eyre::Result<Self> {
+crates/atuin-client/src/database.rs:335:    async fn from_builder(builder: SqliteBuilder<'_>, timeout: Duration) -> eyre::Result<Self> {
+crates/atuin-client/src/database.rs:345:    pub(crate) async fn close(&self) {
+crates/atuin-client/src/database.rs:350:    pub async fn sqlite_version(&self) -> eyre::Result<semver::Version> {
+crates/atuin-client/src/database.rs:355:    async fn setup_db(pool: &SqlitePool) -> Result<()> {
+crates/atuin-client/src/settings/watcher.rs:11://! async fn example() -> eyre::Result<()> {
+crates/atuin-client/src/settings.rs:1188:    pub async fn meta_store() -> Result<&'static crate::meta::MetaStore> {
+crates/atuin-client/src/settings.rs:1203:    pub async fn host_id() -> Result<HostId> {
+crates/atuin-client/src/settings.rs:1207:    pub async fn last_sync() -> Result<OffsetDateTime> {
+crates/atuin-client/src/settings.rs:1211:    pub async fn save_sync_time() -> Result<()> {
+crates/atuin-client/src/settings.rs:1215:    pub async fn last_version_check() -> Result<OffsetDateTime> {
+crates/atuin-client/src/settings.rs:1219:    pub async fn save_version_check_time() -> Result<()> {
+crates/atuin-client/src/settings.rs:1223:    pub async fn should_sync(&self) -> Result<bool> {
+crates/atuin-client/src/settings.rs:1241:    pub async fn logged_in(&self) -> Result<bool> {
+crates/atuin-client/src/api_client.rs:124:pub async fn register(
+crates/atuin-client/src/api_client.rs:162:pub async fn login(
+crates/atuin-client/src/api_client.rs:186:pub async fn latest_version() -> Result<Version> {
+crates/atuin-client/src/api_client.rs:231:async fn handle_resp_error(resp: Response) -> Result<Response> {
+crates/atuin-client/src/api_client.rs:317:    pub async fn one(self) -> Result<Option<Record<EncryptedData>>> {
+crates/atuin-client/src/api_client.rs:401:    async fn page(&self, page: Range<RecordIdx>) -> Result<Vec<Record<EncryptedData>>> {
+crates/atuin-client/src/api_client.rs:468:    pub async fn me(&self) -> Result<MeResponse> {
+crates/atuin-client/src/api_client.rs:480:    pub async fn delete_store(&self) -> Result<()> {
+crates/atuin-client/src/auth.rs:50:    async fn login(
+crates/atuin-client/src/auth.rs:58:    async fn register(&self, username: &str, email: &str, password: &str) -> Result<AuthResponse>;
+crates/atuin-client/src/auth.rs:61:    async fn change_password(
+crates/atuin-client/src/auth.rs:69:    async fn delete_account(
+crates/atuin-client/src/auth.rs:84:pub async fn auth_client(settings: &Settings) -> AnyAuthClient {
+crates/atuin-client/src/auth.rs:146:    async fn login(
+crates/atuin-client/src/auth.rs:169:    async fn register(&self, username: &str, email: &str, password: &str) -> Result<AuthResponse> {
+crates/atuin-client/src/auth.rs:184:    async fn change_password(
+crates/atuin-client/src/register.rs:7:pub async fn register_classic(
+crates/atuin-client/src/meta.rs:35:    pub async fn new(path: impl AsRef<OsStr>, timeout: Duration) -> Result<Self> {
+crates/atuin-client/src/meta.rs:51:    pub async fn in_memory(timeout: Duration) -> Result<Self> {
+crates/atuin-client/src/meta.rs:55:    async fn from_builder(builder: SqliteBuilder<'_>, timeout: Duration) -> Result<Self> {
+crates/atuin-client/src/meta.rs:74:    pub async fn get(&self, key: &str) -> Result<Option<String>> {
+crates/atuin-client/src/meta.rs:83:    pub async fn set(&self, key: &str, value: &str) -> Result<()> {
+crates/atuin-client/src/meta.rs:96:    pub async fn delete(&self, key: &str) -> Result<()> {
+crates/atuin-client/src/meta.rs:104:    pub async fn host_id(&self) -> Result<HostId> {
+crates/atuin-client/src/meta.rs:122:    pub async fn last_sync(&self) -> Result<OffsetDateTime> {
+crates/atuin-client/src/login.rs:9:pub async fn login(
+crates/atuin-client/src/packfile/record.rs:289:    pub async fn load_encrypted_packed_records(
+crates/atuin-client/src/packfile/record.rs:310:    pub async fn pack_records(
+crates/atuin-client/src/packfile/record.rs:359:    pub async fn unpack_records(
+crates/atuin-client/src/hub.rs:96:    pub async fn start(hub_address: &Url) -> Result<Self> {
+crates/atuin-client/src/hub.rs:117:    pub async fn poll(&self) -> Result<HubAuthStatus> {
+crates/atuin-client/src/hub.rs:148:    pub async fn wait_for_completion(
+crates/atuin-client/src/hub.rs:181:pub async fn save_session(token: &str) -> Result<()> {
+crates/atuin-client/src/hub.rs:190:pub async fn delete_session() -> Result<()> {
+crates/atuin-client/src/hub.rs:198:pub async fn is_logged_in() -> Result<bool> {
+crates/atuin-client/src/hub.rs:206:pub async fn get_session_token() -> Result<Option<String>> {
+crates/atuin-client/src/hub.rs:225:pub async fn link_account(hub_address: &Url, cli_token: &str) -> Result<()> {
+crates/atuin-client/src/packfile/packer.rs:25:pub async fn try_pack(
+crates/atuin-client/src/packfile/packer.rs:107:    async fn store() -> SqliteStore {
+crates/atuin-client/src/packfile/packer.rs:117:    async fn push_history(store: &SqliteStore, host: HostId, idx: u64) {
+crates/atuin-client/src/packfile/packer.rs:132:    async fn seed_history(store: &SqliteStore, host: HostId, count: u64) {
+crates/atuin-client/src/packfile/packer.rs:139:    async fn manifest_ranges(store: &SqliteStore, host: HostId) -> Vec<(u64, u64)> {
+crates/atuin-client/src/packfile/packer.rs:151:    async fn pack(store: &SqliteStore, host: HostId, count: u64) {
+crates/atuin-client/src/packfile/packer.rs:167:    async fn packs_multiple_and_leaves_remainder(#[future(awt)] store: SqliteStore, host: HostId) {
+crates/atuin-client/src/logout.rs:5:pub async fn logout() -> Result<()> {
+crates/atuin-client/src/record/sqlite_store.rs:68:    pub async fn new(path: impl AsRef<OsStr>, timeout: Duration) -> Result<Self> {
+crates/atuin-client/src/record/sqlite_store.rs:76:    pub async fn in_memory(timeout: Duration) -> Result<Self> {
+crates/atuin-client/src/record/sqlite_store.rs:80:    async fn from_builder(builder: SqliteBuilder<'_>, timeout: Duration) -> Result<Self> {
+crates/atuin-client/src/record/sqlite_store.rs:89:    async fn setup_db(pool: &SqlitePool) -> Result<()> {
+crates/atuin-client/src/record/sqlite_store.rs:97:    async fn save_raw(
+crates/atuin-client/src/record/sqlite_store.rs:121:    async fn load_all(&self) -> Result<Vec<Record<paseto_v4::EncryptedData>>> {
+crates/atuin-client/src/record/sqlite_store.rs:132:    pub async fn push(&self, record: &Record<paseto_v4::EncryptedData>) -> Result<()> {
+crates/atuin-client/src/record/sqlite_store.rs:137:    pub async fn push_batch(
+crates/atuin-client/src/import/xonsh_sqlite.rs:99:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/xonsh_sqlite.rs:112:    async fn entries(&mut self) -> Result<usize> {
+crates/atuin-client/src/import/xonsh_sqlite.rs:119:    async fn load(self, loader: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/import/xonsh_sqlite.rs:172:    async fn test_import() {
+crates/atuin-client/src/record/sync/mod.rs:157:    async fn get_page_size(&self) -> NonZeroU64 {
+crates/atuin-client/src/record/sync/mod.rs:190:    async fn check_encryption_key(&self, key: &paseto_v4::Key) -> Option<SyncError> {
+crates/atuin-client/src/record/sync/mod.rs:200:    async fn check_key_against_index(
+crates/atuin-client/src/record/sync/mod.rs:228:    pub async fn record_status(&self) -> Result<RecordStatus, SyncError> {
+crates/atuin-client/src/record/sync/mod.rs:236:    pub async fn diff(&self) -> Result<(Vec<Diff>, RecordStatus), SyncError> {
+crates/atuin-client/src/record/sync/mod.rs:331:    async fn sync_upload(
+crates/atuin-client/src/record/sync/mod.rs:433:    async fn sync_download(
+crates/atuin-client/src/record/sync/mod.rs:505:    async fn download_packed(
+crates/atuin-client/src/import/xonsh.rs:112:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/xonsh.rs:124:    async fn entries(&mut self) -> Result<usize> {
+crates/atuin-client/src/import/xonsh.rs:129:    async fn load(self, loader: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/import/xonsh.rs:174:    async fn out_of_range_timestamp_falls_back_to_epoch() {
+crates/atuin-client/src/import/xonsh.rs:197:    async fn test_import() {
+crates/atuin-client/src/record/sync/builder.rs:35:    pub async fn connect(self) -> Result<SyncEngine, SyncError> {
+crates/atuin-client/src/import/resh.rs:90:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/resh.rs:95:    async fn entries(&mut self) -> Result<usize> {
+crates/atuin-client/src/import/resh.rs:99:    async fn load(self, h: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/import/resh.rs:227:    async fn out_of_range_timestamp_falls_back_to_epoch() {
+crates/atuin-client/src/import/resh.rs:279:    async fn single_entry_timestamp_and_duration(
+crates/atuin-client/src/import/fish.rs:49:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/fish.rs:54:    async fn entries(&mut self) -> Result<usize> {
+crates/atuin-client/src/import/fish.rs:58:    async fn load(self, loader: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/import/fish.rs:120:    async fn parse_out_of_range_timestamp() {
+crates/atuin-client/src/import/fish.rs:147:    async fn parse_complex() {
+crates/atuin-client/src/import/powershell.rs:57:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/powershell.rs:65:    async fn entries(&mut self) -> Result<usize> {
+crates/atuin-client/src/import/powershell.rs:75:    async fn load(mut self, h: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/import/powershell.rs:162:    async fn imports_commands(#[case] input: String) {
+crates/atuin-client/src/import/powershell.rs:173:    async fn test_timestamps() {
+crates/atuin-client/src/import/powershell.rs:183:    async fn import(input: &str) -> TestLoader {
+crates/atuin-client/src/import/bash.rs:30:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/bash.rs:35:    async fn entries(&mut self) -> Result<usize> {
+crates/atuin-client/src/import/bash.rs:43:    async fn load(self, h: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/import/bash.rs:163:    async fn parse_strictly_sorted(
+crates/atuin-client/src/import/bash.rs:180:    async fn parse_with_timestamps() {
+crates/atuin-client/src/import/bash.rs:219:    async fn timestamp_near_range_start_does_not_panic_on_backfill() {
+crates/atuin-client/src/import/bash.rs:242:    async fn timestamp_near_range_end_does_not_panic_on_increment() {
+crates/atuin-client/src/import/zsh_histdb.rs:76:async fn hist_from_db(dbpath: PathBuf) -> Result<Vec<HistDbEntry>> {
+crates/atuin-client/src/import/zsh_histdb.rs:84:async fn hist_from_db_conn(pool: Pool<sqlx::Sqlite>) -> Result<Vec<HistDbEntry>> {
+crates/atuin-client/src/import/zsh_histdb.rs:131:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/zsh_histdb.rs:140:    async fn entries(&mut self) -> Result<usize> {
+crates/atuin-client/src/import/zsh_histdb.rs:144:    async fn load(self, h: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/import/zsh_histdb.rs:187:    async fn test_env_vars() {
+crates/atuin-client/src/import/zsh_histdb.rs:202:    async fn duration_saturates_instead_of_overflowing() {
+crates/atuin-client/src/import/zsh_histdb.rs:231:    async fn test_import() {
+crates/atuin-client/src/import/nu.rs:42:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/nu.rs:47:    async fn entries(&mut self) -> Result<usize> {
+crates/atuin-client/src/import/nu.rs:51:    async fn load(self, h: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/import/zsh.rs:98:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/zsh.rs:103:    async fn entries(&mut self) -> Result<usize> {
+crates/atuin-client/src/import/zsh.rs:107:    async fn load(self, h: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/import/zsh.rs:253:    async fn test_parse_file() {
+crates/atuin-client/src/import/zsh.rs:276:    async fn timestamp_near_range_start_does_not_panic_on_backfill() {
+crates/atuin-client/src/import/zsh.rs:294:    async fn timestamp_near_range_end_does_not_panic_on_increment() {
+crates/atuin-client/src/import/zsh.rs:325:    async fn test_parse_metafied() {
+crates/atuin-client/src/import/mod.rs:26:    async fn new() -> Result<Self>;
+crates/atuin-client/src/import/mod.rs:27:    async fn entries(&mut self) -> Result<usize>;
+crates/atuin-client/src/import/mod.rs:28:    async fn load(self, loader: &mut impl Loader) -> Result<()>;
+crates/atuin-client/src/import/mod.rs:33:    async fn push(&mut self, hist: History) -> Result<()>;
+crates/atuin-client/src/import/mod.rs:129:        async fn push(&mut self, hist: History) -> Result<()> {
+crates/atuin-client/src/import/replxx.rs:47:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/replxx.rs:52:    async fn entries(&mut self) -> Result<usize> {
+crates/atuin-client/src/import/replxx.rs:56:    async fn load(self, h: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/import/replxx.rs:100:    async fn parse_complex() {
+crates/atuin-client/src/import/replxx.rs:143:    async fn skips_invalid_utf8_line() {
+crates/atuin-client/src/import/nu_histdb.rs:66:async fn hist_from_db(dbpath: PathBuf) -> Result<Vec<HistDbEntry>> {
+crates/atuin-client/src/import/nu_histdb.rs:74:async fn hist_from_db_conn(pool: Pool<sqlx::Sqlite>) -> Result<Vec<HistDbEntry>> {
+crates/atuin-client/src/import/nu_histdb.rs:108:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/nu_histdb.rs:116:    async fn entries(&mut self) -> Result<usize> {
+crates/atuin-client/src/import/nu_histdb.rs:120:    async fn load(self, h: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/history/store.rs:146:    async fn push_record(&self, record: HistoryRecord) -> Result<(RecordId, RecordIdx)> {
+crates/atuin-client/src/history/store.rs:173:    async fn push_batch(&self, records: impl Iterator<Item = HistoryRecord>) -> Result<()> {
+crates/atuin-client/src/history/store.rs:206:    pub async fn delete(&self, id: HistoryId) -> Result<(RecordId, RecordIdx)> {
+crates/atuin-client/src/history/store.rs:215:    pub async fn delete_entries(
+crates/atuin-client/src/history/store.rs:228:    pub async fn push(&self, history: History) -> Result<(RecordId, RecordIdx)> {
+crates/atuin-client/src/history/store.rs:237:    pub async fn history(&self) -> Result<Vec<HistoryRecord>> {
+crates/atuin-client/src/history/store.rs:285:    pub async fn build(&self, database: &Sqlite) -> Result<()> {
+crates/atuin-client/src/history/store.rs:375:    async fn decode(&self, id: RecordId) -> Option<HistoryRecord> {

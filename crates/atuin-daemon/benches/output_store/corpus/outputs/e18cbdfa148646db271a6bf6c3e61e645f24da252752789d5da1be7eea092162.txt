@@ -1,0 +1,5 @@
+11:fn default() -> Result<()> {
+17:        .assert();
+21:fn run_test(re: &Regex, test: &RegexTest) -> TestResult {
+54:fn compiler(
+105:fn testify_captures(caps: &regex::Captures<'_>) -> regex_test::Captures {

@@ -1,0 +1,20 @@
+7:use crate::{CacheStats, Result, StorageError};
+20:fn zero_filled_arc(len: usize) -> Arc<[u8]> {
+25:pub(super) struct WritablePage {
+31:impl WritablePage {
+32:    pub(super) fn mem(&self) -> &[u8] {
+36:    pub(super) fn mem_mut(&mut self) -> &mut [u8] {
+41:impl Drop for WritablePage {
+42:    fn drop(&mut self) {
+53:    fn index(&self, index: I) -> &Self::Output {
+59:    fn index_mut(&mut self, index: I) -> &mut Self::Output {
+65:struct LRUWriteCache {
+69:impl LRUWriteCache {
+70:    fn new() -> Self {
+76:    fn insert(&mut self, key: u64, value: Arc<[u8]>) {
+77:        assert!(self.cache.insert(key, Some(value)).is_none());
+80:    fn get(&self, key: u64) -> Option<&Arc<[u8]>> {
+84:    fn remove(&mut self, key: u64) -> Option<Arc<[u8]>> {
+86:            assert!(value.is_some());
+92:    fn return_value(&mut self, key: u64, value: Arc<[u8]>) {
+93:        assert!(self.cache.get_mut(key).unwrap().replace(value).is_none());

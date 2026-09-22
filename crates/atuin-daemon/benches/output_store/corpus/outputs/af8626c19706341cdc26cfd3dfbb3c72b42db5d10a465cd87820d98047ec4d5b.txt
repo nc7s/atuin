@@ -1,0 +1,8 @@
+3:impl Uuid {
+25:    /// assert_eq!(Some(Version::Md5), uuid.get_version());
+37:    pub fn new_v3(namespace: &Uuid, name: &[u8]) -> Uuid {
+139:    fn test_new() {
+142:            assert_eq!(uuid.get_version(), Some(Version::Md5));
+143:            assert_eq!(uuid.get_variant(), Variant::RFC4122);
+152:    fn test_hyphenated_string() {
+155:            assert_eq!(uuid.hyphenated().to_string(), expected);

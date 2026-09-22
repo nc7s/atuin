@@ -1,0 +1,17 @@
+13:pub(crate) struct RegionTracker {
+17:impl RegionTracker {
+18:    pub(crate) fn new(regions: u32, orders: u8) -> Self {
+32:    pub(super) fn to_vec(&self) -> Vec<u8> {
+50:    pub(super) fn from_bytes(page: &[u8]) -> Self {
+74:    pub(crate) fn find_free(&self, order: u8) -> Option<u32> {
+78:    pub(crate) fn mark_free(&mut self, order: u8, region: u32) {
+85:    pub(crate) fn mark_full(&mut self, order: u8, region: u32) {
+87:        assert!(order < self.order_trackers.len());
+93:    fn resize(&mut self, new_capacity: u32) {
+99:    fn len(&self) -> u32 {
+104:pub(super) struct Allocators {
+109:impl Allocators {
+110:    pub(super) fn new(layout: DatabaseLayout) -> Self {
+131:    pub(crate) fn xxh3_hash(&self) -> u128 {
+141:    pub(super) fn resize_to(&mut self, new_layout: DatabaseLayout) {
+183:                    assert!(new_region.num_pages() >= allocator.len());

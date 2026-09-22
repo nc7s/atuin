@@ -1,0 +1,12 @@
+src/regexset/string.rs:154:    pub fn new<I, S>(exprs: I) -> Result<RegexSet, Error>
+src/regexset/bytes.rs:158:    pub fn new<I, S>(exprs: I) -> Result<RegexSet, Error>
+src/regex/string.rs:229:    pub fn new(re: &str) -> Result<Regex, Error> {
+src/regex/string.rs:1613:    fn new(haystack: &'h str, start: usize, end: usize) -> Match<'h> {
+src/builders.rs:12:// would have been nicer to to use one builder with `fn new()`, and then add
+src/builders.rs:60:    fn new<I, S>(patterns: I) -> Builder
+src/builders.rs:223:        pub fn new(pattern: &str) -> RegexBuilder {
+src/builders.rs:798:        pub fn new<I, S>(patterns: I) -> RegexSetBuilder
+src/builders.rs:1383:        pub fn new(pattern: &str) -> RegexBuilder {
+src/builders.rs:1977:        pub fn new<I, S>(patterns: I) -> RegexSetBuilder
+src/regex/bytes.rs:231:    pub fn new(re: &str) -> Result<Regex, Error> {
+src/regex/bytes.rs:1604:    fn new(haystack: &'h [u8], start: usize, end: usize) -> Match<'h> {

@@ -1,0 +1,117 @@
+   Compiling atuin-common v18.22.0 (/workspace/atuin/crates/atuin-common)
+   Compiling rusty-fork v0.3.1
+   Compiling atuin-daemon v18.22.0 (/workspace/atuin/crates/atuin-daemon)
+   Compiling rstest v0.26.1
+   Compiling proptest v1.11.0
+   Compiling atuin-domain v18.22.0 (/workspace/atuin/crates/atuin-domain)
+   Compiling atuin-client v18.22.0 (/workspace/atuin/crates/atuin-client)
+   Compiling atuin-dotfiles v18.22.0 (/workspace/atuin/crates/atuin-dotfiles)
+   Compiling atuin-history v18.22.0 (/workspace/atuin/crates/atuin-history)
+    Finished `test` profile [unoptimized] target(s) in 23.37s
+     Running unittests src/lib.rs (/workspace/target/debug/deps/atuin_daemon-ca7b4007c872f927)
+
+running 101 tests
+test grpc::history::pb::tests::cancel_request_good_id_ok ... ok
+test grpc::history::pb::tests::cancel_request_rejects_bad_id::case_1_missing ... ok
+test grpc::common::tests::propagates_a_stream_error_verbatim ... ok
+test grpc::common::tests::propagates_an_item_error ... ok
+test grpc::history::pb::tests::an_empty_tail_still_marks_the_capture_as_split ... ok
+test grpc::common::tests::rejects_more_than_max ... ok
+test grpc::common::tests::collects_every_chunk_in_stream_order ... ok
+test grpc::history::pb::tests::cancel_request_rejects_bad_id::case_2_bad_len ... ok
+test grpc::history::pb::tests::a_whole_capture_never_reports_truncation ... ok
+test grpc::history::pb::tests::command_output_counts_lines_without_a_trailing_newline_sentinel::case_1_no_trailing_newline ... ok
+test grpc::history::pb::tests::command_output_counts_lines_without_a_trailing_newline_sentinel::case_2_one_trailing_newline ... ok
+test grpc::history::pb::tests::command_output_counts_lines_without_a_trailing_newline_sentinel::case_3_two_trailing_newlines ... ok
+test grpc::history::pb::tests::command_output_counts_lines_without_a_trailing_newline_sentinel::case_5_single_line_no_newline ... ok
+test grpc::history::pb::tests::command_output_counts_lines_without_a_trailing_newline_sentinel::case_4_blank_line_at_the_end ... ok
+test grpc::history::pb::tests::command_output_drops_ranges_that_select_nothing ... ok
+test grpc::history::pb::tests::command_output_counts_lines_without_a_trailing_newline_sentinel::case_6_just_a_newline ... ok
+test grpc::history::pb::tests::command_output_counts_lines_without_a_trailing_newline_sentinel::case_7_empty ... ok
+test grpc::history::pb::tests::command_output_lines_survive_the_chunk_round_trip::case_1_blank_line_ends_a_chunk ... ok
+test grpc::history::pb::tests::command_output_lines_survive_the_chunk_round_trip::case_2_chunk_is_only_a_blank_line ... ok
+test grpc::history::pb::tests::command_output_lines_survive_the_chunk_round_trip::case_3_interior_blank_lines_survive ... ok
+test grpc::history::pb::tests::command_output_lines_survive_the_chunk_round_trip::case_5_empty_ranges_contribute_nothing ... ok
+test grpc::history::pb::tests::command_output_ranges_are_inclusive_with_negative_offsets ... ok
+test grpc::history::pb::tests::command_output_whole_output_via_full_range ... ok
+test grpc::history::pb::tests::command_output_lines_survive_the_chunk_round_trip::case_4_gap_is_not_widened_by_a_blank_line ... ok
+test grpc::history::pb::tests::end_request_missing_id_errs ... ok
+test grpc::history::pb::tests::end_request_negative_duration_errs_without_panic ... ok
+test grpc::history::pb::tests::end_request_none_duration_is_preserved ... ok
+test grpc::history::pb::tests::end_request_some_duration_is_parsed ... ok
+test grpc::history::pb::tests::delete_stream_maps_over_cap_to_invalid_argument ... ok
+test grpc::history::pb::tests::delete_stream_collects_ids_across_chunks_in_order ... ok
+test grpc::history::pb::tests::delete_stream_maps_a_malformed_id_to_invalid_argument ... ok
+test grpc::history::pb::tests::finish_error_status_codes::case_1 ... ok
+test grpc::history::pb::tests::finish_error_status_codes::case_2 ... ok
+test grpc::history::pb::tests::finish_error_status_codes::case_3 ... ok
+test grpc::history::pb::tests::history_id_parse_errors::case_1_missing ... ok
+test grpc::history::pb::tests::history_entry_field_routing ... ok
+test grpc::history::pb::tests::history_id_parse_errors::case_2_short ... ok
+test grpc::history::pb::tests::history_id_parse_errors::case_3_long ... ok
+test grpc::history::pb::tests::id_parse_error_maps_to_invalid_argument ... ok
+test grpc::history::pb::tests::journal_not_found_maps_to_not_found::case_1_cancel ... ok
+test grpc::history::pb::tests::journal_not_found_maps_to_not_found::case_2_get ... ok
+test grpc::history::pb::tests::register_command_output_accepts_a_capture_carrying_its_meta ... ok
+test grpc::history::pb::tests::register_command_output_rejects_an_incomplete_capture::case_1_no_meta ... ok
+test grpc::history::pb::tests::register_command_output_rejects_an_incomplete_capture::case_2_no_capture ... ok
+test grpc::history::pb::tests::register_output_error_status_codes::case_1 ... ok
+test grpc::history::pb::tests::register_output_error_status_codes::case_2 ... ok
+test grpc::history::pb::tests::register_output_error_status_codes::case_3 ... ok
+test grpc::history::pb::tests::split_capture_answers_a_range_from_the_half_that_holds_it::case_1_within_the_start ... ok
+test grpc::history::pb::tests::split_capture_answers_a_range_from_the_half_that_holds_it::case_2_exactly_the_start ... ok
+test grpc::history::pb::tests::split_capture_answers_a_range_from_the_half_that_holds_it::case_3_within_the_tail ... ok
+test grpc::history::pb::tests::split_capture_answers_a_range_from_the_half_that_holds_it::case_4_exactly_the_tail ... ok
+test grpc::history::pb::tests::split_capture_answers_a_range_from_the_half_that_holds_it::case_5_past_the_start ... ok
+test grpc::history::pb::tests::split_capture_answers_a_range_from_the_half_that_holds_it::case_6_past_the_tail ... ok
+test grpc::history::pb::tests::split_capture_answers_a_range_from_the_half_that_holds_it::case_7_inside_the_gap_from_the_front ... ok
+test grpc::history::pb::tests::split_capture_answers_a_range_from_the_half_that_holds_it::case_8_inside_the_gap_from_the_back ... ok
+test grpc::history::pb::tests::split_capture_answers_a_range_from_the_half_that_holds_it::case_9_spanning ... ok
+test grpc::history::pb::tests::split_capture_reports_both_halves_for_a_full_range ... ok
+test grpc::history::pb::tests::split_capture_totals_count_only_what_was_kept ... ok
+test grpc::history::pb::tests::split_capture_truncation_is_sticky_across_ranges ... ok
+test grpc::history::pb::tests::start_request_rejects_colonless_hostname ... ok
+test grpc::history::pb::tests::start_request_defaults_exit_and_duration_to_unmeasured ... ok
+test grpc::history::pb::tests::history_id_rejects_wrong_length ... ok
+test grpc::history::pb::tests::history_id_round_trips_and_wire_bytes ... ok
+test grpc::history::pb::tests::chunk_line_views_match_the_declared_ranges ... ok
+test output_capture::backend::fjall::tests::missing_id_returns_none ... ok
+test output_capture::backend::fjall::tests::remove_of_absent_ids_is_ok ... ok
+test output_capture::backend::fjall::tests::reclaim_zero_bytes_evicts_nothing ... ok
+test output_capture::tests::nop_constructor_discards_everything ... ok
+test output_capture::tests::open_falls_back_to_nop_when_fjall_cannot_open ... ok
+test output_capture::backend::fjall::tests::remove_after_removal_is_idempotent ... ok
+test output_capture::backend::fjall::tests::an_empty_tail_is_not_the_same_as_no_tail ... ok
+test output_capture::backend::fjall::tests::round_trips_a_capture_that_lost_its_middle ... ok
+test output_capture::backend::fjall::tests::concurrent_writers_store_exactly_one ... ok
+test output_capture::backend::fjall::tests::reclaim_evicts_oldest_until_budget_met ... ok
+test output_capture::tests::remove_on_the_nop_backend_is_ok ... ok
+test search::index::tests::command_data_add_invocation ... ok
+test search::index::tests::command_data_filters ... ok
+test output_capture::backend::fjall::tests::remove_removes_stored_output ... ok
+test search::index::tests::frecency_data_compute ... ok
+test search::index::tests::frecency_data_compute_with_multipliers ... ok
+test output_capture::backend::fjall::tests::remove_only_removes_requested_ids ... ok
+test search::index::tests::diacritics_normalized_for_matching ... ok
+test search::index::tests::search_index_add_and_search ... ok
+test output_capture::backend::fjall::tests::removed_id_can_be_captured_again ... ok
+test search::index::tests::search_with_shell_filter::case_1_all ... ok
+test search::index::tests::search_with_shell_filter::case_2_bash ... ok
+test search::index::tests::equal_matches_order_by_frecency ... ok
+test search::index::tests::search_with_shell_filter::case_3_bash_unknown ... ok
+test search::index::tests::search_with_shell_filter::case_4_bash_zsh ... ok
+test search::index::tests::search_with_shell_filter::case_5_unknown ... ok
+test search::index::tests::search_with_shell_filter::case_6_fish ... ok
+test search::index::tests::search_with_shell_filter::case_7_fish_unknown ... ok
+test output_capture::backend::fjall::tests::round_trips_output_by_history_id ... ok
+test search::index::tests::long_query_truncated_not_panicking ... ok
+test output_capture::backend::fjall::tests::second_capture_for_same_id_is_rejected ... ok
+test output_capture::tests::open_uses_the_fjall_backend_when_the_path_is_usable ... ok
+test output_capture::tests::remove_forgets_captured_output ... ok
+test search::index::tests::contiguous_match_beats_frequent_scattered_match ... ok
+test history_journal::tests::delete_survives_a_broken_output_store ... ok
+test search::index::tests::parallel_matching_equals_serial ... ok
+test search::index::tests::search_results_stable_above_parallel_threshold ... ok
+
+test result: ok. 101 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.54s
+

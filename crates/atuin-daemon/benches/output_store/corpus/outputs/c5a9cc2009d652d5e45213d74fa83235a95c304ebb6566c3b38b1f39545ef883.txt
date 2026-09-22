@@ -1,0 +1,80 @@
+25:impl str::FromStr for Uuid {
+26:    type Err = Error;
+28:    fn from_str(uuid_str: &str) -> Result<Self, Self::Err> {
+33:impl TryFrom<&'_ str> for Uuid {
+34:    type Error = Error;
+36:    fn try_from(uuid_str: &'_ str) -> Result<Self, Self::Error> {
+42:impl TryFrom<String> for Uuid {
+43:    type Error = Error;
+45:    fn try_from(uuid_str: String) -> Result<Self, Self::Error> {
+50:impl Uuid {
+66:    /// # fn main() -> Result<(), uuid::Error> {
+69:    /// assert_eq!(Some(Version::Random), uuid.get_version());
+70:    /// assert_eq!(Variant::RFC4122, uuid.get_variant());
+76:    pub fn parse_str(input: &str) -> Result<Uuid, Error> {
+99:    /// # fn main() -> Result<(), uuid::Error> {
+102:    /// assert_eq!(Some(Version::Random), uuid.get_version());
+103:    /// assert_eq!(Variant::RFC4122, uuid.get_variant());
+110:    pub const fn try_parse(input: &str) -> Result<Uuid, Error> {
+127:    /// # fn main() -> Result<(), uuid::Error> {
+130:    /// assert_eq!(Some(Version::Random), uuid.get_version());
+131:    /// assert_eq!(Variant::RFC4122, uuid.get_variant());
+137:    pub const fn try_parse_ascii(input: &[u8]) -> Result<Uuid, Error> {
+142:            Err(_) => Err(Error(ErrorKind::ParseOther)),
+147:const fn try_parse(input: &'_ [u8]) -> Result<[u8; 16], InvalidUuid<'_>> {
+167:pub(crate) const fn parse_braced(input: &'_ [u8]) -> Result<[u8; 16], InvalidUuid<'_>> {
+177:pub(crate) const fn parse_urn(input: &'_ [u8]) -> Result<[u8; 16], InvalidUuid<'_>> {
+188:pub(crate) const fn parse_simple(
+228:pub(crate) const fn parse_hyphenated(s: &'_ [u8]) -> Result<[u8; 16], InvalidUuid<'_>> {
+283:const fn decode_hex32(hex: &[u8; 32]) -> Option<[u8; 16]> {
+334:    fn test_parse_valid() {
+340:        assert_eq!(from_hyphenated, from_simple);
+341:        assert_eq!(from_hyphenated, from_urn);
+342:        assert_eq!(from_hyphenated, from_guid);
+344:        assert!(Uuid::parse_str("00000000000000000000000000000000").is_ok());
+345:        assert!(Uuid::parse_str("67e55044-10b1-426f-9247-bb680e5fe0c8").is_ok());
+346:        assert!(Uuid::parse_str("F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4").is_ok());
+347:        assert!(Uuid::parse_str("67e5504410b1426f9247bb680e5fe0c8").is_ok());
+348:        assert!(Uuid::parse_str("01020304-1112-2122-3132-414243444546").is_ok());
+349:        assert!(Uuid::parse_str("urn:uuid:67e55044-10b1-426f-9247-bb680e5fe0c8").is_ok());
+350:        assert!(Uuid::parse_str("{6d93bade-bd9f-4e13-8914-9474e1e3567b}").is_ok());
+354:        assert_eq!(
+358:        assert_eq!(
+365:    fn test_parse_invalid() {
+367:        assert_eq!(
+369:            Err(Error(ErrorKind::ParseLength { len: 0 }))
+372:        assert_eq!(
+374:            Err(Error(ErrorKind::ParseGroupCount { count: 1 }))
+377:        assert_eq!(
+379:            Err(Error(ErrorKind::ParseChar {
+385:        assert_eq!(
+387:            Err(Error(ErrorKind::ParseGroupLength {
+394:        assert_eq!(
+396:            Err(Error(ErrorKind::ParseGroupLength {
+403:        assert_eq!(
+405:            Err(Error(ErrorKind::ParseChar {
+411:        assert_eq!(
+413:            Err(Error(ErrorKind::ParseGroupCount { count: 2 }))
+416:        assert_eq!(
+418:            Err(Error(ErrorKind::ParseGroupCount { count: 3 }))
+421:        assert_eq!(
+423:            Err(Error(ErrorKind::ParseGroupCount { count: 4 }))
+426:        assert_eq!(
+428:            Err(Error(ErrorKind::ParseGroupCount { count: 3 }))
+431:        assert_eq!(
+433:            Err(Error(ErrorKind::ParseChar {
+439:        assert_eq!(
+441:            Err(Error(ErrorKind::ParseChar {
+447:        assert_eq!(
+449:            Err(Error(ErrorKind::ParseGroupCount { count: 3 }))
+452:        assert_eq!(
+454:            Err(Error(ErrorKind::ParseGroupLength {
+462:        assert_eq!(
+464:            Err(Error(ErrorKind::ParseGroupLength {
+471:        assert_eq!(
+473:            Err(Error(ErrorKind::ParseLength { len: 31 }))
+476:        assert_eq!(
+478:            Err(Error(ErrorKind::ParseLength { len: 33 }))
+481:        assert_eq!(
+483:            Err(Error(ErrorKind::ParseChar {
+489:        assert_eq!(

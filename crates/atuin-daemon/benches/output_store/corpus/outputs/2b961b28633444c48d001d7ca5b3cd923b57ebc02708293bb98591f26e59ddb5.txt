@@ -1,0 +1,5 @@
+13:pub fn vec_sink_for_compression(
+32:pub fn vec_sink_for_decompression(
+44:pub trait Sink {
+47:    unsafe fn pos_mut_ptr(&mut self) -> *mut u8;
+51:    fn byte_at(&mut self, pos: usize) -> u8;

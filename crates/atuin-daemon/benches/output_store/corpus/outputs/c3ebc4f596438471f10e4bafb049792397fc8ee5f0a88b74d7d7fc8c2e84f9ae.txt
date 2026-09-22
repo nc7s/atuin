@@ -1,0 +1,1 @@
+e78aca51 d/patches: rm use-pregenerated-protobuf, now provided; d/include: rm; d/control: update B-Ds

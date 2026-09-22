@@ -1,0 +1,7 @@
+14:impl slog::Value for Uuid {
+15:    fn serialize(
+20:    ) -> Result<(), slog::Error> {
+25:impl slog::Value for NonNilUuid {
+26:    fn serialize(
+31:    ) -> Result<(), slog::Error> {
+43:    fn test_slog_kv() {

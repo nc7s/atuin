@@ -1,0 +1,43 @@
+2:use crate::BackendError;
+6:use crate::io::Error;
+17:pub(crate) struct ReadOnlyBackend {
+22:impl ReadOnlyBackend {
+23:    pub fn new(inner: Box<dyn StorageBackend>) -> Self {
+29:impl StorageBackend for ReadOnlyBackend {
+30:    fn try_lock_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<bool, BackendError> {
+34:    fn try_lock_shared_range(
+38:    ) -> Result<bool, BackendError> {
+42:    fn lock_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<(), BackendError> {
+46:    fn lock_shared_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<(), BackendError> {
+50:    fn unlock_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<(), BackendError> {
+54:    fn query_lock_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<bool, BackendError> {
+58:    fn len(&self) -> Result<u64, Error> {
+62:    fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), Error> {
+66:    fn set_len(&self, _len: u64) -> Result<(), Error> {
+70:    fn sync_data(&self) -> Result<(), Error> {
+74:    fn write(&self, _offset: u64, _data: &[u8]) -> Result<(), Error> {
+78:    fn close(&self) -> Result<(), Error> {
+85:pub struct InMemoryBackend(RwLock<Vec<u8>>);
+87:// Hand-written: the derived impl would print every byte of the database, and opening a database
+90:impl Debug for InMemoryBackend {
+91:    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+99:impl InMemoryBackend {
+100:    fn out_of_range() -> io::Error {
+105:impl InMemoryBackend {
+107:    pub fn new() -> Self {
+112:    fn read(&self) -> RwLockReadGuard<'_, Vec<u8>> {
+117:    fn write(&self) -> RwLockWriteGuard<'_, Vec<u8>> {
+122:impl StorageBackend for InMemoryBackend {
+123:    fn len(&self) -> Result<u64, io::Error> {
+127:    fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), io::Error> {
+138:    fn set_len(&self, len: u64) -> Result<(), io::Error> {
+145:    fn sync_data(&self) -> Result<(), io::Error> {
+149:    fn write(&self, offset: u64, data: &[u8]) -> Result<(), io::Error> {
+169:    fn default_locks_are_unsupported() {
+182:            assert!(matches!(err, crate::BackendError::Unsupported));
+187:        assert_eq!(backend.len().unwrap(), 1024);
+191:    fn debug_reports_length_not_contents() {
+194:        assert_eq!(format!("{backend:?}"), "InMemoryBackend { len: 1024 }");
+201:    fn debug_reads_through_a_poisoned_lock() {
+210:        assert!(result.is_err());
+211:        assert_eq!(format!("{backend:?}"), "InMemoryBackend { len: 512 }");

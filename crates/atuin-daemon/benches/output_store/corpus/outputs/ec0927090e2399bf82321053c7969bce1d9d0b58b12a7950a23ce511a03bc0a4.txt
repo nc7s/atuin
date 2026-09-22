@@ -1,0 +1,72 @@
+crates/atuin-common/src/shell.rs:82:    pub fn default_shell() -> Result<Self, ShellError> {
+crates/atuin-common/src/shell.rs:131:    pub fn run_interactive<I, S>(&self, args: I) -> Result<String, ShellError>
+crates/atuin-common/src/url.rs:41:    fn append<I, S>(&self, segments: I) -> Result<Url, UrlAppendError>
+crates/atuin-common/src/url.rs:65:    fn append_path(&self, path: &'static str) -> Result<Url, UrlAppendError> {
+crates/atuin-common/src/url.rs:71:    fn append<I, S>(&self, segments: I) -> Result<Url, UrlAppendError>
+crates/atuin-common/src/units/percent.rs:150:    fn from_str(s: &str) -> Result<Self, Self::Err> {
+crates/atuin-common/src/utils.rs:170:pub fn unquote(s: &str) -> Result<String> {
+crates/atuin-common/src/time/offset_date_time.rs:35:    fn from_unix_nanos(nanos: i128) -> Result<OffsetDateTime, TimestampOutOfRange>;
+crates/atuin-common/src/time/offset_date_time.rs:44:    fn from_timespec(secs: i128, nsecs: i128) -> Result<OffsetDateTime, TimespecOutOfRange>;
+crates/atuin-common/src/time/offset_date_time.rs:47:    fn try_unix_nanos_i64(self) -> Result<i64, TimestampOutOfRange>;
+crates/atuin-common/src/time/offset_date_time.rs:50:    fn try_unix_nanos_u64(self) -> Result<u64, TimestampOutOfRange>;
+crates/atuin-common/src/time/offset_date_time.rs:138:    fn from_unix_nanos(nanos: i128) -> Result<OffsetDateTime, TimestampOutOfRange> {
+crates/atuin-common/src/time/offset_date_time.rs:156:    fn from_timespec(secs: i128, nsecs: i128) -> Result<OffsetDateTime, TimespecOutOfRange> {
+crates/atuin-common/src/time/offset_date_time.rs:167:    fn try_unix_nanos_i64(self) -> Result<i64, TimestampOutOfRange> {
+crates/atuin-common/src/time/offset_date_time.rs:172:    fn try_unix_nanos_u64(self) -> Result<u64, TimestampOutOfRange> {
+crates/atuin-common/src/rmp/encode.rs:37:) -> Result<(), EncodeError<W::Error>>
+crates/atuin-common/src/rmp/encode.rs:40:    F: FnOnce(&mut W, T) -> Result<(), E>,
+crates/atuin-common/src/rmp/encode.rs:56:) -> Result<(), EncodeError<W::Error>>
+crates/atuin-common/src/rmp/encode.rs:60:    F: FnMut(&mut W, T) -> Result<(), E>,
+crates/atuin-common/src/rmp/encode.rs:67:pub fn write_binary_array<W, B>(writer: &mut W, bytes: B) -> Result<(), EncodeError<W::Error>>
+crates/atuin-common/src/rmp/encode.rs:116:) -> Result<(), TryEncodeError<W::Error, E>>
+crates/atuin-common/src/rmp/encode.rs:119:    S: IntoIterator<IntoIter: ExactSizeIterator<Item = Result<T, E>>>,
+crates/atuin-common/src/rmp/encode.rs:120:    F: FnMut(&mut W, T) -> Result<(), WrErr>,
+crates/atuin-common/src/time/duration.rs:24:    fn try_new(secs: u64, nsecs: u64) -> Result<D, DurationOverflow>;
+crates/atuin-common/src/time/duration.rs:167:    fn try_new(secs: u64, nsecs: u64) -> Result<Self, DurationOverflow> {
+crates/atuin-common/src/time/duration.rs:187:    fn try_new(secs: u64, nsecs: u64) -> Result<Self, DurationOverflow> {
+crates/atuin-common/src/time/utc_offset.rs:24:    fn resolve_spec(spec: impl AsRef<str>) -> Result<UtcOffset, TimezoneDecodingError>;
+crates/atuin-common/src/time/utc_offset.rs:35:    fn resolve_spec(spec: impl AsRef<str>) -> Result<UtcOffset, TimezoneDecodingError> {
+crates/atuin-common/src/time/utc_offset.rs:77:    fn from_str(s: &str) -> Result<Self, Self::Err> {
+crates/atuin-common/src/rmp/decode.rs:80:pub fn read_string<'a>(bytes: &mut Bytes<'a>) -> Result<String, DecodeError<'a>> {
+crates/atuin-common/src/rmp/decode.rs:102:pub fn with_str<'a, F, R>(bytes: &mut Bytes<'a>, f: F) -> Result<R, DecodeError<'a>>
+crates/atuin-common/src/rmp/decode.rs:121:) -> Result<Option<T>, DecodeError<'a, R::Error>>
+crates/atuin-common/src/rmp/decode.rs:124:    F: FnOnce(&mut R) -> Result<T, E>,
+crates/atuin-common/src/rmp/decode.rs:145:) -> impl Iterator<Item = Result<T, DecodeError<'a, R::Error>>>
+crates/atuin-common/src/rmp/decode.rs:148:    F: FnMut(&mut R) -> Result<T, E>,
+crates/atuin-common/src/rmp/decode.rs:160:) -> Result<[T; N], DecodeError<'a, R::Error>>
+crates/atuin-common/src/rmp/decode.rs:163:    F: FnMut(&mut R) -> Result<T, E>,
+crates/atuin-common/src/os/unix.rs:19:pub fn touch_file(path: &Path) -> std::io::Result<()> {
+crates/atuin-common/src/os/unix.rs:78:pub fn create_secure_temp_dir<P>(path: P) -> Result<P, SecureTempDirError>
+crates/atuin-common/src/os/process.rs:21:pub async fn force_terminate(pid: u32, timeout: Duration) -> Result<(), std::io::Error> {
+crates/atuin-common/src/os/windows/mod.rs:23:pub fn fallible_do<T, F>(op: F) -> Result<(), std::io::Error>
+crates/atuin-common/src/encryption/paseto_v4.rs:138:    pub fn try_new_random() -> Result<Self, rusty_paseto::PasetoError> {
+crates/atuin-common/src/encryption/paseto_v4.rs:182:    pub fn decode(key: &str) -> Result<Self, KeyDecodingError> {
+crates/atuin-common/src/encryption/paseto_v4.rs:231:    pub fn try_load_from_path(path: &Path) -> Result<Self, KeyFileLoadingError> {
+crates/atuin-common/src/encryption/paseto_v4.rs:245:    pub fn try_write_path(&self, path: &Path) -> Result<(), KeyFileStoringError> {
+crates/atuin-common/src/encryption/paseto_v4.rs:320:    pub fn overwrite_path(&self, path: &Path) -> std::io::Result<()> {
+crates/atuin-common/src/encryption/paseto_v4.rs:333:    pub fn try_load_or_generate(path: &Path) -> Result<Self, KeyFileLoadOrGenerateError> {
+crates/atuin-common/src/encryption/paseto_v4.rs:368:    pub fn try_mnemonic(&self) -> Result<bip39::Mnemonic, bip39::ErrorKind> {
+crates/atuin-common/src/encryption/paseto_v4.rs:376:    pub fn try_from_mnemonic(mnemonic: &str) -> Result<Self, MnemonicLoadingError> {
+crates/atuin-common/src/db/mod.rs:248:    fn from_str(s: &str) -> Result<Self, Self::Err> {
+crates/atuin-common/src/db/mod.rs:262:    fn serialize<Ser: Serializer>(&self, serializer: Ser) -> Result<Ser::Ok, Ser::Error> {
+crates/atuin-common/src/db/mod.rs:268:    fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+crates/atuin-common/src/os/windows/process.rs:22:    pub fn open(pid: u32, access: u32) -> Result<Self, std::io::Error> {
+crates/atuin-common/src/os/windows/process.rs:31:    pub fn terminate(&self) -> Result<(), std::io::Error> {
+crates/atuin-common/src/os/windows/process.rs:44:    pub fn send_ctrl_break(&self) -> Result<(), std::io::Error> {
+crates/atuin-common/src/os/windows/process.rs:59:    pub async fn force_stop(&self, timeout: Duration) -> Result<(), std::io::Error> {
+crates/atuin-common/src/os/unix/process.rs:13:pub async fn force_terminate(pid: Pid, timeout: Duration) -> Result<(), std::io::Error> {
+crates/atuin-common/src/futures/mod.rs:51:    pub async fn retry<B, C, Fut, F>(self, mut fxn: F, timeout: Duration) -> Result<B, C>
+crates/atuin-common/src/futures/mod.rs:104:    pub async fn retry_sync<B, C, F>(self, mut fxn: F, timeout: Duration) -> Result<B, C>
+crates/atuin-common/src/db/sqlite/mod.rs:69:    ) -> Result<Self, SqliteOpenOrCreateError> {
+crates/atuin-common/src/db/sqlite/compactor.rs:89:    ) -> Result<(), WalCompactionError> {
+crates/atuin-common/src/db/sqlite/compactor.rs:106:    async fn connect(opts: SqliteConnectOptions) -> Result<SqliteConnection, WalCompactionError> {
+crates/atuin-common/src/string/non_nul_str.rs:22:    pub fn new(inner: T) -> Result<Self, ContainsNul> {
+crates/atuin-common/src/string/non_nul_str.rs:56:    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+crates/atuin-common/src/string/non_nul_str.rs:65:    fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+crates/atuin-common/src/db/sqlite/builder.rs:123:    pub async fn open(self) -> Result<Sqlite, SqliteOpenOrCreateError> {
+crates/atuin-common/src/db/sqlite/info.rs:49:    pub version: Result<semver::Version, Arc<VersionError>>,
+crates/atuin-common/src/db/sqlite/info.rs:56:    wal_path: Result<PathBuf, SqlitePathError>,
+crates/atuin-common/src/db/sqlite/info.rs:104:    async fn acquire_retrying(pool: &SqlitePool) -> Result<PoolConnection<Sqlite>, sqlx::Error> {
+crates/atuin-common/src/db/sqlite/info.rs:151:    fn query_wal_path(handle: &mut LockedSqliteHandle<'_>) -> Result<PathBuf, SqlitePathError> {
+crates/atuin-common/src/db/sqlite/info.rs:213:    async fn query_version(pool: &SqlitePool) -> Result<semver::Version, VersionError> {
+crates/atuin-common/src/db/sqlite/info.rs:226:    pub fn wal_path(&self) -> Result<&Path, SqlitePathError> {

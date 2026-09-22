@@ -1,0 +1,1 @@
+7 crates/atuin-ai/src/permissions/mod.rs

@@ -1,0 +1,15 @@
+src/io.rs:55:    use core::fmt::{Debug, Display, Formatter};
+src/io.rs:80:    impl Display for Error {
+src/error.rs:8:use core::fmt::{Display, Formatter};
+src/error.rs:49:impl Display for BackendError {
+src/error.rs:123:impl Display for StorageError {
+src/error.rs:243:impl Display for TableError {
+src/error.rs:345:impl Display for DatabaseError {
+src/error.rs:414:impl Display for SavepointError {
+src/error.rs:471:impl Display for CompactionError {
+src/error.rs:520:impl Display for SetDurabilityError {
+src/transactions.rs:39:use core::fmt::{Debug, Display, Formatter};
+src/transactions.rs:308:impl<K: Key + 'static, V: Value + 'static> Display for SystemTableDefinition<'_, K, V> {
+src/db.rs:25:use core::fmt::{Debug, Display, Formatter};
+src/db.rs:310:impl<K: Key + 'static, V: Value + 'static> Display for TableDefinition<'_, K, V> {
+src/db.rs:370:impl<K: Key + 'static, V: Key + 'static> Display for MultimapTableDefinition<'_, K, V> {

@@ -1,0 +1,5 @@
+1:use crate::BackendError;
+18:    CompactionError, DatabaseError, ReadOnlyTable, ReadableTable, StorageError, TableError,
+35:use crate::error::TransactionError;
+50:/// I/O failures are reported as [`io::Error`], which is [`std::io::Error`] whenever std is
+51:/// available. Locking operations use [`BackendError`] to distinguish unsupported operations.

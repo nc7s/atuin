@@ -1,0 +1,16 @@
+2:    Database, Error, Key, ReadableTable, Table, TableDefinition, TableHandle, Value,
+11:struct SpecialValuesDb {
+16:impl SpecialValuesDb {
+17:    fn new() -> Self {
+30:    fn begin_txn(&mut self) -> SpecialValuesTransaction<'_> {
+38:struct SpecialValuesTransaction<'db> {
+43:impl SpecialValuesTransaction<'_> {
+44:    fn open_table<K: Key + 'static, V: Value + 'static>(
+56:    fn commit(self) {
+62:struct SpecialValuesTable<'txn, K: Key + 'static, V: Value + 'static> {
+69:    fn insert(&mut self, key: K::SelfType<'_>, value: V::SelfType<'_>) {
+79:    fn get(&mut self, key: K::SelfType<'_>) -> ValueAccessor<V> {
+91:struct ValueAccessor<V: Value + 'static> {
+97:    fn value(&self) -> V::SelfType<'_> {
+109:fn main() -> Result<(), Error> {
+120:    assert_eq!(table.get(0).value(), "hello world");

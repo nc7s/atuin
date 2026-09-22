@@ -1,0 +1,160 @@
+#[cfg(feature = "experimental-api-5")]
+use redb::ReadableTable;
+use redb::{ReadableDatabase, ReadableTableMetadata};
+
+const ELEMENTS: usize = 3;
+
+// A user-defined value type whose type name deliberately collides with the built-in `u32` and
+// whose width and encoding match it. It implements both the current and the redb 2.6 `Value`
+// trait so the same table can be written by one version and read by the other.
+#[derive(Debug)]
+#[allow(dead_code)]
+struct CollidingUserType;
+
+impl redb::Value for CollidingUserType {
+    type SelfType<'a> = u32;
+    type AsBytes<'a> = [u8; 4];
+
+    fn fixed_width() -> Option<usize> {
+        Some(4)
+    }
+
+    fn from_bytes<'a>(data: &'a [u8]) -> u32
+    where
+        Self: 'a,
+    {
+        u32::from_le_bytes(data.try_into().unwrap())
+    }
+
+    fn as_bytes<'a, 'b: 'a>(value: &'a u32) -> [u8; 4]
+    where
+        Self: 'b,
+    {
+        value.to_le_bytes()
+    }
+
+    fn type_name() -> redb::TypeName {
+        redb::TypeName::new("u32")
+    }
+}
+
+impl redb2_6::Value for CollidingUserType {
+    type SelfType<'a> = u32;
+    type AsBytes<'a> = [u8; 4];
+
+    fn fixed_width() -> Option<usize> {
+        Some(4)
+    }
+
+    fn from_bytes<'a>(data: &'a [u8]) -> u32
+    where
+        Self: 'a,
+    {
+        u32::from_le_bytes(data.try_into().unwrap())
+    }
+
+    fn as_bytes<'a, 'b: 'a>(value: &'a u32) -> [u8; 4]
+    where
+        Self: 'b,
+    {
+        value.to_le_bytes()
+    }
+
+    fn type_name() -> redb2_6::TypeName {
+        redb2_6::TypeName::new("u32")
+    }
+}
+
+trait TestData: redb::Value + redb2_6::Value {
+    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS]
+    where
+        Self: 'a;
+
+    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS]
+    where
+        Self: 'a;
+}
+
+impl TestData for u8 {
+    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+        [0, 1, 2]
+    }
+
+    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+        [0, 1, 2]
+    }
+}
+
+impl TestData for u16 {
+    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+        [0, 1, 2]
+    }
+
+    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+        [0, 1, 2]
+    }
+}
+
+impl TestData for u32 {
+    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+        [0, 1, 2]
+    }
+
+    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+        [0, 1, 2]
+    }
+}
+
+impl TestData for u64 {
+    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+        [0, 1, 2]
+    }
+
+    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+        [0, 1, 2]
+    }
+}
+
+impl TestData for u128 {
+    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+        [0, 1, 2]
+    }
+
+    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+        [0, 1, 2]
+    }
+}
+
+impl TestData for i8 {
+    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+        [-1, 1, 2]
+    }
+
+    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+        [-1, 1, 2]
+    }
+}
+
+impl TestData for i16 {
+    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+        [-1, 1, 2]
+    }
+
+    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+        [-1, 1, 2]
+    }
+}
+
+impl TestData for i32 {
+    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+        [-1, 1, 2]
+    }
+
+    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+        [-1, 1, 2]
+    }
+}
+
+impl TestData for i64 {
+    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+        [-1, 1, 2]

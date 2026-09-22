@@ -1,0 +1,1 @@
+crates/atuin-daemon/src/history_journal.rs:631:        if atuin_common::secrets::output_unsafe(&command) {

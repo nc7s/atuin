@@ -1,0 +1,6 @@
+total 28K
+-rw-r--r-- 1 i i   30 Apr 15 08:54 lib.rs
+drwxr-xr-x 1 i i   82 Sep  3 05:19 shell
+-rw-rw-r-- 1 i i 6.4K Sep  3 05:19 shell.rs
+drwxr-xr-x 1 i i   28 Sep  3 05:19 store
+-rw-rw-r-- 1 i i  15K Sep  3 05:19 store.rs

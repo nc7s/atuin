@@ -1,0 +1,7 @@
+6:pub(super) fn encode_varint_len(len: usize, output: &mut Vec<u8>) {
+22:pub(super) fn decode_varint_len(data: &[u8]) -> (usize, usize) {
+46:    fn fixed_width() -> Option<usize> {
+50:    fn from_bytes<'a>(data: &'a [u8]) -> Vec<T::SelfType<'a>>
+67:        assert_eq!(offset, data.len());
+71:    fn as_bytes<'a, 'b: 'a>(value: &'a Vec<T::SelfType<'b>>) -> Vec<u8>
+92:    fn type_name() -> TypeName {

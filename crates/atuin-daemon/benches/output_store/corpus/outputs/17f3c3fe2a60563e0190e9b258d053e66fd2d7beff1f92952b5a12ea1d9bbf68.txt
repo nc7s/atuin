@@ -1,0 +1,6 @@
+56://! assert_eq!(input, uncompressed);
+82:extern crate more_asserts;
+84:pub mod block;
+87:pub mod frame;
+100:pub use block::{compress, compress_into, compress_prepend_size};
+105:pub use block::{decompress, decompress_into, decompress_size_prepended};

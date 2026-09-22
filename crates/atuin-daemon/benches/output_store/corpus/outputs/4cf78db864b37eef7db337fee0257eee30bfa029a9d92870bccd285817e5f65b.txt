@@ -1,0 +1,20 @@
+//! `atuin store rebuild history` now asks the daemon to rebuild: the history db is re-derived from
+//! the record store and the search index reloaded, without disturbing commands still running.
+#![cfg(unix)]
+
+mod common;
+
+use std::collections::HashSet;
+use std::time::Duration;
+
+use atuin_client::history::store::HistoryRecord;
+use atuin_client::history::{HistoryId, Version};
+use atuin_client::settings::Search;
+use atuin_common::encryption::paseto_v4;
+use atuin_daemon::search::SearchIndex;
+use atuin_domain::record::{Host, Record, RecordSeriesKey, RecordTag, RecordVersion};
+use common::corpus::seed_record_store;
+use common::{TestEnv, history};
+use rstest::*;
+
+#[fixture]

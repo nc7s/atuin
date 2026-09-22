@@ -1,0 +1,20 @@
+5:use redb::{ReadOnlyDatabase, ReadableDatabase, ReadableTable, StorageError, TableDefinition};
+12:fn create_tempfile() -> tempfile::NamedTempFile {
+21:fn region_size(data: &[u8]) -> u64 {
+29:fn branch_page_offsets(data: &[u8]) -> Vec<usize> {
+46:fn make_self_referential(data: &mut [u8], offset: usize) {
+66:fn corrupt_child_pointer(data: &mut [u8], offset: usize, child: usize) {
+69:    assert!(child <= num_keys);
+77:fn opens_cleanly(path: &Path) -> bool {
+87:// Opened read-only, because a debug-assertions build of the writable open walks every page while
+88:// seeding its allocator assertions, and rejects the cycle there. This test is about the descent
+91:fn cyclic_branch_pointer_is_reported_rather_than_overflowing_the_stack() {
+108:    assert!(
+123:    assert!(
+140:    assert!(matches!(table.get(&0u64), Err(StorageError::Corrupted(_))));
+141:    assert!(matches!(table.first(), Err(StorageError::Corrupted(_))));
+142:    assert!(matches!(table.last(), Err(StorageError::Corrupted(_))));
+145:        Err(StorageError::Corrupted(_)) => {}
+146:        Ok(mut range) => assert!(matches!(
+148:            Some(Err(StorageError::Corrupted(_)))
+153:        Err(StorageError::Corrupted(_)) => {}

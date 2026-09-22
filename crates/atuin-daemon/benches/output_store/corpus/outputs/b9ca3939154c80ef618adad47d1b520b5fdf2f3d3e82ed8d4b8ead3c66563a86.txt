@@ -1,0 +1,5 @@
+5:fn check_as_primitive<T: AsPrimitive>(t: T) {
+15:fn as_primitive_test() {
+24:fn check_number<T: Number>(x: T, y: T) {
+27:    assert!(x < y);
+28:    assert!(x != y);

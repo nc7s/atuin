@@ -1,0 +1,50 @@
+src/regexset/string.rs:82:/// search takes `O(m * n)` time, where `m` is proportional to the size of the
+src/regexset/string.rs:140:    /// This takes an iterator of `S`, where `S` is something that can produce
+src/regexset/string.rs:155:    where
+src/regexset/string.rs:196:    /// to match anywhere in the haystack.
+src/regexset/string.rs:200:    /// Tests whether a set matches somewhere in a haystack:
+src/regexset/string.rs:260:    /// to match anywhere in the haystack.
+src/regexset/string.rs:560:    /// This will always produces matches in ascending order, where the index
+src/regexset/string.rs:626:/// This will always produces matches in ascending order of index, where the
+src/lib.rs:7:`O(m * n)` time complexity, where `m` is proportional to the size of the regex
+src/lib.rs:250:the regex to match anywhere in a haystack. Anchors, as above, can be used to
+src/lib.rs:479:`(?-u:\b)` instead of `\b`, where the former uses an ASCII-only definition of
+src/lib.rs:494:compilation is typically expensive. (It takes anywhere from a few microseconds
+src/lib.rs:645:type, but it is only allowed where the UTF-8 invariant is maintained. For
+src/lib.rs:823:Note that in verbose mode, whitespace is ignored everywhere, including within
+src/lib.rs:889:documented elsewhere.
+src/lib.rs:1059:worst case `O(m)` time, where `m` is proportional to the size of regex. The
+src/bytes.rs:8:is used where `String` would have been used in the top-level API.
+src/regexset/bytes.rs:86:/// search takes `O(m * n)` time, where `m` is proportional to the size of the
+src/regexset/bytes.rs:144:    /// This takes an iterator of `S`, where `S` is something that can produce
+src/regexset/bytes.rs:159:    where
+src/regexset/bytes.rs:200:    /// to match anywhere in the haystack.
+src/regexset/bytes.rs:204:    /// Tests whether a set matches somewhere in a haystack:
+src/regexset/bytes.rs:264:    /// to match anywhere in the haystack.
+src/regexset/bytes.rs:564:    /// This will always produces matches in ascending order, where the index
+src/regexset/bytes.rs:630:/// This will always produces matches in ascending order of index, where the
+src/error.rs:22:    /// and especially so for the case where the regex pattern is coming from
+src/builders.rs:61:    where
+src/builders.rs:243:        /// match `💩` once, where as it will match 4 times when Unicode mode
+src/builders.rs:625:        /// equivalent patterns, where the last example shows octal syntax.
+src/builders.rs:667:        /// complexity for search is `O(m * n)`, where `m ~ len(pattern)` and
+src/builders.rs:799:        where
+src/builders.rs:822:        /// match `💩` once, where as it will match 4 times when Unicode mode
+src/builders.rs:1193:        /// equivalent patterns, where the last example shows octal syntax.
+src/builders.rs:1235:        /// complexity for search is `O(m * n)`, where `m ~ len(pattern)` and
+src/regex/string.rs:95:/// three whitespace delimited fields where the second field is expected to be
+src/regex/string.rs:233:    /// Returns true if and only if there is a match for the regex anywhere
+src/regex/string.rs:428:    /// some haystack, where the movie is formatted like "'Title' (xxxx)":
+src/regex/string.rs:686:    /// replacement provided. The replacement can be a regular string (where
+src/regex/string.rs:703:    /// (counted by order of opening parenthesis where `0` is the entire match)
+src/regex/string.rs:822:    /// If you need to write a replacement routine where any individual
+src/regex/string.rs:1423:    /// This shows a few cases where a static number of capture groups is
+src/regex/string.rs:1424:    /// available and a few cases where it is not.
+src/regex/bytes.rs:96:/// three whitespace delimited fields where the second field is expected to be
+src/regex/bytes.rs:113:///     // These unwraps are OK because our pattern is written in a way where
+src/regex/bytes.rs:137:/// is matched. In this way, we can build one pattern where some parts only
+src/regex/bytes.rs:235:    /// Returns true if and only if there is a match for the regex anywhere
+src/regex/bytes.rs:430:    /// some haystack, where the movie is formatted like "'Title' (xxxx)":
+src/regex/bytes.rs:699:    /// replacement provided. The replacement can be a regular string (where
+src/regex/bytes.rs:716:    /// (counted by order of opening parenthesis where `0` is the entire match)
+src/regex/bytes.rs:839:    /// If you need to write a replacement routine where any individual

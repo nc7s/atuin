@@ -1,0 +1,21 @@
+total 80K
+-rw-r--r-- 1 i i  57 Jul 24  2006 missing_colon.rs
+-rw-r--r-- 1 i i 456 Jul 24  2006 missing_colon.stderr
+-rw-r--r-- 1 i i  69 Jul 24  2006 missing_comma.rs
+-rw-r--r-- 1 i i 367 Jul 24  2006 missing_comma.stderr
+-rw-r--r-- 1 i i  59 Jul 24  2006 missing_value.rs
+-rw-r--r-- 1 i i 460 Jul 24  2006 missing_value.stderr
+-rw-r--r-- 1 i i  61 Jul 24  2006 not_found.rs
+-rw-r--r-- 1 i i 162 Jul 24  2006 not_found.stderr
+-rw-r--r-- 1 i i  61 Jul 24  2006 parse_expr.rs
+-rw-r--r-- 1 i i 295 Jul 24  2006 parse_expr.stderr
+-rw-r--r-- 1 i i  65 Jul 24  2006 parse_key.rs
+-rw-r--r-- 1 i i 153 Jul 24  2006 parse_key.stderr
+-rw-r--r-- 1 i i  61 Jul 24  2006 unexpected_after_array_element.rs
+-rw-r--r-- 1 i i 231 Jul 24  2006 unexpected_after_array_element.stderr
+-rw-r--r-- 1 i i  66 Jul 24  2006 unexpected_after_map_entry.rs
+-rw-r--r-- 1 i i 237 Jul 24  2006 unexpected_after_map_entry.stderr
+-rw-r--r-- 1 i i  60 Jul 24  2006 unexpected_colon.rs
+-rw-r--r-- 1 i i 209 Jul 24  2006 unexpected_colon.stderr
+-rw-r--r-- 1 i i  69 Jul 24  2006 unexpected_comma.rs
+-rw-r--r-- 1 i i 222 Jul 24  2006 unexpected_comma.stderr

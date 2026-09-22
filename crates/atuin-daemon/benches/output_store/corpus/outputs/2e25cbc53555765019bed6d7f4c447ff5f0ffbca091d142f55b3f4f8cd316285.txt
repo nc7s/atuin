@@ -1,0 +1,160 @@
+//! Model conversion utilities for the `history` gRPC protobuf.
+mod codegen {
+    #![allow(clippy::must_use_candidate, reason = "prost-generated code")]
+    #![allow(clippy::derive_partial_eq_without_eq, reason = "prost-generated code")]
+    tonic::include_proto!("history");
+}
+
+use std::ops::Range;
+use std::time::Duration;
+
+use atuin_client::history::{
+    CommandCapture as DomainCommandCapture, History, HistoryId as DomainHistoryId,
+};
+use atuin_common::range::PyStyleIdxRange;
+use atuin_common::time::OffsetDateTimeExt;
+use atuin_domain::record::{CmdOrigin, CmdOriginParseError};
+pub use codegen::*;
+use easy_cast::Conv;
+pub use tail_history_reply::Event as TailHistoryEvent;
+use thiserror::Error;
+use time::OffsetDateTime;
+use tonic::Status;
+
+use crate::grpc::common::pb::{self as common, Uuid};
+use crate::grpc::common::{CollectCappedError, TryCollectResultsCappedExt};
+use crate::history_journal::{
+    CmdCancelError, CmdDeleteError, CmdEvent, CmdFinishError, CmdRebuildError, GetCmdInFlightError,
+    RegisterOutputError,
+};
+use crate::output_capture::{CaptureError, GetOutputError};
+
+impl From<DomainHistoryId> for HistoryId {
+    fn from(value: DomainHistoryId) -> Self {
+        Self {
+            uuid: Some(Uuid {
+                value: value.into_bytes().to_vec(),
+            }),
+        }
+    }
+}
+
+/// Errors thrown parsing the [`HistoryId`].
+#[derive(Debug, Error)]
+pub enum IdParseError {
+    #[error("history id is missing its uuid")]
+    MissingUuid,
+    #[error("history id must be exactly 16 bytes, got {0}")]
+    BadLength(usize),
+}
+
+impl TryFrom<HistoryId> for DomainHistoryId {
+    type Error = IdParseError;
+
+    fn try_from(value: HistoryId) -> Result<Self, Self::Error> {
+        let uuid = value.uuid.ok_or(IdParseError::MissingUuid)?;
+        let len = uuid.value.len();
+        let bytes: [u8; 16] = uuid.value.try_into().map_err(|_| IdParseError::BadLength(len))?;
+        Ok(Self::from_bytes(bytes))
+    }
+}
+
+impl From<Option<atuin_client::history::AuthorKind>> for AuthorKind {
+    fn from(kind: Option<atuin_client::history::AuthorKind>) -> Self {
+        match kind {
+            None => Self::Unspecified,
+            Some(atuin_client::history::AuthorKind::User) => Self::User,
+            Some(atuin_client::history::AuthorKind::Agent) => Self::Agent,
+        }
+    }
+}
+
+impl From<AuthorKind> for Option<atuin_client::history::AuthorKind> {
+    fn from(kind: AuthorKind) -> Self {
+        match kind {
+            AuthorKind::Unspecified => None,
+            AuthorKind::User => Some(atuin_client::history::AuthorKind::User),
+            AuthorKind::Agent => Some(atuin_client::history::AuthorKind::Agent),
+        }
+    }
+}
+
+impl From<History> for HistoryEntry {
+    fn from(history: History) -> Self {
+        Self {
+            timestamp: i64::conv(history.timestamp.unix_timestamp_nanos()),
+            id: Some(history.id.into()),
+            command: history.command,
+            cwd: history.cwd,
+            session: history.session,
+            hostname: history.cmd_origin.into_string(),
+            author: history.author,
+            intent: history.intent.unwrap_or_default(),
+            exit: history.exit,
+            duration: history.duration,
+            shell: history.shell.unwrap_or_default(),
+            author_kind: AuthorKind::from(history.author_kind) as i32,
+        }
+    }
+}
+
+/// Errors thrown parsing the [`StartHistoryRequest`].
+#[derive(Debug, Error)]
+pub enum StartHistoryRequestParseError {
+    #[error("the given cmd origin is malformed: {0}")]
+    BadCmdOrigin(#[from] CmdOriginParseError),
+}
+
+impl TryFrom<StartHistoryRequest> for History {
+    type Error = StartHistoryRequestParseError;
+
+    fn try_from(req: StartHistoryRequest) -> Result<Self, Self::Error> {
+        // `author_kind()` borrows `req`, so read it before moving fields out.
+        let author_kind = req.author_kind();
+        Ok(Self::daemon()
+            .timestamp(OffsetDateTime::from_unix_nanos_i64(req.timestamp))
+            .command(req.command)
+            .cwd(req.cwd)
+            .session(req.session)
+            .cmd_origin(CmdOrigin::try_from(req.hostname)?)
+            .author(req.author)
+            .intent(req.intent)
+            .shell(req.shell)
+            .author_kind(author_kind.into())
+            .build()
+            .into())
+    }
+}
+
+/// Errors thrown parsing the [`EndHistoryRequest`].
+#[derive(Debug, Error)]
+pub enum EndHistoryRequestParseError {
+    #[error("invalid history id")]
+    MissingHistory,
+    #[error("invalid id field: {0}")]
+    InvalidId(#[from] IdParseError),
+    #[error("invalid duration: {0}")]
+    InvalidDuration(#[from] prost_types::DurationError),
+}
+
+/// A deserialized view into the [`EndHistoryRequest`] request.
+///
+/// [`EndHistoryRequest`] does not cleanly map into any particular domain type, so we create a new
+/// "view" type for it here.
+#[derive(Debug)]
+pub struct EndHistoryRequestView {
+    /// The ID of the history entry.
+    pub history_id: DomainHistoryId,
+    /// The exit code of the command.
+    pub exit_code: i64,
+    /// The duration the command took. [`None`] means the daemon will perform a best-guess estimate
+    /// of the length of the command.
+    pub duration: Option<Duration>,
+}
+
+impl EndHistoryRequest {
+    pub fn view(&self) -> Result<EndHistoryRequestView, EndHistoryRequestParseError> {
+        Ok(EndHistoryRequestView {
+            history_id: self
+                .id
+                .clone()

@@ -1,0 +1,20 @@
+use redb::{
+    Database, MultimapTableDefinition, ReadableDatabase, ReadableMultimapTable,
+    ReadableTableMetadata, TableError, TransactionError,
+};
+
+const STR_TABLE: MultimapTableDefinition<&str, &str> = MultimapTableDefinition::new("str_to_str");
+const SLICE_U64_TABLE: MultimapTableDefinition<&[u8], u64> =
+    MultimapTableDefinition::new("slice_to_u64");
+const U64_TABLE: MultimapTableDefinition<u64, u64> = MultimapTableDefinition::new("u64");
+const U64_SLICE_TABLE: MultimapTableDefinition<u64, &[u8]> =
+    MultimapTableDefinition::new("u64_to_slice");
+
+fn create_tempfile() -> tempfile::NamedTempFile {
+    if cfg!(target_os = "wasi") {
+        tempfile::NamedTempFile::new_in("/tmp").unwrap()
+    } else {
+        tempfile::NamedTempFile::new().unwrap()
+    }
+}
+

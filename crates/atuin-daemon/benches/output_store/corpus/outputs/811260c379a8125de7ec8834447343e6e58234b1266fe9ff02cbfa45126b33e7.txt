@@ -1,0 +1,5 @@
+5:pub const KV_VAL_MAX_LEN: usize = 100 * 1024;
+8:pub struct KvRecord {
+9:    pub namespace: String,
+10:    pub key: String,
+11:    pub value: Option<String>,

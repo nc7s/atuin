@@ -1,0 +1,20 @@
+11:pub mod bash;
+12:pub mod fish;
+13:pub mod nu;
+14:pub mod nu_histdb;
+15:pub mod powershell;
+16:pub mod replxx;
+17:pub mod resh;
+18:pub mod xonsh;
+19:pub mod xonsh_sqlite;
+20:pub mod zsh;
+21:pub mod zsh_histdb;
+24:pub trait Importer: Sized {
+26:    async fn new() -> Result<Self>;
+27:    async fn entries(&mut self) -> Result<usize>;
+28:    async fn load(self, loader: &mut impl Loader) -> Result<()>;
+32:pub trait Loader: Sync + Send {
+33:    async fn push(&mut self, hist: History) -> Result<()>;
+36:fn unix_byte_lines(input: &[u8]) -> impl Iterator<Item = &[u8]> {
+44:struct UnixByteLines<'a> {
+53:    fn next(&mut self) -> Option<Self::Item> {

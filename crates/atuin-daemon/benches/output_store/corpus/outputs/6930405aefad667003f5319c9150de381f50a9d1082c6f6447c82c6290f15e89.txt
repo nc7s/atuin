@@ -1,0 +1,10 @@
+14:pub(crate) trait FloatErrors {
+16:    fn error_scale() -> u32;
+18:    fn error_halfscale() -> u32;
+20:    fn error_is_accurate<F: Float>(count: u32, fp: &ExtendedFloat) -> bool;
+25:fn nearest_error_is_accurate(errors: u64, fp: &ExtendedFloat, extrabits: u64) -> bool {
+50:impl FloatErrors for u64 {
+52:    fn error_scale() -> u32 {
+57:    fn error_halfscale() -> u32 {
+62:    fn error_is_accurate<F: Float>(count: u32, fp: &ExtendedFloat) -> bool {
+95:        // # Large Extrabits, Low Errors

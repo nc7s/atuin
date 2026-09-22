@@ -1,0 +1,4 @@
+src/frame/decompress.rs:248:                // TODO: Attempt to avoid initialization of read buffer when
+src/frame/decompress.rs:271:                // TODO: Attempt to avoid initialization of read buffer when
+src/block/decompress.rs:101:    // TODO test fastcpy_unsafe
+src/block/compress.rs:261:    // bellow. TODO: It should be possible remove all bounds checks, since we are walking

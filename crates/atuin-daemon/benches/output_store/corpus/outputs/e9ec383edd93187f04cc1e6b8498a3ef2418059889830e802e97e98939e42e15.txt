@@ -1,0 +1,1 @@
+71 crates/atuin-dotfiles/src/shell/zsh.rs

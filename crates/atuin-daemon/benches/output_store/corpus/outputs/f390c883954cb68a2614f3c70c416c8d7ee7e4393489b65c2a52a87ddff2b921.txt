@@ -1,0 +1,122 @@
+crates/atuin-common/src/shell.rs:40:    pub fn current() -> Self {
+crates/atuin-common/src/shell.rs:58:    pub fn from_env() -> Self {
+crates/atuin-common/src/shell.rs:64:    pub fn config_file(&self) -> Option<std::path::PathBuf> {
+crates/atuin-common/src/shell.rs:82:    pub fn default_shell() -> Result<Self, ShellError> {
+crates/atuin-common/src/shell.rs:109:    pub fn from_string(name: &str) -> Self {
+crates/atuin-common/src/shell.rs:127:    pub fn is_posixish(&self) -> bool {
+crates/atuin-common/src/shell.rs:131:    pub fn run_interactive<I, S>(&self, args: I) -> Result<String, ShellError>
+crates/atuin-common/src/shell.rs:155:pub fn shell_name(parent: Option<&Process>) -> String {
+crates/atuin-common/src/secrets.rs:431:pub fn output_unsafe(command: &str) -> bool {
+crates/atuin-common/src/secrets.rs:437:pub fn contains_secret(s: &str) -> bool {
+crates/atuin-common/src/secrets.rs:495:pub fn redact(s: &str) -> Cow<'_, str> {
+crates/atuin-common/src/test_utils/capture.rs:14:pub fn capture_logs() -> CapturedLogs {
+crates/atuin-common/src/test_utils/capture.rs:38:    pub fn get(&self) -> MutexGuard<'_, Vec<LogItem>> {
+crates/atuin-common/src/rmp/encode.rs:33:pub fn write_optional<W, T, F, E>(
+crates/atuin-common/src/rmp/encode.rs:52:pub fn write_array<W, S, T, F, E>(
+crates/atuin-common/src/rmp/encode.rs:67:pub fn write_binary_array<W, B>(writer: &mut W, bytes: B) -> Result<(), EncodeError<W::Error>>
+crates/atuin-common/src/rmp/encode.rs:112:pub fn try_write_array<W, S, T, E, F, WrErr>(
+crates/atuin-common/src/ansi.rs:17:pub fn to_plain_text(input: impl AsRef<[u8]>, cols: NonZeroU16) -> String {
+crates/atuin-common/src/ansi.rs:67:pub fn onlcr<B: Borrow<u8>>(bytes: impl IntoIterator<Item = B>) -> impl Iterator<Item = u8> {
+crates/atuin-common/src/logs.rs:20:    pub fn to_tracing(&self) -> tracing::Level {
+crates/atuin-common/src/logs.rs:41:    pub fn directory(&self) -> &Path {
+crates/atuin-common/src/logs.rs:46:    pub fn name(&self) -> &OsStr {
+crates/atuin-common/src/logs.rs:59:    pub fn verbose() -> Self {
+crates/atuin-common/src/logs.rs:75:    pub fn file_only(file: FileConfig) -> Self {
+crates/atuin-common/src/logs.rs:83:    pub fn stderr_only() -> Self {
+crates/atuin-common/src/docs.rs:13:pub fn url(path: &str) -> String {
+crates/atuin-common/src/rmp/decode.rs:37:    pub fn into_static(self) -> DecodeError<'static, E> {
+crates/atuin-common/src/rmp/decode.rs:59:    pub fn type_mismatch(&self) -> Option<Marker> {
+crates/atuin-common/src/rmp/decode.rs:80:pub fn read_string<'a>(bytes: &mut Bytes<'a>) -> Result<String, DecodeError<'a>> {
+crates/atuin-common/src/rmp/decode.rs:102:pub fn with_str<'a, F, R>(bytes: &mut Bytes<'a>, f: F) -> Result<R, DecodeError<'a>>
+crates/atuin-common/src/rmp/decode.rs:118:pub fn read_optional<'a, R, T, F, E>(
+crates/atuin-common/src/rmp/decode.rs:142:pub fn read_array<'a, R, T, F, E>(
+crates/atuin-common/src/rmp/decode.rs:157:pub fn read_fixed_array<'a, const N: usize, R, T, F, E>(
+crates/atuin-common/src/rmp/decode.rs:170:pub fn read_binary_array<'a, R>(
+crates/atuin-common/src/utils.rs:12:pub fn crypto_random_bytes<const N: usize>() -> [u8; N] {
+crates/atuin-common/src/utils.rs:24:pub fn crypto_random_string<const N: usize>() -> String {
+crates/atuin-common/src/utils.rs:33:pub fn uuid_v7() -> Uuid {
+crates/atuin-common/src/utils.rs:38:pub fn uuid_v4() -> String {
+crates/atuin-common/src/utils.rs:43:pub fn has_git_dir(path: &str) -> bool {
+crates/atuin-common/src/utils.rs:86:pub fn in_git_repo(path: &str) -> Option<PathBuf> {
+crates/atuin-common/src/utils.rs:110:pub fn home_dir() -> PathBuf {
+crates/atuin-common/src/utils.rs:121:pub fn env_nonempty(name: &str) -> Option<OsString> {
+crates/atuin-common/src/slice.rs:5:pub fn partition_dedup<T>(slice: &mut [T]) -> (&mut [T], &mut [T])
+crates/atuin-common/src/slice.rs:49:    pub fn new(sorted: &'a [T], iter: I) -> Self {
+crates/atuin-common/src/slice.rs:66:    pub fn eq<const STACK_SIZE: usize>(self) -> bool {
+crates/atuin-common/src/filter.rs:40:    pub fn new_unchecked(sorted_deduped: L) -> Self {
+crates/atuin-common/src/filter.rs:60:    pub fn as_slice_filter(&self) -> OrFilter<&[L::Item]> {
+crates/atuin-common/src/filter.rs:72:    pub fn to_vec_filter(&self) -> OrFilter<Vec<L::Item>>
+crates/atuin-common/src/filter.rs:83:    pub fn is_all(&self) -> bool {
+crates/atuin-common/src/filter.rs:90:    pub fn items(&self) -> Items<&'_ [L::Item]> {
+crates/atuin-common/src/filter.rs:105:    pub fn contains<U>(&self, item: &U) -> bool
+crates/atuin-common/src/filter.rs:121:    pub fn into_list(self) -> Items<L> {
+crates/atuin-common/src/filter.rs:137:    pub fn compare<'a, I, B>(&'a self, iter: Option<I>) -> Comparer<'a, L::Item, I>
+crates/atuin-common/src/os/unix.rs:12:pub fn uid() -> std::ffi::c_uint {
+crates/atuin-common/src/os/unix.rs:19:pub fn touch_file(path: &Path) -> std::io::Result<()> {
+crates/atuin-common/src/os/unix.rs:37:pub fn tmp_dir() -> PathBuf {
+crates/atuin-common/src/os/unix.rs:78:pub fn create_secure_temp_dir<P>(path: P) -> Result<P, SecureTempDirError>
+crates/atuin-common/src/sync/sharded_mutex.rs:17:    pub fn new(shards: NonZeroUsize) -> Self {
+crates/atuin-common/src/sync/sharded_mutex.rs:28:    pub fn shard(&self, key: &K) -> &M {
+crates/atuin-common/src/sync/sharded_mutex.rs:34:    pub fn shards(&self) -> usize {
+crates/atuin-common/src/sync/sharded_mutex.rs:57:    pub fn lock(&self, key: &K) -> parking_lot::MutexGuard<'_, V> {
+crates/atuin-common/src/futures/stream.rs:32:pub fn chunk_by_bounded<S, K, F>(
+crates/atuin-common/src/range/py_style.rs:28:    pub fn new(start: i64, end: i64) -> Self {
+crates/atuin-common/src/range/py_style.rs:39:    pub fn resolve_for<T>(self, slice: &[T]) -> Range<usize> {
+crates/atuin-common/src/range/py_style.rs:64:    pub fn resolve_for_split<T>(self, start: &[T], end: &[T]) -> SplitRanges {
+crates/atuin-common/src/sync/eager_future_cell.rs:24:    pub fn overwrite(&self, value: T) {
+crates/atuin-common/src/sync/eager_future_cell.rs:103:    pub fn new<Fut>(work: Fut, handle: &Handle) -> Self
+crates/atuin-common/src/os/unix/process.rs:59:pub fn is_alive(pid: Pid) -> bool {
+crates/atuin-common/src/os/unix/process.rs:64:pub fn process_start_time(pid: Pid) -> Option<u64> {
+crates/atuin-common/src/os/unix/process.rs:76:pub fn cwd(pid: Pid) -> Option<PathBuf> {
+crates/atuin-common/src/encryption/paseto_v4.rs:127:    pub fn as_bytes(&self) -> &[u8; 32] {
+crates/atuin-common/src/encryption/paseto_v4.rs:133:    pub fn new_os_random() -> Self {
+crates/atuin-common/src/encryption/paseto_v4.rs:138:    pub fn try_new_random() -> Result<Self, rusty_paseto::PasetoError> {
+crates/atuin-common/src/encryption/paseto_v4.rs:145:    pub fn key_id(&self) -> PaserkV4KeyId {
+crates/atuin-common/src/encryption/paseto_v4.rs:152:    pub fn wrap_pie(&self, wrapping: &Self) -> PaserkV4PieWrappedKey {
+crates/atuin-common/src/encryption/paseto_v4.rs:161:    pub fn generate() -> Self {
+crates/atuin-common/src/encryption/paseto_v4.rs:167:    pub fn encode(&self) -> PlainTextEncodedKey {
+crates/atuin-common/src/encryption/paseto_v4.rs:182:    pub fn decode(key: &str) -> Result<Self, KeyDecodingError> {
+crates/atuin-common/src/range/chunks.rs:76:    pub fn start(&self) -> T {
+crates/atuin-common/src/range/chunks.rs:82:    pub fn end(&self) -> T {
+crates/atuin-common/src/range/chunks.rs:88:    pub fn size(&self) -> T::NonZero {
+crates/atuin-common/src/os/windows/process.rs:22:    pub fn open(pid: u32, access: u32) -> Result<Self, std::io::Error> {
+crates/atuin-common/src/os/windows/process.rs:31:    pub fn terminate(&self) -> Result<(), std::io::Error> {
+crates/atuin-common/src/os/windows/process.rs:44:    pub fn send_ctrl_break(&self) -> Result<(), std::io::Error> {
+crates/atuin-common/src/os/windows/process.rs:50:    pub fn is_alive(&self) -> bool {
+crates/atuin-common/src/db/mod.rs:60:pub fn query<'a, DB>(sql: impl SqlSafeStr) -> Query<'a, DB, <DB as Database>::Arguments>
+crates/atuin-common/src/db/mod.rs:71:pub fn query_as<'q, DB, O>(sql: impl SqlSafeStr) -> QueryAs<'q, DB, O, <DB as Database>::Arguments>
+crates/atuin-common/src/db/mod.rs:83:pub fn query_scalar<'q, DB, O>(
+crates/atuin-common/src/db/mod.rs:137:    pub fn as_str(&self) -> &str {
+crates/atuin-common/src/db/mod.rs:144:    pub fn url(&self) -> &Url {
+crates/atuin-common/src/db/mod.rs:149:    pub fn as_str(&self) -> &str {
+crates/atuin-common/src/db/mod.rs:156:    pub fn url(&self) -> &Url {
+crates/atuin-common/src/db/mod.rs:161:    pub fn as_str(&self) -> &str {
+crates/atuin-common/src/os/unix/tty.rs:26:    pub fn from_fd(fd: impl AsFd) -> Option<Self> {
+crates/atuin-common/src/os/unix/tty.rs:43:    pub fn current() -> Option<Self> {
+crates/atuin-common/src/string/normalize.rs:33:pub fn normalize(c: char) -> char {
+crates/atuin-common/src/db/sqlite/mod.rs:57:    pub fn builder(uri: &OsStr) -> SqliteBuilder<'_> {
+crates/atuin-common/src/db/sqlite/mod.rs:62:    pub fn builder_in_memory() -> SqliteBuilder<'static> {
+crates/atuin-common/src/db/sqlite/mod.rs:85:    pub fn pool(&self) -> &SqlitePool {
+crates/atuin-common/src/db/sqlite/builder.rs:51:    pub fn is_memory(&self) -> bool {
+crates/atuin-common/src/db/sqlite/builder.rs:88:    pub fn timeout(mut self, timeout: Duration) -> Self {
+crates/atuin-common/src/db/sqlite/builder.rs:94:    pub fn journal(mut self, journal: Option<Journaling>) -> Self {
+crates/atuin-common/src/db/sqlite/builder.rs:100:    pub fn synchronous(mut self, synchronous: SqliteSynchronous) -> Self {
+crates/atuin-common/src/db/sqlite/builder.rs:106:    pub fn foreign_keys(mut self, foreign_keys: bool) -> Self {
+crates/atuin-common/src/db/sqlite/builder.rs:112:    pub fn restrict_permissions(mut self) -> Self {
+crates/atuin-common/src/db/sqlite/builder.rs:118:    pub fn regexp(mut self) -> Self {
+crates/atuin-common/src/db/sqlite/info.rs:194:    pub fn new_eager_future(pool: SqlitePool) -> EagerFutureCell<Self> {
+crates/atuin-common/src/db/sqlite/info.rs:221:    pub fn variable_number_limit(&self) -> usize {
+crates/atuin-common/src/db/sqlite/info.rs:226:    pub fn wal_path(&self) -> Result<&Path, SqlitePathError> {
+crates/atuin-common/src/string/ellipsis.rs:167:    pub fn source_index(self, output_byte: usize) -> Option<usize> {
+crates/atuin-common/src/string/bounded_buffer.rs:57:    pub fn new(limit: Limit) -> Self {
+crates/atuin-common/src/string/bounded_buffer.rs:67:    pub fn take(&mut self) -> BufferContents {
+crates/atuin-common/src/string/bounded_buffer.rs:115:    pub fn clear(&mut self) {
+crates/atuin-common/src/path/display_rich.rs:34:    pub fn trailing_slash(self, enabled: bool) -> Self {
+crates/atuin-common/src/path/display_rich.rs:44:    pub fn relative_to<P: AsRef<Path> + ?Sized>(self, base: &'a P) -> Self {
+crates/atuin-common/src/path/display_rich.rs:53:    pub fn relative_to_cwd(self) -> Self {
+crates/atuin-common/src/path/display_rich.rs:67:    pub fn tilde<P: AsRef<Path> + ?Sized>(self, home: &'a P) -> Self {
+crates/atuin-common/src/path/display_rich.rs:76:    pub fn tilde_me(self) -> Self {
+crates/atuin-common/src/string/non_nul_str.rs:22:    pub fn new(inner: T) -> Result<Self, ContainsNul> {
+crates/atuin-common/src/string/non_nul_str.rs:30:    pub fn as_str(&self) -> &str {
+crates/atuin-common/src/os/windows/mod.rs:13:pub fn get_last_error() -> std::io::Error {
+crates/atuin-common/src/os/windows/mod.rs:23:pub fn fallible_do<T, F>(op: F) -> Result<(), std::io::Error>

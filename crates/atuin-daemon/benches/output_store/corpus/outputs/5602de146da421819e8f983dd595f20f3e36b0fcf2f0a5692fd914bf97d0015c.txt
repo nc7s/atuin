@@ -1,0 +1,11 @@
+18:pub mod db;
+20:pub use settings::{Settings, example_config};
+22:pub mod settings;
+28:async fn shutdown_signal() {
+42:async fn shutdown_signal() {
+47:pub async fn launch(settings: Settings, addr: SocketAddr) -> Result<()> {
+56:pub async fn launch_with_tcp_listener(
+59:    shutdown: impl Future<Output = ()> + Send + 'static,
+70:pub async fn connect(db_uri: OwnedDbUrl) -> DbResult<Arc<dyn DynDatabase>> {
+78:async fn connect_and_build_router(settings: Settings) -> Result<Router> {
+88:pub async fn launch_metrics_server(host: String, port: u16) -> Result<()> {

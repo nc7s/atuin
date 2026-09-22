@@ -1,0 +1,60 @@
+#[allow(unused_imports)]
+use alloc::vec::Vec;
+
+use crate::fastcpy::slice_copy;
+
+/// Returns a Sink implementation appropriate for outputting up to `required_capacity`
+/// bytes at `vec[offset..offset+required_capacity]`.
+/// It can be either a `SliceSink` (pre-filling the vec with zeroes if necessary)
+/// when the `safe-decode` feature is enabled, or `VecSink` otherwise.
+/// The argument `pos` defines the initial output position in the Sink.
+#[inline]
+#[cfg(feature = "frame")]
+pub fn vec_sink_for_compression(
+    vec: &mut Vec<u8>,
+    offset: usize,
+    pos: usize,
+    required_capacity: usize,
+) -> SliceSink<'_> {
+    {
+        vec.resize(offset + required_capacity, 0);
+        SliceSink::new(&mut vec[offset..], pos)
+    }
+}
+
+/// Returns a Sink implementation appropriate for outputting up to `required_capacity`
+/// bytes at `vec[offset..offset+required_capacity]`.
+/// It can be either a `SliceSink` (pre-filling the vec with zeroes if necessary)
+/// when the `safe-decode` feature is enabled, or `VecSink` otherwise.
+/// The argument `pos` defines the initial output position in the Sink.
+#[cfg(feature = "frame")]
+#[inline]
+pub fn vec_sink_for_decompression(
+    vec: &mut Vec<u8>,
+    offset: usize,
+    pos: usize,
+    required_capacity: usize,
+) -> SliceSink<'_> {
+    {
+        vec.resize(offset + required_capacity, 0);
+        SliceSink::new(&mut vec[offset..], pos)
+    }
+}
+
+pub trait Sink {
+    /// Returns a raw ptr to the first unfilled byte of the Sink. Analogous to `[pos..].as_ptr()`.
+    #[cfg(not(all(feature = "safe-encode", feature = "safe-decode")))]
+    unsafe fn pos_mut_ptr(&mut self) -> *mut u8;
+
+    /// read byte at position
+    #[allow(dead_code)]
+    fn byte_at(&mut self, pos: usize) -> u8;
+
+    /// Pushes a byte to the end of the Sink.
+    #[cfg(feature = "safe-encode")]
+    fn push(&mut self, byte: u8);
+
+    #[cfg(not(all(feature = "safe-encode", feature = "safe-decode")))]
+    unsafe fn base_mut_ptr(&mut self) -> *mut u8;
+
+    fn pos(&self) -> usize;

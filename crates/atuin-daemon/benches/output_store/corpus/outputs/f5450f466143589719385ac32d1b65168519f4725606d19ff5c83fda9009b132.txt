@@ -1,0 +1,5 @@
+10:fn serialize_tuple_elements_variable<const N: usize>(
+31:    debug_assert!(output.len() <= total_len + worst_case_len_overhead);
+36:fn serialize_tuple_elements_fixed(slices: &[&[u8]]) -> Vec<u8> {
+45:fn parse_lens<const N: usize>(fixed_width: [Option<usize>; N], data: &[u8]) -> (usize, [usize; N]) {
+60:fn not_equal<T: Key>(data1: &[u8], data2: &[u8]) -> Option<Ordering> {

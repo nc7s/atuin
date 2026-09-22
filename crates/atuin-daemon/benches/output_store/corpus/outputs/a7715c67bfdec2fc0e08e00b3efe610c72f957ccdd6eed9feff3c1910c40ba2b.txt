@@ -1,0 +1,1 @@
+106 crates/atuin/src/command/client/store/rebuild.rs

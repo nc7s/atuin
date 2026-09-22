@@ -1,0 +1,29 @@
+crates/atuin-daemon/src/client.rs:41:pub enum DaemonClientErrorKind {
+crates/atuin-daemon/src/components/sync.rs:25:enum SyncCommand {
+crates/atuin-daemon/src/components/sync.rs:32:enum SyncState {
+crates/atuin-daemon/src/output_capture/benchmark.rs:18:pub enum Engine {
+crates/atuin-daemon/src/output_capture/benchmark.rs:25:enum Backend {
+crates/atuin-daemon/src/daemon.rs:250:/// Static-dispatch enum over the daemon components.
+crates/atuin-daemon/src/daemon.rs:252:pub enum AnyComponent {
+crates/atuin-daemon/src/search/index.rs:225:pub enum IndexFilterMode {
+crates/atuin-daemon/src/search/index.rs:239:enum CompiledFilter<'a> {
+crates/atuin-daemon/src/output_capture/backend/mod.rs:19:pub enum CaptureError {
+crates/atuin-daemon/src/output_capture/backend/mod.rs:29:pub enum GetOutputError {
+crates/atuin-daemon/src/output_capture/backend/mod.rs:35:pub enum DeleteOutputError {
+crates/atuin-daemon/src/output_capture/backend/mod.rs:54:pub enum AnyBackend {
+crates/atuin-daemon/src/grpc/history/pb.rs:44:pub enum IdParseError {
+crates/atuin-daemon/src/grpc/history/pb.rs:103:pub enum StartHistoryRequestParseError {
+crates/atuin-daemon/src/grpc/history/pb.rs:131:pub enum EndHistoryRequestParseError {
+crates/atuin-daemon/src/grpc/history/pb.rs:171:pub enum CancelHistoryRequestParseError {
+crates/atuin-daemon/src/grpc/history/pb.rs:289:pub enum RegisterCommandOutputRequestParseError {
+crates/atuin-daemon/src/grpc/history/pb.rs:351:pub enum GetOutputRequestParseError {
+crates/atuin-daemon/src/grpc/history/pb.rs:391:        enum Anchor {
+crates/atuin-daemon/src/events.rs:16:pub enum DaemonEvent {
+crates/atuin-daemon/src/grpc/common/mod.rs:18:pub enum CollectCappedError<E> {
+crates/atuin-daemon/src/history_journal.rs:106:pub enum CmdEvent {
+crates/atuin-daemon/src/history_journal.rs:225:pub enum CmdFinishError {
+crates/atuin-daemon/src/history_journal.rs:236:pub enum CmdDeleteError {
+crates/atuin-daemon/src/history_journal.rs:245:pub enum CmdRebuildError {
+crates/atuin-daemon/src/history_journal.rs:252:pub enum CmdCancelError {
+crates/atuin-daemon/src/history_journal.rs:259:pub enum RegisterOutputError {
+crates/atuin-daemon/src/history_journal.rs:270:pub enum GetCmdInFlightError {

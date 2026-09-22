@@ -1,0 +1,80 @@
+1:use crate::error::{Error, ErrorCode};
+24:    fn deserialize<D>(deserializer: D) -> Result<Value, D::Error>
+28:        struct ValueVisitor;
+33:            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+38:            fn visit_bool<E>(self, value: bool) -> Result<Value, E> {
+43:            fn visit_i64<E>(self, value: i64) -> Result<Value, E> {
+47:            fn visit_i128<E>(self, value: i128) -> Result<Value, E>
+49:                E: serde::de::Error,
+56:            fn visit_u64<E>(self, value: u64) -> Result<Value, E> {
+60:            fn visit_u128<E>(self, value: u128) -> Result<Value, E>
+62:                E: serde::de::Error,
+69:            fn visit_f64<E>(self, value: f64) -> Result<Value, E> {
+75:            fn visit_str<E>(self, value: &str) -> Result<Value, E>
+77:                E: serde::de::Error,
+84:            fn visit_string<E>(self, value: String) -> Result<Value, E> {
+89:            fn visit_none<E>(self) -> Result<Value, E> {
+94:            fn visit_some<D>(self, deserializer: D) -> Result<Value, D::Error>
+102:            fn visit_unit<E>(self) -> Result<Value, E> {
+107:            fn visit_seq<V>(self, mut visitor: V) -> Result<Value, V::Error>
+121:            fn visit_map<V>(self, mut visitor: V) -> Result<Value, V::Error>
+134:                        crate::from_str(value.get()).map_err(de::Error::custom)
+155:impl FromStr for Value {
+156:    type Err = Error;
+157:    fn from_str(s: &str) -> Result<Value, Error> {
+162:impl FromStr for Map<String, Value> {
+163:    type Err = Error;
+164:    fn from_str(s: &str) -> Result<Self, Error> {
+172:        fn $method<V>(self, visitor: V) -> Result<V::Value, Error>
+183:        fn $method<V>(self, visitor: V) -> Result<V::Value, Error>
+195:fn visit_array<'de, V>(array: Vec<Value>, visitor: V) -> Result<V::Value, Error>
+206:        Err(serde::de::Error::invalid_length(
+214:    type Error = Error;
+216:    fn deserialize_any<V>(self, visitor: V) -> Result<V::Value, Self::Error>
+227:            Err(serde::de::Error::invalid_length(
+234:    fn deserialize_enum<V>(
+239:    ) -> Result<V::Value, Self::Error>
+247:                return Err(serde::de::Error::invalid_value(
+255:            return Err(serde::de::Error::invalid_value(
+267:    fn deserialize_ignored_any<V>(self, visitor: V) -> Result<V::Value, Self::Error>
+277:        bytes byte_buf option unit unit_struct newtype_struct seq tuple
+278:        tuple_struct map struct identifier
+283:    type Error = Error;
+286:    fn deserialize_any<V>(self, visitor: V) -> Result<V::Value, Error>
+317:    fn deserialize_option<V>(self, visitor: V) -> Result<V::Value, Error>
+328:    fn deserialize_enum<V>(
+333:    ) -> Result<V::Value, Error>
+343:            other => Err(serde::de::Error::invalid_type(
+351:    fn deserialize_newtype_struct<V>(
+355:    ) -> Result<V::Value, Error>
+372:    fn deserialize_bool<V>(self, visitor: V) -> Result<V::Value, Error>
+382:    fn deserialize_char<V>(self, visitor: V) -> Result<V::Value, Error>
+389:    fn deserialize_str<V>(self, visitor: V) -> Result<V::Value, Error>
+396:    fn deserialize_string<V>(self, visitor: V) -> Result<V::Value, Error>
+407:    fn deserialize_bytes<V>(self, visitor: V) -> Result<V::Value, Error>
+414:    fn deserialize_byte_buf<V>(self, visitor: V) -> Result<V::Value, Error>
+426:    fn deserialize_unit<V>(self, visitor: V) -> Result<V::Value, Error>
+436:    fn deserialize_unit_struct<V>(self, _name: &'static str, visitor: V) -> Result<V::Value, Error>
+443:    fn deserialize_seq<V>(self, visitor: V) -> Result<V::Value, Error>
+453:    fn deserialize_tuple<V>(self, _len: usize, visitor: V) -> Result<V::Value, Error>
+460:    fn deserialize_tuple_struct<V>(
+465:    ) -> Result<V::Value, Error>
+472:    fn deserialize_map<V>(self, visitor: V) -> Result<V::Value, Error>
+482:    fn deserialize_struct<V>(
+487:    ) -> Result<V::Value, Error>
+498:    fn deserialize_identifier<V>(self, visitor: V) -> Result<V::Value, Error>
+505:    fn deserialize_ignored_any<V>(self, visitor: V) -> Result<V::Value, Error>
+514:struct EnumDeserializer {
+520:    type Error = Error;
+523:    fn variant_seed<V>(self, seed: V) -> Result<(V::Value, VariantDeserializer), Error>
+533:impl<'de> IntoDeserializer<'de, Error> for Value {
+536:    fn into_deserializer(self) -> Self::Deserializer {
+541:impl<'de> IntoDeserializer<'de, Error> for &'de Value {
+544:    fn into_deserializer(self) -> Self::Deserializer {
+549:struct VariantDeserializer {
+554:    type Error = Error;
+556:    fn unit_variant(self) -> Result<(), Error> {
+563:    fn newtype_variant_seed<T>(self, seed: T) -> Result<T::Value, Error>
+569:            None => Err(serde::de::Error::invalid_type(
+576:    fn tuple_variant<V>(self, _len: usize, visitor: V) -> Result<V::Value, Error>
+588:            Some(other) => Err(serde::de::Error::invalid_type(

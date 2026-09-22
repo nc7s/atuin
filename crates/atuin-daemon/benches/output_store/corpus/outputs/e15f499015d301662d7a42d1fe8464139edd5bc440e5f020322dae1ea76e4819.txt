@@ -1,0 +1,60 @@
+//! All of the structures in this module can be serialized to a fixed-width byte array.
+//!
+//! They are designed to be compatible with any time implemenation. All integers are using little endian. The layout of the memory is as follows:
+//!
+//!| Structure             | Layout                                                                                                                   | Size |                                                  |
+//!|-----------------------|--------------------------------------------------------------------------------------------------------------------------|------|--------------------------------------------------|
+//!| NaiveDate             | `{year:i32}\|{month:u8}\|{day:u8}`                                                                                       | 6    |                                                  |
+//!| NaiveTime             | `{seconds_from_midnight:u32:first 3 bytes}\|{nanoseconds:u32}`                                                           | 7    |                                                  |
+//!| NaiveDateTime         | `{year:i32}\|{month:u8}\|{day:u8}\|{seconds_from_midnight:u32:first 3 bytes}\|{nanoseconds:u32}`                         | 13   |                                                  |
+//!| FixedOffset           | `{seconds_from_utc:i32}`                                                                                                 | 4    |                                                  |
+//!| DateTime<FixedOffset> | `{year:i32}\|{month:u8}\|{day:u8}\|{seconds_from_midnight:u32:first 3 bytes}\|{nanoseconds:u32}\|{seconds_from_utc:i32}` | 17   | Time is stored in UTC with the offset in seconds |
+use crate::{Key, TypeName, Value};
+
+use chrono_v0_4::{
+    DateTime, Datelike, FixedOffset, NaiveDate, NaiveDateTime, NaiveTime, TimeZone, Timelike, Utc,
+};
+/// A 6-byte representation of a date in the format `{year:i32}\|{month:u8}\|{day:u8}`.
+impl Value for NaiveDate {
+    type SelfType<'a>
+        = NaiveDate
+    where
+        Self: 'a;
+
+    type AsBytes<'a>
+        = [u8; 6]
+    where
+        Self: 'a;
+
+    fn fixed_width() -> Option<usize> {
+        Some(6)
+    }
+
+    fn from_bytes<'a>(data: &'a [u8]) -> Self::SelfType<'a>
+    where
+        Self: 'a,
+    {
+        assert_eq!(
+            data.len(),
+            6,
+            "NaiveDate must be 6 bytes long, got {}",
+            data.len()
+        );
+        date_from_bytes(data)
+    }
+
+    fn as_bytes<'a, 'b: 'a>(value: &'a Self::SelfType<'b>) -> Self::AsBytes<'a>
+    where
+        Self: 'b,
+    {
+        let year = value.year().to_le_bytes();
+        let month = u8::try_from(value.month()).unwrap();
+        let day = u8::try_from(value.day()).unwrap();
+        [year[0], year[1], year[2], year[3], month, day]
+    }
+
+    fn type_name() -> super::TypeName {
+        TypeName::new("chrono::NaiveDate")
+    }
+}
+impl Key for NaiveDate {

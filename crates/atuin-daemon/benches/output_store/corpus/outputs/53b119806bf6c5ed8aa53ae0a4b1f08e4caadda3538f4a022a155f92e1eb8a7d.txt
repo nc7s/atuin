@@ -1,0 +1,23 @@
+total 144K
+-rw-r--r-- 1 i i 4.6K Jul 24  2006 AGENTS.md
+-rw-r--r-- 1 i i  46K Jul 24  2006 CHANGELOG.md
+-rw-r--r-- 1 i i   61 Jul 24  2006 CLAUDE.md
+-rw-r--r-- 1 i i  12K Jan  1  1970 Cargo.lock
+-rw-r--r-- 1 i i 3.0K Jan  1  1970 Cargo.toml
+-rw-r--r-- 1 i i 2.8K Jul 24  2006 Cargo.toml.orig
+-rw-r--r-- 1 i i 1.2K Jul 24  2006 Containerfile.sandbox
+-rw-r--r-- 1 i i  433 Jul 24  2006 Dockerfile.bench
+-rw-r--r-- 1 i i  12K Jul 24  2006 LICENSE-APACHE
+-rw-r--r-- 1 i i 1.1K Jul 24  2006 LICENSE-MIT
+-rw-r--r-- 1 i i 4.8K Jul 24  2006 README.md
+-rw-r--r-- 1 i i  968 Jul 24  2006 build.rs
+-rw-r--r-- 1 i i   51 Jul 24  2006 clippy.toml
+-rw-r--r-- 1 i i 6.2K Jul 24  2006 deny.toml
+drwxrwxr-x 1 i i   18 Sep 20 15:58 docs
+drwxrwxr-x 1 i i  124 Sep 20 15:58 examples
+-rw-r--r-- 1 i i 4.8K Jul 24  2006 justfile
+-rw-r--r-- 1 i i    5 Jul 24  2006 rust-toolchain
+-rw-r--r-- 1 i i   16 Jul 24  2006 rustfmt.toml
+drwxrwxr-x 1 i i   34 Sep 20 15:58 scripts
+drwxrwxr-x 1 i i  356 Sep 20 15:58 src
+drwxrwxr-x 1 i i  472 Sep 20 15:58 tests

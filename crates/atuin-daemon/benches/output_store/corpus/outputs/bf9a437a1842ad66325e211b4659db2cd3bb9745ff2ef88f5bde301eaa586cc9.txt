@@ -1,0 +1,5 @@
+tests/regression_fuzz.rs:25:#[cfg(feature = "unicode")]
+tests/regression.rs:49:#[cfg(feature = "unicode-perl")]
+tests/regression.rs:57:#[cfg(feature = "unicode")]
+tests/regression.rs:68:#[cfg(feature = "unicode-perl")]
+tests/lib.rs:8:#[cfg(feature = "pattern")]

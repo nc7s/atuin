@@ -1,0 +1,5 @@
+26:enum DeletionResult {
+52:enum DeletedPairs {
+57:impl DeletedPairs {
+58:    fn len(&self) -> usize {
+74:enum LeafDeleteDisposition {

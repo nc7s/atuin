@@ -1,0 +1,41 @@
+3:use super::Error;
+39:pub enum BlockSize {
+55:impl BlockSize {
+57:    pub(crate) fn from_buf_length(buf_len: usize) -> Self {
+68:    pub(crate) fn get_size(&self) -> usize {
+83:pub enum BlockMode {
+130:pub struct FrameInfo {
+132:    pub content_size: Option<u64>,
+139:    pub block_size: BlockSize,
+141:    pub block_mode: BlockMode,
+143:    pub block_checksums: bool,
+146:    pub content_checksum: bool,
+148:    pub legacy_frame: bool,
+151:impl FrameInfo {
+153:    pub fn new() -> Self {
+158:    pub fn content_size(mut self, content_size: Option<u64>) -> Self {
+164:    pub fn block_size(mut self, block_size: BlockSize) -> Self {
+170:    pub fn block_mode(mut self, block_mode: BlockMode) -> Self {
+176:    pub fn block_checksums(mut self, block_checksums: bool) -> Self {
+183:    pub fn content_checksum(mut self, content_checksum: bool) -> Self {
+189:    pub fn legacy_frame(mut self, legacy_frame: bool) -> Self {
+194:    pub(crate) fn read_size(input: &[u8]) -> Result<usize, Error> {
+209:            return Err(Error::WrongMagicNumber);
+221:    pub(crate) fn write_size(&self) -> usize {
+232:    pub(crate) fn write(&self, output: &mut [u8]) -> Result<usize, Error> {
+235:            return Err(Error::IoError(io::ErrorKind::UnexpectedEof.into()));
+238:        assert!(write_size <= buffer.len());
+272:        debug_assert_eq!(offset, write_size);
+277:    pub(crate) fn read(mut input: &[u8]) -> Result<FrameInfo, Error> {
+296:            return Err(Error::SkippableFrame(user_data_len));
+299:            return Err(Error::WrongMagicNumber);
+311:            return Err(Error::UnsupportedVersion(flg_byte & FLG_VERSION_MASK));
+315:            return Err(Error::ReservedBitsSet);
+327:            i @ 0..=3 => return Err(Error::UnsupportedBlocksize(i)),
+360:            return Err(Error::HeaderChecksumError);
+376:pub(crate) enum BlockInfo {
+382:impl BlockInfo {
+383:    pub(crate) fn read(mut input: &[u8]) -> Result<Self, Error> {
+396:    pub(crate) fn write(&self, mut output: &mut [u8]) -> Result<usize, Error> {
+398:            BlockInfo::Compressed(len) if *len == 0 => return Err(Error::InvalidBlockInfo),
+402:                return Err(Error::InvalidBlockInfo)

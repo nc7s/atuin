@@ -1,0 +1,80 @@
+4:use redb::{ConcurrencyMode, Database, DatabaseError, StorageError};
+16:    fn shared() -> redb::Builder {
+22:    fn create(path: &Path) -> Database {
+33:    fn value(db: &impl ReadableDatabase) -> u64 {
+41:    fn a_shared_reader_sees_a_peers_writes() {
+47:        assert_eq!(value(&reader), 0);
+58:            assert_eq!(
+69:    fn a_shared_reader_ignores_the_layout() {
+91:        assert_eq!(value(&reader), 7);
+98:    struct CrashBackend {
+103:    impl redb::StorageBackend for CrashBackend {
+104:        fn len(&self) -> Result<u64, std::io::Error> {
+107:        fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), std::io::Error> {
+110:        fn set_len(&self, len: u64) -> Result<(), std::io::Error> {
+116:        fn sync_data(&self) -> Result<(), std::io::Error> {
+122:        fn write(&self, offset: u64, data: &[u8]) -> Result<(), std::io::Error> {
+133:    fn a_repairing_writer_does_not_admit_a_shared_reader() {
+176:        assert_eq!(
+183:        assert_eq!(value(&reader), 9);
+199:    fn create(path: &Path, mode: ConcurrencyMode) -> Result<Database, DatabaseError> {
+207:    fn a_write_transaction_excludes_another_process() {
+221:        assert!(
+233:    fn an_aborted_transaction_releases_the_byte() {
+248:    fn an_exclusive_writer_transaction_does_not_puncture_the_whole_file_lock() {
+259:        assert!(matches!(
+261:            Err(DatabaseError::DatabaseAlreadyOpen)
+268:fn the_concurrency_mode_excludes_incompatible_opens() {
+269:    fn create(path: &std::path::Path, mode: ConcurrencyMode) -> Result<Database, DatabaseError> {
+279:    assert!(matches!(
+281:        Err(DatabaseError::DatabaseAlreadyOpen)
+283:    assert!(matches!(
+285:        Err(DatabaseError::DatabaseAlreadyOpen)
+297:fn an_integrity_check_syncs_to_a_peers_commits() {
+318:    assert!(db.check_integrity().unwrap());
+321:    assert_eq!(table.get(1).unwrap().unwrap().value(), 1);
+326:    assert_ne!(own_savepoint, peers_savepoint);
+336:    assert_eq!(table.get(1).unwrap().unwrap().value(), 1);
+340:    assert_eq!(savepoints, vec![peers_savepoint, own_savepoint]);
+347:fn a_corrupt_primary_is_not_repaired_from_under_a_peers_read() {
+390:    assert!(matches!(
+392:        Err(DatabaseError::Storage(StorageError::Corrupted(_)))
+395:    assert_eq!(table.get(1).unwrap().unwrap().value(), 1);
+396:    assert_eq!(table.get(2).unwrap().unwrap().value(), 2);
+402:fn an_integrity_check_waits_for_a_peers_write_transaction() {
+423:    assert!(
+428:    assert!(
+440:    use redb::{CompactionError, ReadableDatabase, ReadableTable, TableDefinition};
+445:    fn open(path: &Path) -> Database {
+454:    fn two_handles(path: &Path) -> (Database, Database) {
+462:    fn insert(db: &Database, key: u64) {
+468:    fn value(db: &Database, key: u64) -> u64 {
+477:    fn a_read_transaction_on_a_writable_handle_sees_a_peers_commit() {
+482:        assert_eq!(value(&db, 1), 1);
+488:    fn a_write_transaction_syncs_to_a_peers_commit() {
+496:            assert_eq!(table.get(1).unwrap().unwrap().value(), 1);
+503:            assert_eq!(table.get(1).unwrap().unwrap().value(), 1);
+504:            assert_eq!(table.get(2).unwrap().unwrap().value(), 2);
+511:        assert_eq!(value(&db, 1), 1);
+512:        assert_eq!(value(&db, 2), 2);
+519:    fn a_write_transaction_syncs_to_a_peers_savepoint() {
+527:        assert!(matches!(
+529:            Err(CompactionError::PersistentSavepointExists)
+533:        assert_ne!(own_savepoint, peers_savepoint);
+539:            assert_eq!(savepoints, vec![peers_savepoint, own_savepoint]);
+544:        assert!(txn.delete_persistent_savepoint(peers_savepoint).unwrap());
+545:        assert!(txn.delete_persistent_savepoint(own_savepoint).unwrap());
+552:    fn an_aborted_savepoint_is_not_revived_by_a_peer() {
+557:    fn a_dropped_transactions_savepoint_is_not_revived_by_a_peer() {
+562:    fn a_panicked_transactions_savepoint_is_not_revived_by_a_peer() {
+568:            assert!(unwound.is_err());
+572:    fn check_abandoned_savepoint(abandon: impl Fn(redb::WriteTransaction)) {
+587:            assert_eq!(txn.persistent_savepoint().unwrap(), id);
+591:            assert!(matches!(
+593:                Err(redb::SavepointError::InvalidSavepoint)
+609:                assert_eq!(table.get(0).unwrap().unwrap().value(), 0);
+610:                assert_eq!(table.get(1).unwrap().is_some(), advance_snapshot);
+611:                assert!(table.get(2).unwrap().is_none());
+615:            assert!(txn.delete_persistent_savepoint(id).unwrap());
+618:            assert!(matches!(
+620:                Err(redb::SavepointError::InvalidSavepoint)

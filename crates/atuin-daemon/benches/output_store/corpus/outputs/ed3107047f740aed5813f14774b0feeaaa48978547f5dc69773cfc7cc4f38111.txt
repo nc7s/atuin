@@ -1,0 +1,68 @@
+crates/atuin-daemon/src/client.rs:69:impl HistoryClient {
+crates/atuin-daemon/src/client.rs:175:        ids: impl IntoIterator<Item = HistoryId>,
+crates/atuin-daemon/src/client.rs:216:        output_start: impl Into<String>,
+crates/atuin-daemon/src/client.rs:268:impl From<SearchParams> for SearchRequest {
+crates/atuin-daemon/src/client.rs:288:impl SearchClient {
+crates/atuin-daemon/src/client.rs:369:impl From<FilterMode> for RpcFilterMode {
+crates/atuin-daemon/src/client.rs:382:impl From<Context> for RpcSearchContext {
+crates/atuin-daemon/src/components/sync.rs:51:impl SyncComponent {
+crates/atuin-daemon/src/components/sync.rs:62:impl Default for SyncComponent {
+crates/atuin-daemon/src/components/sync.rs:68:impl Component for SyncComponent {
+crates/atuin-daemon/src/components/search.rs:44:impl SearchComponent {
+crates/atuin-daemon/src/components/search.rs:107:impl Default for SearchComponent {
+crates/atuin-daemon/src/components/search.rs:113:impl Component for SearchComponent {
+crates/atuin-daemon/src/components/search.rs:201:impl SearchGrpcServiceBuilder {
+crates/atuin-daemon/src/components/search.rs:218:impl SearchGrpcService {
+crates/atuin-daemon/src/components/search.rs:240:impl SearchSvc for SearchGrpcService {
+crates/atuin-daemon/src/output_capture/benchmark.rs:34:impl Store {
+crates/atuin-daemon/src/daemon.rs:87:impl DaemonHandle {
+crates/atuin-daemon/src/daemon.rs:164:impl std::fmt::Debug for DaemonHandle {
+crates/atuin-daemon/src/daemon.rs:198:/// impl Component for MyComponent {
+crates/atuin-daemon/src/daemon.rs:282:impl Daemon {
+crates/atuin-daemon/src/daemon.rs:408:impl DaemonBuilder {
+crates/atuin-daemon/src/daemon.rs:438:    pub fn component(mut self, component: impl Component) -> Self {
+crates/atuin-daemon/src/history_journal.rs:167:impl Drop for DeletingGuard<'_, '_> {
+crates/atuin-daemon/src/history_journal.rs:275:impl HistoryJournal {
+crates/atuin-daemon/src/output_capture/mod.rs:17:impl OutputCapture {
+crates/atuin-daemon/src/output_capture/mod.rs:19:    pub fn open(path: impl AsRef<std::path::Path>, max_disk_usage: DiskUsageLimit) -> Self {
+crates/atuin-daemon/src/output_capture/mod.rs:79:        ids: impl IntoIterator<Item = HistoryId>,
+crates/atuin-daemon/src/grpc/mod.rs:18:            impl crate::grpc::VersionedReply for $name {
+crates/atuin-daemon/src/grpc/mod.rs:38:            impl From<$err> for tonic::Status {
+crates/atuin-daemon/src/grpc/mod.rs:54:            impl From<$err> for tonic::Status {
+crates/atuin-daemon/src/search/index.rs:46:impl FrecencyData {
+crates/atuin-daemon/src/search/index.rs:129:impl CommandData {
+crates/atuin-daemon/src/search/index.rs:249:impl IndexFilterMode {
+crates/atuin-daemon/src/search/index.rs:282:impl HaystackEntry {
+crates/atuin-daemon/src/search/index.rs:311:impl Ord for Score {
+crates/atuin-daemon/src/search/index.rs:321:impl PartialOrd for Score {
+crates/atuin-daemon/src/search/index.rs:366:impl SearchIndex {
+crates/atuin-daemon/src/search/index.rs:404:    pub fn history_pages(db: &Sqlite) -> impl Stream<Item = Result<Vec<History>, LoadFromDbError>> {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:24:impl RedbBackend {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:91:impl Backend for RedbBackend {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:151:fn capture_error(error: impl std::error::Error + Send + Sync + 'static) -> CaptureError {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:155:fn get_error(error: impl std::error::Error + Send + Sync + 'static) -> GetOutputError {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:159:fn delete_error(error: impl std::error::Error + Send + Sync + 'static) -> DeleteOutputError {
+crates/atuin-daemon/src/grpc/common/pb.rs:10:impl From<DomainRecordId> for RecordId {
+crates/atuin-daemon/src/grpc/common/mod.rs:55:    ) -> impl Future<Output = Result<Vec<T>, CollectCappedError<E>>> + Send
+crates/atuin-daemon/src/output_capture/backend/nop.rs:9:impl Backend for NopBackend {
+crates/atuin-daemon/src/grpc/history/mod.rs:247:impl Service {
+crates/atuin-daemon/src/grpc/history/mod.rs:258:impl GrpcService for Service {
+crates/atuin-daemon/src/output_capture/backend/fjall/gc.rs:15:impl Gc {
+crates/atuin-daemon/src/output_capture/backend/fjall/gc.rs:54:impl Drop for Gc {
+crates/atuin-daemon/src/grpc/history/pb.rs:32:impl From<DomainHistoryId> for HistoryId {
+crates/atuin-daemon/src/grpc/history/pb.rs:51:impl TryFrom<HistoryId> for DomainHistoryId {
+crates/atuin-daemon/src/grpc/history/pb.rs:62:impl From<Option<atuin_client::history::AuthorKind>> for AuthorKind {
+crates/atuin-daemon/src/grpc/history/pb.rs:72:impl From<AuthorKind> for Option<atuin_client::history::AuthorKind> {
+crates/atuin-daemon/src/grpc/history/pb.rs:82:impl From<History> for HistoryEntry {
+crates/atuin-daemon/src/grpc/history/pb.rs:108:impl TryFrom<StartHistoryRequest> for History {
+crates/atuin-daemon/src/grpc/history/pb.rs:155:impl EndHistoryRequest {
+crates/atuin-daemon/src/grpc/history/pb.rs:178:impl TryFrom<CancelHistoryRequest> for DomainHistoryId {
+crates/atuin-daemon/src/output_capture/backend/failing.rs:17:impl Backend for FailingBackend {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:47:impl FjallBackendInner {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:195:impl Flusher {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:264:impl Drop for Flusher {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:282:impl FjallBackend {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:286:    pub fn open(path: impl AsRef<Path>, max_disk_usage: DiskUsageLimit) -> fjall::Result<Self> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:327:impl Backend for FjallBackend {
+crates/atuin-daemon/src/output_capture/backend/fjall/benchmark.rs:13:impl FjallBackend {
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:13:impl super::Schema for Schema {

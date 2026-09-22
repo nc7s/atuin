@@ -1,0 +1,4 @@
+7:    fn test_serialize() {
+12:        assert_eq!(uuid_bytes, borsh_bytes);
+16:    fn test_deserialize() {
+21:        assert_eq!(uuid_str, deserialized);

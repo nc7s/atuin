@@ -1,0 +1,5 @@
+f98361cf chore(release): prepare for release 18.22.0 (#4095)
+
+ crates/atuin-server/Cargo.toml | 2 +-
+ crates/atuin/Cargo.toml        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)

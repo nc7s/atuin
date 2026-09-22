@@ -1,0 +1,20 @@
+16:pub struct PyStyleIdxRange {
+18:    pub start: i64,
+20:    pub end: i64,
+23:impl PyStyleIdxRange {
+28:    pub fn new(start: i64, end: i64) -> Self {
+39:    pub fn resolve_for<T>(self, slice: &[T]) -> Range<usize> {
+64:    pub fn resolve_for_split<T>(self, start: &[T], end: &[T]) -> SplitRanges {
+120:pub struct SplitRanges {
+123:    pub start: Range<usize>,
+126:    pub end: Range<usize>,
+131:    pub truncated: bool,
+156:    fn resolve_for_is_always_sliceable(
+162:        assert_eq!(resolved, expected);
+174:    fn split(range: PyStyleIdxRange) -> (Vec<&'static str>, bool) {
+208:    fn resolve_for_split_picks_from_both_halves(
+213:        assert_eq!(split(range), (expected, truncated));
+223:    fn resolve_for_split_empty_halves_never_panic(#[case] range: PyStyleIdxRange) {
+232:    fn resolve_for_split_matches_resolve_for_when_nothing_is_missing() {
+240:                assert_eq!(ranges.start, range.resolve_for(&START), "{start}..={end}");
+241:                assert!(ranges.end.is_empty(), "{start}..={end}");

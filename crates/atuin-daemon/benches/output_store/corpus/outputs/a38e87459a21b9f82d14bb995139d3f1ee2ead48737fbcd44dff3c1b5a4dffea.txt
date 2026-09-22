@@ -1,0 +1,28 @@
+tests/multiprocess_tests.rs:169:            *recorded = Some(match shared().open_read_only(&path) {
+tests/multimap_tests.rs:353:        Err(TableError::TableTypeMismatch { .. })
+tests/multimap_tests.rs:361:        Err(TableError::TableTypeMismatch { .. })
+tests/integration_tests.rs:488:            match iter.next() {
+tests/integration_tests.rs:1729:        let read = match read.close() {
+tests/integration_tests.rs:3679:        Err(TableError::TableTypeMismatch { .. })
+tests/integration_tests.rs:3687:        Err(TableError::TableTypeMismatch { .. })
+tests/integration_tests.rs:4592:        match table.get(&i) {
+tests/corrupted_btree_descent.rs:144:    match table.range(0u64..) {
+tests/corrupted_btree_descent.rs:152:    match table.iter() {
+tests/corrupted_btree_descent.rs:202:            match entry {
+tests/corrupted_btree_descent.rs:220:            match iter.next() {
+tests/corrupted_btree_descent.rs:276:            match entry {
+tests/corrupted_btree_descent.rs:293:            match iter.next() {
+tests/check_integrity_nondurable.rs:232:// inconsistent with the file would corrupt subsequent opens). It must detect the mismatch and leave
+tests/check_integrity_nondurable.rs:277:// a layout pointing past the end of the file. It must detect the mismatch and leave the durable
+tests/basic_tests.rs:781:                match entry {
+tests/basic_tests.rs:869:                match entry {
+tests/basic_tests.rs:913:                match entry {
+tests/basic_tests.rs:1973:        match entry {
+tests/basic_tests.rs:1998:        match table.entry(2).unwrap() {
+tests/basic_tests.rs:2012:        match table.entry(3).unwrap() {
+tests/basic_tests.rs:2038:        match table.entry(42).unwrap() {
+tests/basic_tests.rs:3382:    // The iteration order must still match the sorted key order
+tests/backward_compatibility.rs:8:// whose width and encoding match it. It implements both the current and the redb 2.6 `Value`
+tests/backward_compatibility.rs:548:// built-in `Option<u32>` must now fail with a type mismatch rather than misinterpreting the data.
+tests/backward_compatibility.rs:568:        Err(redb::TableError::TableTypeMismatch { .. })
+tests/backward_compatibility.rs:594:        Err(redb::TableError::TableTypeMismatch { .. })

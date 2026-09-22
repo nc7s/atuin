@@ -1,0 +1,33 @@
+src/regexset/string.rs:660:    fn next(&mut self) -> Option<usize> {
+src/regexset/string.rs:669:    fn size_hint(&self) -> (usize, Option<usize>) {
+src/regexset/string.rs:675:    fn next_back(&mut self) -> Option<usize> {
+src/regexset/string.rs:703:    fn next(&mut self) -> Option<usize> {
+src/regexset/string.rs:707:    fn size_hint(&self) -> (usize, Option<usize>) {
+src/regexset/string.rs:713:    fn next_back(&mut self) -> Option<usize> {
+src/regexset/bytes.rs:664:    fn next(&mut self) -> Option<usize> {
+src/regexset/bytes.rs:673:    fn size_hint(&self) -> (usize, Option<usize>) {
+src/regexset/bytes.rs:679:    fn next_back(&mut self) -> Option<usize> {
+src/regexset/bytes.rs:707:    fn next(&mut self) -> Option<usize> {
+src/regexset/bytes.rs:711:    fn size_hint(&self) -> (usize, Option<usize>) {
+src/regexset/bytes.rs:717:    fn next_back(&mut self) -> Option<usize> {
+src/find_byte.rs:5:pub(crate) fn find_byte(needle: u8, haystack: &[u8]) -> Option<usize> {
+src/find_byte.rs:7:    fn imp(needle: u8, haystack: &[u8]) -> Option<usize> {
+src/find_byte.rs:12:    fn imp(needle: u8, haystack: &[u8]) -> Option<usize> {
+src/regex/string.rs:281:    pub fn find<'h>(&self, haystack: &'h str) -> Option<Match<'h>> {
+src/regex/string.rs:404:    pub fn captures<'h>(&self, haystack: &'h str) -> Option<Captures<'h>> {
+src/regex/string.rs:1047:    pub fn shortest_match(&self, haystack: &str) -> Option<usize> {
+src/regex/string.rs:1086:    ) -> Option<usize> {
+src/regex/string.rs:1158:    ) -> Option<Match<'h>> {
+src/regex/string.rs:1197:    ) -> Option<Captures<'h>> {
+src/regex/string.rs:1247:    ) -> Option<Match<'h>> {
+src/regex/string.rs:1288:    ) -> Option<Match<'h>> {
+src/regex/bytes.rs:283:    pub fn find<'h>(&self, haystack: &'h [u8]) -> Option<Match<'h>> {
+src/regex/bytes.rs:406:    pub fn captures<'h>(&self, haystack: &'h [u8]) -> Option<Captures<'h>> {
+src/regex/bytes.rs:1064:    pub fn shortest_match(&self, haystack: &[u8]) -> Option<usize> {
+src/regex/bytes.rs:1103:    ) -> Option<usize> {
+src/regex/bytes.rs:1173:    ) -> Option<Match<'h>> {
+src/regex/bytes.rs:1210:    ) -> Option<Captures<'h>> {
+src/regex/bytes.rs:1255:    ) -> Option<Match<'h>> {
+src/regex/bytes.rs:1293:    ) -> Option<Match<'h>> {
+src/pattern.rs:10:    next_match: Option<(usize, usize)>,
+src/pattern.rs:25:    fn as_utf8_pattern<'p>(&'p self) -> Option<Utf8Pattern<'p>> {

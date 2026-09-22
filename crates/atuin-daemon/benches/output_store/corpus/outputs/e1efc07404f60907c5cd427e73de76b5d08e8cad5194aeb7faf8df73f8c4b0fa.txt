@@ -1,0 +1,64 @@
+2:use crate::error::TableError;
+29:pub(crate) struct PageListMut {
+33:impl PageListMut {
+34:    pub(crate) fn push_back(&mut self, value: PageNumber) {
+43:    pub(crate) fn clear(&mut self) {
+48:pub struct TableNameIter {
+53:impl Iterator for TableNameIter {
+56:    fn next(&mut self) -> Option<Self::Item> {
+73:pub(crate) struct TableTree {
+78:impl TableTree {
+79:    pub(crate) fn new(
+91:    pub(crate) fn transaction_guard(&self) -> &Arc<TransactionGuard> {
+95:    pub(crate) fn verify_checksums(&self) -> Result<bool> {
+146:    pub(crate) fn count_tables(&self) -> Result<u64> {
+156:    pub(crate) fn list_tables(&self, table_type: TableType) -> Result<Vec<String>> {
+169:    pub(crate) fn get_table_untyped(
+173:    ) -> Result<Option<InternalTableDefinition>, TableError> {
+184:    pub(crate) fn get_table<K: Key, V: Value>(
+188:    ) -> Result<Option<InternalTableDefinition>, TableError> {
+200:    pub(crate) fn visit_all_pages<F>(&self, mut visitor: F) -> Result
+228:pub(crate) struct TableTreeMut {
+243:impl TableTreeMut {
+244:    pub(crate) fn new(
+267:    pub(crate) fn page_allocator(&self) -> &PageAllocator {
+271:    pub(crate) fn set_root(&mut self, root: Option<BtreeHeader>) {
+277:    #[cfg_attr(any(not(debug_assertions), redb_no_std), expect(dead_code))]
+278:    pub(crate) fn visit_all_pages<F>(&self, mut visitor: F) -> Result
+310:    pub(crate) fn stage_update_table_root(
+323:    pub(crate) fn clear_root_updates_and_close(&mut self) {
+330:    pub(crate) fn flush_and_close(
+350:    fn flush_inner(&mut self) -> Result<Option<BtreeHeader>> {
+354:    pub(crate) fn flush_table_root_updates(&mut self) -> Result<&mut Self> {
+414:    pub(crate) fn open_table_and_flush_table_root<K: Key + 'static, V: Value + 'static>(
+417:        f: impl FnOnce(&mut BtreeMut<K, V>) -> Result,
+419:        assert!(self.pending_table_updates.is_empty());
+462:    pub(crate) fn create_table_and_flush_table_root<K: Key + 'static, V: Value + 'static>(
+465:        f: impl FnOnce(&mut Self, &mut BtreeMut<K, V>) -> Result,
+467:        assert!(self.pending_table_updates.is_empty());
+468:        assert!(self.tree.get(&name)?.is_none());
+499:    pub(crate) fn finalize_dirty_checksums(&mut self) -> Result<Option<BtreeHeader>> {
+504:    pub(crate) fn list_tables(&self, table_type: TableType) -> Result<Vec<String>> {
+514:    pub(crate) fn get_table_untyped(
+518:    ) -> Result<Option<InternalTableDefinition>, TableError> {
+537:    pub(crate) fn get_table<K: Key, V: Value>(
+541:    ) -> Result<Option<InternalTableDefinition>, TableError> {
+559:    pub(crate) fn rename_table(
+564:    ) -> Result<(), TableError> {
+579:                return Err(TableError::TableExists(new_name.to_string()));
+581:            assert!(self.tree.remove(&name)?.is_some());
+584:            assert!(self.tree.insert(&new_name, &definition)?.is_none());
+591:            return Err(TableError::TableDoesNotExist(name.to_string()));
+597:    pub(crate) fn delete_table(
+601:    ) -> Result<bool, TableError> {
+635:    pub(crate) fn clear_pending_table_update(&mut self, name: &str) {
+639:    pub(crate) fn get_or_create_table<K: Key, V: Value>(
+643:    ) -> Result<(Option<BtreeHeader>, u64), TableError> {
+668:    pub(crate) fn highest_index_pages(
+702:    pub(crate) fn relocate_tables(
+733:    pub fn stats(&self) -> Result<DatabaseStats> {
+808:impl Drop for TableTreeMut {
+809:    fn drop(&mut self) {
+813:        assert!(self.allocated_pages.is_empty());
+824:    fn round_trip() {
+836:        assert_eq!(x, y);

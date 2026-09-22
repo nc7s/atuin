@@ -1,0 +1,16 @@
+14:pub async fn run(
+101:async fn ensure_hub_session(settings: &atuin_client::settings::Settings) -> Result<String> {
+161:async fn run_inline_tui(
+350:enum SetupChoice {
+356:fn prompt_ai_setup() -> Result<SetupChoice> {
+372:    struct Guard;
+373:    impl Drop for Guard {
+374:        fn drop(&mut self) {
+421:fn render_setup_options(
+422:    w: &mut impl std::io::Write,
+442:async fn set_ai_enabled(enabled: bool) -> Result<()> {
+467:fn wait_for_login_confirmation() -> Result<bool> {
+472:    struct Guard;
+473:    impl Drop for Guard {
+474:        fn drop(&mut self) {
+492:fn emit_shell_result(outcome: ExitOutcome, output_for_hook: bool) {

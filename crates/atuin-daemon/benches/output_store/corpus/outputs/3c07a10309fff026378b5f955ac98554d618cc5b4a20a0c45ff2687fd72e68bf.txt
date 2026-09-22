@@ -1,0 +1,20 @@
+1:use atuin_common::shell::{Shell, ShellError};
+8:pub mod bash;
+9:pub mod fish;
+10:pub mod powershell;
+11:pub mod xonsh;
+12:pub mod zsh;
+15:pub struct Alias {
+16:    pub name: String,
+17:    pub value: String,
+21:pub struct Var {
+22:    pub name: String,
+23:    pub value: String,
+27:    pub export: bool,
+30:impl Var {
+33:    pub fn serialize(&self, output: &mut Vec<u8>) -> Result<()> {
+43:    pub fn deserialize(bytes: &mut decode::Bytes) -> Result<Self> {
+44:        fn error_report<E: std::fmt::Debug>(err: E) -> eyre::Report {
+79:pub fn parse_alias(line: &str) -> Option<Alias> {
+122:pub fn existing_aliases(shell: Option<Shell>) -> Result<Vec<Alias>, ShellError> {
+131:        return Err(ShellError::NotSupported);

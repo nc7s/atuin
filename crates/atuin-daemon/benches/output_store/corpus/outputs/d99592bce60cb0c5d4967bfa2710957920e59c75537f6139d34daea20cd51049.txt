@@ -1,0 +1,80 @@
+1:use crate::error::{Error, ErrorCode, Result};
+28:pub trait Read<'de>: private::Sealed {
+30:    fn next(&mut self) -> Result<Option<u8>>;
+32:    fn peek(&mut self) -> Result<Option<u8>>;
+36:    fn discard(&mut self);
+46:    fn position(&self) -> Position;
+56:    fn peek_position(&self) -> Position;
+61:    fn byte_offset(&self) -> usize;
+67:    fn parse_str<'s>(&'s mut self, scratch: &'s mut Vec<u8>) -> Result<Reference<'de, 's, str>>;
+76:    fn parse_str_raw<'s>(
+84:    fn ignore_str(&mut self) -> Result<()>;
+89:    fn decode_hex_escape(&mut self) -> Result<u16>;
+96:    fn begin_raw_buffering(&mut self);
+102:    fn end_raw_buffering<V>(&mut self, visitor: V) -> Result<V::Value>
+116:    fn set_failed(&mut self, failed: &mut bool);
+119:pub struct Position {
+120:    pub line: usize,
+121:    pub column: usize,
+124:pub enum Reference<'b, 'c, T>
+138:    fn deref(&self) -> &Self::Target {
+149:pub struct IoRead<R>
+164:pub struct SliceRead<'a> {
+175:pub struct StrRead<'a> {
+183:    pub trait Sealed {}
+200:    pub fn new(reader: R) -> Self {
+218:    fn parse_str_bytes<'s, T, F>(
+243:                        return error(self, ErrorCode::ControlCharacterWhileParsingString);
+258:    fn next(&mut self) -> Result<Option<u8>> {
+270:                Some(Err(err)) => Err(Error::io(err)),
+286:    fn peek(&mut self) -> Result<Option<u8>> {
+290:                Some(Err(err)) => Err(Error::io(err)),
+302:    fn discard(&mut self) {
+307:    fn discard(&mut self) {
+315:    fn position(&self) -> Position {
+322:    fn peek_position(&self) -> Position {
+328:    fn byte_offset(&self) -> usize {
+335:    fn parse_str<'s>(&'s mut self, scratch: &'s mut Vec<u8>) -> Result<Reference<'de, 's, str>> {
+340:    fn parse_str_raw<'s>(
+348:    fn ignore_str(&mut self) -> Result<()> {
+362:                    return error(self, ErrorCode::ControlCharacterWhileParsingString);
+368:    fn decode_hex_escape(&mut self) -> Result<u16> {
+375:            None => error(self, ErrorCode::InvalidEscape),
+380:    fn begin_raw_buffering(&mut self) {
+385:    fn end_raw_buffering<V>(&mut self, visitor: V) -> Result<V::Value>
+392:            Err(_) => return error(self, ErrorCode::InvalidUnicodeCodePoint),
+403:    fn set_failed(&mut self, failed: &mut bool) {
+412:    pub fn new(slice: &'a [u8]) -> Self {
+421:    fn position_of_index(&self, i: usize) -> Position {
+432:    fn skip_to_escape(&mut self, forbid_control_characters: bool) {
+485:    fn skip_to_escape_slow(&mut self) {
+494:    fn parse_str_bytes<'s, T, F>(
+510:                return error(self, ErrorCode::EofWhileParsingString);
+534:                    return error(self, ErrorCode::ControlCharacterWhileParsingString);
+545:    fn next(&mut self) -> Result<Option<u8>> {
+558:    fn peek(&mut self) -> Result<Option<u8>> {
+569:    fn discard(&mut self) {
+573:    fn position(&self) -> Position {
+577:    fn peek_position(&self) -> Position {
+583:    fn byte_offset(&self) -> usize {
+587:    fn parse_str<'s>(&'s mut self, scratch: &'s mut Vec<u8>) -> Result<Reference<'a, 's, str>> {
+591:    fn parse_str_raw<'s>(
+598:    fn ignore_str(&mut self) -> Result<()> {
+602:                return error(self, ErrorCode::EofWhileParsingString);
+614:                    return error(self, ErrorCode::ControlCharacterWhileParsingString);
+621:    fn decode_hex_escape(&mut self) -> Result<u16> {
+627:                    None => error(self, ErrorCode::InvalidEscape),
+632:                error(self, ErrorCode::EofWhileParsingString)
+638:    fn begin_raw_buffering(&mut self) {
+643:    fn end_raw_buffering<V>(&mut self, visitor: V) -> Result<V::Value>
+650:            Err(_) => return error(self, ErrorCode::InvalidUnicodeCodePoint),
+661:    fn set_failed(&mut self, _failed: &mut bool) {
+670:    pub fn new(s: &'a str) -> Self {
+683:    fn next(&mut self) -> Result<Option<u8>> {
+688:    fn peek(&mut self) -> Result<Option<u8>> {
+693:    fn discard(&mut self) {
+697:    fn position(&self) -> Position {
+701:    fn peek_position(&self) -> Position {
+705:    fn byte_offset(&self) -> usize {
+709:    fn parse_str<'s>(&'s mut self, scratch: &'s mut Vec<u8>) -> Result<Reference<'a, 's, str>> {
+718:    fn parse_str_raw<'s>(

@@ -1,0 +1,400 @@
+use crate::complex_types::{decode_varint_len, encode_varint_len};
+use crate::types::{Key, TypeName, Value};
+use alloc::borrow::Cow;
+use alloc::format;
+use alloc::string::String;
+use alloc::vec::Vec;
+use core::borrow::Borrow;
+use core::cmp::Ordering;
+
+fn serialize_tuple_elements_variable<const N: usize>(
+    is_fixed_width: [bool; N],
+    slices: [&[u8]; N],
+) -> Vec<u8> {
+    let total_len: usize = slices.iter().map(|x| x.len()).sum();
+    let worst_case_len_overhead: usize =
+        is_fixed_width.iter().map(|x| if *x { 0 } else { 5 }).sum();
+    let mut output = Vec::with_capacity(total_len + worst_case_len_overhead);
+    let zipped = is_fixed_width.iter().zip(slices.iter());
+    for len in zipped
+        .map(|(fixed, x)| if *fixed { None } else { Some(x.len()) })
+        .take(slices.len() - 1)
+        .flatten()
+    {
+        encode_varint_len(len, &mut output);
+    }
+
+    for slice in slices {
+        output.extend_from_slice(slice);
+    }
+
+    debug_assert!(output.len() <= total_len + worst_case_len_overhead);
+
+    output
+}
+
+fn serialize_tuple_elements_fixed(slices: &[&[u8]]) -> Vec<u8> {
+    let total_len: usize = slices.iter().map(|x| x.len()).sum();
+    let mut output = Vec::with_capacity(total_len);
+    for slice in slices {
+        output.extend_from_slice(slice);
+    }
+    output
+}
+
+fn parse_lens<const N: usize>(fixed_width: [Option<usize>; N], data: &[u8]) -> (usize, [usize; N]) {
+    let mut result = [0; N];
+    let mut offset = 0;
+    for (i, &fixed) in fixed_width.iter().enumerate() {
+        if let Some(len) = fixed {
+            result[i] = len;
+        } else {
+            let (len, bytes_read) = decode_varint_len(&data[offset..]);
+            result[i] = len;
+            offset += bytes_read;
+        }
+    }
+    (offset, result)
+}
+
+fn not_equal<T: Key>(data1: &[u8], data2: &[u8]) -> Option<Ordering> {
+    match T::compare(data1, data2) {
+        Ordering::Less => Some(Ordering::Less),
+        Ordering::Equal => None,
+        Ordering::Greater => Some(Ordering::Greater),
+    }
+}
+
+// The `Key` operations of one element's type, so that `tuple_separator()`, which is generic only
+// over the number of elements, can call them
+#[derive(Clone, Copy)]
+struct ElementType {
+    fixed_width: Option<usize>,
+    min_encoded_key: fn() -> Option<Cow<'static, [u8]>>,
+    compare: fn(&[u8], &[u8]) -> Ordering,
+    separator: for<'a> fn(&'a [u8], &'a [u8]) -> Cow<'a, [u8]>,
+}
+
+impl ElementType {
+    fn of<T: Key>() -> Self {
+        Self {
+            fixed_width: T::fixed_width(),
+            min_encoded_key: T::min_encoded_key,
+            compare: T::compare,
+            separator: T::separator,
+        }
+    }
+
+    // An encoding that sorts strictly between `left` and `right`, or `None` when the type does
+    // not offer one: `separator()` only guarantees a result in `[left, right)`
+    fn between<'a>(&self, left: &'a [u8], right: &'a [u8]) -> Option<Cow<'a, [u8]>> {
+        let separator = (self.separator)(left, right);
+        if (self.compare)(left, &separator).is_lt() {
+            Some(separator)
+        } else {
+            None
+        }
+    }
+
+    // The smallest encoding of the type, or `fallback` for a type that has none
+    fn smallest_or<'a>(&self, fallback: &'a [u8]) -> Cow<'a, [u8]> {
+        match (self.min_encoded_key)() {
+            Some(smallest) => smallest,
+            None => Cow::Borrowed(fallback),
+        }
+    }
+}
+
+// The elements of a variable width tuple encoding: the `N` leading ones, whose lengths the header
+// gives, then the last, which runs to the end
+fn split_elements<const N: usize>(fixed_width: [Option<usize>; N], data: &[u8]) -> Vec<&[u8]> {
+    let (header, lens) = parse_lens::<N>(fixed_width, data);
+    let mut elements = Vec::with_capacity(N + 1);
+    let mut offset = header;
+    for len in lens {
+        elements.push(&data[offset..(offset + len)]);
+        offset += len;
+    }
+    elements.push(&data[offset..]);
+    elements
+}
+
+// Lexicographically compares two tuples, given as their encoded elements
+fn compare_elements<A: AsRef<[u8]>, B: AsRef<[u8]>>(
+    types: &[ElementType],
+    a: &[A],
+    b: &[B],
+) -> Ordering {
+    for i in 0..types.len() {
+        let ordering = (types[i].compare)(a[i].as_ref(), b[i].as_ref());
+        if !ordering.is_eq() {
+            return ordering;
+        }
+    }
+    Ordering::Equal
+}
+
+// Encodes the tuple with these elements, or returns `None` when the encoding would be at least
+// as long as `left`. The length is checked first, so an oversized encoding -- a smallest
+// encoding can be longer than the element it replaced -- is never built.
+fn encode_if_shorter(
+    types: &[ElementType],
+    elements: &[Cow<'_, [u8]>],
+    left: &[u8],
+) -> Option<Vec<u8>> {
+    // A fixed width element's length is not recorded, so a replacement must be exactly that wide
+    debug_assert!(types.iter().zip(elements).all(|(element_type, element)| {
+        element_type
+            .fixed_width
+            .is_none_or(|width| element.len() == width)
+    }));
+    // Length varints for every variable width element but the last, whose length is implicit.
+    // They are rebuilt rather than copied, since a replaced element's length may differ.
+    let mut result = Vec::with_capacity(left.len());
+    for i in 0..(elements.len() - 1) {
+        if types[i].fixed_width.is_none() {
+            encode_varint_len(elements[i].len(), &mut result);
+        }
+    }
+    let mut total = result.len();
+    for element in elements {
+        total = total.saturating_add(element.len());
+    }
+    if total >= left.len() {
+        return None;
+    }
+    for element in elements {
+        result.extend_from_slice(element);
+    }
+    Some(result)
+}
+
+// The separator between two encodings of a variable width tuple. `leading` describes every
+// element but the last, whose length is implicit and which `last` describes.
+fn tuple_separator<'a, const N: usize>(
+    leading: [ElementType; N],
+    last: ElementType,
+    left: &'a [u8],
+    right: &'a [u8],
+) -> Cow<'a, [u8]> {
+    let fixed_width: [Option<usize>; N] = core::array::from_fn(|i| leading[i].fixed_width);
+    let types: Vec<ElementType> = leading.into_iter().chain([last]).collect();
+    let left_elements = split_elements(fixed_width, left);
+    let right_elements = split_elements(fixed_width, right);
+
+    let mut differing = None;
+    for i in 0..types.len() {
+        if !(types[i].compare)(left_elements[i], right_elements[i]).is_eq() {
+            differing = Some(i);
+            break;
+        }
+    }
+    // `left` sorts below `right`, so some element differs
+    let Some(index) = differing else {
+        return Cow::Borrowed(left);
+    };
+
+    // The candidate: the elements the two keys share, then one that sorts above `left`'s --
+    // between the differing pair when the type offers that, `right`'s own otherwise -- then the
+    // smallest encoding of each remaining type, or `right`'s element where a type has none
+    let mut elements = Vec::with_capacity(types.len());
+    for &bytes in &left_elements[..index] {
+        elements.push(Cow::Borrowed(bytes));
+    }
+    match types[index].between(left_elements[index], right_elements[index]) {
+        Some(between) => elements.push(between),
+        None => elements.push(Cow::Borrowed(right_elements[index])),
+    }
+    for (element_type, &bytes) in types[(index + 1)..]
+        .iter()
+        .zip(&right_elements[(index + 1)..])
+    {
+        elements.push(element_type.smallest_or(bytes));
+    }
+
+    // The candidate sorts above `left`, since its element at `index` does, but collapsing may
+    // have left it at or above `right`
+    if compare_elements(&types, &elements, &right_elements).is_ge() {
+        return Cow::Borrowed(left);
+    }
+    match encode_if_shorter(&types, &elements, left) {
+        Some(separator) => Cow::Owned(separator),
+        None => Cow::Borrowed(left),
+    }
+}
+
+macro_rules! fixed_width_impl {
+    ( $( $t:ty ),+ ) => {
+        {
+            let mut sum = 0;
+            $(
+                sum += <$t>::fixed_width()?;
+            )+
+            Some(sum)
+        }
+    };
+}
+
+macro_rules! as_bytes_impl {
+    ( $value:expr, $( $t:ty, $i:tt ),+ ) => {{
+        if Self::fixed_width().is_some() {
+            serialize_tuple_elements_fixed(&[
+                $(
+                    <$t>::as_bytes($value.$i.borrow()).as_ref(),
+                )+
+            ])
+        } else {
+            serialize_tuple_elements_variable(
+            [
+                $(
+                    <$t>::fixed_width().is_some(),
+                )+
+            ],
+            [
+                $(
+                    <$t>::as_bytes($value.$i.borrow()).as_ref(),
+                )+
+            ])
+        }
+    }};
+}
+
+macro_rules! type_name_impl {
+    ( $head:ty $(,$tail:ty)+ ) => {
+        {
+            let mut result = String::new();
+            result.push('(');
+            result.push_str(&<$head>::type_name().name());
+            $(
+                result.push(',');
+                result.push_str(&<$tail>::type_name().name());
+            )+
+            result.push(')');
+
+            let any_user_defined = <$head>::type_name().is_user_defined()
+                $(|| <$tail>::type_name().is_user_defined())+;
+
+            let natural = if Self::fixed_width().is_some() {
+                TypeName::internal(&result)
+            } else {
+                TypeName::internal2(&result)
+            };
+            natural.into_composite(any_user_defined)
+        }
+    };
+}
+
+macro_rules! from_bytes_variable_impl {
+    ( $data:expr $(,$t:ty, $v:ident, $i:literal )+ | $t_last:ty, $v_last:ident, $i_last:literal ) => {
+        #[allow(clippy::manual_bits)]
+        {
+            let (mut offset, lens) = parse_lens::<$i_last>(
+                [
+                    $(
+                        <$t>::fixed_width(),
+                    )+
+                ],
+                $data);
+            $(
+                let len = lens[$i];
+                let $v = <$t>::from_bytes(&$data[offset..(offset + len)]);
+                offset += len;
+            )+
+            let $v_last = <$t_last>::from_bytes(&$data[offset..]);
+            ($(
+                $v,
+            )+
+                $v_last
+            )
+        }
+    };
+}
+
+macro_rules! from_bytes_fixed_impl {
+    ( $data:expr $(,$t:ty, $v:ident )+ ) => {
+        {
+            let mut offset = 0;
+            $(
+                let len = <$t>::fixed_width().unwrap();
+                let $v = <$t>::from_bytes(&$data[offset..(offset + len)]);
+                #[allow(unused_assignments)]
+                {
+                    offset += len;
+                }
+            )+
+
+            ($(
+                $v,
+            )+)
+        }
+    };
+}
+
+macro_rules! compare_variable_impl {
+    ( $data0:expr, $data1:expr $(,$t:ty, $i:literal )+ | $t_last:ty, $i_last:literal ) => {
+        #[allow(clippy::manual_bits)]
+        {
+            let fixed_width = [
+                $(
+                    <$t>::fixed_width(),
+                )+
+            ];
+            let (mut offset0, lens0) = parse_lens::<$i_last>(fixed_width, $data0);
+            let (mut offset1, lens1) = parse_lens::<$i_last>(fixed_width, $data1);
+            $(
+                let index = $i;
+                let len0 = lens0[index];
+                let len1 = lens1[index];
+                if let Some(order) = not_equal::<$t>(
+                    &$data0[offset0..(offset0 + len0)],
+                    &$data1[offset1..(offset1 + len1)],
+                ) {
+                    return order;
+                }
+                offset0 += len0;
+                offset1 += len1;
+            )+
+
+            <$t_last>::compare(&$data0[offset0..], &$data1[offset1..])
+        }
+    };
+}
+
+macro_rules! compare_fixed_impl {
+    ( $data0:expr, $data1:expr, $($t:ty),+ ) => {
+        {
+            let mut offset0 = 0;
+            let mut offset1 = 0;
+            $(
+                let len = <$t>::fixed_width().unwrap();
+                if let Some(order) = not_equal::<$t>(
+                    &$data0[offset0..(offset0 + len)],
+                    &$data1[offset1..(offset1 + len)],
+                ) {
+                    return order;
+                }
+                #[allow(unused_assignments)]
+                {
+                    offset0 += len;
+                    offset1 += len;
+                }
+            )+
+
+            Ordering::Equal
+        }
+    };
+}
+
+macro_rules! tuple_impl {
+    ( $($t:ident, $v:ident, $i:tt ),+ | $t_last:ident, $v_last:ident, $i_last:tt ) => {
+        impl<$($t: Value,)+ $t_last: Value> Value for ($($t,)+ $t_last) {
+            type SelfType<'a> = (
+                $(<$t>::SelfType<'a>,)+
+                <$t_last>::SelfType<'a>,
+            )
+            where
+                Self: 'a;
+            type AsBytes<'a> = Vec<u8>
+            where
+                Self: 'a;
+

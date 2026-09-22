@@ -1,0 +1,19 @@
+8:pub struct NumberVisitor<T> {
+15:    <T as TryFrom<u64>>::Error: Display,
+16:    <T as TryFrom<i64>>::Error: Display,
+21:    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+25:    fn visit_u64<E>(self, v: u64) -> Result<Self::Value, E>
+27:        E: serde::de::Error,
+29:        T::try_from(v).map_err(serde::de::Error::custom)
+32:    fn visit_i64<E>(self, v: i64) -> Result<Self::Value, E>
+34:        E: serde::de::Error,
+36:        T::try_from(v).map_err(serde::de::Error::custom)
+39:    fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
+41:        E: serde::de::Error,
+43:        v.parse().map_err(serde::de::Error::custom)
+47:fn deserialize_integer_or_string<'de, D, T>(deserializer: D) -> Result<T, D::Error>
+51:    <T as TryFrom<u64>>::Error: Display,
+52:    <T as TryFrom<i64>>::Error: Display,
+61:pub struct Struct {
+64:    pub i: i64,
+68:fn test() {

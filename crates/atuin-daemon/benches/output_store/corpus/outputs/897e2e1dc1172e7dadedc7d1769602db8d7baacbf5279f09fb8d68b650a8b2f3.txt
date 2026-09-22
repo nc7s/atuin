@@ -1,0 +1,19 @@
+21:async fn env() -> TestEnv {
+29:async fn rebuild_rederives_rows_from_the_store(#[future(awt)] env: TestEnv) {
+40:    assert_eq!(reply.protocol, 2);
+42:    assert_eq!(env.active_ids().await, HashSet::from([lost, db_only.id]));
+43:    assert_eq!(env.index_hits("lost-from-db").await, vec![lost]);
+44:    assert_eq!(env.index_hits("db-only").await, vec![db_only.id]);
+45:    assert!(env.index_hits("tombstoned").await.is_empty());
+50:async fn rebuild_is_idempotent(#[future(awt)] env: TestEnv) {
+60:        assert_eq!(env.active_ids().await, before_ids);
+61:        assert_eq!(env.index_count().await, before_index);
+63:    assert_eq!(env.record_idxs().await, (0..10).collect::<Vec<u64>>(), "rebuild writes no records");
+70:async fn rebuild_leaves_in_flight_commands_alone(#[future(awt)] env: TestEnv) {
+77:    assert!(env.journal.get(running).is_ok());
+78:    assert!(env.history_db.load(running).await.unwrap().is_none(), "not persisted yet");
+80:    assert_eq!(env.active_ids().await, HashSet::from([running]));
+81:    assert_eq!(env.index_hits("sleep 30").await, vec![running]);
+90:async fn rebuild_skips_undecodable_records(#[future(awt)] env: TestEnv, #[case] foreign_key: bool) {
+121:    assert_eq!(env.active_ids().await, expected);
+122:    assert_eq!(env.index_count().await, 3);

@@ -1,0 +1,20 @@
+src/types.rs:174:    /// Serialize the value to a slice
+src/tree_store/mod.rs:38:    PageTracker, SerializedSavepoint, ShrinkPolicy, TransactionalMemory,
+src/tree_store/page_store/savepoint.rs:99:pub(crate) enum SerializedSavepoint<'a> {
+src/tree_store/page_store/savepoint.rs:111:impl SerializedSavepoint<'_> {
+src/tree_store/page_store/savepoint.rs:131:            SerializedSavepoint::Ref(x) => x,
+src/tree_store/page_store/savepoint.rs:132:            SerializedSavepoint::Owned(x) => x.as_slice(),
+src/tree_store/page_store/savepoint.rs:223:impl Value for SerializedSavepoint<'_> {
+src/tree_store/page_store/savepoint.rs:225:        = SerializedSavepoint<'a>
+src/tree_store/page_store/savepoint.rs:241:        SerializedSavepoint::Ref(data)
+src/tree_store/page_store/savepoint.rs:252:        TypeName::internal("redb::SerializedSavepoint")
+src/transactions.rs:19:    PageResolver, PageTracker, SerializedSavepoint, ShrinkPolicy, TableTree, TableTreeMut,
+src/transactions.rs:52:pub(crate) const SAVEPOINT_TABLE: SystemTableDefinition<SavepointId, SerializedSavepoint> =
+src/transactions.rs:1185:            SerializedSavepoint::from_savepoint(&savepoint),
+src/transactions.rs:1324:        // Serialize the dirty check and savepoint registration against
+src/transactions.rs:2961:        use super::{SAVEPOINT_TABLE, SavepointId, SerializedSavepoint};
+src/transactions.rs:2986:            .insert(SavepointId(id), SerializedSavepoint::Ref(&record))
+src/transactions.rs:3004:        use super::{SAVEPOINT_TABLE, SavepointId, SerializedSavepoint};
+src/transactions.rs:3031:            .insert(SavepointId(id), SerializedSavepoint::Ref(&[]))
+src/tree_store/page_store/mod.rs:37:pub(crate) use savepoint::SerializedSavepoint;
+src/tree_store/page_store/file_backend/optimized.rs:37:// Serializes Windows queries and lock retries to avoid conflicts with temporary query locks.

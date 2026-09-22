@@ -1,0 +1,1 @@
+5 tests/ui/unexpected_after_array_element.rs

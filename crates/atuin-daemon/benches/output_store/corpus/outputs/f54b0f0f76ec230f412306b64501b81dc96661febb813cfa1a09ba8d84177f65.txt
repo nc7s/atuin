@@ -1,0 +1,20 @@
+51://! # fn main() {
+85://! This library also includes a [`Builder`] type that can be used to help construct UUIDs of any
+179://! # fn main() -> Result<(), uuid::Error> {
+192://! # fn main() {
+234:pub mod fmt;
+235:pub mod timestamp;
+238:pub use timestamp::{context::NoContext, ClockSequence, Timestamp};
+242:pub use timestamp::context::Context;
+245:pub use timestamp::context::ContextV1;
+248:pub use timestamp::context::ContextV7;
+254:pub mod v1;
+278:pub mod __macro_support {
+279:    pub use crate::std::result::Result::{Err, Ok};
+282:pub use crate::{builder::Builder, error::Error, non_nil::NonNilUuid};
+289:pub type Bytes = [u8; 16];
+299:pub enum Version {
+334:pub enum Variant {
+359:/// # fn main() -> Result<(), uuid::Error> {
+372:/// # fn main() {
+396:/// # fn main() -> Result<(), uuid::Error> {

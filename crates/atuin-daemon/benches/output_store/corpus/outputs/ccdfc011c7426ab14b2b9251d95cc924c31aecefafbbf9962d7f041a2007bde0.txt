@@ -1,0 +1,52 @@
+30:assert_eq!(results, vec![
+35:# Ok::<(), Box<dyn std::error::Error>>(())
+45:fn is_match(line: &str) -> bool {
+60:assert_eq!(matches, 2);
+127:fn main() {
+191:assert_eq!("J", &caps[1]);
+229:assert_eq!("J", &caps["middle"]);
+245:assert!(re.is_match("2010-03-14"));
+260:assert!(re.is_match("𝟚𝟘𝟙𝟘-𝟘𝟛-𝟙𝟜"));
+285:assert_eq!(dates, vec![
+315:assert_eq!(dates, vec![
+337:assert_eq!(dates, vec![
+365:assert_eq!(after, "01/05/1973, 08/25/1975 and 10/18/1980");
+393:assert_eq!(after, "01/05/1973, 08/25/1975 and 10/18/1980");
+422:assert_eq!(matches, vec![0, 2, 3, 4, 6]);
+426:assert!(!matches.matched(5));
+427:assert!(matches.matched(6));
+477:regex engines cannot handle a Unicode aware word boundary assertion. So if you
+478:don't need Unicode-aware word boundary assertions, you might consider using
+511:fn some_helper_function(haystack: &str) -> bool {
+516:fn main() {
+517:    assert!(some_helper_function("abc"));
+518:    assert!(!some_helper_function("ac"));
+575:applies to the special word boundary assertions. (That is, `\b{start}`,
+598:assert_eq!((0, 6), (m.start(), m.end()));
+600:assert_eq!(0..6, m.range());
+612:assert_eq!(3..23, m.range());
+627:assert_eq!(subs, vec!["ΔδΔ", "ΔδΔ"]);
+632:assert_eq!(subs, vec!["ΔδΔ𐅌ΔδΔ"]);
+727:assert_eq!("samwise", re.find(haystack).unwrap().as_str());
+732:assert_eq!("sam", re.find(haystack).unwrap().as_str());
+776:assert_eq!(ranges, vec![0..0, 4..4]);
+780:assert_eq!(ranges, vec![0..0, 1..1, 2..2, 3..3, 4..4]);
+835:assert_eq!(m.as_str(), "AaAaAbb");
+849:assert_eq!(m.as_str(), "line 2");
+859:assert_eq!((m.start(), m.end()), (5, 5));
+870:assert_eq!(m.as_str(), "foo");
+883:assert_eq!(m.as_str(), "abc");
+901:\b              word boundary assertion
+902:\B              negated word boundary assertion
+903:\b{start}, \<   start-of-word boundary assertion
+904:\b{end}, \>     end-of-word boundary assertion
+905:\b{start-half}  half of a start-of-word boundary assertion
+906:\b{end-half}    half of a end-of-word boundary assertion
+1198:  of APIs, `std` causes error types to implement the `std::error::Error`
+1284:  Unicode-aware word boundary assertions. Note that if this feature is
+1361:pub use crate::error::Error;
+1363:pub use crate::{builders::string::*, regex::string::*, regexset::string::*};
+1366:pub mod bytes;
+1378:pub fn escape(pattern: &str) -> alloc::string::String {
+1384:pub mod __private {
+1385:    pub use regex_automata::util::lazy::Lazy;

@@ -1,0 +1,2 @@
+7:pub(crate) fn to_digit(c: u8) -> Option<u32> {
+13:pub(crate) fn add_digit(value: u64, digit: u32) -> Option<u64> {

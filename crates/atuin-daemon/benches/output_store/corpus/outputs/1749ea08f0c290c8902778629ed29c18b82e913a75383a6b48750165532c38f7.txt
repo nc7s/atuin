@@ -1,0 +1,20 @@
+//! The implementation for Version 7 UUIDs.
+//!
+//! Note that you need to enable the `v7` Cargo feature
+//! in order to use this module.
+
+use core::cmp;
+
+use crate::{rng, timestamp::Timestamp, Builder, Uuid};
+
+impl Uuid {
+    /// Create a new version 7 UUID using the current time value.
+    ///
+    /// This method is a convenient alternative to [`Uuid::new_v7`] that uses the current system time
+    /// as the source timestamp. All UUIDs generated through this method by the same process are
+    /// guaranteed to be ordered by their creation.
+    #[cfg(feature = "std")]
+    pub fn now_v7() -> Self {
+        Self::new_v7(Timestamp::now(
+            crate::timestamp::context::shared_context_v7(),
+        ))

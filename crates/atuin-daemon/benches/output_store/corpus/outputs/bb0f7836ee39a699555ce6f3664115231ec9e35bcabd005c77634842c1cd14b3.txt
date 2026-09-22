@@ -1,0 +1,60 @@
+//! The active transaction range of the multi-process locking protocol (`docs/design.md`): a
+//! handle reading transaction `t` holds the byte `TXN_BASE + t` shared for as long as it reads
+//! it, and a writer about to reclaim pages asks which of those bytes other processes hold.
+
+use crate::db::TXN_BASE;
+use core::ops::Range;
+
+/// The lowest id in `low..=high` whose byte `query` reports held, if any. The bytes cannot be
+/// listed, only probed over a range, so the id is found by bisection, after a probe of `low`
+/// alone: a scan starts from what the one before it found, which is the likeliest answer.
+pub(super) fn lowest_held<E>(
+    query: impl Fn(Range<u64>) -> Result<bool, E>,
+    mut low: u64,
+    mut high: u64,
+) -> Result<Option<u64>, E> {
+    if low > high {
+        return Ok(None);
+    }
+    if query(bytes(low, low))? {
+        return Ok(Some(low));
+    }
+    if low == high || !query(bytes(low + 1, high))? {
+        return Ok(None);
+    }
+    low += 1;
+    while low < high {
+        let mid = low + (high - low) / 2;
+        if query(bytes(low, mid))? {
+            high = mid;
+        } else {
+            low = mid + 1;
+        }
+    }
+    Ok(Some(low))
+}
+
+/// The bytes of the ids `low..=high`
+fn bytes(low: u64, high: u64) -> Range<u64> {
+    let end = TXN_BASE + high + 1;
+    TXN_BASE + low..end
+}
+
+#[cfg(all(test, any(target_os = "linux", target_vendor = "apple", windows)))]
+mod test {
+    use super::lowest_held;
+    use crate::db::{TXN_BASE, byte_range};
+    use crate::tree_store::file_backend::range_lock::RangeLock;
+    use alloc::vec::Vec;
+    use std::fs::{File, OpenOptions};
+    use std::path::Path;
+
+    fn reopen(path: &Path) -> File {
+        OpenOptions::new()
+            .read(true)
+            .write(true)
+            .open(path)
+            .unwrap()
+    }
+
+    // Stands in for a read transaction's lock: the scan only cares that the byte is held

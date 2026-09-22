@@ -1,0 +1,14 @@
+14:pub(crate) struct ExtendedFloat {
+16:    pub mant: u64,
+18:    pub exp: i32,
+21:impl ExtendedFloat {
+36:    pub(crate) fn mul(&self, b: &ExtendedFloat) -> ExtendedFloat {
+38:        debug_assert!((self.mant & u64::HIMASK != 0) && (b.mant & u64::HIMASK != 0));
+66:    pub(crate) fn imul(&mut self, b: &ExtendedFloat) {
+79:    pub(crate) fn normalize(&mut self) -> u32 {
+106:    pub(crate) fn round_to_native<F, Algorithm>(&mut self, algorithm: Algorithm)
+118:    pub fn from_float<F: Float>(f: F) -> ExtendedFloat {
+126:    pub(crate) fn into_float<F: Float>(mut self) -> F {
+133:    pub(crate) fn into_downward_float<F: Float>(mut self) -> F {
+143:pub(crate) fn from_float<F>(f: F) -> ExtendedFloat
+160:pub(crate) fn into_float<F>(fp: ExtendedFloat) -> F

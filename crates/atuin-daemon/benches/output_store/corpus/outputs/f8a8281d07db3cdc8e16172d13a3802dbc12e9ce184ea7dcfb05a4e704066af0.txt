@@ -1,0 +1,5 @@
+5:        fn $name() {
+7:            assert_eq!(re.$which($search, $replace), $result);
+174:fn replacen_no_captures() {
+176:    assert_eq!(re.replacen("age: 1234", 2, "Z"), "age: ZZ34");
+180:fn replacen_with_captures() {

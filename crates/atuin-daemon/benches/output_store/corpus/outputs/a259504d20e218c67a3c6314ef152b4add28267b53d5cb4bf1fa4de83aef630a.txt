@@ -1,0 +1,5 @@
+14:struct PtyState {
+21:pub struct PtyShell {
+30:fn answer_queries(state: &mut PtyState) -> Vec<u8> {
+68:impl PtyShell {
+69:    pub fn spawn(

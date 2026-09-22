@@ -1,0 +1,24 @@
+src/regexset/string.rs:154:    pub fn new<I, S>(exprs: I) -> Result<RegexSet, Error>
+src/regexset/bytes.rs:158:    pub fn new<I, S>(exprs: I) -> Result<RegexSet, Error>
+src/regex/string.rs:173:    fn from_str(s: &str) -> Result<Regex, Error> {
+src/regex/string.rs:182:    fn try_from(s: &str) -> Result<Regex, Error> {
+src/regex/string.rs:191:    fn try_from(s: String) -> Result<Regex, Error> {
+src/regex/string.rs:229:    pub fn new(re: &str) -> Result<Regex, Error> {
+src/regex/string.rs:834:    ///     replacement: impl Fn(&Captures) -> Result<String, E>,
+src/regex/string.rs:835:    /// ) -> Result<String, E> {
+src/regex/string.rs:851:    /// let replacement = |caps: &Captures| -> Result<String, &'static str> {
+src/regex/bytes.rs:175:    fn from_str(s: &str) -> Result<Regex, Error> {
+src/regex/bytes.rs:184:    fn try_from(s: &str) -> Result<Regex, Error> {
+src/regex/bytes.rs:193:    fn try_from(s: String) -> Result<Regex, Error> {
+src/regex/bytes.rs:231:    pub fn new(re: &str) -> Result<Regex, Error> {
+src/regex/bytes.rs:851:    ///     replacement: impl Fn(&Captures) -> Result<Vec<u8>, E>,
+src/regex/bytes.rs:852:    /// ) -> Result<Vec<u8>, E> {
+src/regex/bytes.rs:868:    /// let replacement = |caps: &Captures| -> Result<Vec<u8>, &'static str> {
+src/builders.rs:70:    fn build_one_string(&self) -> Result<crate::Regex, Error> {
+src/builders.rs:87:    fn build_one_bytes(&self) -> Result<crate::bytes::Regex, Error> {
+src/builders.rs:104:    fn build_many_string(&self) -> Result<crate::RegexSet, Error> {
+src/builders.rs:121:    fn build_many_bytes(&self) -> Result<crate::bytes::RegexSet, Error> {
+src/builders.rs:232:        pub fn build(&self) -> Result<Regex, Error> {
+src/builders.rs:811:        pub fn build(&self) -> Result<RegexSet, Error> {
+src/builders.rs:1392:        pub fn build(&self) -> Result<Regex, Error> {
+src/builders.rs:1990:        pub fn build(&self) -> Result<RegexSet, Error> {

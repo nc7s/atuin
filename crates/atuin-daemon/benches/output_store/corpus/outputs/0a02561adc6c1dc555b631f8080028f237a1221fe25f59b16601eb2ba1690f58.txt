@@ -1,0 +1,60 @@
+use std::borrow::Borrow;
+use std::collections::HashMap;
+use std::net::SocketAddr;
+use std::time::Duration;
+
+use argon2::password_hash::SaltString;
+use argon2::{Algorithm, Argon2, Params, PasswordHash, PasswordHasher, PasswordVerifier, Version};
+use atuin_common::utils::crypto_random_string;
+use atuin_domain::api::{
+    ChangePasswordRequest, ChangePasswordResponse, DeleteUserResponse, LoginRequest, LoginResponse,
+    RegisterRequest, RegisterResponse, UserResponse,
+};
+use axum::Json;
+use axum::extract::{ConnectInfo, Path, State};
+use axum::http::StatusCode;
+use metrics::counter;
+use rand::rngs::OsRng;
+use reqwest::header::CONTENT_TYPE;
+use tracing::{debug, error, info, instrument, warn};
+
+use super::{ErrorResponse, ErrorResponseStatus, RespExt};
+use crate::db::DbError;
+use crate::db::models::NewUser;
+use crate::router::{AppState, UserAuth};
+
+pub fn verify_str(hash: &str, password: &str) -> bool {
+    let arg2 = Argon2::new(Algorithm::Argon2id, Version::V0x13, Params::default());
+    let Ok(hash) = PasswordHash::new(hash) else {
+        return false;
+    };
+    arg2.verify_password(password.as_bytes(), &hash).is_ok()
+}
+
+// Try to send a Discord webhook once - if it fails, we don't retry. "At most once", and best effort.
+// Don't return the status because if this fails, we don't really care.
+async fn send_register_hook(url: &url::Url, username: String, registered: String) {
+    let hook = HashMap::from([
+        ("username", username),
+        ("content", format!("{registered} has just signed up!")),
+    ]);
+
+    let client = reqwest::Client::new();
+
+    let resp = client
+        .post(url.clone())
+        .timeout(Duration::from_secs(5))
+        .header(CONTENT_TYPE, "application/json")
+        .json(&hook)
+        .send()
+        .await;
+
+    match resp {
+        Ok(_) => info!("register webhook sent ok!"),
+        Err(e) => error!("failed to send register webhook: {}", e),
+    }
+}
+
+#[instrument(skip_all, err(level = "warn"), fields(user.username = username.as_str()))]
+pub async fn get(
+    Path(username): Path<String>,

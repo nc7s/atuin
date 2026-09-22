@@ -1,0 +1,20 @@
+4:fn unclosed_group_error() {
+7:    assert!(msg.contains("unclosed group"), "error message: {msg:?}");
+11:fn regex_string() {
+12:    assert_eq!(r"[a-zA-Z0-9]+", regex!(r"[a-zA-Z0-9]+").as_str());
+13:    assert_eq!(r"[a-zA-Z0-9]+", &format!("{}", regex!(r"[a-zA-Z0-9]+")));
+14:    assert_eq!(
+21:fn capture_names() {
+23:    assert_eq!(3, re.captures_len());
+24:    assert_eq!((3, Some(3)), re.capture_names().size_hint());
+25:    assert_eq!(
+32:fn capture_index() {
+35:    assert_eq!(&cap[0], "abc");
+36:    assert_eq!(&cap[1], "abc");
+37:    assert_eq!(&cap["name"], "abc");
+42:fn capture_index_panic_usize() {
+50:fn capture_index_panic_name() {
+57:fn capture_index_lifetime() {
+60:    fn inner(s: &str) -> usize {
+65:    assert_eq!(3, inner("123"));
+69:fn capture_misc() {

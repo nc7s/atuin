@@ -1,0 +1,4 @@
+25:pub enum Cmd {
+50:impl Cmd {
+52:    pub async fn run(
+73:    pub async fn status(&self, store: SqliteStore) -> Result<()> {

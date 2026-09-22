@@ -1,0 +1,20 @@
+use core::ops::Range;
+
+fn round_up_to_multiple_of(value: u64, multiple: u64) -> u64 {
+    if value.is_multiple_of(multiple) {
+        value
+    } else {
+        value + multiple - value % multiple
+    }
+}
+
+// Regions are laid out starting with the allocator state header, followed by the pages aligned
+// to the next page
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub(super) struct RegionLayout {
+    num_pages: u32,
+    // Offset where data pages start
+    header_pages: u32,
+    page_size: u32,
+}
+

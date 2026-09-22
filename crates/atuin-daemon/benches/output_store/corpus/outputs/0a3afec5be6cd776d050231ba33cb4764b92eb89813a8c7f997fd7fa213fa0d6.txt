@@ -1,0 +1,38 @@
+crates/atuin-daemon/src/client.rs:36:pub struct HistoryClient {
+crates/atuin-daemon/src/client.rs:178:        //                      are as large as possible. If we know the size of a struct (which we
+crates/atuin-daemon/src/client.rs:260:pub struct SearchParams {
+crates/atuin-daemon/src/client.rs:284:pub struct SearchClient {
+crates/atuin-daemon/src/search/index.rs:33:pub struct LoadFromDbError(eyre::Report);
+crates/atuin-daemon/src/search/index.rs:39:pub struct FrecencyData {
+crates/atuin-daemon/src/search/index.rs:108:pub struct CommandData {
+crates/atuin-daemon/src/search/index.rs:274:struct HaystackEntry {
+crates/atuin-daemon/src/search/index.rs:298:struct Score {
+crates/atuin-daemon/src/search/index.rs:337:pub struct SearchIndex {
+crates/atuin-daemon/src/output_capture/benchmark.rs:30:pub struct Store {
+crates/atuin-daemon/src/components/sync.rs:46:pub struct SyncComponent {
+crates/atuin-daemon/src/output_capture/mod.rs:13:pub struct OutputCapture {
+crates/atuin-daemon/src/daemon.rs:35:pub struct DaemonState {
+crates/atuin-daemon/src/daemon.rs:83:pub struct DaemonHandle {
+crates/atuin-daemon/src/daemon.rs:194:/// pub struct MyComponent {
+crates/atuin-daemon/src/daemon.rs:277:pub struct Daemon {
+crates/atuin-daemon/src/daemon.rs:401:pub struct DaemonBuilder {
+crates/atuin-daemon/src/history_journal.rs:117:pub struct FinishedCmd {
+crates/atuin-daemon/src/history_journal.rs:124:struct InFlightCmd {
+crates/atuin-daemon/src/history_journal.rs:161:struct DeletingGuard<'s, 'i> {
+crates/atuin-daemon/src/history_journal.rs:180:pub struct HistoryJournal {
+crates/atuin-daemon/src/output_capture/backend/failing.rs:11:pub struct FailingBackend;
+crates/atuin-daemon/src/output_capture/backend/redb.rs:20:pub(in crate::output_capture) struct RedbBackend {
+crates/atuin-daemon/src/components/search.rs:37:pub struct SearchComponent {
+crates/atuin-daemon/src/components/search.rs:197:pub struct SearchGrpcServiceBuilder {
+crates/atuin-daemon/src/components/search.rs:213:pub struct SearchGrpcService {
+crates/atuin-daemon/src/output_capture/backend/fjall/gc.rs:11:pub struct Gc {
+crates/atuin-daemon/src/output_capture/backend/nop.rs:7:pub struct NopBackend;
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:7:pub struct Schema;
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:39:struct FjallBackendInner {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:190:struct Flusher {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:272:pub struct FjallBackend {
+crates/atuin-daemon/src/grpc/history/mod.rs:240:pub struct Service {
+crates/atuin-daemon/src/grpc/history/pb.rs:145:pub struct EndHistoryRequestView {
+crates/atuin-daemon/src/grpc/history/pb.rs:372:pub struct ChunkedOutputLineView<'a> {
+crates/atuin-daemon/src/grpc/common/mod.rs:14:pub struct TooManyItemsError(pub usize);
+crates/atuin-daemon/src/grpc/common/mod.rs:96:    struct BadItem(i32);

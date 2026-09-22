@@ -1,0 +1,94 @@
+src/value/ser.rs:1:use crate::error::{Error, ErrorCode, Result};
+src/value/ser.rs:13:    fn serialize<S>(&self, serializer: S) -> result::Result<S::Ok, S::Error>
+src/value/ser.rs:49:/// use serde_json::{Error, Value};
+src/value/ser.rs:51:/// pub fn to_value<T>(input: T) -> Result<Value, Error>
+src/value/ser.rs:62:    type Error = Error;
+src/value/ser.rs:109:                Err(Error::syntax(ErrorCode::NumberOutOfRange, 0, 0))
+src/value/ser.rs:145:                Err(Error::syntax(ErrorCode::NumberOutOfRange, 0, 0))
+src/value/ser.rs:329:    type Error = Error;
+src/lib.rs:109://! tedious to work with for anything more significant. Error handling is
+src/lib.rs:398:pub use crate::error::{Error, Result};
+src/ser.rs:3:use crate::error::{Error, ErrorCode, Result};
+src/ser.rs:69:    type Error = Error;
+src/ser.rs:83:            .map_err(Error::io)
+src/ser.rs:90:            .map_err(Error::io)
+src/ser.rs:97:            .map_err(Error::io)
+src/ser.rs:104:            .map_err(Error::io)
+src/ser.rs:111:            .map_err(Error::io)
+src/ser.rs:117:            .map_err(Error::io)
+src/value/mod.rs:62://! use serde_json::{json, Value, Error};
+src/value/mod.rs:64://! fn untyped_example() -> Result<(), Error> {
+src/value/mod.rs:93:use crate::error::Error;
+src/value/mod.rs:241:        fn io_error(_: fmt::Error) -> io::Error {
+src/value/mod.rs:242:            // Error value does not matter because Display impl just maps it
+src/value/mod.rs:243:            // back to fmt::Error.
+src/value/mod.rs:244:            io::Error::new(io::ErrorKind::Other, "fmt error")
+src/value/mod.rs:251:            super::ser::to_writer_pretty(&mut wr, self).map_err(|_| fmt::Error)
+src/read.rs:1:use crate::error::{Error, ErrorCode, Result};
+src/read.rs:243:                        return error(self, ErrorCode::ControlCharacterWhileParsingString);
+src/read.rs:270:                Some(Err(err)) => Err(Error::io(err)),
+src/read.rs:290:                Some(Err(err)) => Err(Error::io(err)),
+src/read.rs:362:                    return error(self, ErrorCode::ControlCharacterWhileParsingString);
+src/read.rs:375:            None => error(self, ErrorCode::InvalidEscape),
+src/read.rs:392:            Err(_) => return error(self, ErrorCode::InvalidUnicodeCodePoint),
+src/read.rs:510:                return error(self, ErrorCode::EofWhileParsingString);
+src/error.rs:13:use std::io::ErrorKind;
+src/error.rs:17:pub struct Error {
+src/error.rs:18:    /// This `Box` allows us to keep the size of `Error` as small as possible. A
+src/error.rs:19:    /// larger `Error` type was substantially slower due to all the functions
+src/error.rs:20:    /// that pass around `Result<T, Error>`.
+src/error.rs:21:    err: Box<ErrorImpl>,
+src/error.rs:24:/// Alias for a `Result` with the error type `serde_json::Error`.
+src/error.rs:25:pub type Result<T> = result::Result<T, Error>;
+src/raw.rs:1:use crate::error::Error;
+src/raw.rs:186:    pub fn from_string(json: String) -> Result<Box<Self>, Error> {
+src/raw.rs:226:    /// # Ok::<(), serde_json::Error>(())
+src/raw.rs:319:/// # Errors
+src/raw.rs:334:pub fn to_raw_value<T>(value: &T) -> Result<Box<RawValue>, Error>
+src/raw.rs:345:    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+src/raw.rs:356:    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+src/raw.rs:369:            fn visit_map<V>(self, mut visitor: V) -> Result<Self::Value, V::Error>
+src/value/de.rs:1:use crate::error::{Error, ErrorCode};
+src/value/de.rs:24:    fn deserialize<D>(deserializer: D) -> Result<Value, D::Error>
+src/value/de.rs:49:                E: serde::de::Error,
+src/value/de.rs:62:                E: serde::de::Error,
+src/value/de.rs:77:                E: serde::de::Error,
+src/value/de.rs:94:            fn visit_some<D>(self, deserializer: D) -> Result<Value, D::Error>
+src/value/de.rs:107:            fn visit_seq<V>(self, mut visitor: V) -> Result<Value, V::Error>
+src/value/de.rs:121:            fn visit_map<V>(self, mut visitor: V) -> Result<Value, V::Error>
+src/number.rs:2:use crate::error::Error;
+src/number.rs:4:use crate::error::ErrorCode;
+src/number.rs:374:    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+src/number.rs:386:    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+src/number.rs:400:    fn deserialize<D>(deserializer: D) -> Result<Number, D::Error>
+src/number.rs:419:                E: de::Error,
+src/number.rs:422:                    .ok_or_else(|| de::Error::custom("JSON number out of range"))
+src/number.rs:431:                E: de::Error,
+src/de.rs:3:use crate::error::{Error, ErrorCode, Result};
+src/de.rs:131:    fn invalid_type(self, exp: &dyn Expected) -> Error {
+src/de.rs:133:            ParserNumber::F64(x) => de::Error::invalid_type(Unexpected::Float(x), exp),
+src/de.rs:134:            ParserNumber::U64(x) => de::Error::invalid_type(Unexpected::Unsigned(x), exp),
+src/de.rs:135:            ParserNumber::I64(x) => de::Error::invalid_type(Unexpected::Signed(x), exp),
+src/de.rs:137:            ParserNumber::String(_) => de::Error::invalid_type(Unexpected::Other("number"), exp),
+src/de.rs:148:            Some(_) => Err(self.peek_error(ErrorCode::TrailingCharacters)),
+src/de.rs:239:    /// Error caused by a byte from next_char().
+src/lexical/errors.rs:14:pub(crate) trait FloatErrors {
+src/lexical/errors.rs:50:impl FloatErrors for u64 {
+src/lexical/errors.rs:95:        // # Large Extrabits, Low Errors
+src/map.rs:9:use crate::error::Error;
+src/map.rs:485:    fn fmt(&self, formatter: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+src/map.rs:493:    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+src/map.rs:508:    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+src/map.rs:524:                E: de::Error,
+src/map.rs:531:            fn visit_map<V>(self, mut visitor: V) -> Result<Self::Value, V::Error>
+src/map.rs:601:impl<'de> de::IntoDeserializer<'de, Error> for Map<String, Value> {
+src/map.rs:609:impl<'de> de::IntoDeserializer<'de, Error> for &'de Map<String, Value> {
+src/io/mod.rs:7://! `std::io::Error`, which may contain internally a heap-allocated `Box<Error>`
+src/io/mod.rs:10:pub use self::imp::{Error, ErrorKind, Result, Write};
+src/io/core.rs:8:pub enum ErrorKind {
+src/io/core.rs:14:pub struct Error;
+src/io/core.rs:16:impl Display for Error {
+src/io/core.rs:22:impl Error {
+src/io/core.rs:23:    pub(crate) fn new(_kind: ErrorKind, _error: &'static str) -> Error {
+src/io/core.rs:24:        Error
+src/io/core.rs:28:pub type Result<T> = result::Result<T, Error>;

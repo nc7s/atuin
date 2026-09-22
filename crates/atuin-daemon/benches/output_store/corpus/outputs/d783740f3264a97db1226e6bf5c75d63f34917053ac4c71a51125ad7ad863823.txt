@@ -1,0 +1,6 @@
+total 24K
+-rw-rw-r-- 1 i i 2.2K Sep  3 05:19 bash.rs
+-rw-rw-r-- 1 i i 2.3K Sep  3 05:19 fish.rs
+-rw-rw-r-- 1 i i 4.7K Sep  3 05:19 powershell.rs
+-rw-rw-r-- 1 i i 2.2K Sep  3 05:19 xonsh.rs
+-rw-rw-r-- 1 i i 2.2K Sep  3 05:19 zsh.rs

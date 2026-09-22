@@ -1,0 +1,45 @@
+src/frame/mod.rs:76:        match e {
+src/frame/mod.rs:98:        match e.get_ref().and_then(|e| e.downcast_ref::<Error>()) {
+src/fastcpy.rs:27:            "source slice length ({}) does not match destination slice length ({})",
+src/frame/header.rs:69:        match self {
+src/frame/header.rs:326:        let block_size = match (bd_byte & BD_BLOCK_SIZE_MASK) >> BD_BLOCK_SIZE_MASK_RSHIFT {
+src/frame/header.rs:397:        let value = match self {
+src/frame/compress.rs:174:        match self.flush() {
+src/frame/compress.rs:301:        let (block_info, block_data) = match compress_result.map_err(Error::CompressionError)? {
+src/frame/compress.rs:364:            // Advance stream offset so we don't have to reset the match dict
+src/frame/decompress.rs:41:///     match serde_json::from_reader::<_, serde_json::Value>(&mut decompressed_input) {
+src/frame/decompress.rs:112:        match self.r.read(&mut buffer[..MAGIC_NUMBER_SIZE])? {
+src/frame/decompress.rs:121:            match self
+src/frame/decompress.rs:242:        match block_info {
+src/frame/decompress.rs:372:            match self.fill_buf() {
+src/frame/decompress.rs:395:            match self.fill_buf() {
+src/block/decompress_safe.rs:53:/// Read the match offset as a little-endian 16-bit integer from the input stream.
+src/block/decompress_safe.rs:103:        .saturating_sub(16 /* literal copy */ +  2 /* u16 match offset */);
+src/block/decompress_safe.rs:106:        .saturating_sub(16 /* literal copy */ + 18 /* match copy */);
+src/block/decompress_safe.rs:109:        // In the dictionary case the output pointer is moved by the match length in the dictionary.
+src/block/decompress_safe.rs:157:                // match crosses ext_dict and output, offset is still correct as output pos
+src/block/decompress_safe.rs:211:        // Obtain the initial match length. The match length is the length of the duplicate segment
+src/block/decompress_safe.rs:214:        // earlier. Since having a match length of less than 4 would mean negative compression
+src/block/decompress_safe.rs:217:        // The initial match length can maximally be 19. As with the literal length, this indicates
+src/block/mod.rs:38:/// The last match must start at least 12 bytes before the end of block. The last match is part of
+src/block/mod.rs:42:/// match must copy "something", so it needs at least one prior byte.
+src/block/mod.rs:44:/// When a block can reference data from another block, it can start immediately with a match and no
+src/block/mod.rs:110:        match self {
+src/block/mod.rs:124:            DecompressError::OffsetZero => f.write_str("0 is not a valid match offset"),
+src/block/mod.rs:134:        match self {
+src/block/decompress.rs:99:    // Can't copy past ext_dict len, the match may cross dict and output
+src/block/decompress.rs:159:/// Read the match offset as a little-endian 16-bit integer from the input stream.
+src/block/decompress.rs:225:    let safe_distance_from_end =  (16 /* literal copy */ +  2 /* u16 match offset */ + 1 /* The next token to read (we can skip the check) */).min(input.len()) ;
+src/block/decompress.rs:231:            .saturating_sub(16 /* literal copy */ + 18 /* match copy */);
+src/block/decompress.rs:233:            // In the dictionary case the output pointer is moved by the match length in the dictionary.
+src/block/decompress.rs:291:            // Check if part of the match is in the external dict
+src/block/decompress.rs:299:                // match crosses ext_dict and output
+src/block/decompress.rs:378:        // Obtain the initial match length. The match length is the length of the duplicate segment
+src/block/compress.rs:157:    let max_input_match = input.len().saturating_sub(*cur + END_OFFSET);
+src/block/compress.rs:158:    let max_candidate_match = source.len() - candidate;
+src/block/compress.rs:159:    // Considering both limits calc how far we may match in input.
+src/block/compress.rs:408:                // match within input
+src/block/compress.rs:418:                // match within ext dict
+src/block/compress.rs:441:        // Extend the match backwards if we can
+src/block/compress.rs:537:        match len {
+src/block/compress.rs:764:/// **Note:** If the table variant doesn't match the input size (e.g. a `Small` table is used

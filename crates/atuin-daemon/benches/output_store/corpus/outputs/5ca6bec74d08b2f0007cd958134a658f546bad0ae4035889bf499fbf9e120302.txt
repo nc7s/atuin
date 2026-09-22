@@ -1,0 +1,183 @@
+src/types.rs:56:    legacy_classification: Option<TypeClassification>,
+src/types.rs:164:    fn fixed_width() -> Option<usize>;
+src/types.rs:244:    fn min_encoded_key() -> Option<Cow<'static, [u8]>> {
+src/types.rs:259:    fn fixed_width() -> Option<usize> {
+src/types.rs:300:    fn fixed_width() -> Option<usize> {
+src/types.rs:338:impl<T: Value> Value for Option<T> {
+src/types.rs:340:        = Option<T::SelfType<'a>>
+src/types.rs:348:    fn fixed_width() -> Option<usize> {
+src/types/uuid.rs:15:    fn fixed_width() -> Option<usize> {
+src/types/chrono_v0_4.rs:29:    fn fixed_width() -> Option<usize> {
+src/types/chrono_v0_4.rs:80:    fn fixed_width() -> Option<usize> {
+src/types/chrono_v0_4.rs:137:    fn fixed_width() -> Option<usize> {
+src/types/chrono_v0_4.rs:207:    fn fixed_width() -> Option<usize> {
+src/types/chrono_v0_4.rs:285:    fn fixed_width() -> Option<usize> {
+src/tuple_types.rs:45:fn parse_lens<const N: usize>(fixed_width: [Option<usize>; N], data: &[u8]) -> (usize, [usize; N]) {
+src/tuple_types.rs:60:fn not_equal<T: Key>(data1: &[u8], data2: &[u8]) -> Option<Ordering> {
+src/tuple_types.rs:72:    fixed_width: Option<usize>,
+src/tuple_types.rs:73:    min_encoded_key: fn() -> Option<Cow<'static, [u8]>>,
+src/tuple_types.rs:90:    fn between<'a>(&self, left: &'a [u8], right: &'a [u8]) -> Option<Cow<'a, [u8]>> {
+src/tuple_types.rs:110:fn split_elements<const N: usize>(fixed_width: [Option<usize>; N], data: &[u8]) -> Vec<&[u8]> {
+src/tuple_types.rs:144:) -> Option<Vec<u8>> {
+src/tuple_types.rs:180:    let fixed_width: [Option<usize>; N] = core::array::from_fn(|i| leading[i].fixed_width);
+src/tree_store/table_tree_base.rs:56:        table_root: Option<BtreeHeader>,
+src/tree_store/table_tree_base.rs:58:        fixed_key_size: Option<usize>,
+src/tree_store/table_tree_base.rs:59:        fixed_value_size: Option<usize>,
+src/tree_store/table_tree_base.rs:66:        table_root: Option<BtreeHeader>,
+src/tree_store/table_tree_base.rs:68:        fixed_key_size: Option<usize>,
+src/tree_store/table_tree_base.rs:69:        fixed_value_size: Option<usize>,
+src/tree_store/table_tree_base.rs:80:        table_root: Option<BtreeHeader>,
+src/tree_store/table_tree_base.rs:107:    pub(super) fn set_header(&mut self, root: Option<BtreeHeader>, length: u64) {
+src/tree_store/table_tree.rs:56:    fn next(&mut self) -> Option<Self::Item> {
+src/tree_store/table_tree.rs:80:        master_root: Option<BtreeHeader>,
+src/tree_store/table_tree.rs:173:    ) -> Result<Option<InternalTableDefinition>, TableError> {
+src/tree_store/table_tree.rs:188:    ) -> Result<Option<InternalTableDefinition>, TableError> {
+src/tree_store/table_tree.rs:238:    pending_table_updates: BTreeMap<String, (Option<BtreeHeader>, u64, bool)>,
+src/tree_store/table_tree.rs:245:        master_root: Option<BtreeHeader>,
+src/tree_store/table_tree.rs:271:    pub(crate) fn set_root(&mut self, root: Option<BtreeHeader>) {
+src/tree_store/table_tree.rs:313:        table_root: Option<BtreeHeader>,
+src/tree_store/page_store/savepoint.rs:36:    user_root: Option<BtreeHeader>,
+src/tree_store/page_store/savepoint.rs:45:        user_root: Option<BtreeHeader>,
+src/tree_store/page_store/savepoint.rs:72:    pub(crate) fn get_user_root(&self) -> Option<BtreeHeader> {
+src/tree_store/page_store/savepoint.rs:108:    user_root: Option<BtreeHeader>,
+src/tree_store/page_store/savepoint.rs:233:    fn fixed_width() -> Option<usize> {
+src/tree_store/page_store/region.rs:74:    pub(crate) fn find_free(&self, order: u8) -> Option<u32> {
+src/tree_store/page_store/page_manager.rs:546:    storage: Option<&'a PagedCachedFile>,
+src/tree_store/page_store/page_manager.rs:584:    range: Option<(Bound<u64>, Bound<u64>)>,
+src/tree_store/page_store/page_manager.rs:604:) -> Option<Arc<WriterLock>> {
+src/tree_store/page_store/page_manager.rs:635:    database_writer_lock: Option<Arc<WriterLock>>,
+src/tree_store/page_store/page_manager.rs:636:) -> Result<Option<Arc<WriterLock>>> {
+src/tree_store/page_store/page_manager.rs:690:    writer_lock: Option<Arc<WriterLock>>,
+src/tree_store/page_store/page_manager.rs:984:        lent: Option<&'a HeaderGuard<'a>>,
+src/tree_store/page_store/page_manager.rs:998:        local: Option<TransactionId>,
+src/tree_store/page_store/lru_cache.rs:24:    pub(crate) fn insert(&mut self, key: u64, value: T) -> Option<T> {
+src/tree_store/page_store/lru_cache.rs:35:    pub(crate) fn remove(&mut self, key: u64) -> Option<T> {
+src/tree_store/page_store/lru_cache.rs:54:    pub(crate) fn get(&self, key: u64) -> Option<&T> {
+src/tree_store/page_store/lru_cache.rs:63:    pub(crate) fn get_mut(&mut self, key: u64) -> Option<&mut T> {
+src/tree_store/page_store/lru_cache.rs:80:    pub(crate) fn pop_lowest_priority(&mut self) -> Option<(u64, T)> {
+src/tree_store/page_store/layout.rs:78:    trailing_partial_region: Option<RegionLayout>,
+src/tree_store/page_store/layout.rs:85:        trailing_region: Option<RegionLayout>,
+src/tree_store/page_store/layout.rs:206:    pub(super) fn trailing_region_layout(&self) -> Option<&RegionLayout> {
+src/tree_store/btree_cursor.rs:46:        fixed_key_width: Option<usize>,
+src/tree_store/btree_cursor.rs:47:    ) -> Option<(usize, PageNumber)> {
+src/tree_store/btree_cursor.rs:184:) -> Result<Option<Leaf>>
+src/tree_store/btree_cursor.rs:208:    leaf: &mut Option<Leaf>,
+src/tree_store/btree_cursor.rs:383:    opening_next_key: Option<Vec<u8>>,
+src/tree_store/btree_cursor.rs:387:    previous_key: Option<Vec<u8>>,
+src/tree_store/btree_cursor.rs:399:    fn buffered_previous(&self) -> Option<(&[u8], &[u8])> {
+src/tree_store/btree_cursor.rs:409:    fn buffered_next(&self) -> Option<(&[u8], &[u8])> {
+src/tree_store/page_store/active_transactions.rs:15:) -> Result<Option<u64>, E> {
+src/tree_store/page_store/header.rs:431:        user_root: Option<BtreeHeader>,
+src/tree_store/page_store/header.rs:432:        system_root: Option<BtreeHeader>,
+src/tree_store/page_store/header.rs:480:    pub(super) user_root: Option<BtreeHeader>,
+src/tree_store/page_store/header.rs:481:    pub(super) system_root: Option<BtreeHeader>,
+src/tree_store/page_store/header.rs:486:    corrupt_bytes: Option<[u8; TRANSACTION_SIZE]>,
+src/tree_store/btree_base.rs:56:    fixed_key_size: Option<usize>,
+src/tree_store/btree_base.rs:57:    fixed_value_size: Option<usize>,
+src/tree_store/btree_base.rs:87:    fixed_key_size: Option<usize>,
+src/tree_store/btree_base.rs:175:        fixed_key_size: Option<usize>,
+src/tree_store/btree_base.rs:245:        fixed_key_size: Option<usize>,
+src/tree_store/btree_base.rs:305:    parent: Option<(PageMut<'a>, usize)>,
+src/tree_store/btree_base.rs:309:    key_width: Option<usize>,
+src/tree_store/btree_base.rs:320:        parent: Option<(PageMut<'a>, usize)>,
+src/tree_store/multimap_btree.rs:22:    root: Option<PageNumber>,
+src/tree_store/multimap_btree.rs:24:    fixed_key_size: Option<usize>,
+src/tree_store/multimap_btree.rs:25:    fixed_value_size: Option<usize>,
+src/tree_store/multimap_btree.rs:45:    fixed_key_size: Option<usize>,
+src/tree_store/multimap_btree.rs:46:    fixed_value_size: Option<usize>,
+src/tree_store/multimap_btree.rs:156:    root: Option<BtreeHeader>,
+src/tree_store/multimap_btree.rs:157:    key_size: Option<usize>,
+src/tree_store/multimap_btree.rs:158:    value_size: Option<usize>,
+src/tree_store/btree.rs:81:    root: Option<BtreeHeader>,
+src/tree_store/btree.rs:83:    key_width: Option<usize>,
+src/tree_store/btree.rs:84:    _value_width: Option<usize>,
+src/tree_store/btree.rs:89:        root: Option<BtreeHeader>,
+src/tree_store/btree.rs:92:        key_width: Option<usize>,
+src/tree_store/btree.rs:93:        value_width: Option<usize>,
+src/tree_store/btree.rs:154:    root: Option<BtreeHeader>,
+src/tree_store/btree.rs:156:    key_width: Option<usize>,
+src/tree_store/extract_if.rs:11:type AdvanceInner<T, R> = fn(&mut T) -> Result<Option<R>>;
+src/tree_store/extract_if.rs:41:        root: &'a mut Option<BtreeHeader>,
+src/tree_store/extract_if.rs:107:    fn next_inner(&mut self) -> Result<Option<ExtractItem<'a, K, V>>> {
+src/tree_store/extract_if.rs:134:    fn next_back_inner(&mut self) -> Result<Option<ExtractItem<'a, K, V>>> {
+src/tree_store/extract_if.rs:164:    ) -> Option<Result<ExtractItem<'a, K, V>>> {
+src/tree_store/extract_if.rs:184:    fn next(&mut self) -> Option<Self::Item> {
+src/tree_store/extract_if.rs:193:    fn next_back(&mut self) -> Option<Self::Item> {
+src/tree_store/page_store/bitmap.rs:37:    pub(crate) fn find_first_unset(&self) -> Option<u32> {
+src/tree_store/page_store/bitmap.rs:175:    pub(crate) fn alloc(&mut self) -> Option<u32> {
+src/tree_store/page_store/bitmap.rs:315:    fn first_unset(&self, start_bit: u32, end_bit: u32) -> Option<u32> {
+src/transactions.rs:112:    fn fixed_width() -> Option<usize> {
+src/transactions.rs:165:    fn fixed_width() -> Option<usize> {
+src/transactions.rs:221:    fn fixed_width() -> Option<usize> {
+src/transactions.rs:412:        table_root: Option<BtreeHeader>,
+src/transactions.rs:435:    fn get<'a>(&self, key: impl Borrow<K::SelfType<'a>>) -> Result<Option<AccessGuard<'_, V>>>
+src/transactions.rs:469:    ) -> Result<Option<AccessGuard<'_, V>>> {
+src/transactions.rs:487:    ) -> Result<Option<AccessGuard<'_, V>>>
+src/transactions.rs:533:        root_page: Option<BtreeHeader>,
+src/tree_store/btree_iters.rs:57:    fixed_key_size: Option<usize>,
+src/tree_store/btree_iters.rs:65:        fixed_key_size: Option<usize>,
+src/tree_store/btree_iters.rs:81:    fn next(&mut self) -> Option<Self::Item> {
+src/tree_store/btree_mutator.rs:71:type SplicedNode = (PageNumber, Checksum, Option<Vec<u8>>);
+src/tree_store/btree_mutator.rs:91:    additional_sibling: Option<(Vec<u8>, PageNumber, Checksum)>,
+src/tree_store/btree_mutator.rs:95:    old_value: Option<AccessGuard<'a, V>>,
+src/tree_store/btree_mutator.rs:99:    root: &'b mut Option<BtreeHeader>,
+src/tree_store/btree_mutator.rs:110:        root: &'b mut Option<BtreeHeader>,
+src/tree_store/btree_mutator.rs:131:    pub(crate) fn delete(&mut self, key: &K::SelfType<'_>) -> Result<Option<AccessGuard<'a, V>>> {
+src/tree_store/btree_mutator.rs:141:    ) -> Result<Option<AccessGuard<'a, V>>> {
+src/tree_store/btree_mutator.rs:489:        replaced: Option<(Vec<(PageImpl, usize)>, PageNumber)>,
+src/tree_store/page_store/base.rs:69:    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+src/tree_store/btree_cursor_range.rs:22:    fn active(&self) -> Option<&C> {
+src/tree_store/btree_cursor_range.rs:29:    fn active_mut(&mut self) -> Option<&mut C> {
+src/tree_store/btree_cursor_range.rs:49:    root: Option<PageNumber>,
+src/tree_store/btree_cursor_range.rs:64:        table_root: Option<PageNumber>,
+src/tree_store/btree_cursor_range.rs:75:        table_root: Option<PageNumber>,
+src/tree_store/btree_cursor_range.rs:185:    fn advance_cursor(&mut self, side: Side) -> Result<Option<EntryGuard<K, V>>> {
+src/tree_store/btree_cursor_range.rs:208:    fn next_from(&mut self, side: Side) -> Option<Result<EntryGuard<K, V>>> {
+src/tree_store/btree_cursor_range.rs:219:    fn next_from_inner(&mut self, side: Side) -> Option<Result<EntryGuard<K, V>>> {
+src/transaction_tracker.rs:67:    fn fixed_width() -> Option<usize> {
+src/transaction_tracker.rs:136:    deferred_close: Option<Arc<TransactionalMemory>>,
+src/transaction_tracker.rs:345:    pub(crate) fn end_write_transaction(&self) -> Option<Arc<TransactionalMemory>> {
+src/transaction_tracker.rs:402:    pub(crate) fn oldest_unprocessed_non_durable_commit(&self) -> Option<TransactionId> {
+src/transaction_tracker.rs:519:    ) -> Result<(TransactionId, Option<BtreeHeader>)> {
+src/transaction_tracker.rs:610:    pub(crate) fn savepoint_local_id(&self, id: SavepointId) -> Option<LocalSavepointId> {
+src/transaction_tracker.rs:653:    ) -> Option<(SavepointId, TransactionId)> {
+src/transaction_tracker.rs:663:    pub(crate) fn oldest_local_referenced_transaction(&self) -> Option<TransactionId> {
+src/tree_store/page_store/cached_file.rs:66:    cache: LRUCache<Option<Arc<[u8]>>>,
+src/tree_store/page_store/cached_file.rs:80:    fn get(&self, key: u64) -> Option<&Arc<[u8]>> {
+src/tree_store/page_store/cached_file.rs:84:    fn remove(&mut self, key: u64) -> Option<Arc<[u8]>> {
+src/tree_store/page_store/cached_file.rs:96:    fn take_value(&mut self, key: u64) -> Option<Arc<[u8]>> {
+src/tree_store/page_store/cached_file.rs:104:    fn pop_lowest_priority(&mut self) -> Option<(u64, Arc<[u8]>)> {
+src/tree_store/page_store/cached_file.rs:310:    read_cache_transaction_id: Mutex<Option<TransactionId>>,
+src/tree_store/page_store/buddy_allocator.rs:149:    pub(crate) fn highest_free_order(&self) -> Option<u8> {
+src/tree_store/page_store/buddy_allocator.rs:171:    fn find_free_order(&self, mut page: u32) -> Option<u8> {
+src/tree_store/page_store/buddy_allocator.rs:333:    pub(crate) fn alloc_lowest(&mut self, order: u8) -> Option<u32> {
+src/tree_store/page_store/buddy_allocator.rs:370:    pub(crate) fn alloc(&mut self, order: u8) -> Option<u32> {
+src/tree_store/page_store/buddy_allocator.rs:374:    pub(crate) fn alloc_inner(&mut self, order: u8) -> Option<u32> {
+src/table.rs:117:        table_root: Option<BtreeHeader>,
+src/table.rs:146:    ) -> Result<Option<AccessGuardMut<'_, V>>> {
+src/table.rs:151:    pub fn pop_first(&mut self) -> Result<Option<(AccessGuard<'_, K>, AccessGuard<'_, V>)>> {
+src/table.rs:156:    pub fn pop_last(&mut self) -> Result<Option<(AccessGuard<'_, K>, AccessGuard<'_, V>)>> {
+src/table.rs:327:    ) -> Result<Option<AccessGuard<'_, V>>> {
+src/table.rs:348:    ) -> Result<Option<AccessGuard<'_, V>>> {
+src/table.rs:501:    fn get<'a>(&self, key: impl Borrow<K::SelfType<'a>>) -> Result<Option<AccessGuard<'_, V>>> {
+src/table.rs:520:    fn first(&self) -> Result<Option<(AccessGuard<'_, K>, AccessGuard<'_, V>)>> {
+src/multimap_table.rs:42:    fixed_key_size: Option<usize>,
+src/multimap_table.rs:43:    fixed_value_size: Option<usize>,
+src/multimap_table.rs:51:        fixed_key_size: Option<usize>,
+src/multimap_table.rs:52:        fixed_value_size: Option<usize>,
+src/multimap_table.rs:86:    fn key_at(&self, n: usize) -> Option<AccessGuard<'static, V>> {
+src/multimap_table.rs:98:    fn next_key(&mut self) -> Option<AccessGuard<'static, V>> {
+src/multimap_table.rs:106:    fn next_key_back(&mut self) -> Option<AccessGuard<'static, V>> {
+src/multimap_table.rs:121:    inner: Option<ValueIterState<'a, V>>,
+src/db.rs:457:        reference: Option<Arc<TransactionalMemory>>,
+src/db.rs:523:    ) -> Result<(Self, Option<BtreeHeader>)> {
+src/db.rs:683:        region_size: Option<u64>,
+src/db.rs:826:        data_root: Option<BtreeHeader>,
+src/db.rs:827:        system_root: Option<BtreeHeader>,
+src/db.rs:1049:        #[cfg(feature = "experimental-multiprocess")] writer_lock: Option<&Arc<WriterLock>>,
+src/db.rs:1080:    fn repair_live_state(&mut self) -> Result<Option<bool>, DatabaseError> {
+src/db.rs:1279:        #[cfg(feature = "experimental-multiprocess")] writer_lock: Option<&Arc<WriterLock>>,
+src/complex_types.rs:46:    fn fixed_width() -> Option<usize> {
+src/error.rs:59:    fn source(&self) -> Option<&(dyn core::error::Error + 'static)> {
+src/error.rs:182:        width: Option<usize>,
+src/error.rs:697:        width: Option<usize>,

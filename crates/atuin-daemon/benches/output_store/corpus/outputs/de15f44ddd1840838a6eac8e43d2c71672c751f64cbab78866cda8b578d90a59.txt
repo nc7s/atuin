@@ -1,0 +1,48 @@
+12:pub(super) struct Capture {
+18:impl Capture {
+19:    pub fn reopen(&mut self) {
+25:    pub async fn poll(&mut self, id: HistoryId, settings: &Settings) -> bool {
+46:    pub fn status(&self) -> &str {
+54:    pub fn rows(&mut self, width: u16) -> &[Line<'static>] {
+62:    pub fn from_text(text: &str, status: &str) -> Self {
+71:impl Drop for Capture {
+72:    fn drop(&mut self) {
+80:async fn load_output(id: HistoryId, settings: &Settings) -> LoadedCapture {
+114:async fn load_output(_id: HistoryId, _settings: &Settings) -> LoadedCapture {
+120:pub(super) struct Output {
+126:impl Output {
+128:    pub fn parse(capture: &str) -> Self {
+163:    pub fn is_empty(&self) -> bool {
+167:    pub fn rows(&mut self, width: u16) -> &[Line<'static>] {
+210:fn plain_output(output: &str) -> String {
+229:    async fn loading_is_nonblocking_and_only_failures_retry(#[case] success: bool) {
+238:        assert!(
+246:        assert_eq!(capture.status(), "Loading output…");
+247:        assert!(capture.rows(80).is_empty());
+253:        assert!(sender.send(result).is_ok());
+255:        assert!(!capture.poll(id, &settings).await);
+256:        assert_eq!(
+265:        assert_eq!(capture.id, success.then_some(id));
+267:            assert!(!capture.poll(id, &settings).await);
+268:            assert!(capture.task.is_none(), "reopening must not fetch again");
+269:            assert_eq!(capture.rows(80)[0].spans[0].style.fg, Some(Color::Red));
+277:    async fn dropping_or_replacing_a_capture_cancels_the_request(#[case] replace: bool) {
+289:            assert!(
+296:        assert!(receiver.await.is_err());
+300:    fn formatting_only() {
+303:        assert_eq!(span.content, "visible");
+304:        assert_eq!(
+322:    fn non_formatting_controls_are_not_rendered(#[case] input: &str, #[case] expected: &str) {
+325:        assert_eq!(rows.iter().map(ToString::to_string).collect::<Vec<_>>().join("\n"), expected);
+326:        assert!(
+332:    fn styles_survive_wrapping_newlines_and_resize() {
+335:        assert_eq!(rows.iter().map(ToString::to_string).collect::<Vec<_>>(), [
+339:            assert_eq!(row.spans[0].style.fg, Some(Color::Red));
+341:        assert_eq!(rows[3].spans[0].style.fg, Some(Color::Reset));
+343:        assert_eq!(rows.len(), 2);
+344:        assert_eq!(rows[1].spans[0].content, "fgh");
+345:        assert_eq!(rows[1].spans[0].style.fg, Some(Color::Red));
+346:        assert_eq!(rows[1].spans[1].content, "i");
+347:        assert_eq!(rows[1].spans[1].style.fg, Some(Color::Reset));
+351:    fn styled_wrapping_preserves_text() {
+361:            prop_assert_eq!(output.rows(width).iter().map(ToString::to_string).collect::<Vec<_>>(), expected);

@@ -1,0 +1,4 @@
+10:pub enum Event {
+52:    StreamError(String),
+145:pub enum PermissionResponse {
+158:pub enum PermissionChoice {

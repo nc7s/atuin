@@ -1,0 +1,74 @@
+src/parser.rs:335:        let from_hyphenated = Uuid::parse_str("67e55044-10b1-426f-9247-bb680e5fe0c8").unwrap();
+src/parser.rs:336:        let from_simple = Uuid::parse_str("67e5504410b1426f9247bb680e5fe0c8").unwrap();
+src/parser.rs:337:        let from_urn = Uuid::parse_str("urn:uuid:67e55044-10b1-426f-9247-bb680e5fe0c8").unwrap();
+src/parser.rs:338:        let from_guid = Uuid::parse_str("{67e55044-10b1-426f-9247-bb680e5fe0c8}").unwrap();
+src/parser.rs:355:            Uuid::parse_str("00000000000000000000000000000000").unwrap(),
+src/parser.rs:359:            Uuid::parse_str("00000000-0000-0000-0000-000000000000").unwrap(),
+src/parser.rs:620:            let uuid_out = Uuid::parse_str(&orig_str).unwrap();
+src/parser.rs:629:            let uuid_out = Uuid::parse_str(&orig_str).unwrap();
+src/v7.rs:115:            &counter_and_random.to_be_bytes()[..10].try_into().unwrap(),
+src/v7.rs:149:        let parsed = Uuid::parse_str(uustr.as_str()).unwrap();
+src/v7.rs:199:        let decoded_ts = uuid.get_timestamp().unwrap();
+src/v7.rs:235:        let decoded_ts = uuid.get_timestamp().unwrap();
+src/v7.rs:259:                assert_eq!((1_700_000_000, 0), a.get_timestamp().unwrap().to_unix());
+src/v7.rs:260:                assert_eq!((1_700_000_000, 0), b.get_timestamp().unwrap().to_unix());
+src/v7.rs:350:        let decoded_ts = uuid.get_timestamp().unwrap();
+src/non_nil.rs:106:    /// let non_nil = NonNilUuid::try_from(uuid).unwrap();
+src/non_nil.rs:125:    /// let non_nil = NonNilUuid::try_from(uuid).unwrap();
+src/non_nil.rs:150:        assert_eq!(Uuid::from(NonNilUuid::try_from(uuid).unwrap()), uuid);
+src/non_nil.rs:151:        assert_eq!(NonNilUuid::new(uuid).unwrap(), uuid);
+src/non_nil.rs:161:        let non_nil = NonNilUuid::try_from(uuid).unwrap();
+src/non_nil.rs:172:        let non_nil1 = NonNilUuid::try_from(uuid1).unwrap();
+src/non_nil.rs:173:        let non_nil2 = NonNilUuid::try_from(uuid2).unwrap();
+src/non_nil.rs:188:        let non_nil1_copy = NonNilUuid::try_from(uuid1).unwrap();
+src/v6.rs:129:        let ts = uuid.get_timestamp().unwrap().to_gregorian();
+src/v6.rs:136:        let parsed = Uuid::parse_str("1e74ba22-0616-6934-8000-010203040506").unwrap();
+src/v6.rs:139:            uuid.get_timestamp().unwrap(),
+src/v6.rs:140:            parsed.get_timestamp().unwrap()
+src/v6.rs:143:        assert_eq!(uuid.get_node_id().unwrap(), parsed.get_node_id().unwrap());
+src/lib.rs:652:        let d4: &[u8; 8] = bytes[8..16].try_into().unwrap();
+src/lib.rs:693:        let d4: &[u8; 8] = self.as_bytes()[8..16].try_into().unwrap();
+src/lib.rs:1017:            write!($buf, $format, $target).unwrap();
+src/lib.rs:1021:            assert_eq!(Uuid::parse_str(&$buf).unwrap(), $target);
+src/lib.rs:1026:        Uuid::parse_str("00000000-0000-0000-0000-000000000000").unwrap()
+src/lib.rs:1030:        Uuid::parse_str("20616934-4ba2-11e7-8000-010203040506").unwrap()
+src/lib.rs:1034:        Uuid::parse_str("bcee7a9c-52f1-30c6-a3cc-8c72ba634990").unwrap()
+src/lib.rs:1038:        Uuid::parse_str("67e55044-10b1-426f-9247-bb680e5fe0c8").unwrap()
+src/v1.rs:128:        let ts = uuid.get_timestamp().unwrap().to_gregorian();
+src/v1.rs:135:        let parsed = Uuid::parse_str("20616934-4ba2-11e7-8000-010203040506").unwrap();
+src/v1.rs:138:            uuid.get_timestamp().unwrap(),
+src/v1.rs:139:            parsed.get_timestamp().unwrap()
+src/v1.rs:142:        assert_eq!(uuid.get_node_id().unwrap(), parsed.get_node_id().unwrap());
+src/fmt.rs:1246:        let uuid = Uuid::parse_str("936DA01f9abd4d9d80c702af85c822a8").unwrap();
+src/fmt.rs:1287:        let uuid = Uuid::parse_str("936da01f9abd4d9d80c702af85c822a8").unwrap();
+src/timestamp.rs:236:            .unwrap_or(std::time::SystemTime::UNIX_EPOCH)
+src/timestamp.rs:373:    let now = now().unwrap_throw();
+src/timestamp.rs:404:        let mut ts = TS.lock().unwrap();
+src/timestamp.rs:686:                    .unwrap_or_else(|err| err.into_inner())
+src/timestamp.rs:696:                    .unwrap_or_else(|err| err.into_inner())
+src/timestamp.rs:705:                    .unwrap_or_else(|err| err.into_inner())
+src/timestamp.rs:1333:                .unwrap()
+src/timestamp.rs:1349:            let ts: Timestamp = known_system_time().try_into().unwrap();
+src/rng.rs:57:            getrandom::fill(&mut bytes).unwrap_or_else(|err| {
+src/rng.rs:68:            getrandom::fill(&mut bytes).unwrap_or_else(|err| {
+src/rng.rs:79:            getrandom::fill(&mut bytes).unwrap_or_else(|err| {
+src/rng.rs:134:            uuid_rng_internal_lib::__private::getrandom::fill(&mut bytes).unwrap_or_else(|err| {
+src/rng.rs:145:            uuid_rng_internal_lib::__private::getrandom::fill(&mut bytes).unwrap_or_else(|err| {
+src/rng.rs:156:            uuid_rng_internal_lib::__private::getrandom::fill(&mut bytes).unwrap_or_else(|err| {
+src/external/arbitrary_support.rs:40:        let uuid = Uuid::arbitrary(&mut bytes).unwrap();
+src/external/arbitrary_support.rs:60:        let non_nil_uuid = NonNilUuid::arbitrary(&mut bytes).unwrap();
+src/error.rs:80:                    let (index, character) = input_str.char_indices().next().unwrap();
+src/error.rs:85:                    let (index, character) = input_str.char_indices().last().unwrap();
+src/error.rs:96:                    character: input_str.chars().next().unwrap(),
+src/external/serde_support.rs:325:                u: crate::Uuid::from_slice(uuid_bytes).unwrap(),
+src/external/serde_support.rs:424:                u: crate::Uuid::from_slice(uuid_bytes).unwrap(),
+src/external/serde_support.rs:518:            let u = Struct(Uuid::parse_str(HYPHENATED_UUID_STR).unwrap());
+src/external/serde_support.rs:532:            let s = Struct(HYPHENATED_UUID_STR.parse().unwrap());
+src/external/serde_support.rs:646:            let u = Struct(Uuid::parse_str(HYPHENATED_UUID_STR).unwrap());
+src/external/serde_support.rs:660:            let s = Struct(HYPHENATED_UUID_STR.parse().unwrap());
+src/external/serde_support.rs:775:            let u = Struct(Uuid::parse_str(HYPHENATED_UUID_STR).unwrap());
+src/external/serde_support.rs:789:            let s = Struct(HYPHENATED_UUID_STR.parse().unwrap());
+src/external/borsh_support.rs:9:        let uuid = Uuid::parse_str(uuid_str).unwrap();
+src/external/borsh_support.rs:11:        let borsh_bytes = borsh::to_vec(&uuid).unwrap();
+src/external/borsh_support.rs:18:        let uuid = Uuid::parse_str(uuid_str).unwrap();
+src/external/borsh_support.rs:20:        let deserialized = borsh::from_slice::<Uuid>(&uuid_bytes).unwrap().to_string();

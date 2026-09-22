@@ -1,0 +1,5 @@
+3:impl Uuid {
+24:    /// assert_eq!(Some(Version::Random), uuid.get_version());
+33:    pub fn new_v4() -> Uuid {
+55:    fn test_new() {
+58:        assert_eq!(uuid.get_version(), Some(Version::Random));

@@ -1,0 +1,54 @@
+crates/atuin-common/src/shell.rs:64:    pub fn config_file(&self) -> Option<std::path::PathBuf> {
+crates/atuin-common/src/shell.rs:155:pub fn shell_name(parent: Option<&Process>) -> String {
+crates/atuin-common/src/secrets.rs:43:    prefilter: Option<&'static str>,
+crates/atuin-common/src/time/offset_date_time.rs:205:    fn expected_nanos(secs: i128, nsecs: i128) -> Option<i128> {
+crates/atuin-common/src/rmp/encode.rs:35:    value: Option<T>,
+crates/atuin-common/src/utils.rs:53:fn resolve_git_worktree(path: &Path) -> Option<PathBuf> {
+crates/atuin-common/src/utils.rs:86:pub fn in_git_repo(path: &str) -> Option<PathBuf> {
+crates/atuin-common/src/utils.rs:121:pub fn env_nonempty(name: &str) -> Option<OsString> {
+crates/atuin-common/src/utils.rs:129:pub fn env_abspath(name: &str) -> Option<PathBuf> {
+crates/atuin-common/src/utils.rs:198:pub fn normalize_optional_string<T>(string: T) -> Option<String>
+crates/atuin-common/src/utils.rs:200:    T: Into<Option<String>>,
+crates/atuin-common/src/rmp/decode.rs:59:    pub fn type_mismatch(&self) -> Option<Marker> {
+crates/atuin-common/src/rmp/decode.rs:121:) -> Result<Option<T>, DecodeError<'a, R::Error>>
+crates/atuin-common/src/rmp/decode.rs:250:            `[Option<T>; N]`, which could be up to twice the size, fill in each element, and then
+crates/atuin-common/src/filter.rs:137:    pub fn compare<'a, I, B>(&'a self, iter: Option<I>) -> Comparer<'a, L::Item, I>
+crates/atuin-common/src/filter.rs:158:    /// `list` can be an `Option<L>` or `L`. In the case of [`Option`], [`None`] means no filtering
+crates/atuin-common/src/filter.rs:167:    pub fn from_list<M>(list: M) -> Option<Self>
+crates/atuin-common/src/filter.rs:169:        M: Into<Option<L>>,
+crates/atuin-common/src/filter.rs:405:        #[case] other: Option<&[&str]>,
+crates/atuin-common/src/filter.rs:419:    fn compare_with_an_all_filter(#[case] other: Option<&[&str]>, #[case] expected: bool) {
+crates/atuin-common/src/sync/eager_future_cell.rs:19:pub type MutEagerFutureCell<T> = EagerFuture<Mutex<Option<T>>>;
+crates/atuin-common/src/sync/eager_future_cell.rs:39:    fn peek(&self) -> Option<Self::Value>;
+crates/atuin-common/src/sync/eager_future_cell.rs:49:    fn peek(&self) -> Option<T> {
+crates/atuin-common/src/sync/eager_future_cell.rs:54:impl<T: Clone + Send + Sync + 'static> ResultCell for Mutex<Option<T>> {
+crates/atuin-common/src/sync/eager_future_cell.rs:65:    fn peek(&self) -> Option<T> {
+crates/atuin-common/src/test_utils/capture.rs:49:        struct Visitor(Option<String>);
+crates/atuin-common/src/logs.rs:69:    pub file: Option<FileConfig>,
+crates/atuin-common/src/logs.rs:70:    pub stderr: Option<StderrConfig>,
+crates/atuin-common/src/range/chunks.rs:96:    fn next(&mut self) -> Option<Self::Item> {
+crates/atuin-common/src/db/mod.rs:26:    fn test(sql: &str) -> Option<Self> {
+crates/atuin-common/src/db/mod.rs:354:    fn banned_pattern_classifies(#[case] sql: &str, #[case] expected: Option<BannedPattern>) {
+crates/atuin-common/src/string/ellipsis.rs:167:    pub fn source_index(self, output_byte: usize) -> Option<usize> {
+crates/atuin-common/src/path/mod.rs:36:    pub envless: Option<PathBuf>,
+crates/atuin-common/src/encryption/paseto_v4.rs:652:    IA: Into<Option<ImplicitAssertion<'a>>>,
+crates/atuin-common/src/encryption/paseto_v4.rs:692:    IA: Into<Option<ImplicitAssertion<'a>>>,
+crates/atuin-common/src/os/unix/tty.rs:26:    pub fn from_fd(fd: impl AsFd) -> Option<Self> {
+crates/atuin-common/src/os/unix/tty.rs:43:    pub fn current() -> Option<Self> {
+crates/atuin-common/src/os/unix/process.rs:64:pub fn process_start_time(pid: Pid) -> Option<u64> {
+crates/atuin-common/src/os/unix/process.rs:76:pub fn cwd(pid: Pid) -> Option<PathBuf> {
+crates/atuin-common/src/os/unix/process.rs:89:fn cwd_generic(pid: u32) -> Option<PathBuf> {
+crates/atuin-common/src/os/unix/process.rs:122:        mut read: impl FnMut() -> Option<PathBuf>,
+crates/atuin-common/src/os/unix/process.rs:123:    ) -> Option<PathBuf> {
+crates/atuin-common/src/path/display_rich.rs:19:    relative_to: Option<Cow<'a, Path>>,
+crates/atuin-common/src/path/display_rich.rs:20:    tilde: Option<Cow<'a, Path>>,
+crates/atuin-common/src/path/display_rich.rs:264:        #[case] relative_to: Option<PathBuf>,
+crates/atuin-common/src/path/display_rich.rs:265:        #[case] tilde: Option<PathBuf>,
+crates/atuin-common/src/string/bounded_buffer.rs:51:    pub end: Option<String>,
+crates/atuin-common/src/string/bounded_buffer.rs:217:    fn parts(contents: &BufferContents) -> (&str, Option<&str>) {
+crates/atuin-common/src/string/bounded_buffer.rs:305:    fn zero_sided_limits(#[case] limit: Limit, #[case] start: &str, #[case] end: Option<&str>) {
+crates/atuin-common/src/string/bounded_buffer.rs:336:        #[case] end: Option<&str>,
+crates/atuin-common/src/db/sqlite/info.rs:55:    variable_number_limit: Option<usize>,
+crates/atuin-common/src/db/sqlite/info.rs:125:    fn query_variable_number_limit(handle: &mut LockedSqliteHandle<'_>) -> Option<usize> {
+crates/atuin-common/src/db/sqlite/builder.rs:30:    journal: Option<Journaling>,
+crates/atuin-common/src/db/sqlite/builder.rs:94:    pub fn journal(mut self, journal: Option<Journaling>) -> Self {

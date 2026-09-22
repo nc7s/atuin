@@ -1,0 +1,20 @@
+2:use crate::sync::PoisonError;
+11:/// Errors reported by a [`crate::StorageBackend`] locking operation.
+14:pub enum BackendError {
+16:    Io(io::Error),
+21:impl From<io::Error> for BackendError {
+23:    fn from(err: io::Error) -> Self {
+25:        if err.kind() == std::io::ErrorKind::Unsupported {
+32:impl From<BackendError> for io::Error {
+33:    fn from(err: BackendError) -> Self {
+35:            BackendError::Io(err) => err,
+36:            BackendError::Unsupported => {
+43:impl From<BackendError> for Error {
+44:    fn from(err: BackendError) -> Self {
+45:        StorageError::from(err).into()
+49:impl Display for BackendError {
+50:    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+58:impl core::error::Error for BackendError {
+59:    fn source(&self) -> Option<&(dyn core::error::Error + 'static)> {
+70:pub enum StorageError {
+78:    Io(io::Error),

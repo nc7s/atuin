@@ -1,0 +1,20 @@
+use crate::db::StorageBackend;
+use crate::sync::{Mutex, MutexGuard, RwLock};
+#[cfg(feature = "experimental-multiprocess")]
+use crate::transaction_tracker::TransactionId;
+use crate::tree_store::page_store::base::PageHint;
+use crate::tree_store::page_store::lru_cache::LRUCache;
+use crate::{CacheStats, Result, StorageError};
+use alloc::boxed::Box;
+use alloc::sync::Arc;
+use alloc::vec;
+use alloc::vec::Vec;
+use core::ops::{Index, IndexMut, RangeBounds};
+use core::slice::SliceIndex;
+#[cfg(feature = "cache_metrics")]
+use core::sync::atomic::AtomicU64;
+use core::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+
+// Allocates an `Arc<[u8]>` in one step. `Arc::<[u8]>::from(vec![0; len])` would
+// allocate the Vec and then allocate a new Arc and memcpy into it.
+fn zero_filled_arc(len: usize) -> Arc<[u8]> {

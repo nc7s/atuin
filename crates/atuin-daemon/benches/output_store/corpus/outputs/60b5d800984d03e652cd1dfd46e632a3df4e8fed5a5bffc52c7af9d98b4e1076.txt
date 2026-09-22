@@ -1,0 +1,20 @@
+use super::super::keybindings::{Action, EvalContext, Keymap};
+
+/// Resolved bindings shared by the view selector and footer.
+#[derive(Default)]
+pub struct Bindings {
+    keys: Vec<(Action, String)>,
+    context: Option<EvalContext>,
+}
+
+impl Bindings {
+    pub fn new(keymap: &Keymap, context: &EvalContext) -> Self {
+        let mut bindings: Vec<_> = keymap
+            .bindings
+            .keys()
+            .filter_map(|key| {
+                keymap.resolve(key, context).map(|action| {
+                    let action = match action {
+                        Action::SelectPrevious => Action::InspectPrevious,
+                        Action::SelectNext => Action::InspectNext,
+                        action => action,

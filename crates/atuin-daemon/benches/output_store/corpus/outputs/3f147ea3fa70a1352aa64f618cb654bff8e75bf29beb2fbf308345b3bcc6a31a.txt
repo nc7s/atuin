@@ -1,0 +1,5 @@
+27:pub struct Context {
+28:    pub session: String,
+29:    pub cwd: String,
+30:    pub cmd_origin: CmdOrigin,
+31:    pub host_id: String,

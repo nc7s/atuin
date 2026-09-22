@@ -1,0 +1,5 @@
+4:use atuin_common::rmp::decode::{self, Bytes, DecodeError};
+5:use atuin_common::rmp::encode::{self, ByteBuf, EncodeError};
+7:pub struct Schema;
+13:impl super::Schema for Schema {
+18:    type KeySerializationError = Infallible;

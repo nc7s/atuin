@@ -1,0 +1,5 @@
+7:pub fn reorder_fuzzy(mode: DbSearchMode, query: &str, res: Vec<History>) -> Vec<History> {
+14:fn reorder<F, A>(query: &str, f: F, res: Vec<A>) -> Vec<A>
+37:    fn hist(command: &str) -> History {
+46:    fn commands(res: Vec<History>) -> Vec<String> {
+55:    fn reorder_ranks(#[case] query: &str, #[case] input: Vec<&str>, #[case] expected: Vec<&str>) {

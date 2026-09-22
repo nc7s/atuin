@@ -1,0 +1,7 @@
+src/non_nil.rs:44:impl fmt::Display for NonNilUuid {
+src/non_nil.rs:46:        fmt::Display::fmt(&Uuid::from(*self), f)
+src/lib.rs:391:/// The default representation when formatting a UUID with `Display` is
+src/fmt.rs:31:impl fmt::Display for Uuid {
+src/fmt.rs:44:impl fmt::Display for Variant {
+src/fmt.rs:1147:        impl<$($a),*> fmt::Display for $T<$($a),*> {
+src/error.rs:172:impl fmt::Display for Error {

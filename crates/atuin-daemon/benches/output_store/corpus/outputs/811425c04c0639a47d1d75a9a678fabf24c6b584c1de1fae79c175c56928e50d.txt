@@ -1,0 +1,3 @@
+10:fn into_i32(value: usize) -> i32 {
+24:pub(crate) fn scientific_exponent(
+44:pub(crate) fn mantissa_exponent(exponent: i32, fraction_digits: usize, truncated: usize) -> i32 {

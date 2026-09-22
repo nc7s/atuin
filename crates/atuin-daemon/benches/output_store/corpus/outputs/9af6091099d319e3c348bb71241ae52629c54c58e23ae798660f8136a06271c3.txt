@@ -1,0 +1,5 @@
+5:impl Value for Uuid {
+15:    fn fixed_width() -> Option<usize> {
+19:    fn from_bytes<'a>(data: &'a [u8]) -> Self::SelfType<'a>
+26:    fn as_bytes<'a, 'b: 'a>(value: &'a Self::SelfType<'b>) -> Self::AsBytes<'a>
+33:    fn type_name() -> TypeName {

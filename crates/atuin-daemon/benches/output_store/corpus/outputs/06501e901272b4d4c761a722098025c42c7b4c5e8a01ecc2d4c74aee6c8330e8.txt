@@ -1,0 +1,26 @@
+11:fn env() -> FreshEnv {
+15:fn stdout(out: &std::process::Output) -> String {
+20:fn version_runs(env: FreshEnv) {
+22:    assert!(out.status.success());
+23:    assert!(stdout(&out).starts_with("atuin "));
+28:fn fresh_history_list_is_empty_and_bootstraps_data_dir(env: FreshEnv) {
+32:    assert!(out.status.success(), "stderr: {}", String::from_utf8_lossy(&out.stderr));
+33:    assert_eq!(stdout(&out).trim(), "");
+35:    assert!(env.data_dir().join("key").is_file(), "encryption key was not auto-generated");
+36:    assert!(env.data_dir().join("history.db").is_file());
+40:fn key_loads_but_never_generates(env: FreshEnv) {
+42:    assert!(!out.status.success(), "atuin key should fail before a key exists");
+43:    assert!(!env.data_dir().join("key").exists());
+48:    assert!(out.status.success());
+52:    assert!(out.status.success());
+53:    assert_eq!(std::fs::read(env.data_dir().join("key")).unwrap(), key);
+54:    assert_eq!(stdout(&out).split_whitespace().count(), 24, "expected a 24-word mnemonic");
+62:fn init_emits_shell_setup(env: FreshEnv, #[case] shell: &str) {
+64:    assert!(out.status.success());
+65:    assert!(stdout(&out).contains("ATUIN_SESSION"));
+69:fn init_zsh_registers_hooks(env: FreshEnv) {
+71:    assert!(out.status.success());
+72:    assert!(stdout(&out).contains("autoload -U add-zsh-hook"));
+76:fn doctor_runs_on_fresh_install(env: FreshEnv) {
+78:    assert!(out.status.success(), "stderr: {}", String::from_utf8_lossy(&out.stderr));
+79:    assert!(stdout(&out).starts_with("Atuin Doctor"));

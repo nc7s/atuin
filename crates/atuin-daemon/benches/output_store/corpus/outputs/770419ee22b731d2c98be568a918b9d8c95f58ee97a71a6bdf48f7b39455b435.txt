@@ -1,0 +1,95 @@
+crates/atuin-common/src/shell.rs:38:impl Shell {
+crates/atuin-common/src/units/percent.rs:31:impl Percent {
+crates/atuin-common/src/units/percent.rs:47:impl Mul for Percent {
+crates/atuin-common/src/units/percent.rs:55:impl Mul<f64> for Percent {
+crates/atuin-common/src/units/percent.rs:63:impl Mul<Percent> for f64 {
+crates/atuin-common/src/units/percent.rs:71:impl Mul<f32> for Percent {
+crates/atuin-common/src/units/percent.rs:84:impl Mul<Percent> for f32 {
+crates/atuin-common/src/units/percent.rs:95:        impl Mul<$t> for Percent {
+crates/atuin-common/src/units/percent.rs:110:        impl Mul<Percent> for $t {
+crates/atuin-common/src/url.rs:70:impl UrlAppendExt for Url {
+crates/atuin-common/src/string.rs:70:impl FormatSafeUrlExt for Url {
+crates/atuin-common/src/string.rs:100:impl Measure {
+crates/atuin-common/src/string.rs:164:    impl std::fmt::Debug for Safe<'_> {
+crates/atuin-common/src/secrets.rs:599:    fn credential_dense() -> impl Strategy<Value = String> {
+crates/atuin-common/src/slice.rs:161:    fn sorted_deduped_slice() -> impl Strategy<Value = Vec<u8>> {
+crates/atuin-common/src/time/offset_date_time.rs:85:impl OffsetDateTimeDisplay {
+crates/atuin-common/src/time/offset_date_time.rs:101:impl fmt::Display for OffsetDateTimeDisplay {
+crates/atuin-common/src/time/offset_date_time.rs:136:impl OffsetDateTimeExt for OffsetDateTime {
+crates/atuin-common/src/time/offset_date_time.rs:315:    /// The `Display` impl writes components by hand so that it cannot fail. These
+crates/atuin-common/src/ansi.rs:17:pub fn to_plain_text(input: impl AsRef<[u8]>, cols: NonZeroU16) -> String {
+crates/atuin-common/src/ansi.rs:67:pub fn onlcr<B: Borrow<u8>>(bytes: impl IntoIterator<Item = B>) -> impl Iterator<Item = u8> {
+crates/atuin-common/src/logs.rs:18:impl LogLevel {
+crates/atuin-common/src/logs.rs:39:impl FileConfig {
+crates/atuin-common/src/logs.rs:57:impl StderrConfig {
+crates/atuin-common/src/logs.rs:73:impl LogConfig {
+crates/atuin-common/src/filter.rs:425:    fn any_item() -> impl Strategy<Value = String> {
+crates/atuin-common/src/filter.rs:430:    fn any_items() -> impl Strategy<Value = Vec<String>> {
+crates/atuin-common/src/filter.rs:434:    fn any_nonempty_items() -> impl Strategy<Value = Vec<String>> {
+crates/atuin-common/src/time/utc_offset.rs:24:    fn resolve_spec(spec: impl AsRef<str>) -> Result<UtcOffset, TimezoneDecodingError>;
+crates/atuin-common/src/time/utc_offset.rs:27:impl UtcOffsetExt for UtcOffset {
+crates/atuin-common/src/time/utc_offset.rs:35:    fn resolve_spec(spec: impl AsRef<str>) -> Result<UtcOffset, TimezoneDecodingError> {
+crates/atuin-common/src/time/utc_offset.rs:74:impl FromStr for UtcOffsetSpec {
+crates/atuin-common/src/time/utc_offset.rs:138:        // the point of `impl AsRef<str>`: borrowed or owned, no dance at the call site
+crates/atuin-common/src/time/duration.rs:65:impl DurationDisplay {
+crates/atuin-common/src/time/duration.rs:89:        // impl taken and modified from
+crates/atuin-common/src/time/duration.rs:109:            // a difference from our impl than the original is that
+crates/atuin-common/src/time/duration.rs:156:impl fmt::Display for DurationDisplay {
+crates/atuin-common/src/time/duration.rs:165:impl DurationExt<Self> for std::time::Duration {
+crates/atuin-common/src/time/duration.rs:186:impl DurationExt<Self> for time::Duration {
+crates/atuin-common/src/time/duration.rs:309:        /// The `time::Duration` impl delegates to the `std` one, so it must succeed
+crates/atuin-common/src/rmp/decode.rs:145:) -> impl Iterator<Item = Result<T, DecodeError<'a, R::Error>>>
+crates/atuin-common/src/rmp/decode.rs:172:) -> impl Iterator<Item = Result<u8, DecodeError<'a, R::Error>>>
+crates/atuin-common/src/rmp/decode.rs:200:) -> impl Iterator<Item = Result<T, DecodeError<'a, R::Error>>>
+crates/atuin-common/src/test_utils/capture.rs:36:impl CapturedLogs {
+crates/atuin-common/src/test_utils/capture.rs:51:        impl Visit for Visitor {
+crates/atuin-common/src/test_utils/capture.rs:55:                    // `Debug` impl is the same as `Display`.
+crates/atuin-common/src/os/windows/process.rs:18:impl Handle {
+crates/atuin-common/src/os/windows/process.rs:83:impl Drop for Handle {
+crates/atuin-common/src/string/trim.rs:80:impl TrimExt for String {
+crates/atuin-common/src/string/trim.rs:103:    fn trimmed(input: &str, pattern: impl super::PatternRef) -> String {
+crates/atuin-common/src/string/trim.rs:182:    fn trimmed_start(input: &str, pattern: impl super::PatternRef) -> String {
+crates/atuin-common/src/string/trim.rs:188:    fn trimmed_end(input: &str, pattern: impl super::PatternRef) -> String {
+crates/atuin-common/src/futures/stream.rs:36:) -> impl Stream<Item = (K, Vec<S::Item>)>
+crates/atuin-common/src/encryption/paseto_v4.rs:99:impl PlainTextEncodedKey {
+crates/atuin-common/src/encryption/paseto_v4.rs:110:impl Drop for PlainTextEncodedKey {
+crates/atuin-common/src/encryption/paseto_v4.rs:124:impl Key {
+crates/atuin-common/src/encryption/paseto_v4.rs:398:impl Drop for Key {
+crates/atuin-common/src/encryption/paseto_v4.rs:404:impl TryFrom<&[u8]> for Key {
+crates/atuin-common/src/encryption/paseto_v4.rs:412:impl From<&Key> for rusty_paserk::Key<rusty_paserk::V4, rusty_paserk::Local> {
+crates/atuin-common/src/encryption/paseto_v4.rs:418:impl From<rusty_paserk::Key<rusty_paserk::V4, rusty_paserk::Local>> for Key {
+crates/atuin-common/src/encryption/paseto_v4.rs:424:impl From<&Key> for rusty_paseto::PasetoSymmetricKey<rusty_paseto::V4, rusty_paseto::Local> {
+crates/atuin-common/src/futures/mod.rs:35:impl Backoff {
+crates/atuin-common/src/range/py_style.rs:23:impl PyStyleIdxRange {
+crates/atuin-common/src/os/unix/process.rs:122:        mut read: impl FnMut() -> Option<PathBuf>,
+crates/atuin-common/src/path/display_rich.rs:90:impl fmt::Display for RichDisplay<'_> {
+crates/atuin-common/src/os/unix/tty.rs:21:impl TtyId {
+crates/atuin-common/src/os/unix/tty.rs:26:    pub fn from_fd(fd: impl AsFd) -> Option<Self> {
+crates/atuin-common/src/os/unix/tty.rs:95:    fn with_stdin(fd: std::os::fd::BorrowedFd<'_>) -> impl Drop {
+crates/atuin-common/src/os/unix/tty.rs:100:        impl Drop for Restore {
+crates/atuin-common/src/string/bounded_buffer.rs:13:impl Limit {
+crates/atuin-common/src/string/bounded_buffer.rs:54:impl BoundedBuffer {
+crates/atuin-common/src/string/bounded_buffer.rs:122:impl fmt::Write for BoundedBuffer {
+crates/atuin-common/src/string/bounded_buffer.rs:208:    fn filled(limit: Limit, writes: &[impl AsRef<str>]) -> BufferContents {
+crates/atuin-common/src/range/chunks.rs:29:        impl sealed::Sealed for $t {}
+crates/atuin-common/src/range/chunks.rs:31:        impl ChunkInt for $t {
+crates/atuin-common/src/string/ellipsis.rs:42:impl Default for Indicator<'_> {
+crates/atuin-common/src/string/ellipsis.rs:189:impl fmt::Display for Ellipsized<'_> {
+crates/atuin-common/src/string/ellipsis.rs:217:impl PartialEq<str> for Ellipsized<'_> {
+crates/atuin-common/src/string/ellipsis.rs:235:impl PartialEq<&str> for Ellipsized<'_> {
+crates/atuin-common/src/string/ellipsis.rs:244:    graphemes: impl Iterator<Item = &'a str>,
+crates/atuin-common/src/string/ellipsis.rs:246:    cost: impl Fn(&str) -> usize,
+crates/atuin-common/src/string/ellipsis.rs:263:fn prefix_boundary(s: &str, max: usize, cost: impl Fn(&str) -> usize) -> usize {
+crates/atuin-common/src/string/ellipsis.rs:269:fn suffix_boundary(s: &str, max: usize, cost: impl Fn(&str) -> usize) -> usize {
+crates/atuin-common/src/db/mod.rs:25:impl BannedPattern {
+crates/atuin-common/src/db/mod.rs:60:pub fn query<'a, DB>(sql: impl SqlSafeStr) -> Query<'a, DB, <DB as Database>::Arguments>
+crates/atuin-common/src/db/mod.rs:71:pub fn query_as<'q, DB, O>(sql: impl SqlSafeStr) -> QueryAs<'q, DB, O, <DB as Database>::Arguments>
+crates/atuin-common/src/db/mod.rs:84:    sql: impl SqlSafeStr,
+crates/atuin-common/src/db/mod.rs:224:impl OwnedDbUrl {
+crates/atuin-common/src/db/mod.rs:245:impl FromStr for OwnedDbUrl {
+crates/atuin-common/src/db/mod.rs:261:impl Serialize for OwnedDbUrl {
+crates/atuin-common/src/db/sqlite/compactor.rs:29:impl ActiveCompactor {
+crates/atuin-common/src/db/sqlite/compactor.rs:134:impl Compactor {
+crates/atuin-common/src/db/sqlite/mod.rs:53:impl Sqlite {
+crates/atuin-common/src/db/sqlite/info.rs:59:impl FfiInfo {
+crates/atuin-common/src/db/sqlite/info.rs:184:impl Info {

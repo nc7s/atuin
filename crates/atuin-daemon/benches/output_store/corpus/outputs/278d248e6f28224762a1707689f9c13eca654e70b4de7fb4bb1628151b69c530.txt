@@ -1,0 +1,20 @@
+28:pub use compress::{AutoFinishEncoder, FrameEncoder};
+29:pub use decompress::FrameDecoder;
+30:pub use header::{BlockMode, BlockSize, FrameInfo};
+34:/// Errors that can occur when de/compressing lz4.
+35:pub enum Error {
+37:    CompressionError(crate::block::CompressError),
+39:    DecompressionError(crate::block::DecompressError),
+40:    /// An io::Error was encountered.
+41:    IoError(io::Error),
+55:    HeaderChecksumError,
+57:    BlockChecksumError,
+59:    ContentChecksumError,
+66:    ContentLengthError {
+74:impl From<Error> for io::Error {
+75:    fn from(e: Error) -> Self {
+77:            Error::IoError(e) => e,
+78:            Error::CompressionError(_)
+79:            | Error::DecompressionError(_)
+80:            | Error::SkippableFrame(_)
+81:            | Error::DictionaryNotSupported => io::Error::other(e),

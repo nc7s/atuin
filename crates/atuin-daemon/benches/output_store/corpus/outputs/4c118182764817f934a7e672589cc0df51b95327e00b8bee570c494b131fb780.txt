@@ -1,0 +1,3 @@
+src/frame/mod.rs:105:impl fmt::Display for Error {
+src/block/mod.rs:108:impl fmt::Display for DecompressError {
+src/block/mod.rs:132:impl fmt::Display for CompressError {

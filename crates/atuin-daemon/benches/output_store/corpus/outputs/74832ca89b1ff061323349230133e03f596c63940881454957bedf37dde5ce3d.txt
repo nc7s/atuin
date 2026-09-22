@@ -1,0 +1,160 @@
+use crate::error::Error;
+use alloc::borrow::ToOwned;
+use alloc::boxed::Box;
+use alloc::string::String;
+use core::fmt::{self, Debug, Display};
+use core::mem;
+use serde::de::value::BorrowedStrDeserializer;
+use serde::de::{
+    self, Deserialize, DeserializeSeed, Deserializer, IntoDeserializer, MapAccess, Unexpected,
+    Visitor,
+};
+use serde::forward_to_deserialize_any;
+use serde::ser::{Serialize, SerializeStruct, Serializer};
+
+/// Reference to a range of bytes encompassing a single valid JSON value in the
+/// input data.
+///
+/// A `RawValue` can be used to defer parsing parts of a payload until later,
+/// or to avoid parsing it at all in the case that part of the payload just
+/// needs to be transferred verbatim into a different output object.
+///
+/// When serializing, a value of this type will retain its original formatting
+/// and will not be minified or pretty-printed.
+///
+/// # Note
+///
+/// `RawValue` is only available if serde\_json is built with the `"raw_value"`
+/// feature.
+///
+/// ```toml
+/// [dependencies]
+/// serde_json = { version = "1.0", features = ["raw_value"] }
+/// ```
+///
+/// # Example
+///
+/// ```
+/// use serde::{Deserialize, Serialize};
+/// use serde_json::{Result, value::RawValue};
+///
+/// #[derive(Deserialize)]
+/// struct Input<'a> {
+///     code: u32,
+///     #[serde(borrow)]
+///     payload: &'a RawValue,
+/// }
+///
+/// #[derive(Serialize)]
+/// struct Output<'a> {
+///     info: (u32, &'a RawValue),
+/// }
+///
+/// // Efficiently rearrange JSON input containing separate "code" and "payload"
+/// // keys into a single "info" key holding an array of code and payload.
+/// //
+/// // This could be done equivalently using serde_json::Value as the type for
+/// // payload, but &RawValue will perform better because it does not require
+/// // memory allocation. The correct range of bytes is borrowed from the input
+/// // data and pasted verbatim into the output.
+/// fn rearrange(input: &str) -> Result<String> {
+///     let input: Input = serde_json::from_str(input)?;
+///
+///     let output = Output {
+///         info: (input.code, input.payload),
+///     };
+///
+///     serde_json::to_string(&output)
+/// }
+///
+/// fn main() -> Result<()> {
+///     let out = rearrange(r#" {"code": 200, "payload": {}} "#)?;
+///
+///     assert_eq!(out, r#"{"info":[200,{}]}"#);
+///
+///     Ok(())
+/// }
+/// ```
+///
+/// # Ownership
+///
+/// The typical usage of `RawValue` will be in the borrowed form:
+///
+/// ```
+/// # use serde::Deserialize;
+/// # use serde_json::value::RawValue;
+/// #
+/// #[derive(Deserialize)]
+/// struct SomeStruct<'a> {
+///     #[serde(borrow)]
+///     raw_value: &'a RawValue,
+/// }
+/// ```
+///
+/// The borrowed form is suitable when deserializing through
+/// [`serde_json::from_str`] and [`serde_json::from_slice`] which support
+/// borrowing from the input data without memory allocation.
+///
+/// When deserializing through [`serde_json::from_reader`] you will need to use
+/// the boxed form of `RawValue` instead. This is almost as efficient but
+/// involves buffering the raw value from the I/O stream into memory.
+///
+/// [`serde_json::from_str`]: crate::from_str
+/// [`serde_json::from_slice`]: crate::from_slice
+/// [`serde_json::from_reader`]: crate::from_reader
+///
+/// ```
+/// # use serde::Deserialize;
+/// # use serde_json::value::RawValue;
+/// #
+/// #[derive(Deserialize)]
+/// struct SomeStruct {
+///     raw_value: Box<RawValue>,
+/// }
+/// ```
+#[cfg_attr(docsrs, doc(cfg(feature = "raw_value")))]
+#[repr(transparent)]
+pub struct RawValue {
+    json: str,
+}
+
+impl RawValue {
+    const fn from_borrowed(json: &str) -> &Self {
+        unsafe { mem::transmute::<&str, &RawValue>(json) }
+    }
+
+    fn from_owned(json: Box<str>) -> Box<Self> {
+        unsafe { mem::transmute::<Box<str>, Box<RawValue>>(json) }
+    }
+
+    fn into_owned(raw_value: Box<Self>) -> Box<str> {
+        unsafe { mem::transmute::<Box<RawValue>, Box<str>>(raw_value) }
+    }
+}
+
+impl Clone for Box<RawValue> {
+    fn clone(&self) -> Self {
+        (**self).to_owned()
+    }
+}
+
+impl ToOwned for RawValue {
+    type Owned = Box<RawValue>;
+
+    fn to_owned(&self) -> Self::Owned {
+        RawValue::from_owned(self.json.to_owned().into_boxed_str())
+    }
+}
+
+impl Default for Box<RawValue> {
+    fn default() -> Self {
+        RawValue::NULL.to_owned()
+    }
+}
+
+impl Debug for RawValue {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter
+            .debug_tuple("RawValue")
+            .field(&format_args!("{}", &self.json))
+            .finish()

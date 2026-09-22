@@ -1,0 +1,20 @@
+9:pub enum DangerLevel {
+16:impl DangerLevel {
+17:    pub(crate) fn notes(&self) -> Option<&String> {
+27:impl From<(&String, &String)> for DangerLevel {
+28:    fn from((danger_level, danger_notes): (&String, &String)) -> Self {
+47:pub enum ConfidenceLevel {
+54:impl ConfidenceLevel {
+55:    pub(crate) fn notes(&self) -> Option<&String> {
+65:impl From<(&String, &String)> for ConfidenceLevel {
+66:    fn from((confidence_level, confidence_notes): (&String, &String)) -> Self {
+84:pub enum UiEvent {
+100:pub struct ToolGroup {
+105:impl ToolGroup {
+107:    pub(crate) fn any_pending(&self) -> bool {
+118:pub enum ToolGroupKind {
+128:pub enum ToolRenderData {
+161:impl ToolRenderData {
+162:    pub(crate) fn is_remote(&self) -> bool {
+170:    pub(crate) fn group_kind(&self) -> Option<ToolGroupKind> {
+180:pub struct ToolCallDetails {

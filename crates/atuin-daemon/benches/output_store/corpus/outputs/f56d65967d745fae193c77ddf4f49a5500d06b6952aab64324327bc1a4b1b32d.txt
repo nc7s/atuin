@@ -1,0 +1,128 @@
+src/types.rs:156:    where
+src/types.rs:160:    where
+src/types.rs:171:    where
+src/types.rs:180:    where
+src/types.rs:252:    where
+src/types.rs:256:    where
+src/types.rs:265:    where
+src/types.rs:273:    where
+src/types/uuid.rs:8:    where
+src/types/uuid.rs:12:    where
+src/types/uuid.rs:20:    where
+src/types/uuid.rs:27:    where
+src/types/chrono_v0_4.rs:21:    where
+src/types/chrono_v0_4.rs:26:    where
+src/types/chrono_v0_4.rs:34:    where
+src/types/chrono_v0_4.rs:47:    where
+src/types/chrono_v0_4.rs:73:    where
+src/types/chrono_v0_4.rs:77:    where
+src/types/chrono_v0_4.rs:85:    where
+src/types/chrono_v0_4.rs:97:    where
+src/tuple_types.rs:199:    // smallest encoding of each remaining type, or `right`'s element where a type has none
+src/tuple_types.rs:395:            where
+src/tuple_types.rs:398:            where
+src/tuple_types.rs:406:            where
+src/tuple_types.rs:417:            where
+src/tuple_types.rs:458:    where
+src/tuple_types.rs:462:    where
+src/tuple_types.rs:470:    where
+src/tree_store/table_tree_base.rs:202:    where
+src/tree_store/table_tree_base.rs:363:    where
+src/tree_store/table_tree_base.rs:472:    where
+src/tree_store/table_tree.rs:201:    where
+src/tree_store/table_tree.rs:279:    where
+src/tree_store/page_store/savepoint.rs:226:    where
+src/tree_store/page_store/savepoint.rs:230:    where
+src/tree_store/page_store/savepoint.rs:238:    where
+src/tree_store/page_store/savepoint.rs:245:    where
+src/tree_store/page_store/page_manager.rs:238:    // by compaction's probe loop where the point is specifically to test
+src/tree_store/page_store/page_manager.rs:596:/// The writer lock a handle holds for the life of the database: the whole file where the
+src/tree_store/page_store/page_manager.rs:597:/// database is not shared, and the writer byte where one process writes. Nothing in multi-writer
+src/tree_store/page_store/page_manager.rs:598:/// mode, where a write transaction takes that byte itself, or for a read-only handle
+src/tree_store/page_store/page_manager.rs:687:    // multi-writer mode, where a write transaction takes the writer byte itself, and for a
+src/tree_store/page_store/page_manager.rs:693:    // code path where there is no locking
+src/tree_store/page_store/page_manager.rs:979:    /// The exclusive header hold for one operation: `lent` where the caller holds it already, and
+src/tree_store/page_store/page_manager.rs:1102:        // The lock the open() runs under: its own where it took one, and the handle's otherwise
+src/tree_store/page_store/layout.rs:16:    // Offset where data pages start
+src/tree_store/page_store/header.rs:321:        // where we crash during fsync(), and the only data that got written to disk was the god byte
+src/tree_store/page_store/header.rs:813:        // Simulate a failed non-2PC commit where the primary bit reached disk, but
+src/tree_store/btree_cursor.rs:66:    // Gap before `key`, or where `key` would be inserted.
+src/tree_store/btree_cursor.rs:68:    // Gap after `key`, or where `key` would be inserted.
+src/tree_store/btree_cursor.rs:142:where
+src/tree_store/btree_cursor.rs:185:where
+src/tree_store/btree_cursor.rs:213:where
+src/tree_store/btree_base.rs:998:// matching the single-large-value handling elsewhere. Shared by LeafBuilder::should_split and
+src/tree_store/btree_base.rs:2415:            where
+src/tree_store/btree_base.rs:2422:            where
+src/tree_store/page_store/file_backend/range_lock.rs:18:    /// `Ok(false)` means a conflicting lock is held elsewhere. An unbounded end covers the
+src/tree_store/page_store/file_backend/range_lock.rs:42:    /// [`File::lock`] is included wherever it would in fact block a range lock
+src/tree_store/page_store/file_backend/range_lock.rs:275:        // One call releases the lock because the protocol takes one per range, where std has to
+src/tree_store/page_store/file_backend/range_lock.rs:363:/// The last lock failure, as `Unsupported` where the filesystem has no byte-range locks.
+src/tree_store/btree.rs:106:    where
+src/tree_store/btree.rs:117:    where
+src/tree_store/btree.rs:236:    where
+src/tree_store/btree.rs:262:    where
+src/tree_store/btree.rs:420:    where
+src/tree_store/btree.rs:704:    where
+src/tree_store/btree.rs:729:    where
+src/tree_store/btree.rs:816:    where
+src/tree_store/page_store/file_backend/optimized.rs:218:        // A lock left behind outlives this backend wherever the description is shared.
+src/tree_store/page_store/file_backend/optimized.rs:821:        // A held byte anywhere in the range stands in for a multi-process handle having
+src/transactions.rs:105:    where
+src/transactions.rs:109:    where
+src/transactions.rs:117:    where
+src/transactions.rs:124:    where
+src/transactions.rs:158:    where
+src/transactions.rs:162:    where
+src/transactions.rs:170:    where
+src/transactions.rs:182:    where
+src/lib.rs:132:// where nothing unwinds and panicking() below is vacuously correct.
+src/transaction_tracker.rs:72:    where
+src/transaction_tracker.rs:79:    where
+src/transaction_tracker.rs:467:    // Continues savepoint ids from `next_savepoint` where that is past the ones issued here:
+src/transaction_tracker.rs:690:    // The tracker takes the "active transaction byte" through this, so it needs somewhere to
+src/transaction_tracker.rs:691:    // take it. Opened ExclusiveWriter, where that is a no-op
+src/tree_store/page_store/active_transactions.rs:81:        // The oldest of another handle's pins is what bounds reclamation, wherever they sit
+src/table.rs:222:    where
+src/table.rs:293:    where
+src/table.rs:513:    where
+src/table.rs:704:    where
+src/table.rs:920:    where
+src/table.rs:954:    where
+src/table.rs:997:    where
+src/table.rs:1290:    where
+src/io.rs:12:// The kinds redb attaches to the errors it raises itself. std's `ErrorKind` carries them where it
+src/tree_store/page_store/cached_file.rs:402:    /// Whether an exclusive lock over the range would conflict with one held elsewhere.
+src/tree_store/multimap_btree.rs:390:    where
+src/tree_store/multimap_btree.rs:492:    where
+src/tree_store/multimap_btree.rs:496:    where
+src/tree_store/multimap_btree.rs:504:    where
+src/tree_store/multimap_btree.rs:511:    where
+src/tree_store/page_store/buddy_allocator.rs:396:    // the allocator state feeds this page numbers read from the file, where any of the three means
+src/multimap_table.rs:825:                                // used everywhere else. Two tables of one WriteTransaction share
+src/multimap_table.rs:976:    where
+src/multimap_table.rs:1047:    where
+src/multimap_table.rs:1264:    where
+src/multimap_table.rs:1304:    where
+src/multimap_table.rs:1375:    where
+src/tree_store/page_store/bitmap.rs:222:// Returns a u64 with bits `lo..hi` set, where `0 <= lo < hi <= 64`.
+src/tree_store/extract_if.rs:37:where
+src/tree_store/extract_if.rs:179:where
+src/tree_store/extract_if.rs:190:where
+src/tree_store/extract_if.rs:199:where
+src/tree_store/page_store/base.rs:414:    // Leaves the tracker in the `Closed` state, where any further use panics. `tracking` stays
+src/tree_store/btree_mutator.rs:483:    // greatest key. Ancestors above the level where the replacements collapse
+src/tree_store/btree_mutator.rs:1250:        // removal for all cases where the page won't need merging with a sibling.
+src/tree_store/btree_iters.rs:104:where
+src/complex_types.rs:39:    where
+src/complex_types.rs:43:    where
+src/complex_types.rs:51:    where
+src/complex_types.rs:72:    where
+src/db.rs:164:    /// Reports whether an exclusive lock over the range would conflict with a lock held elsewhere.
+src/db.rs:1260:        // Not in the other modes, where the close records and a second record would leave the
+src/db.rs:1356:    where
+src/db.rs:2065:/// platforms and Windows; elsewhere, opening a database in one of them fails. `ExclusiveWriter`
+src/db.rs:2066:/// locks the whole file and works everywhere.
+src/db.rs:3809:        // The probe does see a byte where there is one to see
+src/db.rs:3855:        // The probe does see a byte where there is one to see
+src/db.rs:4155:    /// only matters below the former, which is where the scan looks

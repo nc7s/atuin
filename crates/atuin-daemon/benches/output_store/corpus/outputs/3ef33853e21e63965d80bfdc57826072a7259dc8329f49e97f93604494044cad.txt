@@ -1,0 +1,18 @@
+crates/atuin-daemon/src/events.rs:5://! events to react to changes elsewhere in the system.
+crates/atuin-daemon/src/history_journal.rs:479:        // This returns a tuple where the first element is the total number of history elements that
+crates/atuin-daemon/src/search/mod.rs:15:/// Longest query the fuzzy matcher will see. Frizbee's `u16` scores overflow (and panic) somewhere
+crates/atuin-daemon/src/search/mod.rs:16:/// past ~2700 needle chars; no real query is anywhere near either limit, so longer input is
+crates/atuin-daemon/src/search/index.rs:3://! This module provides a deduplicated search index where each unique command
+crates/atuin-daemon/src/search/index.rs:57:    /// Uses a decay function where more recent commands score higher.
+crates/atuin-daemon/src/search/index.rs:118:    /// All directories where this command has been run (interned keys).
+crates/atuin-daemon/src/search/index.rs:120:    /// All hostnames where this command has been run (interned keys).
+crates/atuin-daemon/src/search/index.rs:122:    /// All sessions where this command has been run (as 16-byte UUIDs).
+crates/atuin-daemon/src/search/index.rs:204:    /// O(n) where n = number of unique directories for this command.
+crates/atuin-daemon/src/search/index.rs:860:    /// most-recently/frequently-used behavior is preserved where match
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:198:    /// We'd expect flush itself to take anywhere between 1-10ms, so this is plenty of overhead.
+crates/atuin-daemon/src/grpc/common/mod.rs:31:where
+crates/atuin-daemon/src/grpc/common/mod.rs:47:where
+crates/atuin-daemon/src/grpc/common/mod.rs:56:    where
+crates/atuin-daemon/src/grpc/common/mod.rs:80:where
+crates/atuin-daemon/src/grpc/history/pb.rs:787:    // chunk is exactly where a line goes missing and every later line number looks like a gap.
+crates/atuin-daemon/src/grpc/history/pb.rs:800:    // these numbers, so losing line 1 would report a three-line gap where only lines 2 and 3 are

@@ -1,0 +1,11 @@
+tests/suite_string_set.rs:20:    let hay = match std::str::from_utf8(test.haystack()) {
+tests/suite_string_set.rs:28:    match test.additional_name() {
+tests/suite_string.rs:22:    let hay = match std::str::from_utf8(test.haystack()) {
+tests/suite_string.rs:30:    match test.additional_name() {
+tests/suite_string.rs:61:    let pattern = match test.regexes().len() {
+tests/suite_string.rs:110:    // a match always gives a non-zero number of groups with the first group
+tests/suite_bytes_set.rs:20:    match test.additional_name() {
+tests/suite_bytes.rs:22:    match test.additional_name() {
+tests/suite_bytes.rs:53:    let pattern = match test.regexes().len() {
+tests/suite_bytes.rs:105:    // a match always gives a non-zero number of groups with the first group
+tests/searcher.rs:21:                match se.next() {

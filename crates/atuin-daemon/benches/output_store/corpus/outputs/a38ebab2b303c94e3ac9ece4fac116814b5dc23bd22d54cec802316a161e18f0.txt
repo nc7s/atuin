@@ -1,0 +1,35 @@
+tests/test.rs:93:        let s = to_string(value).unwrap();
+tests/test.rs:96:        let v = to_value(value).unwrap();
+tests/test.rs:97:        let s = to_string(&v).unwrap();
+tests/test.rs:109:        let s = to_string_pretty(value).unwrap();
+tests/test.rs:112:        let v = to_value(value).unwrap();
+tests/test.rs:113:        let s = to_string_pretty(&v).unwrap();
+tests/test.rs:161:    let v = to_value(f64::NAN.copysign(1.0)).unwrap();
+tests/test.rs:164:    let v = to_value(f64::NAN.copysign(-1.0)).unwrap();
+tests/regression/issue979.rs:26:    let err = de.deserialize_enum("name", &[], EnumVisitor).unwrap_err();
+tests/stream.rs:36:        assert_eq!(stream.next().unwrap().unwrap()["x"], 39);
+tests/stream.rs:39:        assert_eq!(stream.next().unwrap().unwrap()["x"], 40);
+tests/stream.rs:42:        assert_eq!(stream.next().unwrap().unwrap()["x"], 41);
+tests/stream.rs:45:        assert_eq!(stream.next().unwrap().unwrap()["x"], 42);
+tests/stream.rs:58:        assert_eq!(stream.next().unwrap().unwrap()["x"], 42);
+tests/stream.rs:71:        assert_eq!(stream.next().unwrap().unwrap()["x"], 40);
+tests/stream.rs:74:        assert!(stream.next().unwrap().unwrap_err().is_eof());
+tests/stream.rs:84:        assert!(stream.next().unwrap().unwrap_err().is_eof());
+tests/regression/issue845.rs:70:    println!("{:?}", serde_json::from_str::<Struct>(j).unwrap());
+tests/regression/issue845.rs:73:    println!("{:?}", serde_json::from_str::<Struct>(j).unwrap());
+tests/debug.rs:11:        format!("{:?}", Number::from_f64(1.0).unwrap()),
+tests/debug.rs:32:    assert_eq!(Number::from_f64(1.0).unwrap().to_string(), "1.0"); // not just "1"
+tests/debug.rs:33:    assert_eq!(Number::from_f64(12e40).unwrap().to_string(), "1.2e+41");
+tests/debug.rs:53:    let err = serde_json::from_str::<Value>("{0}").unwrap_err();
+tests/map.rs:13:    let v: Value = from_str(r#"{"b":null,"a":null,"c":null}"#).unwrap();
+tests/map.rs:14:    let keys: Vec<_> = v.as_object().unwrap().keys().collect();
+tests/map.rs:21:    let mut v: Value = from_str(r#"{"b":null,"a":null,"c":null}"#).unwrap();
+tests/map.rs:22:    let val = v.as_object_mut().unwrap();
+tests/map.rs:39:    let mut v: Value = from_str(r#"{"b":null,"a":null,"c":null}"#).unwrap();
+tests/map.rs:40:    let val = v.as_object_mut().unwrap();
+tests/map.rs:51:    let mut v: Value = from_str(r#"{"b":null,"a":null,"c":null}"#).unwrap();
+tests/map.rs:52:    let val = v.as_object_mut().unwrap();
+tests/regression/issue1004.rs:6:    let value = serde_json::to_value(float).unwrap();
+tests/regression/issue1004.rs:7:    let json = serde_json::to_string(&value).unwrap();
+tests/regression/issue520.rs:14:    let v = serde_json::to_value(e).unwrap();
+tests/regression/issue520.rs:15:    let e = serde_json::from_value::<E>(v).unwrap();

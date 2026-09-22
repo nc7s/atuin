@@ -1,0 +1,20 @@
+11:            impl From<$ty> for Value {
+12:                fn from(n: $ty) -> Self {
+30:impl From<f32> for Value {
+42:    fn from(f: f32) -> Self {
+47:impl From<f64> for Value {
+59:    fn from(f: f64) -> Self {
+64:impl From<bool> for Value {
+75:    fn from(f: bool) -> Self {
+80:impl From<String> for Value {
+91:    fn from(f: String) -> Self {
+96:impl From<&str> for Value {
+107:    fn from(f: &str) -> Self {
+132:    fn from(f: Cow<'a, str>) -> Self {
+137:impl From<Number> for Value {
+148:    fn from(f: Number) -> Self {
+153:impl From<Map<String, Value>> for Value {
+165:    fn from(f: Map<String, Value>) -> Self {
+181:    fn from(f: Vec<T>) -> Self {
+187:    fn from(array: [T; N]) -> Self {
+203:    fn from(f: &[T]) -> Self {

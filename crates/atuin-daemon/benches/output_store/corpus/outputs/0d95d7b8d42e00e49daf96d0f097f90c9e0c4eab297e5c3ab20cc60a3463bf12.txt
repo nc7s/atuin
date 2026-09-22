@@ -1,0 +1,51 @@
+src/regexset/string.rs:76:/// assert_eq!(vec!["foo", "bar"], matches);
+src/regexset/string.rs:105:/// assert!(set.is_match("foo@example.com"));
+src/regexset/string.rs:109:/// assert_eq!(vec![0, 1], matches);
+src/regexset/string.rs:113:/// assert_eq!(vec![1], matches);
+src/regexset/string.rs:117:/// assert!(matches.is_empty());
+src/regexset/string.rs:152:    /// assert!(set.is_match("foo"));
+src/regexset/string.rs:175:    /// assert!(set.is_empty());
+src/regexset/string.rs:177:    /// assert!(!set.is_match(""));
+src/bytes.rs:29:assert_eq!(cstrs, vec![&b"foo"[..], &b"qu\xFFux"[..], &b"baz"[..]]);
+src/bytes.rs:50:assert_eq!(title, b"\xE2\x98\x83");
+src/bytes.rs:55:assert_eq!(title, "☃");
+src/regexset/bytes.rs:80:/// assert_eq!(vec![&b"foo"[..], &b"bar"[..]], matches);
+src/regexset/bytes.rs:109:/// assert!(set.is_match(b"foo@example.com"));
+src/regexset/bytes.rs:113:/// assert_eq!(vec![0, 1], matches);
+src/regexset/bytes.rs:117:/// assert_eq!(vec![1], matches);
+src/regexset/bytes.rs:121:/// assert!(matches.is_empty());
+src/regexset/bytes.rs:156:    /// assert!(set.is_match(b"foo"));
+src/regexset/bytes.rs:179:    /// assert!(set.is_empty());
+src/regexset/bytes.rs:181:    /// assert!(!set.is_match(b""));
+src/builders.rs:71:        assert_eq!(1, self.pats.len());
+src/builders.rs:88:        assert_eq!(1, self.pats.len());
+src/builders.rs:250:        /// * The word boundary assertions, `\b` and `\B`, use the Unicode
+src/builders.rs:280:        /// assert!(!re.is_match("δ"));
+src/builders.rs:291:        /// assert!(!re.is_match("ſ"));
+src/builders.rs:316:        /// assert!(re.is_match("FoObarQuUx"));
+src/builders.rs:320:        /// assert!(!re.is_match("fooBARquux"));
+src/builders.rs:330:        /// anchor assertions. Instead of only matching at the beginning and
+src/regex/string.rs:24:/// assert!(regex!("[a-z]").is_match("a"));
+src/regex/string.rs:25:/// assert!(regex!("(inconceivable!|classic blunder)").is_match("inconceivable!"));
+src/regex/string.rs:28:/// assert_eq!(&re.captures("867-5309").unwrap()[1], "867");
+src/regex/string.rs:85:/// assert_eq!(7..19, m.range());
+src/regex/string.rs:114:/// assert_eq!(fields, vec![
+src/regex/string.rs:141:/// assert!(hay.contains(&re));
+src/regex/string.rs:142:/// assert_eq!(hay.find(&re), Some(1));
+src/regex/string.rs:143:/// assert_eq!(hay.match_indices(&re).collect::<Vec<_>>(), vec![
+src/lib.rs:30:assert_eq!(results, vec![
+src/lib.rs:60:assert_eq!(matches, 2);
+src/lib.rs:191:assert_eq!("J", &caps[1]);
+src/lib.rs:229:assert_eq!("J", &caps["middle"]);
+src/lib.rs:245:assert!(re.is_match("2010-03-14"));
+src/lib.rs:260:assert!(re.is_match("𝟚𝟘𝟙𝟘-𝟘𝟛-𝟙𝟜"));
+src/lib.rs:285:assert_eq!(dates, vec![
+src/lib.rs:315:assert_eq!(dates, vec![
+src/regex/bytes.rs:24:/// assert!(regex!("[a-z]").is_match(b"a"));
+src/regex/bytes.rs:25:/// assert!(regex!("(inconceivable!|classic blunder)").is_match(b"inconceivable!"));
+src/regex/bytes.rs:28:/// assert_eq!(&re.captures(b"867-5309").unwrap()[1], b"867");
+src/regex/bytes.rs:86:/// assert_eq!(7..19, m.range());
+src/regex/bytes.rs:119:/// assert_eq!(fields, vec![
+src/regex/bytes.rs:148:/// assert_eq!(&caps["f1"], &b"foo"[..]);
+src/regex/bytes.rs:149:/// assert_eq!(&caps["f2"], "💩".as_bytes());
+src/regex/bytes.rs:223:    /// assert!(Regex::new(r"foo(bar").is_err());

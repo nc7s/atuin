@@ -1,0 +1,167 @@
+crates/atuin-client/src/database.rs:64:    let session = env::var("ATUIN_SESSION").unwrap_or_default();
+crates/atuin-client/src/database.rs:283:        let author = author.filter(|author| !author.trim().is_empty()).unwrap_or_else(|| {
+crates/atuin-client/src/database.rs:569:            git_root.to_str().unwrap_or("/").to_string()
+crates/atuin-client/src/database.rs:688:            git_root.to_str().unwrap_or("/").to_string()
+crates/atuin-client/src/database.rs:1144:            self.last_id = Some(res.last().unwrap().id.to_string());
+crates/atuin-client/src/database.rs:1310:            cmd_origin: CmdOrigin::try_from("test:host").unwrap(),
+crates/atuin-client/src/database.rs:1320:        Sqlite::in_memory(test_local_timeout()).await.unwrap()
+crates/atuin-client/src/database.rs:1348:            db.save(&entry).await.unwrap();
+crates/atuin-client/src/settings.rs:932:                let width = width.unwrap_or_else(|| column_type.default_width());
+crates/atuin-client/src/settings.rs:933:                let expand = expand.unwrap_or(column_type == UiColumnType::Command);
+crates/atuin-client/src/settings.rs:1166:            .unwrap_or_else(|| self.search_mode())
+crates/atuin-client/src/settings.rs:1173:        DATA_DIR.get().cloned().unwrap_or_else(atuin_common::utils::data_dir)
+crates/atuin-client/src/settings.rs:1392:            Version::parse(env!("CARGO_PKG_VERSION")).unwrap_or(Version::new(100_000, 0, 0));
+crates/atuin-client/src/settings.rs:1397:                Some(v) => Version::parse(&v).unwrap_or(current),
+crates/atuin-client/src/settings.rs:1405:        let latest = crate::api_client::latest_version().await.unwrap_or(current);
+crates/atuin-client/src/settings.rs:1425:            Version::parse(env!("CARGO_PKG_VERSION")).unwrap_or(Version::new(100_000, 0, 0));
+crates/atuin-client/src/history.rs:366:            .unwrap_or_else(|| uuid_v7().as_simple().to_string());
+crates/atuin-client/src/history.rs:367:        let cmd_origin = cmd_origin.unwrap_or_else(CmdOrigin::probe_current);
+crates/atuin-client/src/history.rs:370:            .unwrap_or_else(|| cmd_origin.user().to_string());
+crates/atuin-client/src/history.rs:532:            author: author.unwrap_or_else(|| cmd_origin.user().to_string()),
+crates/atuin-client/src/history.rs:639:    ///     .cmd_origin(atuin_domain::record::CmdOrigin::try_from("computer:ellie").unwrap())
+crates/atuin-client/src/history.rs:745:            cwd_filter: RegexSet::new(["^/supasecret"]).unwrap(),
+crates/atuin-client/src/history.rs:746:            history_filter: RegexSet::new(["^psql"]).unwrap(),
+crates/atuin-client/src/history.rs:813:            .cmd_origin(CmdOrigin::try_from(origin.to_owned()).unwrap())
+crates/atuin-client/src/api_client.rs:246:        let body = resp.text().await.unwrap_or_default();
+crates/atuin-client/src/api_client.rs:688:        let headers = extra_headers_map(&extra_headers).unwrap();
+crates/atuin-client/src/api_client.rs:689:        assert_eq!(headers.get("x-auth-token").unwrap(), "secret");
+crates/atuin-client/src/api_client.rs:697:        let mut headers = extra_headers_map(&extra).unwrap();
+crates/atuin-client/src/api_client.rs:698:        headers.insert(AUTHORIZATION, "Token atuin-value".parse().unwrap());
+crates/atuin-client/src/api_client.rs:700:        assert_eq!(headers.get(AUTHORIZATION).unwrap(), "Token atuin-value");
+crates/atuin-client/src/api_client.rs:715:        let (mut sock, _) = listener.accept().await.unwrap();
+crates/atuin-client/src/api_client.rs:718:        sock.write_all(response.as_bytes()).await.unwrap();
+crates/atuin-client/src/theme.rs:98:        self.styles[ALERT_TYPES.get(&severity).unwrap()]
+crates/atuin-client/src/theme.rs:147:                    StyleFactory::from_fg_string(color).unwrap_or_else(|err| {
+crates/atuin-client/src/theme.rs:188:    let first_char = name.chars().next().unwrap();
+crates/atuin-client/src/theme.rs:238:        Self::from_fg_string(name).unwrap()
+crates/atuin-client/src/theme.rs:372:            debug: debug.unwrap_or(false),
+crates/atuin-client/src/theme.rs:414:            .add_source(ConfigFile::new(theme_file.to_str().unwrap(), FileFormat::Toml));
+crates/atuin-client/src/theme.rs:468:        let theme = self.loaded_themes.get(&name).unwrap();
+crates/atuin-client/src/theme.rs:477:            return self.loaded_themes.get(name).unwrap();
+crates/atuin-client/src/plugin.rs:121:            std::fs::rename(exe.with_file_name(Self::OLD_FILE_NAME), exe).unwrap_or_else(|e| {
+crates/atuin-client/src/plugin.rs:144:        assert_eq!(plugin.unwrap().name, "update");
+crates/atuin-client/src/plugin.rs:152:        assert!(message.unwrap().contains("atuin-update"));
+crates/atuin-client/src/meta.rs:279:        MetaStore::in_memory(Duration::from_secs(2)).await.unwrap()
+crates/atuin-client/src/meta.rs:285:        assert_eq!(store.get("foo").await.unwrap(), None);
+crates/atuin-client/src/meta.rs:287:        store.set("foo", "bar").await.unwrap();
+crates/atuin-client/src/meta.rs:288:        assert_eq!(store.get("foo").await.unwrap(), Some("bar".to_string()));
+crates/atuin-client/src/meta.rs:290:        store.set("foo", "baz").await.unwrap();
+crates/atuin-client/src/meta.rs:291:        assert_eq!(store.get("foo").await.unwrap(), Some("baz".to_string()));
+crates/atuin-client/src/meta.rs:293:        store.delete("foo").await.unwrap();
+crates/atuin-client/src/meta.rs:294:        assert_eq!(store.get("foo").await.unwrap(), None);
+crates/atuin-client/src/hub.rs:170:            .unwrap_or_else(|_| {
+crates/atuin-client/src/distro.rs:17:        .unwrap_or_else(|| "Unknown".to_string())
+crates/atuin-client/src/packfile/record.rs:183:        let data = String::from_utf8(buf).unwrap();
+crates/atuin-client/src/packfile/record.rs:275:    const ZSTD_ENCODING_LEVEL: NonZeroU8 = NonZeroU8::new(12).unwrap();
+crates/atuin-client/src/packfile/record.rs:354:        .unwrap()
+crates/atuin-client/src/packfile/record.rs:387:        .unwrap()
+crates/atuin-client/src/packfile/record.rs:452:        assert_eq!(serde_json::to_string(&value).unwrap(), expected);
+crates/atuin-client/src/history/store.rs:128:const BUILD_BATCH_SIZE: NonZeroUsize = NonZeroUsize::new(5000).unwrap();
+crates/atuin-client/src/history/store.rs:342:                // TODO(ATU-594): unwrapping the chunk into a typed `Vec` reallocates what
+crates/atuin-client/src/history/store.rs:430:                .unwrap()
+crates/atuin-client/src/history/store.rs:432:                    write!(w, "{:.1}s", state.eta().as_secs_f64()).unwrap();
+crates/atuin-client/src/history/store.rs:498:            id: "018cd4fe81757cd2aee65cd7861f9c81".parse().unwrap(),
+crates/atuin-client/src/history/store.rs:505:            cmd_origin: CmdOrigin::try_from("test:test").unwrap(),
+crates/atuin-client/src/history/store.rs:520:        let store = SqliteStore::in_memory(test_local_timeout()).await.unwrap();
+crates/atuin-client/src/history/store.rs:546:            id: "018cd4fe81757cd2aee65cd7861f9c81".parse().unwrap(),
+crates/atuin-client/src/record/sqlite_store.rs:325:        Ok(u64::conv(gap.unwrap_or(0)))
+crates/atuin-client/src/record/sqlite_store.rs:515:        SqliteStore::in_memory(test_local_timeout()).await.unwrap()
+crates/atuin-client/src/record/sqlite_store.rs:535:        // the `store` fixture opens/creates the db and unwraps; a successful
+crates/atuin-client/src/record/sqlite_store.rs:537:        assert_eq!(store.len_all().await.unwrap(), 0, "db could not be created");
+crates/atuin-client/src/record/sqlite_store.rs:555:        store.push(&record).await.unwrap();
+crates/atuin-client/src/record/sqlite_store.rs:563:        store.push(&record).await.unwrap();
+crates/atuin-client/src/record/sqlite_store.rs:564:        let last = store.last(&record.series_key()).await.unwrap();
+crates/atuin-client/src/record/sqlite_store.rs:565:        assert_eq!(last.unwrap().id, record.id, "did not get the inserted record");
+crates/atuin-client/src/packfile/packer.rs:108:        SqliteStore::in_memory(test_local_timeout()).await.unwrap()
+crates/atuin-client/src/packfile/packer.rs:128:        store.push(&record).await.unwrap();
+crates/atuin-client/src/packfile/packer.rs:143:            .unwrap()
+crates/atuin-client/src/packfile/packer.rs:145:            .map(|record| match PackManifestData::parse(record).unwrap() {
+crates/atuin-client/src/packfile/packer.rs:161:        .unwrap();
+crates/atuin-client/src/packfile/packer.rs:175:        tokio::runtime::Builder::new_current_thread().enable_all().build().unwrap()
+crates/atuin-client/src/packfile/packer.rs:188:                let store = SqliteStore::in_memory(test_local_timeout()).await.unwrap();
+crates/atuin-client/src/packfile/packer.rs:223:                let store = SqliteStore::in_memory(test_local_timeout()).await.unwrap();
+crates/atuin-client/src/settings/output.rs:33:        self.limits().cloned().unwrap_or_default()
+crates/atuin-client/src/history/builder.rs:91:        let cmd_origin = captured.cmd_origin.unwrap_or_else(CmdOrigin::probe_current);
+crates/atuin-client/src/settings/disk_usage_limit.rs:146:        assert_eq!(input.parse::<DiskUsageLimit>().unwrap(), expected);
+crates/atuin-client/src/settings/disk_usage_limit.rs:193:        assert_eq!(serde_json::from_str::<DiskUsageLimit>(json).unwrap(), expected);
+crates/atuin-client/src/settings/disk_usage_limit.rs:213:            prop_assert_eq!(limit.to_string().parse::<DiskUsageLimit>().unwrap(), limit);
+crates/atuin-client/src/settings/disk_usage_limit.rs:218:            let json = serde_json::to_string(&limit).unwrap();
+crates/atuin-client/src/settings/disk_usage_limit.rs:219:            prop_assert_eq!(serde_json::from_str::<DiskUsageLimit>(&json).unwrap(), limit);
+crates/atuin-client/src/logs.rs:16:        if !child.enabled.unwrap_or(settings.enabled) {
+crates/atuin-client/src/logs.rs:21:            level: child.level.unwrap_or(settings.level),
+crates/atuin-client/src/logs.rs:22:            retention_days: child.retention.unwrap_or(settings.retention),
+crates/atuin-client/src/record/sync/mod.rs:50:pub const DEFAULT_PAGE_SIZE: NonZeroU64 = NonZeroU64::new(100).unwrap();
+crates/atuin-client/src/record/sync/mod.rs:168:                .unwrap_or(DEFAULT_PAGE_SIZE),
+crates/atuin-client/src/record/sync/mod.rs:351:            .unwrap()
+crates/atuin-client/src/record/sync/mod.rs:353:                write!(w, "{:.1}s", state.eta().as_secs_f64()).unwrap();
+crates/atuin-client/src/record/sync/mod.rs:489:            .unwrap()
+crates/atuin-client/src/record/sync/mod.rs:491:                write!(w, "{:.1}s", state.eta().as_secs_f64()).unwrap();
+crates/atuin-client/src/record/sync/mod.rs:747:            local_store.push(&i).await.unwrap();
+crates/atuin-client/src/record/sync/mod.rs:751:            remote_store.push(&i).await.unwrap();
+crates/atuin-client/src/settings/watcher.rs:130:            .unwrap_or_else(|_| config_path_for_watcher.clone());
+crates/atuin-client/src/settings/watcher.rs:152:                                path.canonicalize().unwrap_or_else(|_| path.clone());
+crates/atuin-client/src/settings/watcher.rs:185:        let watch_path = config_path.parent().unwrap_or(config_path);
+crates/atuin-client/src/import/xonsh_sqlite.rs:39:            .unwrap_or(OffsetDateTime::UNIX_EPOCH);
+crates/atuin-client/src/import/xonsh_sqlite.rs:54:            .unwrap_or(HistoryImported::DEFAULT_DURATION);
+crates/atuin-client/src/import/xonsh_sqlite.rs:60:            .exit(self.rtn.unwrap_or(HistoryImported::DEFAULT_EXIT))
+crates/atuin-client/src/import/xonsh_sqlite.rs:151:        let db_path = xonsh_db_path(Some("/home/user/xonsh_data".to_string())).unwrap();
+crates/atuin-client/src/import/xonsh_sqlite.rs:166:        let hist = entry.into_hist_with_cmd_origin(CmdOrigin::try_from("box:user").unwrap());
+crates/atuin-client/src/import/xonsh_sqlite.rs:175:            pool: SqlitePool::connect(connection_str).await.unwrap(),
+crates/atuin-client/src/import/xonsh_sqlite.rs:176:            cmd_origin: CmdOrigin::try_from("box:user").unwrap(),
+crates/atuin-client/src/import/xonsh_sqlite.rs:180:        xonsh_sqlite.load(&mut loader).await.unwrap();
+crates/atuin-client/src/settings/shells.rs:106:            Repr::List(shells) => Self::Fixed(OrFilter::from_list(shells).unwrap_or_default()),
+crates/atuin-client/src/settings/shells.rs:135:        Shells::deserialize(toml::de::ValueDeserializer::parse(toml).unwrap())
+crates/atuin-client/src/settings/shells.rs:152:        assert_eq!(parse(r#""all""#).unwrap(), parse("[]").unwrap());
+crates/atuin-client/src/settings/shells.rs:153:        assert_eq!(parse(r#""all""#).unwrap(), Shells::all());
+crates/atuin-client/src/settings/shells.rs:162:        let toml = toml::Value::try_from(&shells).unwrap().to_string();
+crates/atuin-client/src/settings/shells.rs:197:                .unwrap_or_default(),
+crates/atuin-client/src/settings/daemon.rs:112:        candidates.find(|path| path.exists()).unwrap_or(primary)
+crates/atuin-client/src/settings/daemon.rs:190:        self.runtime_socket_path().unwrap_or_else(|| self.data_dir().join(SOCKET_NAME))
+crates/atuin-client/src/settings/daemon.rs:271:        tempfile::tempdir().unwrap()
+crates/atuin-client/src/settings/daemon.rs:442:            fs_err::create_dir_all(path.parent().unwrap()).unwrap();
+crates/atuin-client/src/settings/daemon.rs:443:            fs_err::File::create(path).unwrap();
+crates/atuin-client/src/settings/daemon.rs:454:        daemon.socket_path().create_default_dir_if_needed().unwrap();
+crates/atuin-client/src/settings/daemon.rs:462:        default_socket.path().create_default_dir_if_needed().unwrap();
+crates/atuin-client/src/settings/daemon.rs:463:        let mode = fs_err::metadata(&default_socket.dir).unwrap().mode();
+crates/atuin-client/src/import/xonsh.rs:137:                    .unwrap_or(OffsetDateTime::UNIX_EPOCH);
+crates/atuin-client/src/import/xonsh.rs:141:                    .unwrap_or(HistoryImported::DEFAULT_DURATION);
+crates/atuin-client/src/import/xonsh.rs:147:                    .exit(cmd.rtn.unwrap_or(HistoryImported::DEFAULT_EXIT))
+crates/atuin-client/src/import/xonsh.rs:169:        let hist_dir = xonsh_hist_dir(Some("/home/user/xonsh_data".to_string())).unwrap();
+crates/atuin-client/src/import/xonsh.rs:185:            cmd_origin: CmdOrigin::try_from("box:user").unwrap(),
+crates/atuin-client/src/import/xonsh.rs:199:        let sessions = load_sessions(&dir).unwrap();
+crates/atuin-client/src/import/xonsh.rs:200:        let cmd_origin = CmdOrigin::try_from("box:user").unwrap();
+crates/atuin-client/src/import/xonsh.rs:207:        xonsh.load(&mut loader).await.unwrap();
+crates/atuin-client/src/import/bash.rs:57:            .unwrap_or_else(|| (lines.len(), OffsetDateTime::now_utc()));
+crates/atuin-client/src/import/bash.rs:69:            * u32::try_from(commands_before_first_timestamp).unwrap_or(u32::MAX);
+crates/atuin-client/src/import/bash.rs:71:        let mut next_timestamp = first_timestamp.checked_sub(backfill).unwrap_or(first_timestamp);
+crates/atuin-client/src/import/bash.rs:93:                        next_timestamp.checked_add(timestamp_increment).unwrap_or(next_timestamp);
+crates/atuin-client/src/import/bash.rs:169:        assert_eq!(bash.entries().await.unwrap(), expected_entries);
+crates/atuin-client/src/import/bash.rs:172:        bash.load(&mut loader).await.unwrap();
+crates/atuin-client/src/import/bash.rs:191:        assert_eq!(bash.entries().await.unwrap(), 3);
+crates/atuin-client/src/import/bash.rs:194:        bash.load(&mut loader).await.unwrap();
+crates/atuin-client/src/import/replxx.rs:118:        replxx.load(&mut loader).await.unwrap();
+crates/atuin-client/src/import/fish.rs:28:    let session = std::env::var("fish_history").unwrap_or_else(|_| String::from("fish"));
+crates/atuin-client/src/import/fish.rs:68:            let time = time.unwrap_or(now);
+crates/atuin-client/src/import/fish.rs:187:        fish.load(&mut loader).await.unwrap();
+crates/atuin-client/src/import/nu_histdb.rs:40:            .unwrap_or(OffsetDateTime::UNIX_EPOCH);
+crates/atuin-client/src/import/resh.rs:133:            let timestamp = start.unwrap_or(OffsetDateTime::UNIX_EPOCH);
+crates/atuin-client/src/import/nu.rs:58:                * u32::try_from(self.num_entries().saturating_sub(1)).unwrap_or(u32::MAX);
+crates/atuin-client/src/import/zsh_histdb.rs:157:                .unwrap_or_else(|_e| CmdHost::probe_current());
+crates/atuin-client/src/import/zsh_histdb.rs:194:        assert_eq!(env::var(key).unwrap(), test_env_db.to_string());
+crates/atuin-client/src/import/zsh_histdb.rs:197:        let histdb_path = ZshHistDb::histpath_candidate().unwrap();
+crates/atuin-client/src/import/zsh_histdb.rs:198:        assert_eq!(histdb_path.to_str().unwrap(), test_env_db);
+crates/atuin-client/src/import/zsh_histdb.rs:233:            SqlitePoolOptions::new().min_connections(2).connect(":memory:").await.unwrap();
+crates/atuin-client/src/import/zsh_histdb.rs:265:        db::query(db_sql).execute(&pool).await.unwrap();
+crates/atuin-client/src/import/zsh_histdb.rs:268:        let histdb_vec = hist_from_db_conn(pool).await.unwrap();
+crates/atuin-client/src/import/zsh.rs:132:            .unwrap_or_else(|| (entries.len(), OffsetDateTime::now_utc()));
+crates/atuin-client/src/import/zsh.rs:136:            u32::try_from(commands_until_timestamp).unwrap_or(u32::MAX) * timestamp_increment;
+crates/atuin-client/src/import/zsh.rs:138:        let mut timestamp = first_timestamp.checked_sub(backfill).unwrap_or(first_timestamp);
+crates/atuin-client/src/import/zsh.rs:145:                timestamp = timestamp.checked_add(timestamp_increment).unwrap_or(timestamp);
+crates/atuin-client/src/import/zsh.rs:151:                .duration(entry.duration.unwrap_or(HistoryImported::DEFAULT_DURATION))
+crates/atuin-client/src/import/zsh.rs:263:        assert_eq!(zsh.entries().await.unwrap(), 4);
+crates/atuin-client/src/import/zsh.rs:266:        zsh.load(&mut loader).await.unwrap();
+crates/atuin-client/src/import/zsh.rs:282:        assert_eq!(zsh.entries().await.unwrap(), 2);
+crates/atuin-client/src/import/powershell.rs:72:        Ok(self.line_count.unwrap())
+crates/atuin-client/src/import/powershell.rs:124:    let s = s.strip_suffix('\r').unwrap_or(s);
+crates/atuin-client/src/import/powershell.rs:176:        let mut prev = loader.buf.first().unwrap().timestamp;
+crates/atuin-client/src/import/powershell.rs:190:        powershell.load(&mut loader).await.unwrap();

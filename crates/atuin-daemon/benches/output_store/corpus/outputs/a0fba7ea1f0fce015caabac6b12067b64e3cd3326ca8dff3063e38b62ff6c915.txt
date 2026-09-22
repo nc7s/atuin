@@ -1,0 +1,80 @@
+6:use crate::{Result, StorageError};
+35:pub(super) fn branch_separator<'a, K: Key>(left: &'a [u8], right: &'a [u8]) -> Cow<'a, [u8]> {
+36:    debug_assert!(K::compare(left, right).is_lt());
+43:    debug_assert!(
+47:    debug_assert!(
+54:pub(super) fn leaf_checksum<T: Page>(
+58:) -> Result<Checksum, StorageError> {
+61:        StorageError::Corrupted(format!(
+67:        StorageError::Corrupted(format!(
+74:        Err(StorageError::Corrupted(format!(
+85:pub(super) fn branch_checksum<T: Page>(
+88:) -> Result<Checksum, StorageError> {
+91:        StorageError::Corrupted(format!(
+97:        StorageError::Corrupted(format!(
+104:        Err(StorageError::Corrupted(format!(
+116:pub(crate) struct BtreeHeader {
+122:impl BtreeHeader {
+123:    pub(crate) fn new(root: PageNumber, checksum: Checksum, length: u64) -> Self {
+131:    pub(crate) const fn serialized_size() -> usize {
+135:    pub(crate) fn from_le_bytes(bytes: [u8; Self::serialized_size()]) -> Self {
+158:    pub(crate) fn to_le_bytes(self) -> [u8; Self::serialized_size()] {
+171:enum OnDrop {
+179:enum EitherPage<'txn> {
+186:impl EitherPage<'_> {
+187:    fn memory(&self) -> &[u8] {
+200:pub struct AccessGuard<'a, V: Value + 'static> {
+209:    pub(crate) fn with_page(page: PageImpl, range: Range<usize>) -> Self {
+219:    pub(crate) fn with_arc_page(page: Arc<[u8]>, range: Range<usize>) -> Self {
+229:    pub(crate) fn with_owned_value(value: Vec<u8>) -> Self {
+240:    pub(super) fn remove_on_drop(
+260:    pub fn value(&self) -> V::SelfType<'_> {
+264:    pub(crate) fn arc_view(&self) -> (Arc<[u8]>, Range<usize>) {
+281:    fn drop(&mut self) {
+300:pub struct AccessGuardMut<'a, V: Value + 'static> {
+315:    pub(crate) fn new(
+326:        assert!(page_allocator.uncommitted(page.get_page_number()));
+328:            assert!(page_allocator.uncommitted(parent_page.get_page_number()));
+345:    pub fn value(&self) -> V::SelfType<'_> {
+350:    pub fn insert<'v>(&mut self, value: impl Borrow<V::SelfType<'v>>) -> Result<()> {
+357:            return Err(StorageError::ValueTooLarge(value_len));
+364:            return Err(StorageError::ValueTooLarge(value_len + key_len));
+409:            assert!(
+427:    fn drop(&mut self) {
+428:        // no-op. This Drop impl is only here to ensure that self is dropped before the transaction
+433:pub struct AccessGuardMutInPlace<'a, V: Value + 'static> {
+441:    pub(crate) fn new(page: PageMut<'a>, offset: usize, len: usize) -> Self {
+452:    fn as_mut(&mut self) -> &mut V::BaseRefType {
+458:    fn drop(&mut self) {
+459:        // no-op. This Drop impl is only here to ensure that self is dropped before the transaction
+465:pub struct EntryAccessor<'a> {
+471:    fn new(key: &'a [u8], value: &'a [u8]) -> Self {
+477:    pub(crate) fn key(&'b self) -> &'a [u8] {
+481:    pub(crate) fn value(&'b self) -> &'a [u8] {
+487:pub(crate) struct LeafAccessor<'a> {
+495:    pub(crate) fn new(
+500:        debug_assert_eq!(page[0], LEAF);
+511:    pub(super) fn print_node<K: Key, V: Value>(&self, include_value: bool) {
+522:    pub(crate) fn position<K: Key>(&self, query: &[u8]) -> (usize, bool) {
+542:        debug_assert_eq!(min_entry, max_entry);
+546:    pub(crate) fn find_key<K: Key>(&self, query: &[u8]) -> Option<usize> {
+551:    fn key_section_start(&self) -> usize {
+563:    fn key_start(&self, n: usize) -> Option<usize> {
+571:    fn key_end(&self, n: usize) -> Option<usize> {
+589:    fn value_start(&self, n: usize) -> Option<usize> {
+597:    fn value_end(&self, n: usize) -> Option<usize> {
+618:    pub(crate) fn num_pairs(&self) -> usize {
+622:    pub(super) fn offset_of_first_value(&self) -> usize {
+626:    pub(super) fn offset_of_value(&self, n: usize) -> Option<usize> {
+630:    pub(super) fn value_range(&self, n: usize) -> Option<(usize, usize)> {
+635:    pub(crate) fn length_of_pairs(&self, start: usize, end: usize) -> usize {
+639:    fn length_of_values(&self, start: usize, end: usize) -> usize {
+649:    pub(crate) fn length_of_keys(&self, start: usize, end: usize) -> usize {
+658:    pub(crate) fn total_length(&self) -> usize {
+663:    fn key_unchecked(&self, n: usize) -> &[u8] {
+667:    pub(crate) fn entry(&self, n: usize) -> Option<EntryAccessor<'a>> {
+673:    pub(crate) fn entry_ranges(&self, n: usize) -> Option<(Range<usize>, Range<usize>)> {
+679:    pub(super) fn last_entry(&self) -> EntryAccessor<'a> {
+684:pub(super) struct LeafBuilder<'a, 'b> {
+700:pub(super) struct OwnedEntryBuffer {
+705:impl OwnedEntryBuffer {

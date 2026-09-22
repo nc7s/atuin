@@ -1,0 +1,50 @@
+src/sink.rs:13:pub fn vec_sink_for_compression(
+src/sink.rs:32:pub fn vec_sink_for_decompression(
+src/sink.rs:107:    pub fn new(output: &'a mut [u8], pos: usize) -> Self {
+src/sink.rs:222:    pub fn from_vec(output: &mut Vec<u8>, pos: usize) -> Self {
+src/fastcpy_unsafe.rs:21:pub fn slice_copy(src: *const u8, dst: *mut u8, num_bytes: usize) {
+src/fastcpy.rs:21:pub fn slice_copy(src: &[u8], dst: &mut [u8]) {
+src/frame/header.rs:153:    pub fn new() -> Self {
+src/frame/header.rs:158:    pub fn content_size(mut self, content_size: Option<u64>) -> Self {
+src/frame/header.rs:164:    pub fn block_size(mut self, block_size: BlockSize) -> Self {
+src/frame/header.rs:170:    pub fn block_mode(mut self, block_mode: BlockMode) -> Self {
+src/frame/header.rs:176:    pub fn block_checksums(mut self, block_checksums: bool) -> Self {
+src/frame/header.rs:183:    pub fn content_checksum(mut self, content_checksum: bool) -> Self {
+src/frame/header.rs:189:    pub fn legacy_frame(mut self, legacy_frame: bool) -> Self {
+src/frame/decompress.rs:76:    pub fn new(rdr: R) -> FrameDecoder<R> {
+src/frame/decompress.rs:92:    pub fn get_ref(&self) -> &R {
+src/frame/decompress.rs:100:    pub fn get_mut(&mut self) -> &mut R {
+src/frame/decompress.rs:105:    pub fn into_inner(self) -> R {
+src/block/mod.rs:151:pub fn uncompressed_size(input: &[u8]) -> Result<(usize, &[u8]), DecompressError> {
+src/block/decompress.rs:454:pub fn decompress_into(input: &[u8], output: &mut [u8]) -> Result<usize, DecompressError> {
+src/block/decompress.rs:462:pub fn decompress_into_with_dict(
+src/block/decompress.rs:478:pub fn decompress_with_dict(
+src/block/decompress.rs:496:pub fn decompress_size_prepended(input: &[u8]) -> Result<Vec<u8>, DecompressError> {
+src/block/decompress.rs:508:pub fn decompress(input: &[u8], min_uncompressed_size: usize) -> Result<Vec<u8>, DecompressError> {
+src/block/decompress.rs:522:pub fn decompress_size_prepended_with_dict(
+src/frame/compress.rs:128:    pub fn auto_finish(self) -> AutoFinishEncoder<W> {
+src/frame/compress.rs:135:    pub fn with_frame_info(frame_info: FrameInfo, wtr: W) -> Self {
+src/frame/compress.rs:156:    pub fn new(wtr: W) -> Self {
+src/frame/compress.rs:161:    pub fn frame_info(&mut self) -> &FrameInfo {
+src/frame/compress.rs:166:    pub fn finish(mut self) -> Result<W, Error> {
+src/frame/compress.rs:173:    pub fn try_finish(&mut self) -> Result<(), Error> {
+src/frame/compress.rs:191:    pub fn into_inner(self) -> W {
+src/frame/compress.rs:196:    pub fn get_ref(&self) -> &W {
+src/block/hashtable.rs:64:    pub fn new() -> Self {
+src/block/hashtable.rs:102:    pub fn new() -> Self {
+src/block/hashtable.rs:113:    pub fn reposition(&mut self, offset: u32) {
+src/block/hashtable.rs:144:    pub fn new() -> Self {
+src/block/decompress_safe.rs:323:pub fn decompress_into(input: &[u8], output: &mut [u8]) -> Result<usize, DecompressError> {
+src/block/decompress_safe.rs:331:pub fn decompress_into_with_dict(
+src/block/decompress_safe.rs:342:pub fn decompress_size_prepended(input: &[u8]) -> Result<Vec<u8>, DecompressError> {
+src/block/decompress_safe.rs:354:pub fn decompress(input: &[u8], min_uncompressed_size: usize) -> Result<Vec<u8>, DecompressError> {
+src/block/decompress_safe.rs:365:pub fn decompress_size_prepended_with_dict(
+src/block/decompress_safe.rs:380:pub fn decompress_with_dict(
+src/block/compress.rs:614:pub fn compress_into(input: &[u8], output: &mut [u8]) -> Result<usize, CompressError> {
+src/block/compress.rs:625:pub fn compress_into_with_dict(
+src/block/compress.rs:694:pub fn compress_prepend_size(input: &[u8]) -> Vec<u8> {
+src/block/compress.rs:700:pub fn compress(input: &[u8]) -> Vec<u8> {
+src/block/compress.rs:706:pub fn compress_with_dict(input: &[u8], ext_dict: &[u8]) -> Vec<u8> {
+src/block/compress.rs:713:pub fn compress_prepend_size_with_dict(input: &[u8], ext_dict: &[u8]) -> Vec<u8> {
+src/block/compress.rs:747:    pub fn small() -> Self {
+src/block/compress.rs:752:    pub fn large() -> Self {

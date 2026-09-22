@@ -1,0 +1,80 @@
+3:use redb::CommitError;
+5:use redb::DatabaseError;
+9:    ReadableDatabase, ReadableTable, ReadableTableMetadata, StorageError, TableDefinition,
+10:    TableError, TableHandle, TypeName, Value, WriteTransaction,
+45:fn create_tempfile() -> tempfile::NamedTempFile {
+54:fn len() {
+68:    assert_eq!(table.len().unwrap(), 3);
+70:    assert_eq!(untyped_table.len().unwrap(), 3);
+74:fn read_only() {
+88:        assert!(matches!(
+90:            Err(DatabaseError::DatabaseAlreadyOpen)
+98:    assert_eq!(table.len().unwrap(), 3);
+103:    assert_eq!(table2.len().unwrap(), 3);
+106:    assert!(matches!(
+108:        Err(DatabaseError::DatabaseAlreadyOpen)
+115:fn write_transaction_keeps_database_open() {
+128:    assert!(matches!(
+130:        Err(DatabaseError::DatabaseAlreadyOpen)
+143:    assert_eq!(table.get("hello").unwrap().unwrap().value(), "world");
+147:fn drop_database_then_drop_write_transaction() {
+164:    assert!(matches!(
+166:        Err(TableError::TableDoesNotExist(_))
+171:fn deferred_close_invalidates_read_transactions() {
+188:    assert!(read_txn.list_tables().is_ok());
+191:    assert!(matches!(
+193:        StorageError::DatabaseClosed
+199:fn return_write_transaction_from_function() {
+200:    fn make_txn(path: &std::path::Path) -> WriteTransaction {
+212:fn table_stats() {
+227:    assert_eq!(table.stats().unwrap().tree_height(), 1);
+228:    assert_eq!(untyped_table.stats().unwrap().tree_height(), 1);
+232:fn in_memory() {
+247:    assert_eq!(table.len().unwrap(), 3);
+251:fn first_last() {
+257:        assert!(table.first().unwrap().is_none());
+258:        assert!(table.last().unwrap().is_none());
+260:        assert_eq!(table.first().unwrap().unwrap().0.value(), "a");
+261:        assert_eq!(table.last().unwrap().unwrap().0.value(), "a");
+269:    assert_eq!(table.first().unwrap().unwrap().0.value(), "a");
+270:    assert_eq!(table.last().unwrap().unwrap().0.value(), "c");
+274:fn pop() {
+281:        assert!(table.pop_first().unwrap().is_none());
+282:        assert!(table.pop_last().unwrap().is_none());
+295:            assert_eq!(key.value(), "a");
+296:            assert_eq!(value.value(), "world");
+300:            assert_eq!(key.value(), "c");
+301:            assert_eq!(value.value(), "world3");
+305:            assert_eq!(key.value(), "b");
+306:            assert_eq!(value.value(), "world2");
+309:        assert!(table.pop_first().unwrap().is_none());
+310:        assert!(table.pop_last().unwrap().is_none());
+316:fn extract_if() {
+327:        assert_eq!(extracted.next().unwrap().unwrap().0.value(), 5);
+329:        assert_eq!(table.len().unwrap(), 9);
+332:        assert_eq!(extracted.next().unwrap().unwrap().0.value(), 6);
+333:        assert_eq!(extracted.next().unwrap().unwrap().0.value(), 7);
+334:        assert!(extracted.next().is_none());
+336:        assert_eq!(table.len().unwrap(), 7);
+339:            assert!(table.insert(&i, &i).unwrap().is_none());
+341:        assert_eq!(table.len().unwrap(), 10);
+348:        assert_eq!(table.len().unwrap(), 10);
+350:        assert_eq!(extracted.next().unwrap().unwrap().1.value(), 0);
+352:        assert_eq!(table.len().unwrap(), 9);
+359:        assert_eq!(table.len().unwrap(), 10);
+368:        assert_eq!(table.len().unwrap(), 4);
+372:            assert_eq!(k.value(), x);
+373:            assert_eq!(k.value(), v.value());
+380:fn extract_if_predicate_panic_poisons_transaction() {
+393:                    assert_ne!(key, 2);
+397:            assert_eq!(extracted.next().unwrap().unwrap().0.value(), 0);
+400:        assert!(result.is_err());
+402:    assert!(matches!(
+404:        Err(CommitError::TransactionPoisoned)
+410:fn extract_if_caller_panic_does_not_poison_transaction() {
+422:            assert_eq!(extracted.next().unwrap().unwrap().0.value(), 0);
+425:        assert!(result.is_err());
+431:fn extract_if_is_lazy_until_read() {
+450:        assert_eq!(predicate_calls, 0);
+451:        assert_eq!(table.len().unwrap(), 10);
+457:fn extract_if_mixed_direction_removes_only_yielded_entries() {

@@ -1,0 +1,39 @@
+src/lib.rs:35://! wtr.finish().unwrap();
+src/lib.rs:55://! let uncompressed = decompress_size_prepended(&compressed).unwrap();
+src/block/mod.rs:12://! let uncompressed = decompress_size_prepended(&compressed).unwrap();
+src/block/mod.rs:153:    let size: &[u8; 4] = size.try_into().unwrap();
+src/block/mod.rs:162:    let u32_max = usize::try_from(u32::MAX).unwrap();
+src/block/mod.rs:170:    let value_decompressed = self::decompress_safe::read_integer(&buf, &mut 0).unwrap();
+src/block/mod.rs:175:        self::decompress::read_integer_ptr(&mut ptr_range.start, ptr_range.end).unwrap()
+src/block/decompress.rs:536:        assert_eq!(decompress(&[0x30, b'a', b'4', b'9'], 3).unwrap(), b"a49");
+src/block/hashtable.rs:71:            .unwrap();
+src/block/hashtable.rs:106:            .unwrap();
+src/block/hashtable.rs:148:            .unwrap();
+src/frame/mod.rs:16://! wtr.finish().unwrap();
+src/frame/mod.rs:99:            Some(_) => *e.into_inner().unwrap().downcast::<Error>().unwrap(),
+src/block/compress.rs:42:    u32::from_ne_bytes(input[n..n + 4].try_into().unwrap())
+src/block/compress.rs:60:    let arr: &[u8; USIZE_SIZE] = input[n..n + USIZE_SIZE].try_into().unwrap();
+src/block/compress.rs:117:        let input_block = usize::from_ne_bytes(block1.try_into().unwrap());
+src/block/compress.rs:118:        let match_block = usize::from_ne_bytes(block2.try_into().unwrap());
+src/block/compress.rs:655:                .unwrap();
+src/block/compress.rs:674:        .unwrap();
+src/block/compress.rs:729:/// let compressed_len = compress_into_with_table(input, &mut output, &mut table).unwrap();
+src/block/compress.rs:928:        .unwrap();
+src/block/decompress_safe.rs:60:    let offset = u16::from_le_bytes(dst.try_into().unwrap());
+src/block/decompress_safe.rs:138:            let input: &[u8; 16] = input[input_pos..input_pos + 16].try_into().unwrap();
+src/block/decompress_safe.rs:398:        assert_eq!(decompress(&[0x30, b'a', b'4', b'9'], 3).unwrap(), b"a49");
+src/frame/compress.rs:43:/// let compressed_file = std::fs::File::create("datafile").unwrap();
+src/frame/compress.rs:45:/// serde_json::to_writer(&mut compressor, &serde_json::json!({ "an": "object" })).unwrap();
+src/frame/compress.rs:46:/// compressor.finish().unwrap();
+src/frame/compress.rs:53:/// let compressed_file = std::fs::File::create("datafile").unwrap();
+src/frame/compress.rs:58:///     serde_json::to_writer(&mut compressor, &serde_json::json!({ "i": i })).unwrap();
+src/frame/compress.rs:60:/// compressor.finish().unwrap();
+src/frame/compress.rs:432:        self.encoder.as_mut().unwrap().write(buf)
+src/frame/compress.rs:436:        self.encoder.as_mut().unwrap().flush()
+src/frame/header.rs:196:        let magic_num = u32::from_le_bytes(input[0..4].try_into().unwrap());
+src/frame/header.rs:339:            input.read_exact(&mut buffer).unwrap();
+src/frame/decompress.rs:29:/// let compressed_input = std::fs::File::open("datafile").unwrap();
+src/frame/decompress.rs:31:/// let json: serde_json::Value = serde_json::from_reader(decompressed_input).unwrap();
+src/frame/decompress.rs:38:/// let compressed_input = std::fs::File::open("datafile").unwrap();
+src/frame/decompress.rs:118:        if u32::from_le_bytes(buffer[0..MAGIC_NUMBER_SIZE].try_into().unwrap())
+src/frame/decompress.rs:191:        let frame_info = self.current_frame_info.as_ref().unwrap();

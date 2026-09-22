@@ -1,0 +1,5 @@
+7:use crate::{Key, Result, TableError, TypeName, Value};
+19:pub(crate) enum TableType {
+24:impl TableType {
+25:    fn is_legacy(value: u8) -> bool {
+31:impl Into<u8> for TableType {

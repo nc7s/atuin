@@ -1,0 +1,20 @@
+18:use crate::{AccessGuard, AccessGuardMut, StorageError, WriteTransaction};
+33:pub struct TableStats {
+42:impl TableStats {
+44:    pub fn tree_height(&self) -> u32 {
+49:    pub fn leaf_pages(&self) -> u64 {
+54:    pub fn branch_pages(&self) -> u64 {
+60:    pub fn stored_bytes(&self) -> u64 {
+65:    pub fn metadata_bytes(&self) -> u64 {
+70:    pub fn fragmented_bytes(&self) -> u64 {
+76:pub struct Table<'txn, K: Key + 'static, V: Value + 'static> {
+83:    fn name(&self) -> &str {
+88:struct RetainPanicGuard<'txn> {
+94:    fn new(transaction: &'txn WriteTransaction) -> Self {
+101:    fn disarm(&mut self) {
+106:impl Drop for RetainPanicGuard<'_> {
+107:    fn drop(&mut self) {
+115:    pub(crate) fn new(
+138:    pub(crate) fn print_debug(&self, include_values: bool) -> Result {
+143:    pub fn get_mut<'k>(
+145:        key: impl Borrow<K::SelfType<'k>>,

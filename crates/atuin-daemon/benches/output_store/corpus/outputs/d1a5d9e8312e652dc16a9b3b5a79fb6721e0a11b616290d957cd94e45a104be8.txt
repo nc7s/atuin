@@ -1,0 +1,33 @@
+3:fn round_up_to_multiple_of(value: u64, multiple: u64) -> u64 {
+14:pub(super) struct RegionLayout {
+21:impl RegionLayout {
+22:    pub(super) fn new(num_pages: u32, header_pages: u32, page_size: u32) -> Self {
+23:        assert!(num_pages > 0);
+31:    pub(super) fn calculate(
+37:        assert!(desired_usable_bytes <= u64::from(page_capacity) * u64::from(page_size));
+48:    pub(super) fn data_section(&self) -> Range<u64> {
+53:    pub(super) fn get_header_pages(&self) -> u32 {
+57:    pub(super) fn num_pages(&self) -> u32 {
+61:    pub(super) fn page_size(&self) -> u32 {
+65:    pub(super) fn len(&self) -> u64 {
+69:    pub(super) fn usable_bytes(&self) -> u64 {
+75:pub(crate) struct DatabaseLayout {
+81:impl DatabaseLayout {
+82:    pub(super) fn new(
+94:    pub(super) fn reduce_last_region(&mut self, pages: u32) {
+96:            assert!(pages <= trailing.num_pages);
+114:    pub(super) fn recalculate(
+132:            assert!(data_pages < region_max_data_pages_u32);
+154:    pub(super) fn calculate(
+179:            assert!(full_regions > 0);
+192:                assert_eq!(region.header_pages, full_region_layout.header_pages);
+202:    pub(super) fn full_region_layout(&self) -> &RegionLayout {
+206:    pub(super) fn trailing_region_layout(&self) -> Option<&RegionLayout> {
+210:    pub(super) fn num_full_regions(&self) -> u32 {
+214:    pub(super) fn num_regions(&self) -> u32 {
+222:    pub(super) fn len(&self) -> u64 {
+227:    pub(super) fn usable_bytes(&self) -> u64 {
+236:    pub(super) fn region_base_address(&self, region: u32) -> u64 {
+237:        assert!(region < self.num_regions());
+242:    pub(super) fn region_layout(&self, region: u32) -> RegionLayout {
+243:        assert!(region < self.num_regions());

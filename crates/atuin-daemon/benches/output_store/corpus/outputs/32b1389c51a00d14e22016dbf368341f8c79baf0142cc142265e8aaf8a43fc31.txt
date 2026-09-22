@@ -1,0 +1,15 @@
+tests/regression/issue979.rs:2:use std::fmt;
+tests/test.rs:36:use std::collections::BTreeMap;
+tests/test.rs:38:use std::collections::HashMap;
+tests/test.rs:39:use std::fmt::{self, Debug};
+tests/test.rs:40:use std::hash::BuildHasher;
+tests/test.rs:42:use std::hash::{Hash, Hasher};
+tests/test.rs:43:use std::io;
+tests/test.rs:44:use std::iter;
+tests/test.rs:45:use std::marker::PhantomData;
+tests/regression/issue845.rs:4:use std::fmt::{self, Display};
+tests/regression/issue845.rs:5:use std::marker::PhantomData;
+tests/regression/issue845.rs:6:use std::str::FromStr;
+tests/regression/issue795.rs:7:use std::fmt;
+tests/lexical/math.rs:4:use std::cmp;
+tests/lexical/float.rs:5:use std::{f32, f64};

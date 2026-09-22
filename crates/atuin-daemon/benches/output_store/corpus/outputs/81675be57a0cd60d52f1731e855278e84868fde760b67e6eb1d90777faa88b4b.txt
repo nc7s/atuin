@@ -1,0 +1,1 @@
+2 crates/atuin-dotfiles/src/lib.rs

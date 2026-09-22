@@ -1,0 +1,1 @@
+28K	crates/atuin-server/src/db/mysql

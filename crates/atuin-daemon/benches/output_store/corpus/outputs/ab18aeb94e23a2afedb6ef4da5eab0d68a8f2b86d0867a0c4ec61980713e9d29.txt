@@ -1,0 +1,5 @@
+10:pub struct BenchCtx {
+14:impl BenchCtx {
+19:    pub fn new() -> Self {
+26:    pub fn rng(&mut self) -> &mut StdRng {
+35:    pub fn now(&self) -> OffsetDateTime {

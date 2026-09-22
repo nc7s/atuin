@@ -1,0 +1,39 @@
+src/regexset/string.rs:5:use crate::{Error, RegexSetBuilder};
+src/regexset/string.rs:154:    pub fn new<I, S>(exprs: I) -> Result<RegexSet, Error>
+src/error.rs:8:pub enum Error {
+src/error.rs:34:impl Error {
+src/error.rs:35:    pub(crate) fn from_meta_build_error(err: meta::BuildError) -> Error {
+src/error.rs:37:            Error::CompiledTooBig(size_limit)
+src/error.rs:39:            Error::Syntax(err.to_string())
+src/error.rs:45:            // good enough. The worst thing that happens is that Error::Syntax
+src/error.rs:49:            // We really should have made the Error type in the regex crate
+src/error.rs:51:            Error::Syntax(err.to_string())
+src/regexset/bytes.rs:5:use crate::{bytes::RegexSetBuilder, Error};
+src/regexset/bytes.rs:158:    pub fn new<I, S>(exprs: I) -> Result<RegexSet, Error>
+src/builders.rs:35:use crate::error::Error;
+src/builders.rs:70:    fn build_one_string(&self) -> Result<crate::Regex, Error> {
+src/builders.rs:84:            .map_err(Error::from_meta_build_error)
+src/builders.rs:87:    fn build_one_bytes(&self) -> Result<crate::bytes::Regex, Error> {
+src/builders.rs:101:            .map_err(Error::from_meta_build_error)
+src/builders.rs:104:    fn build_many_string(&self) -> Result<crate::RegexSet, Error> {
+src/builders.rs:118:            .map_err(Error::from_meta_build_error)
+src/builders.rs:121:    fn build_many_bytes(&self) -> Result<crate::bytes::RegexSet, Error> {
+src/lib.rs:35:# Ok::<(), Box<dyn std::error::Error>>(())
+src/lib.rs:1198:  of APIs, `std` causes error types to implement the `std::error::Error`
+src/lib.rs:1361:pub use crate::error::Error;
+src/regex/bytes.rs:5:use crate::{bytes::RegexBuilder, error::Error};
+src/regex/bytes.rs:125:/// # Ok::<(), Box<dyn std::error::Error>>(())
+src/regex/bytes.rs:172:    type Err = Error;
+src/regex/bytes.rs:175:    fn from_str(s: &str) -> Result<Regex, Error> {
+src/regex/bytes.rs:181:    type Error = Error;
+src/regex/bytes.rs:184:    fn try_from(s: &str) -> Result<Regex, Error> {
+src/regex/bytes.rs:190:    type Error = Error;
+src/regex/bytes.rs:193:    fn try_from(s: String) -> Result<Regex, Error> {
+src/regex/string.rs:5:use crate::{error::Error, RegexBuilder};
+src/regex/string.rs:120:/// # Ok::<(), Box<dyn std::error::Error>>(())
+src/regex/string.rs:170:    type Err = Error;
+src/regex/string.rs:173:    fn from_str(s: &str) -> Result<Regex, Error> {
+src/regex/string.rs:179:    type Error = Error;
+src/regex/string.rs:182:    fn try_from(s: &str) -> Result<Regex, Error> {
+src/regex/string.rs:188:    type Error = Error;
+src/regex/string.rs:191:    fn try_from(s: String) -> Result<Regex, Error> {

@@ -1,0 +1,60 @@
+//! LZ4 Block Format
+//!
+//! As defined in <https://github.com/lz4/lz4/blob/dev/doc/lz4_Block_format.md>
+//!
+//! Currently for no_std support only the block format is supported.
+//!
+//! # Example: block format roundtrip
+//! ```
+//! use lz4_flex::block::{compress_prepend_size, decompress_size_prepended};
+//! let input: &[u8] = b"Hello people, what's up?";
+//! let compressed = compress_prepend_size(input);
+//! let uncompressed = decompress_size_prepended(&compressed).unwrap();
+//! assert_eq!(input, uncompressed);
+//! ```
+//!
+
+#[cfg_attr(feature = "safe-encode", forbid(unsafe_code))]
+pub(crate) mod compress;
+pub(crate) mod hashtable;
+
+#[cfg(feature = "safe-decode")]
+#[cfg_attr(feature = "safe-decode", forbid(unsafe_code))]
+pub(crate) mod decompress_safe;
+#[cfg(feature = "safe-decode")]
+pub(crate) use decompress_safe as decompress;
+
+#[cfg(not(feature = "safe-decode"))]
+pub(crate) mod decompress;
+
+pub use compress::*;
+pub use decompress::*;
+
+use core::{error::Error, fmt};
+
+pub(crate) const WINDOW_SIZE: usize = 64 * 1024;
+
+/// https://github.com/lz4/lz4/blob/dev/doc/lz4_Block_format.md#end-of-block-restrictions
+/// The last match must start at least 12 bytes before the end of block. The last match is part of
+/// the penultimate sequence. It is followed by the last sequence, which contains only literals.
+///
+/// Note that, as a consequence, an independent block < 13 bytes cannot be compressed, because the
+/// match must copy "something", so it needs at least one prior byte.
+///
+/// When a block can reference data from another block, it can start immediately with a match and no
+/// literal, so a block of 12 bytes can be compressed.
+const MFLIMIT: usize = 12;
+
+/// The last 5 bytes of input are always literals. Therefore, the last sequence contains at least 5
+/// bytes.
+const LAST_LITERALS: usize = 5;
+
+/// Due the way the compression loop is arrange we may read up to (register_size - 2) bytes from the
+/// current position. So we must end the matches 6 bytes before the end, 1 more than required by the
+/// spec.
+const END_OFFSET: usize = LAST_LITERALS + 1;
+
+/// https://github.com/lz4/lz4/blob/dev/doc/lz4_Block_format.md#end-of-block-restrictions
+/// Minimum length of a block
+///
+/// MFLIMIT + 1 for the token.

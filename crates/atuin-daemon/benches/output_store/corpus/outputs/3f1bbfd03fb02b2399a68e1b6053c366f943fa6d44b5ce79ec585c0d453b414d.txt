@@ -1,0 +1,65 @@
+src/number.rs:179:    /// assert!(Number::from_f64(256.0).is_some());
+src/number.rs:181:    /// assert!(Number::from_f64(f64::NAN).is_none());
+src/number.rs:233:    /// assert!(Number::from_i128(256).is_some());
+src/number.rs:262:    /// assert!(Number::from_u128(256).is_some());
+src/number.rs:303:    ///     assert_eq!(number.as_str(), value);
+src/value/mod.rs:209:    /// assert_eq!(compact,
+src/value/mod.rs:219:    /// assert_eq!(pretty,
+src/value/mod.rs:280:    /// assert_eq!(*object.get("A").unwrap(), json!(65));
+src/value/mod.rs:283:    /// assert_eq!(*array.get(2).unwrap(), json!("C"));
+src/value/mod.rs:285:    /// assert_eq!(array.get("A"), None);
+src/value/mod.rs:300:    /// assert_eq!(object["B"][0], json!("b"));
+src/value/mod.rs:302:    /// assert_eq!(object["D"], json!(null));
+src/value/mod.rs:303:    /// assert_eq!(object[0]["x"]["y"]["z"], json!(null));
+src/map.rs:657:    /// assert_eq!(map.entry("serde").key(), &"serde");
+src/map.rs:677:    /// assert_eq!(map["serde"], 12);
+src/map.rs:698:    /// assert_eq!(map["serde"], "hoho".to_owned());
+src/map.rs:723:    /// assert_eq!(map["serde"], "cpp");
+src/map.rs:729:    /// assert_eq!(map["serde"], "rust");
+src/map.rs:758:    ///         assert_eq!(vacant.key(), &"serde");
+src/map.rs:808:    ///         assert_eq!(occupied.key(), &"serde");
+src/map.rs:832:    ///         assert_eq!(occupied.get(), 12);
+src/value/index.rs:35:/// assert_eq!(first, 1);
+src/value/index.rs:206:    /// assert_eq!(data["x"]["y"], json!(["z", "zz"]));
+src/value/index.rs:207:    /// assert_eq!(data["x"]["y"][0], json!("z"));
+src/value/index.rs:209:    /// assert_eq!(data["a"], json!(null)); // returns null for undefined values
+src/value/index.rs:210:    /// assert_eq!(data["a"]["b"], json!(null)); // does not panic
+src/ser.rs:428:                debug_assert!(self.error.is_none());
+src/ser.rs:449:            Ok(()) => debug_assert!(adapter.error.is_none()),
+src/raw.rs:73:///     assert_eq!(out, r#"{"info":[200,{}]}"#);
+src/raw.rs:210:    /// In debug builds this contract is checked with a `debug_assert!` that
+src/raw.rs:225:    /// assert_eq!(raw.get(), "[1,2,3]");
+src/raw.rs:229:        debug_assert!(
+src/raw.rs:309:/// # assert_eq!(
+src/de.rs:1606:    ///     assert_eq!(b'\xe5', bytes[12]);
+src/de.rs:1607:    ///     assert_eq!(b'\0', bytes[13]);
+src/de.rs:1608:    ///     assert_eq!(b'\xe5', bytes[14]);
+src/de.rs:1627:    ///     assert_eq!(expected, bytes.as_slice());
+src/de.rs:2403:    /// assert_eq!(0, stream.byte_offset());
+src/de.rs:2406:    /// assert_eq!(3, stream.byte_offset());
+src/de.rs:2409:    /// assert_eq!(7, stream.byte_offset());
+src/de.rs:2412:    /// assert_eq!(8, stream.byte_offset());
+src/lexical/shift.rs:12:    debug_assert!((shift as u64) < bits, "shr() overflow in shift right.");
+src/lexical/shift.rs:25:    debug_assert!(
+src/lexical/shift.rs:42:    debug_assert!((shift as u64) < bits, "shl() overflow in shift left.");
+src/lexical/float.rs:38:        debug_assert!((self.mant & u64::HIMASK != 0) && (b.mant & u64::HIMASK != 0));
+src/io/core.rs:37:        debug_assert!(result.is_ok());
+src/io/core.rs:38:        debug_assert_eq!(result.unwrap_or(0), buf.len());
+src/lexical/rounding.rs:16:    debug_assert!(n < bits, "nth_bit() overflow in shl.");
+src/lexical/rounding.rs:25:    debug_assert!(n <= bits, "lower_n_mask() overflow in shl.");
+src/lexical/rounding.rs:38:    debug_assert!(n <= bits, "lower_n_halfway() overflow in shl.");
+src/lexical/rounding.rs:51:    debug_assert!(bit <= bits, "internal_n_halfway() overflow in shl.");
+src/lexical/rounding.rs:52:    debug_assert!(n <= bits, "internal_n_halfway() overflow in shl.");
+src/lexical/rounding.rs:53:    debug_assert!(bit >= n, "internal_n_halfway() overflow in sub.");
+src/lexical/math.rs:110:    debug_assert!(r0 != 0);
+src/lexical/math.rs:118:    debug_assert!(r0 != 0);
+src/lexical/math.rs:155:        debug_assert_eq!(self.len(), 1);
+src/lexical/math.rs:162:        debug_assert_eq!(self.len(), 2);
+src/lexical/math.rs:170:        debug_assert!(self.len() >= 3);
+src/lexical/math.rs:182:        debug_assert_eq!(self.len(), 1);
+src/lexical/math.rs:189:        debug_assert!(self.len() >= 2);
+src/lexical/math.rs:316:        debug_assert!(x.len() > xstart && (x[xstart] >= y || x.len() > xstart + 1));
+src/lexical/num.rs:294:        debug_assert!(self.is_sign_positive() && !self.is_inf());
+src/lexical/num.rs:338:        debug_assert!({
+src/lexical/num.rs:395:        debug_assert!({
+src/lexical/bhcomp.rs:142:    debug_assert!(real_exp < 0);

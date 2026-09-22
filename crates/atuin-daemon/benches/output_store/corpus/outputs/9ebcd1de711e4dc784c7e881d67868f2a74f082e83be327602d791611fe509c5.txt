@@ -1,0 +1,20 @@
+use crate::std::fmt;
+
+/// A general error that can occur when working with UUIDs.
+#[derive(Clone, Debug, Eq, Hash, PartialEq)]
+pub struct Error(pub(crate) ErrorKind);
+
+#[derive(Clone, Debug, Eq, Hash, PartialEq)]
+pub(crate) enum ErrorKind {
+    /// Invalid character in the [`Uuid`] string.
+    ///
+    /// [`Uuid`]: ../struct.Uuid.html
+    ParseChar { character: char, index: usize },
+    /// A byte array didn't contain 16 bytes.
+    ParseByteLength { len: usize },
+    /// A hyphenated [`Uuid`] didn't contain 5 groups
+    ///
+    /// [`Uuid`]: ../struct.Uuid.html
+    ParseGroupCount { count: usize },
+    /// A hyphenated [`Uuid`] had a group that wasn't the right length.
+    ///

@@ -1,0 +1,20 @@
+// Adapted from https://github.com/Alexhuszagh/rust-lexical.
+
+use super::algorithm::*;
+use super::bhcomp::*;
+use super::digit::*;
+use super::exponent::*;
+use super::num::*;
+
+// PARSERS
+// -------
+
+/// Parse float for which the entire integer and fraction parts fit into a 64
+/// bit mantissa.
+pub fn parse_concise_float<F>(mantissa: u64, mant_exp: i32) -> F
+where
+    F: Float,
+{
+    if let Some(float) = fast_path(mantissa, mant_exp) {
+        return float;
+    }

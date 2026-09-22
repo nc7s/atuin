@@ -1,0 +1,38 @@
+src/sink.rs:47:    unsafe fn pos_mut_ptr(&mut self) -> *mut u8;
+src/sink.rs:58:    unsafe fn base_mut_ptr(&mut self) -> *mut u8;
+src/sink.rs:65:    unsafe fn set_pos(&mut self, new_pos: usize);
+src/sink.rs:118:    unsafe fn pos_mut_ptr(&mut self) -> *mut u8 {
+src/sink.rs:137:    unsafe fn base_mut_ptr(&mut self) -> *mut u8 {
+src/sink.rs:153:    unsafe fn set_pos(&mut self, new_pos: usize) {
+src/sink.rs:243:    unsafe fn pos_mut_ptr(&mut self) -> *mut u8 {
+src/sink.rs:250:        unsafe { self.output.add(pos).read() }
+src/fastcpy_unsafe.rs:58:    //unsafe { core::ptr::copy_nonoverlapping(src, dst, num_bytes) }
+src/fastcpy_unsafe.rs:71:    let l_last = unsafe { source.add(num_bytes - SIZE) };
+src/fastcpy_unsafe.rs:72:    let r_last = unsafe { dst.add(num_bytes - SIZE) };
+src/fastcpy_unsafe.rs:75:    unsafe {
+src/fastcpy_unsafe.rs:87:    unsafe {
+src/fastcpy_unsafe.rs:94:    unsafe {
+src/fastcpy_unsafe.rs:107:    let l_end = unsafe { src.add(len - SIZE) };
+src/fastcpy_unsafe.rs:108:    let r_end = unsafe { dst.add(len - SIZE) };
+src/lib.rs:94:mod fastcpy_unsafe;
+src/lib.rs:109:    forbid(unsafe_code)
+src/frame/mod.rs:22:#[cfg_attr(feature = "safe-encode", forbid(unsafe_code))]
+src/frame/mod.rs:24:#[cfg_attr(feature = "safe-decode", forbid(unsafe_code))]
+src/block/mod.rs:17:#[cfg_attr(feature = "safe-encode", forbid(unsafe_code))]
+src/block/mod.rs:22:#[cfg_attr(feature = "safe-decode", forbid(unsafe_code))]
+src/block/decompress.rs:3:use crate::fastcpy_unsafe;
+src/block/decompress.rs:11:unsafe fn duplicate(
+src/block/decompress.rs:41:    unsafe {
+src/block/decompress.rs:57:unsafe fn duplicate_overlapping(
+src/block/decompress.rs:85:unsafe fn copy_from_dict(
+src/block/decompress.rs:101:    // TODO test fastcpy_unsafe
+src/block/decompress.rs:143:        let extra = unsafe { input_ptr.read() };
+src/block/decompress.rs:144:        *input_ptr = unsafe { input_ptr.add(1) };
+src/block/compress.rs:36:    unsafe { read_u32_ptr(input.as_ptr().add(n)) }
+src/block/compress.rs:52:    unsafe { read_usize_ptr(input.as_ptr().add(n)) }
+src/block/compress.rs:163:    let mut source_ptr = unsafe { source.as_ptr().add(candidate) };
+src/block/compress.rs:168:        let diff = read_usize_ptr(unsafe { input.as_ptr().add(*cur) }) ^ read_usize_ptr(source_ptr);
+src/block/compress.rs:172:            unsafe {
+src/block/compress.rs:185:            let diff = read_u32_ptr(unsafe { input.as_ptr().add(*cur) }) ^ read_u32_ptr(source_ptr);
+src/block/compress.rs:189:                unsafe {
+src/block/compress.rs:201:        && unsafe { read_u16_ptr(input.as_ptr().add(*cur)) == read_u16_ptr(source_ptr) }

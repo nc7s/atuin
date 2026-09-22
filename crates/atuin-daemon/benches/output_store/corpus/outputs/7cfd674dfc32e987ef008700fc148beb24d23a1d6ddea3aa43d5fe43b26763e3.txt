@@ -1,0 +1,20 @@
+20:struct PatchBackend {
+24:impl PatchBackend {
+25:    fn file_len(&self) -> usize {
+28:    fn truncate(&self, len: usize) {
+31:    fn extend(&self, additional: usize) {
+37:    fn corrupt_first_occurrence(&self, needle: &[u8]) -> bool {
+53:impl StorageBackend for PatchBackend {
+54:    fn len(&self) -> Result<u64, std::io::Error> {
+57:    fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), std::io::Error> {
+61:            return Err(std::io::Error::from(std::io::ErrorKind::UnexpectedEof));
+66:    fn set_len(&self, len: u64) -> Result<(), std::io::Error> {
+73:    fn sync_data(&self) -> Result<(), std::io::Error> {
+76:    fn write(&self, offset: u64, data: &[u8]) -> Result<(), std::io::Error> {
+80:            return Err(std::io::Error::from(std::io::ErrorKind::UnexpectedEof));
+87:fn make_db(backend: PatchBackend, n: u64) -> Database {
+106:fn check_integrity_does_not_promote_disk_corrupt_nondurable_commit() {
+137:    assert!(
+142:    assert!(
+150:    assert!(reopened.check_integrity().unwrap());
+153:    assert_eq!(table.len().unwrap(), 5);

@@ -1,0 +1,18 @@
+11:pub(super) fn lowest_held<E>(
+12:    query: impl Fn(Range<u64>) -> Result<bool, E>,
+38:fn bytes(low: u64, high: u64) -> Range<u64> {
+52:    fn reopen(path: &Path) -> File {
+61:    fn pin(file: &File, id: u64) {
+62:        assert!(
+68:    fn unpin(file: &File, id: u64) {
+73:    fn the_scan_finds_the_lowest_held_byte_from_its_start() {
+79:        assert_eq!(scan(0), None);
+84:        assert_eq!(scan(0), Some(1234));
+85:        assert_eq!(scan(1234), Some(1234));
+87:        assert_eq!(scan(1235), Some(77777));
+88:        assert_eq!(scan(77778), None);
+92:        assert_eq!(scan(0), Some(77777));
+94:        assert_eq!(scan(0), None);
+98:    fn the_scan_finds_the_oldest_of_many() {
+125:            assert_eq!(scan(), holders.iter().map(|(_, id)| *id).min());
+130:            assert_eq!(scan(), None);

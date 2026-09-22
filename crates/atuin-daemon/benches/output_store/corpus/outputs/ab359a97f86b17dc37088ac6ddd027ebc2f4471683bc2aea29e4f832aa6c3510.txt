@@ -1,0 +1,20 @@
+use crate::transaction_tracker::TransactionId;
+use crate::tree_store::btree_base::{BtreeHeader, Checksum};
+use crate::tree_store::page_store::base::{MAX_PAGE_INDEX, MAX_REGIONS};
+use crate::tree_store::page_store::layout::{DatabaseLayout, RegionLayout};
+use crate::tree_store::page_store::page_manager::{
+    FILE_FORMAT_VERSION1, FILE_FORMAT_VERSION2, FILE_FORMAT_VERSION3, xxh3_checksum,
+};
+use crate::{DatabaseError, Result, StorageError};
+use alloc::format;
+use alloc::string::ToString;
+use core::mem::size_of;
+
+// Database layout:
+//
+// Super-header (header + commit slots)
+// The super-header length is rounded up to the nearest full page size
+//
+// Header (first 64 bytes):
+// 9 bytes: magic number
+// 1 byte: god byte

@@ -1,0 +1,49 @@
+crates/atuin-daemon/src/client.rs:50:pub fn classify_error(error: &eyre::Report) -> DaemonClientErrorKind {
+crates/atuin-daemon/src/search/mod.rs:24:pub fn truncate_query(query: &str) -> &str {
+crates/atuin-daemon/src/history_journal.rs:277:    pub fn new(
+crates/atuin-daemon/src/history_journal.rs:305:    pub fn start_cmd(&self, history: History) -> HistoryId {
+crates/atuin-daemon/src/history_journal.rs:329:    pub fn get(&self, history_id: HistoryId) -> Result<History, GetCmdInFlightError> {
+crates/atuin-daemon/src/history_journal.rs:652:    pub fn subscribe(&self) -> BroadcastStream<CmdEvent> {
+crates/atuin-daemon/src/search/index.rs:48:    pub fn record_use(&mut self, timestamp: i64) {
+crates/atuin-daemon/src/search/index.rs:67:    pub fn compute(&self, now: i64, recency_mul: f64, frequency_mul: f64) -> u32 {
+crates/atuin-daemon/src/search/index.rs:134:    pub fn new(history: &History, haystack_index: usize, interner: &ThreadedRodeo) -> Option<Self> {
+crates/atuin-daemon/src/search/index.rs:165:    pub fn add_invocation(&mut self, history: &History, interner: &ThreadedRodeo) -> bool {
+crates/atuin-daemon/src/search/index.rs:192:    pub fn most_recent_id(&self) -> HistoryId {
+crates/atuin-daemon/src/search/index.rs:199:    pub fn has_invocation_in_dir(&self, dir: Spur) -> bool {
+crates/atuin-daemon/src/search/index.rs:205:    pub fn has_invocation_in_workspace(&self, prefix: &str, interner: &ThreadedRodeo) -> bool {
+crates/atuin-daemon/src/search/index.rs:212:    pub fn has_invocation_on_host(&self, hostname: Spur) -> bool {
+crates/atuin-daemon/src/output_capture/benchmark.rs:35:    pub fn open(engine: Engine, path: &Path) -> Result<Self> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:77:    pub fn persist(&self) -> Result<()> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:85:    pub fn materialize(&self) -> Result<()> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:93:    pub fn compact(&mut self) -> Result<()> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:101:    pub fn entries(&self) -> Result<Vec<(HistoryId, u64)>> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:110:pub fn serialized_value_len(capture: CommandCapture) -> Result<u64> {
+crates/atuin-daemon/src/components/sync.rs:54:    pub fn new() -> Self {
+crates/atuin-daemon/src/daemon.rs:94:    pub fn emit(&self, event: DaemonEvent) {
+crates/atuin-daemon/src/daemon.rs:106:    pub fn subscribe(&self) -> broadcast::Receiver<DaemonEvent> {
+crates/atuin-daemon/src/daemon.rs:111:    pub fn shutdown(&self) {
+crates/atuin-daemon/src/daemon.rs:137:    pub fn encryption_key(&self) -> &paseto_v4::Key {
+crates/atuin-daemon/src/daemon.rs:145:    pub fn history_db(&self) -> &HistoryDatabase {
+crates/atuin-daemon/src/daemon.rs:151:    pub fn store(&self) -> &SqliteStore {
+crates/atuin-daemon/src/daemon.rs:159:    pub fn caps(&self) -> &Arc<CapClient> {
+crates/atuin-daemon/src/daemon.rs:285:    pub fn builder(settings: Settings) -> DaemonBuilder {
+crates/atuin-daemon/src/output_capture/mod.rs:19:    pub fn open(path: impl AsRef<std::path::Path>, max_disk_usage: DiskUsageLimit) -> Self {
+crates/atuin-daemon/src/output_capture/mod.rs:37:    pub fn nop() -> Self {
+crates/atuin-daemon/src/output_capture/mod.rs:49:    pub fn failing() -> Self {
+crates/atuin-daemon/src/output_capture/mod.rs:56:    pub fn kind(&self) -> BackendKind {
+crates/atuin-daemon/src/components/search.rs:47:    pub fn new() -> Self {
+crates/atuin-daemon/src/components/search.rs:58:    pub fn grpc_service(&self) -> SearchGrpcServiceBuilder {
+crates/atuin-daemon/src/components/search.rs:66:    pub fn index(&self) -> Arc<RwLock<SearchIndex>> {
+crates/atuin-daemon/src/components/search.rs:203:    pub fn build(self, handle: DaemonHandle) -> SearchServer<SearchGrpcService> {
+crates/atuin-daemon/src/grpc/history/mod.rs:249:    pub fn new(journal: Arc<HistoryJournal>, daemon_handle: DaemonHandle) -> Self {
+crates/atuin-daemon/src/grpc/history/pb.rs:156:    pub fn view(&self) -> Result<EndHistoryRequestView, EndHistoryRequestParseError> {
+crates/atuin-daemon/src/grpc/history/pb.rs:301:    pub fn history_id(&self) -> Result<DomainHistoryId, RegisterCommandOutputRequestParseError> {
+crates/atuin-daemon/src/grpc/history/pb.rs:310:    pub fn capture(&self) -> Result<CommandCapture, RegisterCommandOutputRequestParseError> {
+crates/atuin-daemon/src/grpc/history/pb.rs:360:    pub fn history_id(&self) -> Result<DomainHistoryId, GetOutputRequestParseError> {
+crates/atuin-daemon/src/grpc/history/pb.rs:366:    pub fn output_ranges(&self) -> &[PyStyleIdxRange] {
+crates/atuin-daemon/src/grpc/history/pb.rs:385:    pub fn build(capture: &CommandCapture, ranges: &[PyStyleIdxRange]) -> Self {
+crates/atuin-daemon/src/grpc/history/pb.rs:456:    pub fn lines(&self) -> impl Iterator<Item = ChunkedOutputLineView<'_>> + Clone {
+crates/atuin-daemon/src/output_capture/backend/fjall/gc.rs:25:    pub fn spawn(inner: Arc<FjallBackendInner>, budget: ByteSize) -> Self {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:201:    pub fn spawn(inner: Arc<FjallBackendInner>) -> Self {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:286:    pub fn open(path: impl AsRef<Path>, max_disk_usage: DiskUsageLimit) -> fjall::Result<Self> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:292:    pub fn new(db: OptimisticTxDatabase, budget: Option<ByteSize>) -> fjall::Result<Self> {

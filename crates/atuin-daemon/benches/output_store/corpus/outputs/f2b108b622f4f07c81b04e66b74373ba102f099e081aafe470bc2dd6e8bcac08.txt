@@ -1,0 +1,60 @@
+use crate::sync::Mutex;
+use crate::tree_store::btree::{PagePath, UntypedBtree, UntypedBtreeMut};
+use crate::tree_store::multimap_btree::{UntypedMultiBtree, relocate_subtrees};
+use crate::tree_store::{
+    BtreeHeader, PageAllocator, PageHint, PageNumber, PageNumberHashMap, PageResolver,
+};
+use crate::{Key, Result, TableError, TypeName, Value};
+use alloc::string::ToString;
+use alloc::sync::Arc;
+use alloc::vec;
+use alloc::vec::Vec;
+use core::mem::size_of;
+
+// Forward compatibility feature in case alignment can be supported in the future
+// See https://github.com/cberner/redb/issues/360
+const ALIGNMENT: usize = 1;
+
+#[derive(Copy, Clone, Hash, Eq, PartialEq, Debug)]
+pub(crate) enum TableType {
+    Normal,
+    Multimap,
+}
+
+impl TableType {
+    fn is_legacy(value: u8) -> bool {
+        value == 1 || value == 2
+    }
+}
+
+#[allow(clippy::from_over_into)]
+impl Into<u8> for TableType {
+    fn into(self) -> u8 {
+        match self {
+            // 1 & 2 were used in the v1 file format
+            // TableType::Normal => 1,
+            // TableType::Multimap => 2,
+            TableType::Normal => 3,
+            TableType::Multimap => 4,
+        }
+    }
+}
+
+impl From<u8> for TableType {
+    fn from(value: u8) -> Self {
+        match value {
+            3 => TableType::Normal,
+            4 => TableType::Multimap,
+            _ => unreachable!(),
+        }
+    }
+}
+
+#[derive(Clone, PartialEq, Debug)]
+pub(crate) enum InternalTableDefinition {
+    Normal {
+        table_root: Option<BtreeHeader>,
+        table_length: u64,
+        fixed_key_size: Option<usize>,
+        fixed_value_size: Option<usize>,
+        key_alignment: usize,

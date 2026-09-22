@@ -1,0 +1,20 @@
+//! Serialize a Rust data structure into JSON data.
+
+use crate::error::{Error, ErrorCode, Result};
+use crate::io;
+use alloc::string::String;
+#[cfg(feature = "raw_value")]
+use alloc::string::ToString;
+use alloc::vec::Vec;
+use core::fmt::{self, Display};
+use core::hint;
+use core::num::FpCategory;
+use core::str;
+use serde::ser::{self, Impossible, Serialize};
+
+/// A structure for serializing Rust values into JSON.
+#[cfg_attr(docsrs, doc(cfg(feature = "std")))]
+pub struct Serializer<W, F = CompactFormatter> {
+    writer: W,
+    formatter: F,
+}

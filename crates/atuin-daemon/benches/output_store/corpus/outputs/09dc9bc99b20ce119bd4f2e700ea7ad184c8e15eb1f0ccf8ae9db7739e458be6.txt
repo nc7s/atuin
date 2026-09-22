@@ -1,0 +1,44 @@
+src/types.rs:17:enum TypeClassification {
+src/multimap_table.rs:115:enum ValueIterState<'a, V: Key + 'static> {
+src/error.rs:14:pub enum BackendError {
+src/error.rs:70:pub enum StorageError {
+src/error.rs:168:pub enum TableError {
+src/error.rs:292:pub enum DatabaseError {
+src/error.rs:376:pub enum SavepointError {
+src/error.rs:443:pub enum CompactionError {
+src/error.rs:502:pub enum SetDurabilityError {
+src/error.rs:545:pub enum TransactionError {
+src/db.rs:450:pub(crate) enum TransactionGuard {
+src/db.rs:2072:pub enum ConcurrencyMode {
+src/transaction_tracker.rs:99:enum WriteSlotState {
+src/table.rs:1256:pub enum Entry<'a, K: Key + 'static, V: Value + 'static> {
+src/transactions.rs:210:pub(crate) enum AllocatorStateKey {
+src/transactions.rs:378:pub enum Durability {
+src/transactions.rs:390:enum InternalDurability {
+src/transactions.rs:396:enum PostCommitFree {
+src/tree_store/table_tree_base.rs:19:pub(crate) enum TableType {
+src/tree_store/table_tree_base.rs:54:pub(crate) enum InternalTableDefinition {
+src/tree_store/btree_mutator.rs:26:enum DeletionResult {
+src/tree_store/btree_mutator.rs:52:enum DeletedPairs {
+src/tree_store/btree_mutator.rs:74:enum LeafDeleteDisposition {
+src/tree_store/multimap_btree.rs:431:pub(crate) enum DynamicCollectionType {
+src/tree_store/btree_cursor.rs:61:pub(super) enum Position<'a> {
+src/tree_store/btree_cursor.rs:93:enum Direction {
+src/tree_store/btree_cursor.rs:363:enum RunDirection {
+src/tree_store/btree_cursor.rs:698:enum LeafCloseOutcome {
+src/tree_store/btree_cursor.rs:2019:enum EndState {
+src/tree_store/btree_cursor_range.rs:15:enum Slot<C> {
+src/tree_store/btree_cursor_range.rs:42:enum Side {
+src/tree_store/extract_if.rs:14:enum ExtractState {
+src/tree_store/btree_base.rs:171:enum OnDrop {
+src/tree_store/btree_base.rs:179:enum EitherPage<'txn> {
+src/tree_store/page_store/base.rs:276:pub(crate) enum PageHint {
+src/tree_store/page_store/base.rs:283:enum PageTrackerPolicy {
+src/tree_store/page_store/cached_file.rs:275:enum Writeback {
+src/tree_store/page_store/savepoint.rs:99:pub(crate) enum SerializedSavepoint<'a> {
+src/tree_store/page_store/page_manager.rs:74:pub(crate) enum ShrinkPolicy {
+src/tree_store/page_store/page_manager.rs:85:pub(crate) enum AllocationPolicy {
+src/tree_store/page_store/page_manager.rs:306:enum AllocatorState {
+src/tree_store/page_store/page_manager.rs:561:pub(crate) enum HeaderHold<'a> {
+src/tree_store/page_store/page_manager.rs:3323:    enum Answer {
+src/tree_store/page_store/file_backend/optimized.rs:574:    enum QueryMutexOperation {

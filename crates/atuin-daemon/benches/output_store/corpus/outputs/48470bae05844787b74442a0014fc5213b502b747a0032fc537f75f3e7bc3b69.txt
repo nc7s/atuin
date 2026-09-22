@@ -1,0 +1,23 @@
+14:pub mod entry;
+15:pub mod record;
+18:pub struct KvStore {
+19:    pub record_store: SqliteStore,
+20:    pub kv_db: Database,
+21:    pub host_id: HostId,
+22:    pub encryption_key: paseto_v4::Key,
+25:impl KvStore {
+27:    pub fn new(
+41:    pub async fn set(&self, namespace: &str, key: &str, value: &str) -> Result<()> {
+61:    pub async fn get(&self, namespace: &str, key: &str) -> Result<Option<String>> {
+66:    pub async fn delete(&self, namespace: &str, keys: &[String]) -> Result<()> {
+81:    pub async fn list(&self, namespace: Option<&str>) -> Result<Vec<KvEntry>> {
+87:    async fn push_record(&self, record: KvRecord) -> Result<(RecordId, RecordIdx)> {
+110:    pub async fn build(&self) -> Result<()> {
+186:    async fn store() -> KvStore {
+196:    async fn test_kv_store(#[future(awt)] store: KvStore) -> Result<()> {
+199:        assert_eq!(value, Some("value".to_string()));
+202:        assert_eq!(records.len(), 1);
+210:        assert_eq!(list, expected);
+213:        assert_eq!(ns_list, expected);
+217:        assert_eq!(value, None);
+220:        assert_eq!(records.len(), 2);

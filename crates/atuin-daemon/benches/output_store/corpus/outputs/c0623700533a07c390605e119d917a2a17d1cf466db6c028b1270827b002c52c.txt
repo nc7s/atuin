@@ -1,0 +1,1 @@
+79be3f4e d/patches: fix-test-rng-usize-on-32bit

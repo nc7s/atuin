@@ -1,0 +1,90 @@
+src/value/ser.rs:17:        match self {
+src/value/ser.rs:272:        match name {
+src/value/ser.rs:405:        match self {
+src/value/ser.rs:421:        match self {
+src/value/ser.rs:438:        match self {
+src/value/ser.rs:658:        match self {
+src/value/ser.rs:682:        match self {
+src/value/partial_eq.rs:13:    match value {
+src/value/mod.rs:180:        match self {
+src/value/mod.rs:271:    /// Returns `None` if the type of `self` does not match the type of the
+src/value/mod.rs:313:    /// Returns `None` if the type of `self` does not match the type of the
+src/value/mod.rs:367:        match self {
+src/value/mod.rs:385:        match self {
+src/value/mod.rs:426:        match self {
+src/value/mod.rs:444:        match self {
+src/value/mod.rs:493:        match self {
+src/value/index.rs:56:        match v {
+src/value/index.rs:62:        match v {
+src/value/index.rs:68:        match v {
+src/value/index.rs:85:        match v {
+src/value/index.rs:91:        match v {
+src/value/index.rs:100:        match v {
+src/value/index.rs:148:        match *self.0 {
+src/value/index.rs:187:    /// Returns `Value::Null` if the type of `self` does not match the type of
+src/map.rs:71:    /// on the borrowed form *must* match the ordering on the key type.
+src/map.rs:84:    /// on the borrowed form *must* match the ordering on the key type.
+src/map.rs:97:    /// on the borrowed form *must* match the ordering on the key type.
+src/map.rs:110:    /// on the borrowed form *must* match the ordering on the key type.
+src/map.rs:148:    /// on the borrowed form *must* match the ordering on the key type.
+src/map.rs:171:    /// on the borrowed form *must* match the ordering on the key type.
+src/map.rs:283:        match self.map.entry(key.into()) {
+src/map.rs:442:/// match val {
+src/value/from.rs:279:        match opt {
+src/macros.rs:139:    // We require two copies of the input tokens so that we can match on one
+src/iter.rs:55:        match self.iter.next() {
+src/value/de.rs:125:                match tri!(visitor.next_key_seed(KeyClassifier)) {
+src/value/de.rs:176:            match self {
+src/value/de.rs:187:            match self {
+src/value/de.rs:244:        let (variant, value) = match iter.next() {
+src/value/de.rs:290:        match self {
+src/value/de.rs:321:        match self {
+src/value/de.rs:337:        match self {
+src/value/de.rs:376:        match self {
+src/read.rs:139:        match *self {
+src/read.rs:234:            match ch {
+src/read.rs:259:        match self.ch.take() {
+src/read.rs:269:            None => match self.iter.next() {
+src/read.rs:287:        match self.ch {
+src/read.rs:289:            None => match self.iter.next() {
+src/read.rs:329:        match self.ch {
+src/read.rs:354:            match ch {
+src/lib.rs:412:        match $e {
+src/ser.rs:156:        match value.classify() {
+src/ser.rs:170:        match value.classify() {
+src/ser.rs:373:        match name {
+src/ser.rs:429:                match format_escaped_str_contents(self.writer, self.formatter, s) {
+src/ser.rs:448:        match write!(adapter, "{}", value) {
+src/ser.rs:495:        match self {
+src/ser.rs:516:        match self {
+src/ser.rs:517:            Compound::Map { ser, state } => match state {
+src/number.rs:39:        match (self, other) {
+src/number.rs:55:        match *self {
+src/number.rs:83:        match self.n {
+src/number.rs:98:        match self.n {
+src/number.rs:115:        match self.n {
+src/number.rs:134:        match self.n {
+src/number.rs:153:        match self.n {
+src/number.rs:164:        match self.n {
+src/de.rs:103:        match $c {
+src/de.rs:122:        match self {
+src/de.rs:132:        match self {
+src/de.rs:147:        match tri!(self.parse_whitespace()) {
+src/de.rs:257:            match tri!(self.peek()) {
+src/de.rs:270:        let err = match self.peek_or_null().unwrap_or(b'\x00') {
+src/de.rs:294:                match self.parse_any_number(false) {
+src/de.rs:299:            b'0'..=b'9' => match self.parse_any_number(true) {
+src/error.rs:55:        match self.err.code {
+src/error.rs:139:    ///     let _: Value = match serde_json::from_reader(reader) {
+src/error.rs:206:    ///         match err.classify() {
+src/error.rs:221:            match j.classify() {
+src/error.rs:351:        match self {
+src/error.rs:392:        match &self.err.code {
+src/error.rs:469:        match self.0 {
+src/error.rs:495:    let start_of_suffix = match msg.rfind(" at line ") {
+src/lexical/algorithm.rs:110:        match fp
+src/lexical/digit.rs:14:    match value.checked_mul(10) {
+src/lexical/parse.rs:63:        mantissa = match add_digit(mantissa, to_digit(c).unwrap()) {
+src/lexical/bhcomp.rs:183:    match real_digits.compare(&theor_digits) {
+src/lexical/math.rs:121:    let v = match ls {
+src/lexical/math.rs:143:        match self.as_ref().len() {

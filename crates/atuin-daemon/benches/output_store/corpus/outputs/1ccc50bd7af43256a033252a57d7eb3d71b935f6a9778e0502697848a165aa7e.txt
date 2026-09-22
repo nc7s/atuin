@@ -1,0 +1,41 @@
+10:impl Uuid {
+17:    pub fn now_v7() -> Self {
+52:    /// assert!(
+66:    /// assert!(uuid1 < uuid2);
+72:    pub fn new_v7(ts: Timestamp) -> Self {
+135:    fn test_new() {
+144:        assert_eq!(uuid.get_version(), Some(Version::SortRand));
+145:        assert_eq!(uuid.get_variant(), Variant::RFC4122);
+146:        assert!(uuid.hyphenated().to_string().starts_with("017f22e2-79b0-7"));
+151:        assert_eq!(uuid, parsed);
+160:    fn test_now() {
+163:        assert_eq!(uuid.get_version(), Some(Version::SortRand));
+164:        assert_eq!(uuid.get_variant(), Variant::RFC4122);
+172:    fn test_sorting() {
+182:        assert!(uuid1.as_bytes() < uuid2.as_bytes());
+183:        assert!(uuid1.to_string() < uuid2.to_string());
+191:    fn test_new_timestamp_roundtrip() {
+201:        assert_eq!(ts.to_unix(), decoded_ts.to_unix());
+209:    fn test_new_max_context() {
+210:        struct MaxContext;
+212:        impl ClockSequence for MaxContext {
+215:            fn generate_sequence(&self, _seconds: u64, _nanos: u32) -> Self::Output {
+219:            fn usable_bits(&self) -> usize {
+232:        assert_eq!(uuid.get_version(), Some(Version::SortRand));
+233:        assert_eq!(uuid.get_variant(), Variant::RFC4122);
+237:        assert_eq!(ts.to_unix(), decoded_ts.to_unix());
+245:    fn test_new_counter_range() {
+259:                assert_eq!((1_700_000_000, 0), a.get_timestamp().unwrap().to_unix());
+260:                assert_eq!((1_700_000_000, 0), b.get_timestamp().unwrap().to_unix());
+262:                assert_eq!(
+278:    fn test_42bit_counter_is_fully_preserved() {
+279:        fn rand_a(uuid: &Uuid) -> u16 {
+286:        fn counter_bits(uuid: &Uuid) -> (u16, [u8; 4]) {
+298:            assert_ne!(
+306:        assert_eq!(0x0fff, rand_a(&all_ones));
+307:        assert_eq!(Variant::RFC4122, all_ones.get_variant());
+311:        assert!(before < after, "{before} should sort before {after}");
+319:    fn test_additional_precision_preserves_sorting() {
+332:                assert!(
+346:    fn test_new_max() {
+352:        assert_eq!((281474976710, 655000000), decoded_ts.to_unix());

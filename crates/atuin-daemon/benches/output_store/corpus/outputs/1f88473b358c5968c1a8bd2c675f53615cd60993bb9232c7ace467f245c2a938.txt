@@ -1,0 +1,5 @@
+4:pub struct PermissionRequest<'t> {
+9:    pub fn new(call: &'t (dyn PermissibleToolCall + Send + Sync)) -> Self {
+14:pub enum PermissionResponse {
+20:pub struct PermissionChecker {
+24:impl PermissionChecker {

@@ -1,0 +1,20 @@
+//! Anything a shell hook (or an attacker on the socket) can put on the wire either round-trips
+//! byte-for-byte into the history db, or is rejected with `InvalidArgument`. The daemon never
+//! panics, never half-applies a batch, and never loses a command it accepted.
+#![cfg(unix)]
+
+mod common;
+
+use std::time::Duration;
+
+use atuin_client::history::{AuthorKind, HistoryId};
+use atuin_common::time::OffsetDateTimeExt;
+use atuin_common::utils::normalize_optional_string;
+use atuin_daemon::grpc::common::pb::Uuid as WireUuid;
+use atuin_daemon::grpc::history::pb::{
+    CancelHistoryRequest, DeleteHistoryRequest, EndHistoryRequest, HistoryId as WireId,
+    StartHistoryRequest,
+};
+use atuin_domain::record::CmdOrigin;
+use common::{SharedEnv, TestEnv, history, strategies};
+use proptest::prelude::*;

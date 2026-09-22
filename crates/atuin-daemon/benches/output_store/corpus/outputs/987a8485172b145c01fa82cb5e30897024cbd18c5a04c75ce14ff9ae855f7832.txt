@@ -1,0 +1,241 @@
+5566ed95 debian: import upstream 18.21.0
+
+ crates/atuin-ai/Cargo.toml                         |   10 +-
+ crates/atuin-ai/src/commands/inline.rs             |    6 +-
+ crates/atuin-ai/src/file_tracker.rs                |    2 +-
+ crates/atuin-ai/src/fsm/mod.rs                     |   12 +-
+ crates/atuin-ai/src/fsm/tests.rs                   |  282 +--
+ crates/atuin-ai/src/permissions/check.rs           |    1 +
+ crates/atuin-ai/src/permissions/resolver.rs        |    1 +
+ crates/atuin-ai/src/permissions/walker.rs          |    5 +-
+ crates/atuin-ai/src/session.rs                     |   10 +-
+ crates/atuin-ai/src/snapshots.rs                   |    2 +-
+ crates/atuin-ai/src/store.rs                       |   52 +-
+ crates/atuin-ai/src/tools/mod.rs                   |   25 +-
+ crates/atuin-ai/src/tui/app.rs                     |    3 +-
+ crates/atuin-ai/src/tui/persist.rs                 |    1 +
+ crates/atuin-ai/src/tui/state.rs                   |    3 +-
+ crates/atuin-ai/src/tui/view/turn.rs               |    5 +-
+ crates/atuin-client/Cargo.toml                     |    6 +-
+ crates/atuin-client/config.toml                    |    7 +-
+ crates/atuin-client/src/api_client.rs              |    1 +
+ crates/atuin-client/src/auth.rs                    |    2 +
+ crates/atuin-client/src/database.rs                |  174 +-
+ crates/atuin-client/src/distro.rs                  |    1 +
+ crates/atuin-client/src/history.rs                 |   21 +-
+ crates/atuin-client/src/history/store.rs           |    7 +-
+ crates/atuin-client/src/hub.rs                     |   39 +-
+ crates/atuin-client/src/import/bash.rs             |    6 +-
+ crates/atuin-client/src/import/fish.rs             |   16 +-
+ crates/atuin-client/src/import/nu_histdb.rs        |    3 +-
+ crates/atuin-client/src/import/replxx.rs           |   10 +-
+ crates/atuin-client/src/import/xonsh.rs            |    8 +-
+ crates/atuin-client/src/import/xonsh_sqlite.rs     |   13 +-
+ crates/atuin-client/src/import/zsh.rs              |    2 +-
+ crates/atuin-client/src/import/zsh_histdb.rs       |    7 +-
+ crates/atuin-client/src/login.rs                   |    6 +-
+ crates/atuin-client/src/meta.rs                    |   59 +-
+ crates/atuin-client/src/ordering.rs                |    1 +
+ crates/atuin-client/src/packfile/packer.rs         |    6 +-
+ crates/atuin-client/src/packfile/record.rs         |    2 +-
+ crates/atuin-client/src/plugin.rs                  |    6 +
+ crates/atuin-client/src/record/sqlite_store.rs     |   87 +-
+ crates/atuin-client/src/record/sync/mod.rs         |   17 +-
+ crates/atuin-client/src/settings.rs                |   47 +-
+ crates/atuin-client/src/settings/daemon.rs         |  116 +-
+ crates/atuin-client/src/settings/shells.rs         |    6 +-
+ crates/atuin-client/src/settings/watcher.rs        |    2 +
+ crates/atuin-client/src/theme.rs                   |   18 +-
+ crates/atuin-common/Cargo.toml                     |   23 +-
+ .../proptest-regressions/string/buffer.txt         |    9 +
+ crates/atuin-common/src/ansi.rs                    |   63 +-
+ crates/atuin-common/src/db/mod.rs                  |  428 +++++
+ crates/atuin-common/src/db/sqlite/builder.rs       |  190 ++
+ crates/atuin-common/src/db/sqlite/compactor.rs     |  157 ++
+ crates/atuin-common/src/db/sqlite/info.rs          |  229 +++
+ crates/atuin-common/src/{ => db}/sqlite/mod.rs     |   23 +-
+ crates/atuin-common/src/docs.rs                    |    1 +
+ crates/atuin-common/src/encryption/paseto_v4.rs    |   13 +-
+ crates/atuin-common/src/filter.rs                  |    2 +
+ crates/atuin-common/src/futures/mod.rs             |  109 ++
+ crates/atuin-common/src/lib.rs                     |    4 +-
+ crates/atuin-common/src/logs.rs                    |    6 +
+ crates/atuin-common/src/os.rs                      |    5 +
+ crates/atuin-common/src/os/process.rs              |   36 +
+ crates/atuin-common/src/os/unix.rs                 |    3 +
+ crates/atuin-common/src/os/unix/process.rs         |   71 +
+ crates/atuin-common/src/os/windows/mod.rs          |   31 +
+ crates/atuin-common/src/os/windows/process.rs      |   89 +
+ crates/atuin-common/src/path/mod.rs                |   19 +-
+ crates/atuin-common/src/range/chunks.rs            |    1 +
+ crates/atuin-common/src/shell.rs                   |    8 +-
+ crates/atuin-common/src/slice.rs                   |   14 +-
+ crates/atuin-common/src/sqlite/builder.rs          |  111 --
+ crates/atuin-common/src/sqlite/info.rs             |  114 --
+ crates/atuin-common/src/string.rs                  |   73 +-
+ crates/atuin-common/src/string/buffer.rs           |  321 ++++
+ crates/atuin-common/src/string/ellipsis.rs         |    2 +
+ crates/atuin-common/src/string/trim.rs             |  172 ++
+ crates/atuin-common/src/test_utils/capture.rs      |    1 +
+ crates/atuin-common/src/utils.rs                   |   57 +-
+ crates/atuin-daemon/Cargo.toml                     |   10 +-
+ crates/atuin-daemon/proto/semantic.proto           |    6 +
+ crates/atuin-daemon/src/components/history.rs      |    4 +-
+ crates/atuin-daemon/src/components/search.rs       |    3 +
+ crates/atuin-daemon/src/components/semantic.rs     |    7 +
+ crates/atuin-daemon/src/components/sync.rs         |    1 +
+ crates/atuin-daemon/src/control/service.rs         |    2 +
+ crates/atuin-daemon/src/daemon.rs                  |   11 +
+ crates/atuin-daemon/src/history/mod.rs             |    7 +-
+ crates/atuin-daemon/src/search/index.rs            |    5 +-
+ crates/atuin-daemon/src/search/mod.rs              |    8 +-
+ crates/atuin-daemon/src/semantic/mod.rs            |    4 +
+ crates/atuin-daemon/src/server.rs                  |    4 +-
+ crates/atuin-daemon/tests/lifecycle.rs             |    2 +-
+ crates/atuin-daemon/tests/search.rs                |    2 +-
+ crates/atuin-domain/src/caps/axum.rs               |    1 +
+ crates/atuin-domain/src/caps/client.rs             |    2 +
+ crates/atuin-domain/src/caps/server.rs             |    1 +
+ crates/atuin-domain/src/lib.rs                     |    4 +
+ crates/atuin-domain/src/record/cmd_origin.rs       |    5 +
+ crates/atuin-domain/src/record/mod.rs              |   27 +-
+ crates/atuin-dotfiles/Cargo.toml                   |    6 +-
+ crates/atuin-dotfiles/src/shell.rs                 |    3 +-
+ crates/atuin-dotfiles/src/shell/bash.rs            |    2 +
+ crates/atuin-dotfiles/src/shell/fish.rs            |    2 +
+ crates/atuin-dotfiles/src/shell/powershell.rs      |    6 +-
+ crates/atuin-dotfiles/src/shell/xonsh.rs           |    2 +
+ crates/atuin-dotfiles/src/shell/zsh.rs             |    2 +
+ crates/atuin-dotfiles/src/store.rs                 |    5 +-
+ crates/atuin-dotfiles/src/store/var.rs             |    3 +-
+ crates/atuin-history/Cargo.toml                    |    2 +-
+ crates/atuin-history/src/sort.rs                   |    1 +
+ crates/atuin-history/src/stats.rs                  |    1 +
+ crates/atuin-kv/Cargo.toml                         |    7 +-
+ crates/atuin-kv/src/database.rs                    |   62 +-
+ crates/atuin-kv/src/store.rs                       |    8 +-
+ crates/atuin-lab-share/Cargo.toml                  |   49 -
+ crates/atuin-lab-share/src/backpressure.rs         |  242 ---
+ crates/atuin-lab-share/src/crypto.rs               |  383 ----
+ crates/atuin-lab-share/src/error.rs                |  102 -
+ crates/atuin-lab-share/src/lib.rs                  |  608 ------
+ crates/atuin-lab-share/src/protocol.rs             |  236 ---
+ crates/atuin-lab-share/src/query.rs                |  109 --
+ crates/atuin-lab-share/src/render.rs               |  445 -----
+ crates/atuin-lab-share/src/session/mod.rs          | 1381 --------------
+ crates/atuin-lab-share/src/session/screen.rs       |  377 ----
+ crates/atuin-lab-share/src/source.rs               |  137 --
+ crates/atuin-lab-share/src/subshell.rs             |  147 --
+ crates/atuin-lab-share/src/transport.rs            | 1981 --------------------
+ .../tests/interop/js-sealed-input.json             |    6 -
+ .../atuin-lab-share/tests/interop/seal-input.mjs   |   78 -
+ crates/atuin-pty-proxy/Cargo.toml                  |    2 +-
+ crates/atuin-pty-proxy/src/capture.rs              |  961 +++++++---
+ crates/atuin-pty-proxy/src/debug.rs                |  141 +-
+ crates/atuin-pty-proxy/src/osc133.rs               | 1028 ++++++----
+ crates/atuin-pty-proxy/src/pty_proxy.rs            |    1 +
+ crates/atuin-pty-proxy/src/runtime.rs              |   45 +-
+ crates/atuin-pty-proxy/src/screen.rs               |  285 ++-
+ crates/atuin-scripts/Cargo.toml                    |    7 +-
+ crates/atuin-scripts/src/database.rs               |   82 +-
+ crates/atuin-scripts/src/execution.rs              |   12 +-
+ crates/atuin-scripts/src/store.rs                  |    1 +
+ crates/atuin-search-bench/src/corpus.rs            |    1 +
+ crates/atuin-server-database/Cargo.toml            |   28 -
+ crates/atuin-server-database/src/lib.rs            |  115 --
+ crates/atuin-server-database/src/models.rs         |   25 -
+ crates/atuin-server-postgres/Cargo.toml            |   29 -
+ crates/atuin-server-postgres/build.rs              |    5 -
+ crates/atuin-server-postgres/src/lib.rs            |  391 ----
+ crates/atuin-server-postgres/src/wrappers.rs       |   28 -
+ crates/atuin-server-sqlite/Cargo.toml              |   28 -
+ crates/atuin-server-sqlite/build.rs                |    5 -
+ crates/atuin-server-sqlite/src/lib.rs              |  260 ---
+ crates/atuin-server-sqlite/src/wrappers.rs         |   28 -
+ crates/atuin-server/Cargo.toml                     |   13 +-
+ crates/atuin-server/build.rs                       |    5 +
+ crates/atuin-server/server.toml                    |    5 +-
+ crates/atuin-server/src/bin/main.rs                |   11 +-
+ crates/atuin-server/src/db/mod.rs                  |  453 +++++
+ crates/atuin-server/src/db/models.rs               |   90 +
+ .../migrations/20231203124112_create-store.sql     |   17 +
+ .../migrations/20240108124830_create-history.sql   |   15 +
+ .../migrations/20240108124831_create-sessions.sql  |    6 +
+ .../migrations/20240621110730_create-users.sql     |   11 +
+ .../20240702094825_create-store-idx-cache.sql      |   10 +
+ .../20260827000000_drop-store-idx-cache.sql        |    1 +
+ crates/atuin-server/src/db/mysql/mod.rs            |   48 +
+ .../migrations/20210425153745_create_history.sql   |    0
+ .../migrations/20210425153757_create_users.sql     |    0
+ .../migrations/20210425153800_create_sessions.sql  |    0
+ .../20220419082412_add_count_trigger.sql           |    0
+ .../20220421073605_fix_count_trigger_delete.sql    |    0
+ .../migrations/20220421174016_larger-commands.sql  |    0
+ .../migrations/20220426172813_user-created-at.sql  |    0
+ .../migrations/20220505082442_create-events.sql    |    0
+ .../migrations/20220610074049_history-length.sql   |    0
+ .../migrations/20230315220537_drop-events.sql      |    0
+ .../migrations/20230315224203_create-deleted.sql   |    0
+ .../20230515221038_trigger-delete-only.sql         |    0
+ .../migrations/20230623070418_records.sql          |    0
+ .../migrations/20231202170508_create-store.sql     |    0
+ .../migrations/20231203124112_create-store-idx.sql |    0
+ .../20240108124837_drop-some-defaults.sql          |    0
+ .../migrations/20240614104159_idx-cache.sql        |    0
+ .../migrations/20240621110731_user-verified.sql    |    0
+ .../migrations/20240702094825_idx_cache_index.sql  |    0
+ .../20260127000000_remove-email-verification.sql   |    0
+ .../20260827000000_drop-store-idx-cache.sql        |    1 +
+ .../20260828000000_drop-history-count-trigger.sql  |    9 +
+ crates/atuin-server/src/db/postgres/mod.rs         |   50 +
+ .../migrations/20231203124112_create-store.sql     |    0
+ .../migrations/20240108124830_create-history.sql   |    0
+ .../migrations/20240108124831_create-sessions.sql  |    0
+ .../migrations/20240621110730_create-users.sql     |    0
+ ...240621110731_create-user-verification-token.sql |    0
+ .../20240702094825_create-store-idx-cache.sql      |    0
+ .../20260127000000_remove-email-verification.sql   |    0
+ .../20260827000000_drop-store-idx-cache.sql        |    1 +
+ .../20260828000000_purge-orphaned-store.sql        |    3 +
+ crates/atuin-server/src/db/sqlite/mod.rs           |   38 +
+ crates/atuin-server/src/handlers/mod.rs            |    3 +-
+ crates/atuin-server/src/handlers/user.rs           |   29 +-
+ crates/atuin-server/src/handlers/v0/me.rs          |    2 +-
+ crates/atuin-server/src/handlers/v0/record.rs      |   13 +-
+ crates/atuin-server/src/handlers/v0/store.rs       |    5 +-
+ crates/atuin-server/src/lib.rs                     |   41 +-
+ crates/atuin-server/src/metrics.rs                 |    1 +
+ crates/atuin-server/src/router.rs                  |   17 +-
+ crates/atuin-server/src/settings.rs                |    4 +-
+ crates/atuin-server/tests/common/mod.rs            |   15 +-
+ .../tests/db_story.rs                              |   99 +-
+ crates/atuin-server/tests/sync.rs                  |   19 +-
+ crates/atuin-server/tests/users.rs                 |    2 -
+ crates/atuin/Cargo.toml                            |   21 +-
+ crates/atuin/src/command/client.rs                 |    7 -
+ crates/atuin/src/command/client/account/login.rs   |    5 +-
+ crates/atuin/src/command/client/daemon.rs          |  115 +-
+ crates/atuin/src/command/client/doctor.rs          |    8 +-
+ crates/atuin/src/command/client/dotfiles/alias.rs  |    4 +-
+ crates/atuin/src/command/client/dotfiles/var.rs    |    4 +-
+ crates/atuin/src/command/client/history.rs         |   18 +-
+ crates/atuin/src/command/client/init.rs            |    4 +-
+ crates/atuin/src/command/client/init/nu.rs         |   25 +-
+ crates/atuin/src/command/client/kv.rs              |    4 +-
+ crates/atuin/src/command/client/lab.rs             |   86 -
+ crates/atuin/src/command/client/scripts.rs         |    5 +-
+ crates/atuin/src/command/client/search.rs          |    5 +-
+ .../src/command/client/search/engines/daemon.rs    |    4 +-
+ .../atuin/src/command/client/search/interactive.rs |   34 +-
+ crates/atuin/src/command/client/search/syntax.rs   |    1 +
+ crates/atuin/src/command/client/store/pull.rs      |    5 +-
+ crates/atuin/src/command/client/store/purge.rs     |    5 +-
+ crates/atuin/src/command/client/store/push.rs      |    5 +-
+ crates/atuin/src/command/client/store/rebuild.rs   |   11 +-
+ crates/atuin/src/command/client/store/rekey.rs     |    5 +-
+ crates/atuin/src/command/client/store/verify.rs    |    5 +-
+ crates/tests-database/Cargo.toml                   |   40 -
+ crates/tests-database/README.md                    |   58 -
+ crates/tests-database/src/helpers.rs               |   75 -
+ crates/tests-database/src/lib.rs                   |    1 -
+ 238 files changed, 5753 insertions(+), 9362 deletions(-)

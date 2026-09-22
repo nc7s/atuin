@@ -1,0 +1,9 @@
+26:pub enum Cmd {
+56:impl Cmd {
+59:    pub async fn run(&self, db: &Sqlite) -> Result<()> {
+139:pub struct HistoryImporter<'db> {
+146:    fn new(db: &'db Sqlite, len: usize) -> Self {
+154:    async fn flush(self) -> Result<()> {
+162:impl Loader for HistoryImporter<'_> {
+163:    async fn push(&mut self, hist: History) -> Result<()> {
+174:async fn import<I: Importer + Send>(db: &Sqlite) -> Result<()> {

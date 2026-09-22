@@ -1,0 +1,20 @@
+//! Updates this PTY proxy's CWD to match the CWD of its child.
+//!
+//! This is necessary to enable programs like tmux to detect the CWD of the child.
+
+use std::os::fd::{AsFd, AsRawFd, BorrowedFd, OwnedFd};
+use std::path::PathBuf;
+use std::sync::mpsc::{self, RecvTimeoutError, SyncSender};
+use std::time::Duration;
+
+use atuin_common::os::unix::process;
+use portable_pty::MasterPty;
+use rustix::process::Pid;
+
+/// The minimum amount of time between successive CWD updates.
+///
+/// Updating the CWD requires a syscall, so this is used to reduce the performance impact.
+const MIN_UPDATE_DELAY: Duration = Duration::from_millis(100);
+
+/// The maximum amount of time between successive CWD updates.
+///

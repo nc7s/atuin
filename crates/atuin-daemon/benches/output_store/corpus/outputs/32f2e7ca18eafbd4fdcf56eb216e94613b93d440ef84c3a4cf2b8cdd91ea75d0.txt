@@ -1,0 +1,20 @@
+7:fn float_fast_path_test() {
+13:        assert!(f.is_some(), "should be valid {:?}.", (mantissa, exp));
+18:    assert_eq!(f, Some(1.23e+17));
+22:    assert!(f.is_none());
+26:    assert!(f.is_none());
+31:    assert!(f.is_none(), "exponent under min_exp");
+34:    assert!(f.is_none(), "exponent above max_exp");
+38:fn double_fast_path_test() {
+44:        assert!(f.is_some(), "should be valid {:?}.", (mantissa, exp));
+50:    assert!(f.is_none(), "exponent under min_exp");
+53:    assert!(f.is_none(), "exponent above max_exp");
+55:    assert_eq!(
+59:    assert_eq!(None, fast_path::<f64>(26383446160308229, -272));
+63:fn moderate_path_test() {
+65:    assert!(valid, "should be valid");
+66:    assert_eq!(f.into_float::<f64>(), 123456789.0);
+69:    assert!(valid, "should be valid");
+70:    assert_eq!(f.into_float::<f64>(), 123456789.1);
+73:    assert!(valid, "should be valid");
+74:    assert_eq!(f.into_float::<f64>(), 123456789.12);

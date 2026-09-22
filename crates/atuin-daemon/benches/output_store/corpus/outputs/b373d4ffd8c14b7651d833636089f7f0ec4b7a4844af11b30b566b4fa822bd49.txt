@@ -1,0 +1,8 @@
+33:pub fn normalize(c: char) -> char {
+904:    /// Helper function for test assertions.
+905:    fn check_conversions(pairs: &[(char, char)]) {
+907:            assert_eq!(normalize(*original), *normalized);
+913:    fn general() {
+941:    fn invisible_chars() {
+947:    fn boundary_cases() {
+968:    fn unchanged_outside_blocks() {

@@ -1,0 +1,5 @@
+1:use crate::error::Error;
+42:/// struct Input<'a> {
+49:/// struct Output<'a> {
+60:/// fn rearrange(input: &str) -> Result<String> {
+70:/// fn main() -> Result<()> {

@@ -1,0 +1,40 @@
+crates/atuin-client/src/settings.rs:19:use serde::{Deserialize, Serialize};
+crates/atuin-client/src/settings.rs:64:#[derive(Clone, Copy, Debug, Eq, PartialEq, Deserialize, Serialize, ValueEnum)]
+crates/atuin-client/src/settings.rs:125:#[derive(Copy, Clone, Debug, Deserialize, PartialEq, Eq, ValueEnum, Serialize)]
+crates/atuin-client/src/settings.rs:160:#[derive(Clone, Debug, Deserialize, Copy, Serialize)]
+crates/atuin-client/src/settings.rs:171:#[derive(Clone, Debug, Deserialize, Copy, Serialize)]
+crates/atuin-client/src/settings.rs:191:#[derive(Clone, Debug, Deserialize, Copy, Serialize)]
+crates/atuin-client/src/settings.rs:203:#[derive(Clone, Debug, Deserialize, Copy, PartialEq, Eq, Serialize)]
+crates/atuin-client/src/settings.rs:215:#[derive(Clone, Debug, Deserialize, Copy, Serialize)]
+crates/atuin-client/src/history.rs:13:use serde::{Deserialize, Serialize};
+crates/atuin-client/src/history.rs:215:impl Serialize for HistoryId {
+crates/atuin-client/src/history.rs:218:        S: serde::Serializer,
+crates/atuin-client/src/history.rs:419:    /// Serializes a history entry in the V2 format.
+crates/atuin-client/src/theme.rs:9:use serde::{Deserialize, Serialize};
+crates/atuin-client/src/theme.rs:21:    Serialize, Deserialize, Copy, Clone, Hash, Debug, Eq, PartialEq, strum_macros::Display,
+crates/atuin-client/src/theme.rs:42:#[derive(Clone, Debug, Deserialize, Serialize)]
+crates/atuin-client/src/theme.rs:51:#[derive(Clone, Debug, Deserialize, Serialize)]
+crates/atuin-client/src/packfile/record.rs:12:use serde::{Deserialize, Serialize};
+crates/atuin-client/src/packfile/record.rs:148:#[derive(Debug, Clone, Serialize, Deserialize)]
+crates/atuin-client/src/packfile/record.rs:199:    Serialize(#[from] EncodeError),
+crates/atuin-client/src/packfile/record.rs:256:#[derive(Debug, Serialize)]
+crates/atuin-client/src/packfile/record.rs:329:                TryEncodeError::Encode(e) => PackError::Serialize(e),
+crates/atuin-client/src/settings/kv.rs:1:use serde::{Deserialize, Serialize};
+crates/atuin-client/src/settings/kv.rs:3:#[derive(Debug, Serialize, Deserialize, Clone)]
+crates/atuin-client/src/history/store.rs:44:    /// Serialize a history record, returning DecryptedData
+crates/atuin-client/src/settings/output.rs:2:use serde::{Deserialize, Serialize};
+crates/atuin-client/src/settings/output.rs:7:#[derive(Clone, Debug, Default, PartialEq, Deserialize, Serialize)]
+crates/atuin-client/src/settings/output.rs:72:#[derive(Clone, Debug, Deserialize, Serialize)]
+crates/atuin-client/src/settings/daemon.rs:9:use serde::{Deserialize, Serialize};
+crates/atuin-client/src/settings/daemon.rs:14:#[derive(Clone, Debug, Deserialize, Serialize)]
+crates/atuin-client/src/settings/disk_usage_limit.rs:8:use serde_with::SerializeDisplay;
+crates/atuin-client/src/settings/disk_usage_limit.rs:19:    Clone, Copy, Debug, PartialEq, SerializeDisplay, derive_more::Display, derive_more::From,
+crates/atuin-client/src/settings/scripts.rs:1:use serde::{Deserialize, Serialize};
+crates/atuin-client/src/settings/scripts.rs:3:#[derive(Debug, Serialize, Deserialize, Clone)]
+crates/atuin-client/src/settings/shells.rs:2:use serde::{Deserialize, Deserializer, Serialize, Serializer};
+crates/atuin-client/src/settings/shells.rs:111:impl Serialize for Shells {
+crates/atuin-client/src/settings/shells.rs:114:        S: Serializer,
+crates/atuin-client/src/settings/meta.rs:1:use serde::{Deserialize, Serialize};
+crates/atuin-client/src/settings/meta.rs:3:#[derive(Debug, Serialize, Deserialize, Clone)]
+crates/atuin-client/src/settings/dotfiles.rs:1:use serde::{Deserialize, Serialize};
+crates/atuin-client/src/settings/dotfiles.rs:3:#[derive(Debug, Serialize, Deserialize, Clone, Default)]

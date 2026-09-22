@@ -1,0 +1,9 @@
+src/sink.rs:94:pub struct SliceSink<'a> {
+src/sink.rs:206:pub struct PtrSink {
+src/frame/header.rs:130:pub struct FrameInfo {
+src/frame/decompress.rs:48:pub struct FrameDecoder<R: io::Read> {
+src/block/hashtable.rs:58:pub struct HashTable4KU16 {
+src/block/hashtable.rs:96:pub struct HashTable4K {
+src/block/hashtable.rs:138:pub struct HashTable8K {
+src/frame/compress.rs:62:pub struct FrameEncoder<W: io::Write> {
+src/frame/compress.rs:417:pub struct AutoFinishEncoder<W: Write> {

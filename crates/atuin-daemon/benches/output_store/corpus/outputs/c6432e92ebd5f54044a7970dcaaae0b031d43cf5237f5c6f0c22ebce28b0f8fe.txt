@@ -1,0 +1,175 @@
+crates/atuin-client/src/database.rs:1305:        assert_eq!(get_session_start_time(&session_id).is_some(), has_start);
+crates/atuin-client/src/database.rs:1352:        assert_eq!(runs.len(), 2);
+crates/atuin-client/src/database.rs:1353:        assert!(runs.iter().all(|entry| entry.command == "echo 'λ'"));
+crates/atuin-client/src/database.rs:1354:        assert!(runs.iter().any(|entry| entry.id == entries[2].id));
+crates/atuin-client/src/database.rs:1355:        assert!(runs.windows(2).all(|pair| pair[0].id.to_string() < pair[1].id.to_string()));
+crates/atuin-client/src/database.rs:1357:        assert_eq!(session.len(), 2);
+crates/atuin-client/src/database.rs:1358:        assert!(session.iter().all(|entry| entry.session == "one"));
+crates/atuin-client/src/database.rs:1359:        assert!(session.iter().any(|entry| entry.command == "pwd"));
+crates/atuin-client/src/settings.rs:1936:        assert_eq!(UtcOffsetSpec::from_str(input)?.0.as_hms(), expected);
+crates/atuin-client/src/settings.rs:1945:        assert!(UtcOffsetSpec::from_str(input).is_err());
+crates/atuin-client/src/settings.rs:1965:        assert_eq!(settings.is_hub_ai_endpoint(&Url::parse(endpoint).unwrap()), expected,);
+crates/atuin-client/src/settings.rs:1972:        assert_eq!(super::DEFAULT_SYNC_URL.host_str(), Some("api.atuin.sh"));
+crates/atuin-client/src/settings.rs:1973:        assert_eq!(super::DEFAULT_HUB_URL.host_str(), Some("hub.atuin.sh"));
+crates/atuin-client/src/settings.rs:1995:        assert_eq!(settings.default_filter_mode(git_root), expected);
+crates/atuin-client/src/settings.rs:2016:        assert_eq!(db_path, custom_dir.join("history.db").to_str().unwrap());
+crates/atuin-client/src/settings.rs:2017:        assert_eq!(key_path, custom_dir.join("key").to_str().unwrap());
+crates/atuin-client/src/history.rs:771:        assert_eq!(history.should_save(&settings), expected);
+crates/atuin-client/src/history.rs:780:            assert_eq!(
+crates/atuin-client/src/history.rs:817:        assert_eq!(history.author_kind, expected);
+crates/atuin-client/src/history.rs:827:        assert!(is_known_agent("pi"));
+crates/atuin-client/src/history.rs:828:        assert!(author_matches_filters(&pi, agents.as_slice_filter()));
+crates/atuin-client/src/history.rs:829:        assert!(!author_matches_filters(&pi, users.as_slice_filter()));
+crates/atuin-client/src/history.rs:830:        assert!(!author_matches_filters(&ellie, agents.as_slice_filter()));
+crates/atuin-client/src/history.rs:831:        assert!(author_matches_filters(&ellie, users.as_slice_filter()));
+crates/atuin-client/src/api_client.rs:689:        assert_eq!(headers.get("x-auth-token").unwrap(), "secret");
+crates/atuin-client/src/api_client.rs:700:        assert_eq!(headers.get(AUTHORIZATION).unwrap(), "Token atuin-value");
+crates/atuin-client/src/api_client.rs:701:        assert_eq!(headers.get_all(AUTHORIZATION).iter().count(), 1);
+crates/atuin-client/src/api_client.rs:708:        assert!(extra_headers_map(&extra).is_err());
+crates/atuin-client/src/api_client.rs:745:        assert!(err.is_redirect(), "expected a redirect policy error: {err:?}");
+crates/atuin-client/src/api_client.rs:775:        assert_eq!(resp.status(), 200);
+crates/atuin-client/src/api_client.rs:776:        assert_eq!(resp.url().path(), "/ok");
+crates/atuin-client/src/api_client.rs:812:        assert_eq!(
+crates/atuin-client/src/theme.rs:512:        assert_eq!(theme.as_style(Meaning::Guidance).foreground_color, from_string("brown").ok());
+crates/atuin-client/src/theme.rs:524:        assert_eq!(
+crates/atuin-client/src/theme.rs:534:        assert!(!DEFAULT_THEME.styles.contains_key(&Meaning::Title));
+crates/atuin-client/src/theme.rs:549:        assert_eq!(theme.as_style(Meaning::Guidance).foreground_color, from_string("white").ok());
+crates/atuin-client/src/theme.rs:552:        assert_eq!(theme.as_style(Meaning::AlertInfo).foreground_color, None);
+crates/atuin-client/src/theme.rs:555:        assert_eq!(theme.as_style(Meaning::Base).foreground_color, None);
+crates/atuin-client/src/theme.rs:558:        assert_eq!(theme.as_style(Meaning::AlertError).foreground_color, Some(Color::DarkRed));
+crates/atuin-client/src/theme.rs:561:        assert_eq!(
+crates/atuin-client/src/plugin.rs:135:        assert!(registry.is_official_plugin("update"));
+crates/atuin-client/src/plugin.rs:136:        assert!(!registry.is_official_plugin("nonexistent"));
+crates/atuin-client/src/plugin.rs:143:        assert!(plugin.is_some());
+crates/atuin-client/src/plugin.rs:144:        assert_eq!(plugin.unwrap().name, "update");
+crates/atuin-client/src/plugin.rs:151:        assert!(message.is_some());
+crates/atuin-client/src/plugin.rs:152:        assert!(message.unwrap().contains("atuin-update"));
+crates/atuin-client/src/ordering.rs:58:        assert_eq!(commands(out), expected);
+crates/atuin-client/src/meta.rs:285:        assert_eq!(store.get("foo").await.unwrap(), None);
+crates/atuin-client/src/meta.rs:288:        assert_eq!(store.get("foo").await.unwrap(), Some("bar".to_string()));
+crates/atuin-client/src/meta.rs:291:        assert_eq!(store.get("foo").await.unwrap(), Some("baz".to_string()));
+crates/atuin-client/src/meta.rs:294:        assert_eq!(store.get("foo").await.unwrap(), None);
+crates/atuin-client/src/meta.rs:303:        assert_eq!(id1, id2, "host_id should be stable across calls");
+crates/atuin-client/src/meta.rs:310:        assert_eq!(t, OffsetDateTime::UNIX_EPOCH);
+crates/atuin-client/src/meta.rs:314:        assert!(t > OffsetDateTime::UNIX_EPOCH);
+crates/atuin-client/src/meta.rs:321:        assert_eq!(t, OffsetDateTime::UNIX_EPOCH);
+crates/atuin-client/src/packfile/record.rs:251:/// An implicit assertion that matches this [`PackManifestRecordView`].
+crates/atuin-client/src/packfile/record.rs:390:    /// Grab the implicit assertion corresponding to this manifest.
+crates/atuin-client/src/packfile/record.rs:452:        assert_eq!(serde_json::to_string(&value).unwrap(), expected);
+crates/atuin-client/src/packfile/packer.rs:30:    debug_assert!(series.tag != RecordTag::Packfile);
+crates/atuin-client/src/packfile/packer.rs:171:        assert_eq!(manifest_ranges(&store, host).await, vec![(0, 1), (2, 3)]);
+crates/atuin-client/src/packfile/packer.rs:197:                    assert_eq!(start, next, "manifests must tile contiguously from 0");
+crates/atuin-client/src/packfile/packer.rs:198:                    assert!(end >= start, "manifest range is inverted");
+crates/atuin-client/src/packfile/packer.rs:200:                    assert_eq!(size, pack_count, "pack size {size} is not exactly {pack_count}");
+crates/atuin-client/src/packfile/packer.rs:204:                assert!(next <= count, "packed {next} records beyond the {count} that exist");
+crates/atuin-client/src/packfile/packer.rs:205:                assert!(
+crates/atuin-client/src/packfile/packer.rs:232:                assert_eq!(
+crates/atuin-client/src/record/sqlite_store.rs:537:        assert_eq!(store.len_all().await.unwrap(), 0, "db could not be created");
+crates/atuin-client/src/record/sqlite_store.rs:557:        assert_eq!(fetched, record, "records are not equal");
+crates/atuin-client/src/record/sqlite_store.rs:565:        assert_eq!(last.unwrap().id, record.id, "did not get the inserted record");
+crates/atuin-client/src/record/sqlite_store.rs:573:        assert_eq!(first.unwrap().id, record.id, "did not get the inserted record");
+crates/atuin-client/src/record/sqlite_store.rs:596:        assert_eq!(store.first_gap(&RecordSeriesKey::new(host, tag.clone())).await.unwrap(), 0);
+crates/atuin-client/src/record/sqlite_store.rs:602:        assert_eq!(store.first_gap(&RecordSeriesKey::new(host, tag.clone())).await.unwrap(), 3);
+crates/atuin-client/src/record/sqlite_store.rs:608:        assert_eq!(store.first_gap(&RecordSeriesKey::new(host, tag.clone())).await.unwrap(), 3);
+crates/atuin-client/src/record/sqlite_store.rs:616:        assert_eq!(len, 1, "expected length of 1 after insert");
+crates/atuin-client/src/record/sync/mod.rs:700:    use pretty_assertions::assert_eq;
+crates/atuin-client/src/record/sync/mod.rs:783:                assert!(result.is_err());
+crates/atuin-client/src/record/sync/mod.rs:794:        assert_eq!(result.unwrap(), vec![expected]);
+crates/atuin-client/src/record/sync/mod.rs:875:        assert_eq!(operations.len(), 7);
+crates/atuin-client/src/record/sync/mod.rs:933:        assert_eq!(result_ops, operations);
+crates/atuin-client/src/record/sync/mod.rs:1024:    /// idx order) for the re-indexing assertion.
+crates/atuin-client/src/record/sync/mod.rs:1114:        assert!(
+crates/atuin-client/src/record/sync/mod.rs:1153:        assert!(matches!(err, Some(SyncError::WrongKey)), "expected WrongKey, got {err:?}");
+crates/atuin-client/src/import/xonsh_sqlite.rs:152:        assert_eq!(db_path, PathBuf::from("/home/user/xonsh_data/xonsh-history.sqlite"));
+crates/atuin-client/src/import/xonsh_sqlite.rs:167:        assert_eq!(hist.timestamp, OffsetDateTime::UNIX_EPOCH);
+crates/atuin-client/src/import/xonsh_sqlite.rs:168:        assert_eq!(hist.command, "echo hello");
+crates/atuin-client/src/import/xonsh_sqlite.rs:183:            assert_eq!(actual.timestamp, expected.timestamp);
+crates/atuin-client/src/import/xonsh_sqlite.rs:184:            assert_eq!(actual.command, expected.command);
+crates/atuin-client/src/import/xonsh_sqlite.rs:185:            assert_eq!(actual.cwd, expected.cwd);
+crates/atuin-client/src/import/xonsh_sqlite.rs:186:            assert_eq!(actual.exit, expected.exit);
+crates/atuin-client/src/import/xonsh_sqlite.rs:187:            assert_eq!(actual.duration, expected.duration);
+crates/atuin-client/src/history/store.rs:526:    fn assert_record_roundtrip(record: &HistoryRecord, expected_bytes: &[u8]) {
+crates/atuin-client/src/history/store.rs:528:        assert_eq!(serialized.0, expected_bytes);
+crates/atuin-client/src/history/store.rs:532:        assert_eq!(&deserialized, record);
+crates/atuin-client/src/history/store.rs:540:        assert_eq!(&deserialized, record);
+crates/atuin-client/src/history/store.rs:580:        assert_record_roundtrip(&record, &expected_bytes);
+crates/atuin-client/src/history/store.rs:608:        assert_eq!(records.len(), 1);
+crates/atuin-client/src/history/store.rs:609:        assert_eq!(records[0], HistoryRecord::Create(history));
+crates/atuin-client/src/history/store.rs:630:        assert_eq!(created.len(), 1);
+crates/atuin-client/src/import/replxx.rs:125:                assert_eq!(h.command.as_str(), $command);
+crates/atuin-client/src/import/replxx.rs:126:                assert_eq!(h.timestamp.unix_timestamp(), $timestamp);
+crates/atuin-client/src/import/replxx.rs:154:        assert_eq!(commands, ["select 1", "select 2"]);
+crates/atuin-client/src/import/xonsh.rs:170:        assert_eq!(hist_dir, PathBuf::from("/home/user/xonsh_data/history_json"));
+crates/atuin-client/src/import/xonsh.rs:191:        assert_eq!(loader.buf.len(), 1);
+crates/atuin-client/src/import/xonsh.rs:192:        assert_eq!(loader.buf[0].timestamp, OffsetDateTime::UNIX_EPOCH);
+crates/atuin-client/src/import/xonsh.rs:193:        assert_eq!(loader.buf[0].command, "echo hello");
+crates/atuin-client/src/import/xonsh.rs:211:            assert_eq!(actual.timestamp, expected.timestamp);
+crates/atuin-client/src/import/xonsh.rs:212:            assert_eq!(actual.command, expected.command);
+crates/atuin-client/src/import/xonsh.rs:213:            assert_eq!(actual.cwd, expected.cwd);
+crates/atuin-client/src/import/xonsh.rs:214:            assert_eq!(actual.exit, expected.exit);
+crates/atuin-client/src/import/nu_histdb.rs:163:        assert_eq!(h.timestamp.unix_timestamp(), seconds);
+crates/atuin-client/src/import/nu_histdb.rs:164:        assert_eq!(h.timestamp.nanosecond(), nanoseconds);
+crates/atuin-client/src/import/nu_histdb.rs:165:        assert_eq!(h.command, command);
+crates/atuin-client/src/import/resh.rs:241:        assert_eq!(commands, ["echo good", "echo corrupt"]);
+crates/atuin-client/src/import/resh.rs:243:        assert_eq!(loader.buf[0].timestamp.unix_timestamp(), 1_639_162_832);
+crates/atuin-client/src/import/resh.rs:244:        assert_eq!(loader.buf[0].duration, 1_000_000_000);
+crates/atuin-client/src/import/resh.rs:245:        assert_eq!(loader.buf[1].timestamp, OffsetDateTime::UNIX_EPOCH);
+crates/atuin-client/src/import/resh.rs:246:        assert_eq!(loader.buf[1].duration, HistoryImported::DEFAULT_DURATION);
+crates/atuin-client/src/import/resh.rs:251:    // swallowed into DEFAULT_DURATION. corrupt_before asserts the timestamp
+crates/atuin-client/src/import/resh.rs:292:        assert_eq!(loader.buf.iter().map(|h| h.command.as_str()).collect::<Vec<_>>(), [cmd]);
+crates/atuin-client/src/import/resh.rs:293:        assert_eq!(loader.buf[0].timestamp.unix_timestamp(), expected_unix_ts);
+crates/atuin-client/src/import/zsh_histdb.rs:194:        assert_eq!(env::var(key).unwrap(), test_env_db.to_string());
+crates/atuin-client/src/import/zsh_histdb.rs:198:        assert_eq!(histdb_path.to_str().unwrap(), test_env_db);
+crates/atuin-client/src/import/zsh_histdb.rs:225:        assert_eq!(loader.buf.len(), 1);
+crates/atuin-client/src/import/zsh_histdb.rs:226:        assert_eq!(loader.buf[0].command, "echo hello");
+crates/atuin-client/src/import/zsh_histdb.rs:227:        assert_eq!(loader.buf[0].duration, i64::MAX);
+crates/atuin-client/src/import/fish.rs:138:        assert_eq!(commands, ["echo before", "echo corrupt", "echo after"]);
+crates/atuin-client/src/import/fish.rs:141:        assert_eq!(loader.buf[0].timestamp.unix_timestamp(), 1_639_162_832);
+crates/atuin-client/src/import/fish.rs:142:        assert_eq!(loader.buf[1].timestamp.unix_timestamp(), 1_639_162_832);
+crates/atuin-client/src/import/fish.rs:143:        assert_eq!(loader.buf[2].timestamp.unix_timestamp(), 1_639_162_851);
+crates/atuin-client/src/import/fish.rs:194:                assert_eq!(h.command.as_str(), $command);
+crates/atuin-client/src/import/fish.rs:195:                assert_eq!(h.timestamp.unix_timestamp(), $timestamp);
+crates/atuin-client/src/import/powershell.rs:131:    use itertools::assert_equal;
+crates/atuin-client/src/import/powershell.rs:168:        assert_equal(actual, expected);
+crates/atuin-client/src/import/powershell.rs:178:            assert!(current > prev);
+crates/atuin-client/src/settings/output.rs:121:        assert_eq!(OutputCapture::Disabled.effective_limits(), CaptureLimits::default());
+crates/atuin-client/src/settings/output.rs:130:        assert_eq!(OutputCapture::Enabled(limits.clone()).effective_limits(), limits);
+crates/atuin-client/src/import/zsh.rs:182:    use itertools::assert_equal;
+crates/atuin-client/src/import/zsh.rs:221:        assert_eq!(parsed.command, command);
+crates/atuin-client/src/import/zsh.rs:222:        assert_eq!(parsed.duration, duration);
+crates/atuin-client/src/import/zsh.rs:223:        assert_eq!(parsed.timestamp.map(|t| t.unix_timestamp()), timestamp);
+crates/atuin-client/src/import/zsh.rs:247:        assert_eq!(parsed.command, command);
+crates/atuin-client/src/import/zsh.rs:248:        assert_eq!(parsed.timestamp.map(OffsetDateTime::unix_timestamp), timestamp);
+crates/atuin-client/src/import/zsh.rs:249:        assert_eq!(parsed.duration, duration);
+crates/atuin-client/src/import/zsh.rs:263:        assert_eq!(zsh.entries().await.unwrap(), 4);
+crates/atuin-client/src/import/bash.rs:138:    use itertools::{Itertools, assert_equal};
+crates/atuin-client/src/import/bash.rs:169:        assert_eq!(bash.entries().await.unwrap(), expected_entries);
+crates/atuin-client/src/import/bash.rs:174:        assert_equal(loader.buf.iter().map(|h| h.command.as_str()), expected_commands);
+crates/atuin-client/src/import/bash.rs:175:        assert!(is_strictly_sorted(loader.buf.iter().map(|h| h.timestamp)));
+crates/atuin-client/src/import/bash.rs:191:        assert_eq!(bash.entries().await.unwrap(), 3);
+crates/atuin-client/src/import/bash.rs:196:        assert_equal(loader.buf.iter().map(|h| h.command.as_str()), [
+crates/atuin-client/src/import/bash.rs:201:        assert_equal(loader.buf.iter().map(|h| h.timestamp.unix_timestamp()), [
+crates/atuin-client/src/import/bash.rs:229:        assert_eq!(bash.entries().await.unwrap(), 2);
+crates/atuin-client/src/settings/disk_usage_limit.rs:146:        assert_eq!(input.parse::<DiskUsageLimit>().unwrap(), expected);
+crates/atuin-client/src/settings/disk_usage_limit.rs:151:        assert_eq!(
+crates/atuin-client/src/settings/disk_usage_limit.rs:162:        assert!(matches!(input.parse::<DiskUsageLimit>(), Err(DiskUsageLimitParseError::Bytes(_))));
+crates/atuin-client/src/settings/disk_usage_limit.rs:170:        assert_eq!(limit.to_string(), expected);
+crates/atuin-client/src/settings/disk_usage_limit.rs:183:        assert_eq!(limit.resolve(ByteSize::b(disk_size)), expected.map(ByteSize::b));
+crates/atuin-client/src/settings/disk_usage_limit.rs:184:        assert_eq!(limit.is_unlimited(), expected.is_none());
+crates/atuin-client/src/settings/disk_usage_limit.rs:193:        assert_eq!(serde_json::from_str::<DiskUsageLimit>(json).unwrap(), expected);
+crates/atuin-client/src/settings/disk_usage_limit.rs:201:        assert!(serde_json::from_str::<DiskUsageLimit>(json).is_err());
+crates/atuin-client/src/settings/shells.rs:147:        assert_eq!(result.as_ref().ok(), expected.as_ref(), "{result:?}");
+crates/atuin-client/src/settings/shells.rs:152:        assert_eq!(parse(r#""all""#).unwrap(), parse("[]").unwrap());
+crates/atuin-client/src/settings/shells.rs:153:        assert_eq!(parse(r#""all""#).unwrap(), Shells::all());
+crates/atuin-client/src/settings/shells.rs:163:        assert_eq!(toml, expected);
+crates/atuin-client/src/settings/shells.rs:188:        assert!(items.iter().eq(expected), "{items:?} != {expected:?}");
+crates/atuin-client/src/settings/shells.rs:189:        assert_eq!(filter.is_all(), expected.is_empty());
+crates/atuin-client/src/settings/shells.rs:190:        assert_eq!(shell_filter.to_vec_filter(), filter);
+crates/atuin-client/src/settings/daemon.rs:368:        assert_eq!(ctx.default_socket_path().primary, Path::new(expected));
+crates/atuin-client/src/settings/daemon.rs:408:        assert_eq!(
+crates/atuin-client/src/settings/daemon.rs:412:        assert_eq!(daemon.socket_path_ctx(ctx).as_path(), Path::new(expected[0]));
+crates/atuin-client/src/settings/daemon.rs:446:        assert_eq!(daemon(None, false).existing_socket_path_ctx(ctx), scoped(expected));
+crates/atuin-client/src/settings/daemon.rs:456:        assert!(!dir.exists(), "created a directory for a user-defined path");
+crates/atuin-client/src/settings/daemon.rs:457:        assert_eq!(daemon.existing_socket_path(), dir.join("atuin.sock"));
+crates/atuin-client/src/settings/daemon.rs:464:        assert_eq!(mode & 0o777, 0o700);
+crates/atuin-client/src/settings/daemon.rs:485:        assert_eq!(permissions, mode);

@@ -1,0 +1,19 @@
+crates/atuin-daemon/src/client.rs:177:        // TODO(markovejnovic): A more flexible implementation would be to iterate into chunks that
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:208:                // TODO(markovejnovic): @taylordotfish and I were wondering whether it is possible
+crates/atuin-daemon/src/grpc/history/mod.rs:76:/// TODO(markovejnovic): Is this a concern in the systemd case?
+crates/atuin-daemon/src/grpc/history/mod.rs:242:    /// TODO(markovejnovic): Revisit whether we need to hold this handle. It exists only to service
+crates/atuin-daemon/src/grpc/history/mod.rs:272:            // TODO(markovejnovic): Pull this from one constant, well-defined spot.
+crates/atuin-daemon/src/grpc/history/mod.rs:298:            // TODO(markovejnovic): Pull this from one constant, well-defined spot.
+crates/atuin-daemon/src/grpc/history/mod.rs:318:            // TODO(markovejnovic): Pull this from one constant, well-defined spot.
+crates/atuin-daemon/src/grpc/history/mod.rs:385:    /// TODO(markovejnovic): This probably doesn't belong in this service.
+crates/atuin-daemon/src/grpc/history/mod.rs:393:            // TODO(markovejnovic): Pull this from one constant, well-defined spot.
+crates/atuin-daemon/src/grpc/history/mod.rs:406:    /// TODO(markovejnovic): This probably doesn't belong in this service.
+crates/atuin-daemon/src/search/index.rs:136:            // TODO: It's very unlikely that we'll have more than 2^32 history entries, but if that
+crates/atuin-daemon/src/history_journal.rs:183:    /// TODO(markovejnovic): This probably shouldn't be injected in [`HistoryJournal`]. Perhaps a
+crates/atuin-daemon/src/history_journal.rs:385:        // TODO(markovejnovic): This is a little bit hacked-together. I'm thinking it would be good
+crates/atuin-daemon/src/history_journal.rs:398:        // TODO(#4052): This is inherently racy -- any add_history operations added between this
+crates/atuin-daemon/src/history_journal.rs:558:        // TODO(#4052): This is inherently racy -- any add_history operations added between this
+crates/atuin-daemon/src/history_journal.rs:566:                // TODO(markovejnovic): This is obviously incorrect behavior, keeping the previous
+crates/atuin-daemon/src/components/search.rs:121:        // TODO(#4052): This is inherently racy -- any add_history operations added between this
+crates/atuin-daemon/src/components/search.rs:284:                // TODO(#4052): This is inherently racy -- any add_history operations added between
+crates/atuin-daemon/src/components/search.rs:333:        // TODO(#4052): This is inherently racy -- any add_history operations added between this

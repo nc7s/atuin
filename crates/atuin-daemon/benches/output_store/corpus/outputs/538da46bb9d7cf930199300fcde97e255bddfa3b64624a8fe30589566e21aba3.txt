@@ -1,0 +1,19 @@
+3:use atuin_domain::api::{ErrorResponse, IndexResponse};
+11:pub mod health;
+12:pub mod user;
+13:pub mod v0;
+18:pub async fn index(state: State<AppState>) -> Json<IndexResponse> {
+29:impl fmt::Display for ErrorResponseStatus<'_> {
+30:    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+35:impl IntoResponse for ErrorResponseStatus<'_> {
+36:    fn into_response(self) -> axum::response::Response {
+41:pub struct ErrorResponseStatus<'a> {
+42:    pub error: ErrorResponse<'a>,
+43:    pub status: http::StatusCode,
+46:pub trait RespExt<'a> {
+47:    fn with_status(self, status: http::StatusCode) -> ErrorResponseStatus<'a>;
+48:    fn reply(reason: &'a str) -> Self;
+51:impl<'a> RespExt<'a> for ErrorResponse<'a> {
+52:    fn with_status(self, status: http::StatusCode) -> ErrorResponseStatus<'a> {
+53:        ErrorResponseStatus {
+59:    fn reply(reason: &'a str) -> Self {

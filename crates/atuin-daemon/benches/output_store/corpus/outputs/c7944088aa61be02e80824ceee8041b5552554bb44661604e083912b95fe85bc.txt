@@ -1,0 +1,20 @@
+1:#![allow(clippy::assertions_on_result_states)]
+12:            assert_eq!($stream.byte_offset(), 0);
+18:            assert_eq!($stream.byte_offset(), 0);
+25:            assert_eq!($stream.byte_offset(), 0);
+32:fn test_json_stream_newlines() {
+36:        assert_eq!(stream.next().unwrap().unwrap()["x"], 39);
+37:        assert_eq!(stream.byte_offset(), 8);
+39:        assert_eq!(stream.next().unwrap().unwrap()["x"], 40);
+40:        assert_eq!(stream.byte_offset(), 17);
+42:        assert_eq!(stream.next().unwrap().unwrap()["x"], 41);
+43:        assert_eq!(stream.byte_offset(), 25);
+45:        assert_eq!(stream.next().unwrap().unwrap()["x"], 42);
+46:        assert_eq!(stream.byte_offset(), 34);
+48:        assert!(stream.next().is_none());
+49:        assert_eq!(stream.byte_offset(), 34);
+54:fn test_json_stream_trailing_whitespaces() {
+58:        assert_eq!(stream.next().unwrap().unwrap()["x"], 42);
+59:        assert_eq!(stream.byte_offset(), 8);
+61:        assert!(stream.next().is_none());
+62:        assert_eq!(stream.byte_offset(), 11);

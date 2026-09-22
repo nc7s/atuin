@@ -1,0 +1,109 @@
+src/v8.rs:22:    /// assert_eq!(Some(Version::Custom), uuid.get_version());
+src/v8.rs:52:        assert_eq!(uuid.get_version(), Some(Version::Custom));
+src/v8.rs:53:        assert_eq!(uuid.get_variant(), Variant::RFC4122);
+src/v8.rs:54:        assert_eq!(uuid.get_version_num(), 8);
+src/v8.rs:55:        assert_eq!(
+src/parser.rs:69:    /// assert_eq!(Some(Version::Random), uuid.get_version());
+src/parser.rs:70:    /// assert_eq!(Variant::RFC4122, uuid.get_variant());
+src/parser.rs:102:    /// assert_eq!(Some(Version::Random), uuid.get_version());
+src/parser.rs:103:    /// assert_eq!(Variant::RFC4122, uuid.get_variant());
+src/parser.rs:130:    /// assert_eq!(Some(Version::Random), uuid.get_version());
+src/parser.rs:131:    /// assert_eq!(Variant::RFC4122, uuid.get_variant());
+src/parser.rs:340:        assert_eq!(from_hyphenated, from_simple);
+src/parser.rs:341:        assert_eq!(from_hyphenated, from_urn);
+src/v7.rs:52:    /// assert!(
+src/v7.rs:66:    /// assert!(uuid1 < uuid2);
+src/v7.rs:144:        assert_eq!(uuid.get_version(), Some(Version::SortRand));
+src/v7.rs:145:        assert_eq!(uuid.get_variant(), Variant::RFC4122);
+src/v7.rs:146:        assert!(uuid.hyphenated().to_string().starts_with("017f22e2-79b0-7"));
+src/v7.rs:151:        assert_eq!(uuid, parsed);
+src/v7.rs:163:        assert_eq!(uuid.get_version(), Some(Version::SortRand));
+src/v7.rs:164:        assert_eq!(uuid.get_variant(), Variant::RFC4122);
+src/non_nil.rs:109:    /// assert_eq!(uuid, uuid_again);
+src/non_nil.rs:140:        assert_eq!(
+src/non_nil.rs:150:        assert_eq!(Uuid::from(NonNilUuid::try_from(uuid).unwrap()), uuid);
+src/non_nil.rs:151:        assert_eq!(NonNilUuid::new(uuid).unwrap(), uuid);
+src/non_nil.rs:152:        assert_eq!(unsafe { NonNilUuid::new_unchecked(uuid) }, uuid);
+src/non_nil.rs:154:        assert!(NonNilUuid::try_from(Uuid::nil()).is_err());
+src/non_nil.rs:155:        assert!(NonNilUuid::new(Uuid::nil()).is_none());
+src/non_nil.rs:163:        assert_eq!(format!("{uuid}"), format!("{non_nil}"));
+src/v6.rs:63:    /// assert_eq!(
+src/v6.rs:79:    /// assert_eq!(
+src/v6.rs:122:        assert_eq!(uuid.get_version(), Some(Version::SortMac));
+src/v6.rs:123:        assert_eq!(uuid.get_variant(), Variant::RFC4122);
+src/v6.rs:124:        assert_eq!(
+src/v6.rs:131:        assert_eq!(ts.0 - 0x01B2_1DD2_1381_4000, 14_968_545_358_129_460);
+src/v6.rs:133:        assert_eq!(Some(node), uuid.get_node_id());
+src/v6.rs:138:        assert_eq!(
+src/v5.rs:24:    /// assert_eq!(Some(Version::Sha1), uuid.get_version());
+src/v5.rs:141:        assert_eq!(uuid.get_version(), Some(Version::Sha1));
+src/v5.rs:142:        assert_eq!(uuid.get_version_num(), 5);
+src/v5.rs:154:            assert_eq!(uuid.hyphenated().to_string(), expected)
+src/v5.rs:167:            assert_eq!(uuid.get_version(), Some(Version::Sha1));
+src/v5.rs:168:            assert_eq!(uuid.get_variant(), Variant::RFC4122);
+src/v5.rs:169:            assert_eq!(Ok(uuid), u.parse());
+src/v4.rs:24:    /// assert_eq!(Some(Version::Random), uuid.get_version());
+src/v4.rs:58:        assert_eq!(uuid.get_version(), Some(Version::Random));
+src/v4.rs:59:        assert_eq!(uuid.get_variant(), Variant::RFC4122);
+src/v4.rs:70:        assert_eq!(uuid.get_version(), Some(Version::Random));
+src/v4.rs:71:        assert_eq!(uuid.get_version_num(), 4)
+src/v1.rs:64:    /// assert_eq!(
+src/v1.rs:79:    /// assert_eq!(
+src/v1.rs:121:        assert_eq!(uuid.get_version(), Some(Version::Mac));
+src/v1.rs:122:        assert_eq!(uuid.get_variant(), Variant::RFC4122);
+src/v1.rs:123:        assert_eq!(
+src/v1.rs:130:        assert_eq!(ts.0 - 0x01B2_1DD2_1381_4000, 14_968_545_358_129_460);
+src/v1.rs:132:        assert_eq!(Some(node), uuid.get_node_id());
+src/v1.rs:137:        assert_eq!(
+src/lib.rs:399:/// assert_eq!(
+src/lib.rs:414:/// assert_eq!(
+src/lib.rs:508:    /// assert_eq!(Variant::RFC4122, my_uuid.get_variant());
+src/lib.rs:543:    /// assert_eq!(3, my_uuid.get_version_num());
+src/lib.rs:573:    /// assert_eq!(Some(Version::Md5), my_uuid.get_version());
+src/lib.rs:624:    /// assert_eq!(uuid.as_fields(), (0, 0, 0, &[0u8; 8]));
+src/lib.rs:628:    /// assert_eq!(
+src/lib.rs:671:    /// assert_eq!(
+src/v3.rs:25:    /// assert_eq!(Some(Version::Md5), uuid.get_version());
+src/v3.rs:142:            assert_eq!(uuid.get_version(), Some(Version::Md5));
+src/v3.rs:143:            assert_eq!(uuid.get_variant(), Variant::RFC4122);
+src/v3.rs:155:            assert_eq!(uuid.hyphenated().to_string(), expected);
+src/fmt.rs:337:    debug_assert_eq!(dst.len(), src.len());
+src/fmt.rs:404:    ///     assert_eq!(
+src/fmt.rs:413:    ///     assert_eq!(
+src/fmt.rs:475:    ///     assert_eq!(
+src/fmt.rs:484:    ///     assert_eq!(
+src/fmt.rs:526:    /// assert_eq!(*hyphenated.as_uuid(), Uuid::nil());
+src/fmt.rs:540:    /// assert_eq!(hyphenated.into_uuid(), Uuid::nil());
+src/fmt.rs:589:    ///     assert_eq!(
+src/timestamp.rs:583:                assert_eq!(16383, ts.counter);
+src/timestamp.rs:584:                assert_eq!(14, ts.usable_counter_bits);
+src/timestamp.rs:589:                assert_eq!(0, ts.counter);
+src/timestamp.rs:594:                assert_eq!(1, ts.counter);
+src/timestamp.rs:1086:                assert_eq!(42, ts1.usable_counter_bits);
+src/timestamp.rs:1095:                assert_eq!(ts1.seconds, ts2.seconds);
+src/timestamp.rs:1096:                assert_eq!(ts1.subsec_nanos, ts2.subsec_nanos);
+src/timestamp.rs:1097:                assert_eq!(ts1.counter + 1, ts2.counter);
+src/external/arbitrary_support.rs:42:        assert_eq!(Some(Version::Random), uuid.get_version());
+src/external/arbitrary_support.rs:43:        assert_eq!(Variant::RFC4122, uuid.get_variant());
+src/external/arbitrary_support.rs:53:        assert!(uuid.is_err());
+src/external/arbitrary_support.rs:63:        assert_eq!(Some(Version::Random), uuid.get_version());
+src/external/arbitrary_support.rs:64:        assert_eq!(Variant::RFC4122, uuid.get_variant());
+src/external/arbitrary_support.rs:65:        assert!(!uuid.is_nil());
+src/builder.rs:42:/// assert_eq!(Some(Version::Random), uuid.get_version());
+src/builder.rs:43:/// assert_eq!(Variant::RFC4122, uuid.get_variant());
+src/builder.rs:67:    /// assert_eq!(
+src/builder.rs:93:    /// assert_eq!(
+src/builder.rs:117:    /// assert_eq!(
+src/builder.rs:163:    /// assert_eq!(
+src/builder.rs:201:    /// assert_eq!(
+src/builder.rs:227:    /// assert_eq!(
+src/external/serde_support.rs:330:            serde_test::assert_tokens(
+src/external/serde_support.rs:427:            serde_test::assert_tokens(
+src/external/serde_support.rs:519:            serde_test::assert_ser_tokens(
+src/external/serde_support.rs:533:            serde_test::assert_de_tokens::<Struct>(
+src/external/serde_support.rs:550:            serde_test::assert_de_tokens_error::<Readable<Struct>>(
+src/external/serde_support.rs:647:            serde_test::assert_ser_tokens(
+src/external/serde_support.rs:661:            serde_test::assert_de_tokens::<Struct>(
+src/external/serde_support.rs:678:            serde_test::assert_de_tokens_error::<Readable<Struct>>(
+src/external/borsh_support.rs:12:        assert_eq!(uuid_bytes, borsh_bytes);
+src/external/borsh_support.rs:21:        assert_eq!(uuid_str, deserialized);

@@ -1,0 +1,4 @@
+1:use redb::{Database, Error, ReadableDatabase, TableDefinition};
+6:struct SomeKey {
+13:fn main() -> Result<(), Error> {
+28:    assert_eq!(table.get_owned(&key)?.unwrap().value(), 0);

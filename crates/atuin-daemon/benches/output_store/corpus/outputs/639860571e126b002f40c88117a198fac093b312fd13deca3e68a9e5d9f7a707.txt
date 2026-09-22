@@ -1,0 +1,5 @@
+3:impl Uuid {
+24:    /// assert_eq!(Some(Version::Sha1), uuid.get_version());
+36:    pub fn new_v5(namespace: &Uuid, name: &[u8]) -> Uuid {
+138:    fn test_get_version() {
+141:        assert_eq!(uuid.get_version(), Some(Version::Sha1));

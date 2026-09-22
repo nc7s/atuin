@@ -1,0 +1,5 @@
+6:    Database, DatabaseError, ReadableDatabase, StorageBackend, StorageError, TableDefinition,
+14:struct PatchBackend {
+18:impl PatchBackend {
+20:    fn recovery_required(&self) -> bool {
+25:    fn corrupt_first_occurrence(&self, needle: &[u8]) -> bool {

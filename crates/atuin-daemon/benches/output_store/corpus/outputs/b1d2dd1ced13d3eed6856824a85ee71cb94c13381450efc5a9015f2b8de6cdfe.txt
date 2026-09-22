@@ -1,0 +1,113 @@
+crates/atuin-daemon/src/client.rs:41:pub enum DaemonClientErrorKind {
+crates/atuin-daemon/src/client.rs:50:pub fn classify_error(error: &eyre::Report) -> DaemonClientErrorKind {
+crates/atuin-daemon/src/client.rs:52:        if cause.downcast_ref::<tonic::transport::Error>().is_some() {
+crates/atuin-daemon/src/client.rs:53:            return DaemonClientErrorKind::Connect;
+crates/atuin-daemon/src/client.rs:58:                Code::Unavailable => DaemonClientErrorKind::Unavailable,
+crates/atuin-daemon/src/client.rs:59:                Code::Unimplemented => DaemonClientErrorKind::Unimplemented,
+crates/atuin-daemon/src/client.rs:60:                _ => DaemonClientErrorKind::OtherGrpc,
+crates/atuin-daemon/src/client.rs:65:    DaemonClientErrorKind::NonGrpc
+crates/atuin-daemon/src/server.rs:122:                && e.kind() != std::io::ErrorKind::NotFound
+crates/atuin-daemon/src/events.rs:34:        /// Error message describing what went wrong.
+crates/atuin-daemon/src/daemon.rs:328:                Err(broadcast::error::RecvError::Lagged(n)) => {
+crates/atuin-daemon/src/daemon.rs:331:                Err(broadcast::error::RecvError::Closed) => {
+crates/atuin-daemon/src/output_capture/benchmark.rs:15:use super::{CaptureError, DeleteOutputError, GetOutputError};
+crates/atuin-daemon/src/output_capture/benchmark.rs:47:    ) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:54:    pub async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:61:    pub async fn remove(&self, ids: Vec<HistoryId>) -> Result<(), DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:69:    pub async fn reclaim(&self, bytes: u64) -> Result<u64, DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/mod.rs:8:pub use backend::{BackendKind, CaptureError, DeleteOutputError, GetOutputError};
+crates/atuin-daemon/src/output_capture/mod.rs:65:    ) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/mod.rs:69:    pub async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/mod.rs:80:    ) -> Result<(), DeleteOutputError> {
+crates/atuin-daemon/src/search/index.rs:31:#[derive(Debug, thiserror::Error)]
+crates/atuin-daemon/src/search/index.rs:33:pub struct LoadFromDbError(eyre::Report);
+crates/atuin-daemon/src/search/index.rs:384:    ) -> Result<Self, LoadFromDbError> {
+crates/atuin-daemon/src/search/index.rs:395:    pub async fn load_from_db(&self, db: &Sqlite) -> Result<(), LoadFromDbError> {
+crates/atuin-daemon/src/search/index.rs:404:    pub fn history_pages(db: &Sqlite) -> impl Stream<Item = Result<Vec<History>, LoadFromDbError>> {
+crates/atuin-daemon/src/search/index.rs:411:                    Err(e) => Err(LoadFromDbError(e.into())),
+crates/atuin-daemon/src/output_capture/backend/redb.rs:15:use super::{Backend, CaptureError, DeleteOutputError, GetOutputError};
+crates/atuin-daemon/src/output_capture/backend/redb.rs:64:    ) -> Result<u64, DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:92:    async fn capture(&self, id: HistoryId, capture: CommandCapture) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:95:            .map_err(|err| CaptureError::Serialize(Box::new(err)))?;
+crates/atuin-daemon/src/output_capture/backend/redb.rs:103:                    return Err(CaptureError::AlreadyExists);
+crates/atuin-daemon/src/output_capture/backend/redb.rs:114:    async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:129:    async fn remove(&self, ids: Vec<HistoryId>) -> Result<(), DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:151:fn capture_error(error: impl std::error::Error + Send + Sync + 'static) -> CaptureError {
+crates/atuin-daemon/src/output_capture/backend/mod.rs:14:use thiserror::Error;
+crates/atuin-daemon/src/output_capture/backend/mod.rs:16:pub type BackendError = Box<dyn std::error::Error + Send + Sync + 'static>;
+crates/atuin-daemon/src/output_capture/backend/mod.rs:18:#[derive(Debug, Error)]
+crates/atuin-daemon/src/output_capture/backend/mod.rs:19:pub enum CaptureError {
+crates/atuin-daemon/src/output_capture/backend/mod.rs:23:    Storage(#[source] BackendError),
+crates/atuin-daemon/src/output_capture/backend/mod.rs:25:    Serialize(#[source] BackendError),
+crates/atuin-daemon/src/output_capture/backend/mod.rs:28:#[derive(Debug, Error)]
+crates/atuin-daemon/src/output_capture/backend/mod.rs:29:pub enum GetOutputError {
+crates/atuin-daemon/src/lib.rs:30:    CmdCancelError, CmdDeleteError, CmdEvent, CmdFinishError, CmdRebuildError, FinishedCmd,
+crates/atuin-daemon/src/lib.rs:31:    GetCmdInFlightError, HistoryJournal, RegisterOutputError,
+crates/atuin-daemon/src/lib.rs:36:    BackendKind, CaptureError, DeleteOutputError, GetOutputError, OutputCapture,
+crates/atuin-daemon/src/output_capture/backend/nop.rs:3:use super::{Backend, CaptureError, DeleteOutputError, GetOutputError};
+crates/atuin-daemon/src/output_capture/backend/nop.rs:10:    async fn capture(&self, _id: HistoryId, _capture: CommandCapture) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/backend/nop.rs:14:    async fn get(&self, _id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/backend/nop.rs:18:    async fn remove(&self, _ids: Vec<HistoryId>) -> Result<(), DeleteOutputError> {
+crates/atuin-daemon/src/components/search.rs:84:    ) -> Result<(), eyre::Error> {
+crates/atuin-daemon/src/history_journal.rs:101:use crate::output_capture::{CaptureError, GetOutputError, OutputCapture};
+crates/atuin-daemon/src/history_journal.rs:223:/// Errors returned by [`HistoryJournal::finish`].
+crates/atuin-daemon/src/history_journal.rs:224:#[derive(Debug, thiserror::Error)]
+crates/atuin-daemon/src/history_journal.rs:225:pub enum CmdFinishError {
+crates/atuin-daemon/src/history_journal.rs:234:/// Errors returned by [`HistoryJournal::delete`].
+crates/atuin-daemon/src/history_journal.rs:235:#[derive(Debug, thiserror::Error)]
+crates/atuin-daemon/src/history_journal.rs:236:pub enum CmdDeleteError {
+crates/atuin-daemon/src/history_journal.rs:243:/// Errors returned by [`HistoryJournal::rebuild`].
+crates/atuin-daemon/src/output_capture/backend/fjall/benchmark.rs:11:use crate::output_capture::DeleteOutputError;
+crates/atuin-daemon/src/output_capture/backend/fjall/benchmark.rs:42:    ) -> Result<u64, DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/backend/failing.rs:3:use super::{Backend, BackendError, CaptureError, DeleteOutputError, GetOutputError};
+crates/atuin-daemon/src/output_capture/backend/failing.rs:13:fn unavailable() -> BackendError {
+crates/atuin-daemon/src/output_capture/backend/failing.rs:18:    async fn capture(&self, _id: HistoryId, _capture: CommandCapture) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/backend/failing.rs:19:        Err(CaptureError::Storage(unavailable()))
+crates/atuin-daemon/src/output_capture/backend/failing.rs:22:    async fn get(&self, _id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/backend/failing.rs:23:        Err(GetOutputError::Storage(unavailable()))
+crates/atuin-daemon/src/output_capture/backend/failing.rs:26:    async fn remove(&self, _ids: Vec<HistoryId>) -> Result<(), DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/backend/failing.rs:27:        Err(DeleteOutputError::Storage(unavailable()))
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:29:use super::{Backend, CaptureError, DeleteOutputError, GetOutputError};
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:64:    async fn capture(&self, id: HistoryId, capture: CommandCapture) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:70:            .map_err(|err| CaptureError::Serialize(Box::new(err)))?;
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:73:            let mut tx = db.write_tx().map_err(|err| CaptureError::Storage(Box::new(err)))?;
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:76:                .map_err(|err| CaptureError::Storage(Box::new(err)))?
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:78:                return Err(CaptureError::AlreadyExists);
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:82:            match tx.commit().map_err(|err| CaptureError::Storage(Box::new(err)))? {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:88:                Err(fjall::Conflict) => Err(CaptureError::AlreadyExists),
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:4:use atuin_common::rmp::decode::{self, Bytes, DecodeError};
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:5:use atuin_common::rmp::encode::{self, ByteBuf, EncodeError};
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:18:    type KeySerializationError = Infallible;
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:22:    type ValueSerializationError = EncodeError;
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:23:    type ValueDeserializationError = DecodeError<'static>;
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:25:    fn serialize_key(key: Self::Key) -> Result<Self::KeySerialized, Self::KeySerializationError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:31:    ) -> Result<Self::ValueSerialized, Self::ValueSerializationError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:44:    ) -> Result<Self::Value, Self::ValueDeserializationError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/mod.rs:27:    /// Error thrown when trying to serialize keys.
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/mod.rs:28:    type KeySerializationError;
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/mod.rs:36:    /// Errors thrown when trying to serialize values.
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/mod.rs:37:    type ValueSerializationError;
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/mod.rs:39:    /// Errors thrown when trying to deserialize values.
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/mod.rs:40:    type ValueDeserializationError;
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/mod.rs:47:    fn serialize_key(key: Self::Key) -> Result<Self::KeySerialized, Self::KeySerializationError>;
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/mod.rs:52:    ) -> Result<Self::ValueSerialized, Self::ValueSerializationError>;
+crates/atuin-daemon/src/grpc/mod.rs:31:/// Mark a [`thiserror::Error`] type as an invalid argument error.
+crates/atuin-daemon/src/grpc/mod.rs:47:/// Mark a [`thiserror::Error`] type as an internal error.
+crates/atuin-daemon/src/grpc/common/mod.rs:7:use thiserror::Error;
+crates/atuin-daemon/src/grpc/common/mod.rs:12:#[derive(Debug, Error)]
+crates/atuin-daemon/src/grpc/common/mod.rs:14:pub struct TooManyItemsError(pub usize);
+crates/atuin-daemon/src/grpc/common/mod.rs:17:#[derive(Debug, Error)]
+crates/atuin-daemon/src/grpc/common/mod.rs:18:pub enum CollectCappedError<E> {
+crates/atuin-daemon/src/grpc/common/mod.rs:21:    TooMany(TooManyItemsError),
+crates/atuin-daemon/src/grpc/common/mod.rs:30:impl<E> From<CollectCappedError<E>> for Status
+crates/atuin-daemon/src/grpc/common/mod.rs:32:    E: std::error::Error + Into<Self>,
+crates/atuin-daemon/src/grpc/history/mod.rs:12:use tokio_stream::wrappers::errors::BroadcastStreamRecvError;
+crates/atuin-daemon/src/grpc/history/mod.rs:373:                    Err(BroadcastStreamRecvError::Lagged(dropped)) => {
+crates/atuin-daemon/src/grpc/history/pb.rs:16:use atuin_domain::record::{CmdOrigin, CmdOriginParseError};
+crates/atuin-daemon/src/grpc/history/pb.rs:20:use thiserror::Error;
+crates/atuin-daemon/src/grpc/history/pb.rs:25:use crate::grpc::common::{CollectCappedError, TryCollectResultsCappedExt};
+crates/atuin-daemon/src/grpc/history/pb.rs:27:    CmdCancelError, CmdDeleteError, CmdEvent, CmdFinishError, CmdRebuildError, GetCmdInFlightError,
+crates/atuin-daemon/src/grpc/history/pb.rs:28:    RegisterOutputError,
+crates/atuin-daemon/src/grpc/history/pb.rs:30:use crate::output_capture::{CaptureError, GetOutputError};
+crates/atuin-daemon/src/grpc/history/pb.rs:42:/// Errors thrown parsing the [`HistoryId`].
+crates/atuin-daemon/src/grpc/history/pb.rs:43:#[derive(Debug, Error)]

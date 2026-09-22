@@ -1,0 +1,4 @@
+1:use redb::{Database, Error, TableDefinition};
+7:fn main() -> Result<(), Error> {
+27:        let h = std::thread::spawn(move || -> Result<(), Error> {
+44:        let h = std::thread::spawn(move || -> Result<(), Error> {

@@ -1,0 +1,67 @@
+src/v8.rs:3:impl Uuid {
+src/parser.rs:25:impl str::FromStr for Uuid {
+src/parser.rs:33:impl TryFrom<&'_ str> for Uuid {
+src/parser.rs:42:impl TryFrom<String> for Uuid {
+src/parser.rs:50:impl Uuid {
+src/v7.rs:10:impl Uuid {
+src/v7.rs:212:        impl ClockSequence for MaxContext {
+src/non_nil.rs:38:impl fmt::Debug for NonNilUuid {
+src/non_nil.rs:44:impl fmt::Display for NonNilUuid {
+src/non_nil.rs:50:impl PartialEq<Uuid> for NonNilUuid {
+src/non_nil.rs:56:impl PartialEq<NonNilUuid> for Uuid {
+src/non_nil.rs:62:impl PartialOrd<Uuid> for NonNilUuid {
+src/non_nil.rs:68:impl PartialOrd<NonNilUuid> for Uuid {
+src/non_nil.rs:74:impl NonNilUuid {
+src/non_nil.rs:99:impl From<NonNilUuid> for Uuid {
+src/v6.rs:8:impl Uuid {
+src/v5.rs:3:impl Uuid {
+src/v4.rs:3:impl Uuid {
+src/lib.rs:468:impl Uuid {
+src/lib.rs:951:impl Hash for Uuid {
+src/lib.rs:957:impl Default for Uuid {
+src/lib.rs:964:impl AsRef<Uuid> for Uuid {
+src/lib.rs:971:impl AsRef<[u8]> for Uuid {
+src/lib.rs:979:impl From<Uuid> for std::vec::Vec<u8> {
+src/lib.rs:986:impl TryFrom<std::vec::Vec<u8>> for Uuid {
+src/lib.rs:1065:    pub fn some_uuid_iter() -> impl Iterator<Item = Uuid> {
+src/v3.rs:3:impl Uuid {
+src/fmt.rs:24:impl std::fmt::Debug for Uuid {
+src/fmt.rs:31:impl fmt::Display for Uuid {
+src/fmt.rs:38:impl From<Uuid> for String {
+src/fmt.rs:44:impl fmt::Display for Variant {
+src/fmt.rs:55:impl fmt::LowerHex for Uuid {
+src/fmt.rs:61:impl fmt::UpperHex for Uuid {
+src/fmt.rs:132:impl Uuid {
+src/fmt.rs:362:impl Hyphenated {
+src/v1.rs:12:impl Uuid {
+src/rng.rs:34:    impl Rng for RngImp {
+src/rng.rs:53:    impl Rng for RngImp {
+src/rng.rs:111:    impl Rng for RngImp {
+src/rng.rs:130:    impl Rng for RngImp {
+src/rng.rs:178:    impl Rng for RngImp {
+src/timestamp.rs:50:impl Timestamp {
+src/timestamp.rs:55:    pub fn now(context: impl ClockSequence<Output = impl Into<u128>>) -> Self {
+src/timestamp.rs:107:        context: impl ClockSequence<Output = impl Into<u128>>,
+src/timestamp.rs:167:impl Timestamp {
+src/timestamp.rs:199:impl TryFrom<std::time::SystemTime> for Timestamp {
+src/timestamp.rs:223:impl From<Timestamp> for std::time::SystemTime {
+src/timestamp.rs:527:        impl ContextV1 {
+src/timestamp.rs:548:        impl ClockSequence for ContextV1 {
+src/external/slog_support.rs:14:impl slog::Value for Uuid {
+src/external/slog_support.rs:25:impl slog::Value for NonNilUuid {
+src/external/arbitrary_support.rs:5:impl Arbitrary<'_> for Uuid {
+src/external/arbitrary_support.rs:19:impl arbitrary::Arbitrary<'_> for NonNilUuid {
+src/external/serde_support.rs:26:impl Serialize for Uuid {
+src/external/serde_support.rs:36:impl Serialize for NonNilUuid {
+src/external/serde_support.rs:45:impl Serialize for Hyphenated {
+src/external/serde_support.rs:51:impl Serialize for Simple {
+src/external/serde_support.rs:57:impl Serialize for Urn {
+src/external/serde_support.rs:63:impl Serialize for Braced {
+src/external/serde_support.rs:149:impl UuidDeserialize for Uuid {
+src/external/serde_support.rs:178:impl UuidDeserialize for Braced {
+src/error.rs:171:// NOTE: This impl is part of the public API. Breaking changes to it should be carefully considered
+src/error.rs:172:impl fmt::Display for Error {
+src/error.rs:206:impl crate::std::error::Error for Error {}
+src/builder.rs:49:impl Uuid {
+src/builder.rs:443:impl Builder {
+src/builder.rs:858:impl Builder {

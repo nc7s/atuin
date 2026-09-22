@@ -1,0 +1,5 @@
+8:use crate::{DatabaseError, Result, StorageError};
+82:fn get_u32(data: &[u8]) -> u32 {
+86:fn get_u64(data: &[u8]) -> u64 {
+91:pub(super) struct UnrepairedDatabaseHeader {
+98:pub(super) struct DatabaseHeader {

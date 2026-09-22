@@ -1,0 +1,38 @@
+crates/atuin-daemon/src/output_capture/mod.rs:112:        assert_eq!(store.kind(), BackendKind::Fjall);
+crates/atuin-daemon/src/output_capture/mod.rs:114:        assert_eq!(store.get(hid(1)).await.expect("get").expect("present").output_start, "hello");
+crates/atuin-daemon/src/output_capture/mod.rs:125:        assert_eq!(store.kind(), BackendKind::Nop);
+crates/atuin-daemon/src/output_capture/mod.rs:127:        assert!(store.get(hid(1)).await.expect("get").is_none());
+crates/atuin-daemon/src/output_capture/mod.rs:134:        assert_eq!(store.kind(), BackendKind::Nop);
+crates/atuin-daemon/src/output_capture/mod.rs:137:        assert!(store.get(hid(1)).await.expect("get").is_none());
+crates/atuin-daemon/src/output_capture/mod.rs:147:        assert!(store.get(hid(1)).await.expect("get").is_none());
+crates/atuin-daemon/src/history_journal.rs:709:        assert_eq!(deleted, 1);
+crates/atuin-daemon/src/history_journal.rs:710:        assert!(journal.history_db.load(id).await.unwrap().is_none());
+crates/atuin-daemon/src/search/index.rs:653:        assert!(recent.compute(now, 1.0, 1.0) > 100); // High score
+crates/atuin-daemon/src/search/index.rs:660:        assert!(old.compute(now, 1.0, 1.0) < recent.compute(now, 1.0, 1.0));
+crates/atuin-daemon/src/search/index.rs:668:        assert!(frequent_old.compute(now, 1.0, 1.0) > 50);
+crates/atuin-daemon/src/search/index.rs:685:        assert!(double_recency > default_score);
+crates/atuin-daemon/src/search/index.rs:689:        assert!(double_frequency > default_score);
+crates/atuin-daemon/src/search/index.rs:693:        assert!(no_recency < default_score);
+crates/atuin-daemon/src/search/index.rs:697:        assert!(no_frequency < default_score);
+crates/atuin-daemon/src/search/index.rs:701:        assert_eq!(no_score, 0);
+crates/atuin-daemon/src/grpc/history/pb.rs:533:        assert_eq!(ids, vec![
+crates/atuin-daemon/src/grpc/history/pb.rs:546:        assert!(matches!(err, CollectCappedError::Item(IdParseError::MissingUuid)));
+crates/atuin-daemon/src/grpc/history/pb.rs:547:        assert_eq!(Status::from(err).code(), Code::InvalidArgument);
+crates/atuin-daemon/src/grpc/history/pb.rs:556:        assert!(matches!(err, CollectCappedError::TooMany(TooManyItemsError(2))));
+crates/atuin-daemon/src/grpc/history/pb.rs:557:        assert_eq!(Status::from(err).code(), Code::InvalidArgument);
+crates/atuin-daemon/src/grpc/history/pb.rs:601:        assert_eq!(capture.output_start, "hello");
+crates/atuin-daemon/src/grpc/history/pb.rs:602:        assert!(capture.meta.is_some());
+crates/atuin-daemon/src/grpc/history/pb.rs:618:        assert_eq!(Status::from(err).code(), Code::InvalidArgument);
+crates/atuin-daemon/src/grpc/common/mod.rs:109:        assert_eq!(got, vec![1, 2, 3]);
+crates/atuin-daemon/src/grpc/common/mod.rs:121:        assert!(matches!(err, CollectCappedError::TooMany(TooManyItemsError(3))));
+crates/atuin-daemon/src/grpc/common/mod.rs:129:        assert!(matches!(err, CollectCappedError::Item(BadItem(2))));
+crates/atuin-daemon/src/grpc/common/mod.rs:140:                assert_eq!(status.code(), Code::Internal);
+crates/atuin-daemon/src/grpc/common/mod.rs:141:                assert_eq!(status.message(), "boom");
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:375:        assert_eq!(got.output_start, "hello");
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:376:        assert_eq!(got.output_observed_bytes, 5);
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:399:        assert_eq!(got, capture);
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:402:        assert_eq!(got.output_end.as_deref(), Some("last lines"));
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:403:        assert_eq!(got.output_observed_bytes, 10_000, "the observed count is not the kept count");
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:417:        assert_eq!(split.output_end.as_deref(), Some(""));
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:418:        assert_eq!(whole.output_end, None);
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:425:        assert!(store.get(hid(9)).await.expect("get").is_none());

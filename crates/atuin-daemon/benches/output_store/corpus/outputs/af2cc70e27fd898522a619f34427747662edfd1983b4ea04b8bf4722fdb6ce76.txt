@@ -1,0 +1,1 @@
+12 tests/regression/issue1004.rs

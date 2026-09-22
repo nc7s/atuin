@@ -1,0 +1,1 @@
+src/error.rs:58:    // TODO: Remove this method entirely on the next breaking semver release.

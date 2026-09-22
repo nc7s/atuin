@@ -1,0 +1,64 @@
+src/frame/mod.rs:34:/// Errors that can occur when de/compressing lz4.
+src/frame/mod.rs:35:pub enum Error {
+src/frame/mod.rs:37:    CompressionError(crate::block::CompressError),
+src/frame/mod.rs:39:    DecompressionError(crate::block::DecompressError),
+src/frame/mod.rs:40:    /// An io::Error was encountered.
+src/frame/mod.rs:41:    IoError(io::Error),
+src/frame/mod.rs:55:    HeaderChecksumError,
+src/frame/mod.rs:57:    BlockChecksumError,
+src/frame/header.rs:3:use super::Error;
+src/frame/header.rs:194:    pub(crate) fn read_size(input: &[u8]) -> Result<usize, Error> {
+src/frame/header.rs:209:            return Err(Error::WrongMagicNumber);
+src/frame/header.rs:232:    pub(crate) fn write(&self, output: &mut [u8]) -> Result<usize, Error> {
+src/frame/header.rs:235:            return Err(Error::IoError(io::ErrorKind::UnexpectedEof.into()));
+src/frame/header.rs:277:    pub(crate) fn read(mut input: &[u8]) -> Result<FrameInfo, Error> {
+src/frame/header.rs:296:            return Err(Error::SkippableFrame(user_data_len));
+src/frame/header.rs:299:            return Err(Error::WrongMagicNumber);
+src/frame/decompress.rs:4:    io::{self, BufRead, ErrorKind},
+src/frame/decompress.rs:13:use super::Error;
+src/frame/decompress.rs:109:    fn read_frame_info(&mut self) -> Result<usize, io::Error> {
+src/frame/decompress.rs:141:            return Err(Error::DictionaryNotSupported.into());
+src/frame/decompress.rs:171:    fn read_checksum(r: &mut R) -> Result<u32, io::Error> {
+src/frame/decompress.rs:179:    fn check_block_checksum(data: &[u8], expected_checksum: u32) -> Result<(), io::Error> {
+src/frame/decompress.rs:184:            return Err(Error::BlockChecksumError.into());
+src/frame/decompress.rs:234:                if err.kind() == ErrorKind::UnexpectedEof {
+src/frame/compress.rs:16:use super::Error;
+src/frame/compress.rs:123:    /// Errors on drop get silently ignored. If you want to handle errors then use [`finish()`] or
+src/frame/compress.rs:166:    pub fn finish(mut self) -> Result<W, Error> {
+src/frame/compress.rs:173:    pub fn try_finish(&mut self) -> Result<(), Error> {
+src/frame/compress.rs:209:    fn end_frame(&mut self) -> Result<(), Error> {
+src/frame/compress.rs:214:                return Err(Error::ContentLengthError {
+src/frame/compress.rs:301:        let (block_info, block_data) = match compress_result.map_err(Error::CompressionError)? {
+src/frame/compress.rs:411:/// Errors on drop get silently ignored. If you want to handle errors then use [`finish()`] or
+src/block/decompress_safe.rs:3:use crate::block::DecompressError;
+src/block/decompress_safe.rs:28:pub(super) fn read_integer(input: &[u8], input_pos: &mut usize) -> Result<usize, DecompressError> {
+src/block/decompress_safe.rs:37:            .ok_or(DecompressError::ExpectedAnotherByte)?;
+src/block/decompress_safe.rs:55:fn read_match_offset(input: &[u8], input_pos: &mut usize) -> Result<u16, DecompressError> {
+src/block/decompress_safe.rs:58:        .ok_or(DecompressError::ExpectedAnotherByte)?;
+src/block/decompress_safe.rs:62:        Err(DecompressError::OffsetZero)
+src/block/decompress_safe.rs:97:) -> Result<usize, DecompressError> {
+src/block/decompress_safe.rs:124:            .ok_or(DecompressError::ExpectedAnotherByte)?;
+src/block/mod.rs:33:use core::{error::Error, fmt};
+src/block/mod.rs:82:pub enum DecompressError {
+src/block/mod.rs:102:/// Errors that can happen during compression.
+src/block/mod.rs:103:pub enum CompressError {
+src/block/mod.rs:108:impl fmt::Display for DecompressError {
+src/block/mod.rs:111:            DecompressError::OutputTooSmall { expected, actual } => {
+src/block/mod.rs:118:            DecompressError::LiteralOutOfBounds => {
+src/block/mod.rs:121:            DecompressError::ExpectedAnotherByte => {
+src/block/compress.rs:25:use super::{CompressError, WINDOW_SIZE};
+src/block/compress.rs:325:) -> Result<usize, CompressError> {
+src/block/compress.rs:339:        return Err(CompressError::OutputTooSmall);
+src/block/compress.rs:558:) -> Result<usize, CompressError> {
+src/block/compress.rs:581:) -> Result<usize, CompressError> {
+src/block/compress.rs:614:pub fn compress_into(input: &[u8], output: &mut [u8]) -> Result<usize, CompressError> {
+src/block/compress.rs:629:) -> Result<usize, CompressError> {
+src/block/compress.rs:772:) -> Result<usize, CompressError> {
+src/block/decompress.rs:2:use crate::block::{DecompressError, MINMATCH};
+src/block/decompress.rs:129:) -> Result<usize, DecompressError> {
+src/block/decompress.rs:140:                return Err(DecompressError::ExpectedAnotherByte);
+src/block/decompress.rs:161:fn read_match_offset(input_ptr: &mut *const u8) -> Result<u16, DecompressError> {
+src/block/decompress.rs:170:        Err(DecompressError::OffsetZero)
+src/block/decompress.rs:205:) -> Result<usize, DecompressError> {
+src/block/decompress.rs:208:        return Err(DecompressError::ExpectedAnotherByte);
+src/block/decompress.rs:288:                return Err(DecompressError::OffsetOutOfBounds);

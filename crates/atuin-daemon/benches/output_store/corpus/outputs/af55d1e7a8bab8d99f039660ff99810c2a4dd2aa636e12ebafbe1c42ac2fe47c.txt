@@ -1,0 +1,5 @@
+4:    io::{self, BufRead, ErrorKind},
+13:use super::Error;
+48:pub struct FrameDecoder<R: io::Read> {
+76:    pub fn new(rdr: R) -> FrameDecoder<R> {
+92:    pub fn get_ref(&self) -> &R {

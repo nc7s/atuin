@@ -1,0 +1,10 @@
+tests/test.rs:27:use serde::ser::{self, SerializeMap, SerializeSeq, Serializer};
+tests/test.rs:28:use serde::{Deserialize, Serialize};
+tests/test.rs:65:#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+tests/test.rs:74:#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+tests/test.rs:81:#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+tests/test.rs:88:    T: PartialEq + Debug + ser::Serialize,
+tests/test.rs:104:    T: PartialEq + Debug + ser::Serialize,
+tests/test.rs:577:    #[derive(Serialize, PartialEq, Debug)]
+tests/regression/issue520.rs:3:use serde_derive::{Deserialize, Serialize};
+tests/regression/issue520.rs:5:#[derive(Serialize, Deserialize, Debug)]

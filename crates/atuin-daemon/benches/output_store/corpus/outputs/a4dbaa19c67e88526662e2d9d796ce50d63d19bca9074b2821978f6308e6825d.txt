@@ -1,0 +1,65 @@
+src/non_nil.rs:7:    error::{Error, ErrorKind},
+src/non_nil.rs:117:    type Error = Error;
+src/non_nil.rs:127:    fn try_from(uuid: Uuid) -> Result<Self, Self::Error> {
+src/non_nil.rs:130:            .ok_or(Error(ErrorKind::Nil))
+src/lib.rs:179://! # fn main() -> Result<(), uuid::Error> {
+src/lib.rs:282:pub use crate::{builder::Builder, error::Error, non_nil::NonNilUuid};
+src/lib.rs:359:/// # fn main() -> Result<(), uuid::Error> {
+src/lib.rs:396:/// # fn main() -> Result<(), uuid::Error> {
+src/lib.rs:411:/// # fn main() -> Result<(), uuid::Error> {
+src/lib.rs:505:    /// # fn main() -> Result<(), uuid::Error> {
+src/lib.rs:540:    /// # fn main() -> Result<(), uuid::Error> {
+src/lib.rs:570:    /// # fn main() -> Result<(), uuid::Error> {
+src/timestamp.rs:200:    type Error = crate::Error;
+src/timestamp.rs:206:    fn try_from(st: std::time::SystemTime) -> Result<Self, Self::Error> {
+src/timestamp.rs:208:            crate::Error(crate::error::ErrorKind::InvalidSystemTime(
+src/fmt.rs:18:    Error, Uuid, Variant,
+src/fmt.rs:400:    /// fn main() -> Result<(), uuid::Error> {
+src/fmt.rs:471:    /// fn main() -> Result<(), uuid::Error> {
+src/fmt.rs:585:    /// fn main() -> Result<(), uuid::Error> {
+src/fmt.rs:656:    /// fn main() -> Result<(), uuid::Error> {
+src/fmt.rs:769:    /// fn main() -> Result<(), uuid::Error> {
+src/fmt.rs:837:    /// fn main() -> Result<(), uuid::Error> {
+src/fmt.rs:953:    /// fn main() -> Result<(), uuid::Error> {
+src/rng.rs:58:                // NB: getrandom::Error has no source; this is adequate display
+src/rng.rs:69:                // NB: getrandom::Error has no source; this is adequate display
+src/rng.rs:80:                // NB: getrandom::Error has no source; this is adequate display
+src/rng.rs:135:                // NB: getrandom::Error has no source; this is adequate display
+src/rng.rs:146:                // NB: getrandom::Error has no source; this is adequate display
+src/rng.rs:157:                // NB: getrandom::Error has no source; this is adequate display
+src/error.rs:5:pub struct Error(pub(crate) ErrorKind);
+src/error.rs:8:pub(crate) enum ErrorKind {
+src/error.rs:61:    pub fn into_err(self) -> Error {
+src/error.rs:64:            return Error(ErrorKind::ParseLength { len: self.0.len() });
+src/error.rs:70:            Err(_) => return Error(ErrorKind::ParseInvalidUTF8),
+src/error.rs:82:                    return Error(ErrorKind::ParseChar { character, index });
+src/error.rs:87:                    return Error(ErrorKind::ParseChar { character, index });
+src/error.rs:95:                return Error(ErrorKind::ParseChar {
+src/parser.rs:26:    type Err = Error;
+src/parser.rs:34:    type Error = Error;
+src/parser.rs:36:    fn try_from(uuid_str: &'_ str) -> Result<Self, Self::Error> {
+src/parser.rs:43:    type Error = Error;
+src/parser.rs:45:    fn try_from(uuid_str: String) -> Result<Self, Self::Error> {
+src/parser.rs:66:    /// # fn main() -> Result<(), uuid::Error> {
+src/parser.rs:76:    pub fn parse_str(input: &str) -> Result<Uuid, Error> {
+src/parser.rs:99:    /// # fn main() -> Result<(), uuid::Error> {
+src/builder.rs:260:    /// # Errors
+src/builder.rs:269:    /// # fn main() -> Result<(), uuid::Error> {
+src/builder.rs:287:    pub fn from_slice(b: &[u8]) -> Result<Uuid, Error> {
+src/builder.rs:289:            return Err(Error(ErrorKind::ParseByteLength { len: b.len() }));
+src/builder.rs:301:    /// # Errors
+src/builder.rs:310:    /// # fn main() -> Result<(), uuid::Error> {
+src/builder.rs:328:    pub fn from_slice_le(b: &[u8]) -> Result<Uuid, Error> {
+src/builder.rs:330:            return Err(Error(ErrorKind::ParseByteLength { len: b.len() }));
+src/external/slog_support.rs:20:    ) -> Result<(), slog::Error> {
+src/external/slog_support.rs:31:    ) -> Result<(), slog::Error> {
+src/external/arbitrary_support.rs:10:            .map_err(|_| arbitrary::Error::NotEnoughData)?;
+src/external/arbitrary_support.rs:22:        Self::try_from(uuid).map_err(|_| arbitrary::Error::IncorrectFormat)
+src/external/serde_support.rs:22:    de::{self, Error as _},
+src/external/serde_support.rs:27:    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+src/external/serde_support.rs:37:    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+src/external/serde_support.rs:46:    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+src/external/serde_support.rs:52:    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+src/external/serde_support.rs:58:    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+src/external/serde_support.rs:64:    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+src/external/serde_support.rs:81:    fn visit_str<E: de::Error>(self, value: &str) -> Result<T, E> {

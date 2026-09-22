@@ -1,0 +1,157 @@
+src/types.rs:29:        match self {
+src/types.rs:38:        match value {
+src/types.rs:54:    // match on open. That old spelling is ambiguous for colliding user and built-in composites.
+src/types.rs:308:        match data[0] {
+src/types.rs:319:        match value {
+src/types.rs:356:        match data[0] {
+src/types.rs:427:        Some(match T::fixed_width() {
+src/types.rs:737:// match `10xx_xxxx`, so this needs no deserialization, unlike `str::is_char_boundary()`.
+src/multimap_table.rs:189:        Ok(match collection.value().collection_type() {
+src/multimap_table.rs:220:        Ok(match collection.value().collection_type() {
+src/multimap_table.rs:268:        let guard = match self.inner.as_mut().unwrap() {
+src/multimap_table.rs:269:            ValueIterState::Subtree(iter) => match iter.next()? {
+src/multimap_table.rs:292:        let guard = match self.inner.as_mut().unwrap() {
+src/multimap_table.rs:293:            ValueIterState::Subtree(iter) => match iter.next_back()? {
+src/multimap_table.rs:363:        match self.inner.next()? {
+src/multimap_table.rs:384:        match self.inner.next_back()? {
+src/table.rs:1266:        match self {
+src/table.rs:1278:        match self {
+src/table.rs:1294:        match self {
+src/table.rs:1307:        match self {
+src/table.rs:1325:        match self {
+src/table.rs:1459:    match bound {
+src/table.rs:1598:        match self.inner.peek_next() {
+src/table.rs:1616:        match self.inner.peek_prev() {
+src/tuple_types.rs:61:    match T::compare(data1, data2) {
+src/tuple_types.rs:101:        match (self.min_encoded_key)() {
+src/tuple_types.rs:204:    match types[index].between(left_elements[index], right_elements[index]) {
+src/tuple_types.rs:220:    match encode_if_shorter(&types, &elements, left) {
+src/tuple_types.rs:803:            match (data1 == WIDE_MINIMUM, data2 == WIDE_MINIMUM) {
+src/error.rs:34:        match err {
+src/error.rs:51:        match self {
+src/error.rs:60:        match self {
+src/error.rs:100:        match err {
+src/error.rs:109:        match err {
+src/error.rs:125:        match self {
+src/error.rs:170:    TableTypeMismatch {
+src/error.rs:184:    /// Table name does not match any table in database
+src/sync.rs:123:            match self.try_lock() {
+src/tree_store/table_tree_base.rs:33:        match self {
+src/tree_store/table_tree_base.rs:45:        match value {
+src/tree_store/table_tree_base.rs:83:        match table_type {
+src/tree_store/table_tree_base.rs:108:        match self {
+src/tree_store/table_tree_base.rs:172:            return Err(TableError::TableTypeMismatch {
+src/tree_store/table_tree_base.rs:205:        match self {
+src/tree_store/table_tree_base.rs:243:        let relocated_root = match self {
+src/tree_store/table_tree_base.rs:283:        match self {
+src/complex_types.rs:23:    match data[0] {
+src/tree_store/btree_iters.rs:83:        let page = match self.manager.get_page(page_number, self.hint) {
+src/tree_store/btree_iters.rs:87:        match page.memory()[0] {
+src/tree_store/btree_iters.rs:121:    match (lower, upper) {
+src/tree_store/btree_cursor.rs:49:        let child_index = match direction {
+src/tree_store/btree_cursor.rs:75:        match bound {
+src/tree_store/btree_cursor.rs:84:        match bound {
+src/tree_store/btree_cursor.rs:104:        match self {
+src/tree_store/btree_cursor.rs:112:    match position {
+src/tree_store/btree_cursor.rs:129:    match position {
+src/tree_store/btree_cursor.rs:147:        let (child_index, child_page) = match page.memory()[0] {
+src/tree_store/btree_cursor.rs:269:    match direction {
+src/tree_store/table_tree.rs:58:            match entry {
+src/tree_store/table_tree.rs:103:            match definition {
+src/tree_store/table_tree.rs:333:        match self.flush_inner() {
+src/tree_store/table_tree.rs:362:                match definition {
+src/tree_store/table_tree.rs:372:            match definition {
+src/tree_store/table_tree.rs:429:        let table_root = match InternalTableDefinition::from_bytes(&bytes) {
+src/tree_store/table_tree.rs:652:        match table {
+src/tree_store/table_tree.rs:752:            match definition {
+src/db.rs:153:    /// The range passed will exactly match a range successfully locked by one of the lock methods.
+src/db.rs:512:        match self {
+src/db.rs:547:        match self {
+src/db.rs:560:        match self {
+src/db.rs:963:            match Self::get_allocator_state_table(&self.mem)? {
+src/db.rs:985:        let new_roots = Self::do_repair(&mut self.mem, &|_| {}).map_err(|err| match err {
+src/db.rs:1081:        match Self::verify_primary_checksums(self.mem.clone()) {
+src/db.rs:1085:                match Self::rebuild_allocator_state(&self.mem, &|_| {}) {
+src/tree_store/btree_cursor_range.rs:23:        match self {
+src/tree_store/btree_cursor_range.rs:30:        match self {
+src/tree_store/btree_cursor_range.rs:118:        match side {
+src/tree_store/btree_cursor_range.rs:119:            Side::Front => match self.lower_bound.as_ref().map(Vec::as_slice) {
+src/tree_store/btree_cursor_range.rs:124:            Side::Back => match self.upper_bound.as_ref().map(Vec::as_slice) {
+src/tree_store/btree_cursor_range.rs:142:        match side {
+src/tree_store/btree_cursor_range.rs:149:        match side {
+src/tree_store/btree_cursor_range.rs:156:        match side {
+src/tree_store/btree_base.rs:188:        match self {
+src/tree_store/btree_base.rs:265:        match &self.page {
+src/tree_store/btree_base.rs:282:        match self.on_drop {
+src/tree_store/btree_base.rs:530:            match K::compare(query, key) {
+src/tree_store/btree_base.rs:1855:            match K::compare(query, self.key(mid).unwrap()) {
+src/tree_store/extract_if.rs:165:        match self.state {
+src/tree_store/multimap_btree.rs:51:    match node_mem[0] {
+src/tree_store/multimap_btree.rs:64:                match collection.collection_type() {
+src/tree_store/multimap_btree.rs:88:                match collection.collection_type() {
+src/tree_store/multimap_btree.rs:217:    match old_page.memory()[0] {
+src/tree_store/multimap_btree.rs:338:    match page.memory()[0] {
+src/tree_store/multimap_btree.rs:403:            match page.memory()[0] {
+src/tree_store/multimap_btree.rs:440:        match value {
+src/tree_store/multimap_btree.rs:452:        match self {
+src/transactions.rs:201:        match value1.transaction_id.cmp(&value2.transaction_id) {
+src/transactions.rs:229:        match data[0] {
+src/transactions.rs:245:        match value {
+src/transactions.rs:594:        Ok(table.and_then(|definition| match definition {
+src/transactions.rs:1525:        self.durability = match durability {
+src/transactions.rs:1836:        let stored_data_freed_pages = match self.durability {
+src/transactions.rs:1852:        match self.durability {
+src/transactions.rs:2131:                            // The allocator snapshot must match the committed system root. Pages
+src/tree_store/btree.rs:128:        match page.memory()[0] {
+src/tree_store/btree.rs:206:        match page.memory()[0] {
+src/tree_store/btree.rs:246:            match page.memory()[0] {
+src/tree_store/btree.rs:268:        match page.memory()[0] {
+src/tree_store/btree.rs:316:        match node_mem[0] {
+src/tree_store/btree.rs:633:        match node_mem[0] {
+src/tree_store/btree.rs:845:        match lower_bound {
+src/tree_store/btree.rs:864:        match bound {
+src/tree_store/btree_mutator.rs:59:        match self {
+src/tree_store/btree_mutator.rs:164:        let new_root = match deletion_result {
+src/tree_store/btree_mutator.rs:463:            let separator = match plan.get(index + 1).or(balance_tail.as_ref()) {
+src/tree_store/btree_mutator.rs:521:                    let routes = match (stored, bound) {
+src/tree_store/btree_mutator.rs:757:        Ok(match node_mem[0] {
+src/tree_store/btree_mutator.rs:1204:        match node_mem[0] {
+src/tree_store/btree_mutator.rs:1276:        let result = match plan.disposition {
+src/tree_store/btree_mutator.rs:1353:        let result = match plan.disposition {
+src/tree_store/page_store/savepoint.rs:130:        match self {
+src/tree_store/page_store/bitmap.rs:325:        match group.trailing_ones() {
+src/tree_store/page_store/base.rs:52:        match self.region.cmp(&other.region) {
+src/tree_store/page_store/base.rs:295:        match self {
+src/tree_store/page_store/base.rs:302:        match self {
+src/tree_store/page_store/base.rs:314:        match self {
+src/tree_store/page_store/base.rs:327:        match old {
+src/tree_store/page_store/base.rs:341:        match old {
+src/tree_store/page_store/region.rs:142:        let shrink = match (new_layout.num_regions() as usize).cmp(&self.region_allocators.len()) {
+src/tree_store/page_store/region.rs:149:                match last_region.num_pages().cmp(&allocator.len()) {
+src/tree_store/page_store/file_backend/range_lock.rs:67:    let start = match range.start_bound() {
+src/tree_store/page_store/file_backend/range_lock.rs:72:    let end = match range.end_bound() {
+src/tree_store/page_store/file_backend/range_lock.rs:390:    match err.raw_os_error() {
+src/tree_store/page_store/file_backend/fallback.rs:35:        match result {
+src/tree_store/page_store/cached_file.rs:817:                let result = match writeback {
+src/tree_store/page_store/page_manager.rs:229:        let page = match self.policy {
+src/tree_store/page_store/page_manager.rs:344:        match &self.allocators {
+src/tree_store/page_store/page_manager.rs:352:        match &mut self.allocators {
+src/tree_store/page_store/page_manager.rs:571:        match self {
+src/tree_store/page_store/page_manager.rs:608:    let range = match concurrency_mode {
+src/tree_store/page_store/page_manager.rs:640:    match concurrency_mode {
+src/tree_store/page_store/page_manager.rs:706:        match concurrency_mode {
+src/tree_store/page_store/page_manager.rs:737:            match try_lock(*range) {
+src/tree_store/page_store/file_backend/optimized.rs:49:    let starts_before_end = match range.0 {
+src/tree_store/page_store/file_backend/optimized.rs:54:    let ends_after_start = match range.1 {
+src/tree_store/page_store/file_backend/optimized.rs:91:        match self.lock_whole_file(shared) {
+src/tree_store/page_store/file_backend/optimized.rs:124:        match acquired {
+src/tree_store/page_store/file_backend/optimized.rs:199:        match result {
+src/tree_store/page_store/file_backend/optimized.rs:241:        match result {
+src/tree_store/page_store/file_backend/optimized.rs:399:        match nbytes {
+src/tree_store/page_store/file_backend/optimized.rs:401:            -1 => match io::Error::last_os_error() {
+src/tree_store/page_store/header.rs:132:                "Database page size {page_size} does not match expected {expected_page_size}"
+src/tree_store/page_store/header.rs:503:        match version {
+src/tree_store/page_store/header.rs:698:            match previous {
+src/tree_store/page_store/header.rs:1091:        let err = match Database::create(tmpfile.path()) {
+src/tree_store/page_store/header.rs:1234:        // length itself maps onto a valid layout (the existing length-mismatch guard would not
+src/tree_store/page_store/header.rs:1284:        // A different-but-structurally-valid page size (mismatch with this build).

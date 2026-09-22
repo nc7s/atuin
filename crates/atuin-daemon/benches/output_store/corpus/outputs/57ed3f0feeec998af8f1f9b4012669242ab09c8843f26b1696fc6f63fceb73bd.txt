@@ -1,0 +1,20 @@
+25:use crate::{DatabaseError, Result, StorageBackend, StorageError};
+74:pub(crate) enum ShrinkPolicy {
+85:pub(crate) enum AllocationPolicy {
+101:/// Construct one from `PageAllocator::resolver()` (write-transaction context)
+106:pub(crate) struct PageResolver {
+110:impl PageResolver {
+111:    pub(crate) fn new(mem: Arc<TransactionalMemory>) -> Self {
+115:    pub(crate) fn get_page(&self, page_number: PageNumber, hint: PageHint) -> Result<PageImpl> {
+119:    pub(crate) fn count_allocated_pages(&self) -> Result<u64> {
+130:struct UncommittedShard(Mutex<PageNumberHashSet>);
+136:struct UncommittedPages {
+140:impl UncommittedPages {
+141:    fn new() -> Self {
+149:    fn shard(&self, page: PageNumber) -> &Mutex<PageNumberHashSet> {
+153:    fn insert(&self, page: PageNumber) {
+154:        assert!(self.shard(page).lock().unwrap().insert(page));
+158:    fn remove(&self, page: PageNumber) -> bool {
+162:    fn contains(&self, page: PageNumber) -> bool {
+167:    fn take_all(&self) -> PageNumberHashSet {
+180:pub(crate) struct PageAllocator {

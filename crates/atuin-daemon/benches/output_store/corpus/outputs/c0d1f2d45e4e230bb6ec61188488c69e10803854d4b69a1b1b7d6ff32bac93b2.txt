@@ -1,0 +1,122 @@
+crates/atuin-common/src/shell.rs:7:use thiserror::Error;
+crates/atuin-common/src/shell.rs:29:#[derive(Debug, Error, Serialize)]
+crates/atuin-common/src/shell.rs:30:pub enum ShellError {
+crates/atuin-common/src/shell.rs:35:    ExecError(String),
+crates/atuin-common/src/shell.rs:82:    pub fn default_shell() -> Result<Self, ShellError> {
+crates/atuin-common/src/shell.rs:102:            return Err(ShellError::NotSupported);
+crates/atuin-common/src/shell.rs:131:    pub fn run_interactive<I, S>(&self, args: I) -> Result<String, ShellError>
+crates/atuin-common/src/shell.rs:141:                .map_err(|e| ShellError::ExecError(e.to_string()))?
+crates/atuin-common/src/url.rs:3:use thiserror::Error;
+crates/atuin-common/src/url.rs:6:#[derive(Debug, Clone, Copy, PartialEq, Eq, Error)]
+crates/atuin-common/src/url.rs:7:pub enum UrlAppendError {
+crates/atuin-common/src/url.rs:35:    /// # Ok::<(), atuin_common::url::UrlAppendError>(())
+crates/atuin-common/src/url.rs:38:    /// # Errors
+crates/atuin-common/src/url.rs:40:    /// See [`UrlAppendError`].
+crates/atuin-common/src/url.rs:41:    fn append<I, S>(&self, segments: I) -> Result<Url, UrlAppendError>
+crates/atuin-common/src/url.rs:59:    /// # Ok::<(), atuin_common::url::UrlAppendError>(())
+crates/atuin-common/src/units/percent.rs:135:#[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
+crates/atuin-common/src/units/percent.rs:136:pub enum PercentParseError {
+crates/atuin-common/src/units/percent.rs:148:    type Err = PercentParseError;
+crates/atuin-common/src/units/percent.rs:153:            return Err(PercentParseError::Empty);
+crates/atuin-common/src/units/percent.rs:155:        let number = s.strip_suffix('%').ok_or(PercentParseError::MissingSign)?.trim_end();
+crates/atuin-common/src/units/percent.rs:160:            .ok_or_else(|| PercentParseError::InvalidNumber(number.to_owned()))?;
+crates/atuin-common/src/units/percent.rs:162:            return Err(PercentParseError::Negative);
+crates/atuin-common/src/units/percent.rs:192:    #[case::empty("", PercentParseError::Empty)]
+crates/atuin-common/src/units/mod.rs:6:pub use percent::{Percent, PercentParseError};
+crates/atuin-common/src/time/offset_date_time.rs:18:#[derive(Debug, Clone, Copy, PartialEq, Eq, thiserror::Error)]
+crates/atuin-common/src/time/offset_date_time.rs:25:#[derive(Debug, Clone, Copy, PartialEq, Eq, thiserror::Error)]
+crates/atuin-common/src/time/duration.rs:12:#[derive(Debug, Clone, Copy, PartialEq, Eq, thiserror::Error)]
+crates/atuin-common/src/logs.rs:15:    Error,
+crates/atuin-common/src/logs.rs:27:            Self::Error => Level::ERROR,
+crates/atuin-common/src/time/utc_offset.rs:24:    fn resolve_spec(spec: impl AsRef<str>) -> Result<UtcOffset, TimezoneDecodingError>;
+crates/atuin-common/src/time/utc_offset.rs:35:    fn resolve_spec(spec: impl AsRef<str>) -> Result<UtcOffset, TimezoneDecodingError> {
+crates/atuin-common/src/time/utc_offset.rs:75:    type Err = TimezoneDecodingError;
+crates/atuin-common/src/time/utc_offset.rs:88:#[derive(Debug, Clone, Copy, thiserror::Error)]
+crates/atuin-common/src/time/utc_offset.rs:89:pub enum TimezoneDecodingError {
+crates/atuin-common/src/time.rs:12:pub use utc_offset::{TimezoneDecodingError, UtcOffsetExt, UtcOffsetSpec};
+crates/atuin-common/src/db/mod.rs:14:use thiserror::Error;
+crates/atuin-common/src/db/mod.rs:105:                .map_err(::sqlx::migrate::MigrateError::Execute)?;
+crates/atuin-common/src/db/mod.rs:115:            ::core::result::Result::<(), ::sqlx::migrate::MigrateError>::Ok(())
+crates/atuin-common/src/db/mod.rs:237:#[derive(Debug, Error)]
+crates/atuin-common/src/db/mod.rs:238:pub enum DbUrlParseError {
+crates/atuin-common/src/db/mod.rs:242:    InvalidUrl(#[from] url::ParseError),
+crates/atuin-common/src/db/mod.rs:246:    type Err = DbUrlParseError;
+crates/atuin-common/src/db/mod.rs:256:            Err(DbUrlParseError::UnknownScheme)
+crates/atuin-common/src/encryption/paseto_v4.rs:4:use std::array::TryFromSliceError;
+crates/atuin-common/src/encryption/paseto_v4.rs:17:use thiserror::Error;
+crates/atuin-common/src/encryption/paseto_v4.rs:30:#[derive(Debug, Error)]
+crates/atuin-common/src/encryption/paseto_v4.rs:31:pub enum KeyDecodingError {
+crates/atuin-common/src/encryption/paseto_v4.rs:33:    B64Decode(#[from] base64::DecodeError),
+crates/atuin-common/src/encryption/paseto_v4.rs:37:    DecodingError(crate::rmp::decode::DecodeError<'static>),
+crates/atuin-common/src/encryption/paseto_v4.rs:41:    FailedToParseSlice(#[from] TryFromSliceError),
+crates/atuin-common/src/encryption/paseto_v4.rs:46:#[derive(Debug, Error)]
+crates/atuin-common/src/db/sqlite/mod.rs:13:pub use info::{Info, VersionError};
+crates/atuin-common/src/db/sqlite/mod.rs:15:use thiserror::Error;
+crates/atuin-common/src/db/sqlite/mod.rs:35:#[derive(Debug, Error)]
+crates/atuin-common/src/db/sqlite/mod.rs:36:pub enum SqliteOpenOrCreateError {
+crates/atuin-common/src/db/sqlite/mod.rs:41:    FailedToCreateDir(std::io::Error),
+crates/atuin-common/src/db/sqlite/mod.rs:44:    ConenctOptionsParsing(sqlx::Error),
+crates/atuin-common/src/db/sqlite/mod.rs:47:    PoolCreateError(sqlx::Error),
+crates/atuin-common/src/db/sqlite/mod.rs:50:    FailedToSetPermissions(std::io::Error),
+crates/atuin-common/src/rmp/encode.rs:5:    ByteBuf, RmpWrite, RmpWriteErr, ValueWriteError, write_array_len, write_bin, write_bin_len,
+crates/atuin-common/src/rmp/encode.rs:12:/// This is currently just a wrapper around [`ValueWriteError`] with a better error message.
+crates/atuin-common/src/rmp/encode.rs:15:#[derive(Debug, thiserror::Error)]
+crates/atuin-common/src/rmp/encode.rs:16:pub enum EncodeError<E: RmpWriteErr = Infallible> {
+crates/atuin-common/src/rmp/encode.rs:18:    ValueWrite(#[from] ValueWriteError<E>),
+crates/atuin-common/src/rmp/encode.rs:37:) -> Result<(), EncodeError<W::Error>>
+crates/atuin-common/src/rmp/encode.rs:41:    E: Into<EncodeError<W::Error>>,
+crates/atuin-common/src/rmp/encode.rs:45:        None => write_nil(writer).map_err(|e| ValueWriteError::InvalidMarkerWrite(e).into()),
+crates/atuin-common/src/os/unix.rs:43:/// Error returned by [`create_secure_temp_dir`].
+crates/atuin-common/src/os/unix.rs:44:#[derive(Debug, thiserror::Error)]
+crates/atuin-common/src/os/unix.rs:45:pub enum SecureTempDirError {
+crates/atuin-common/src/os/unix.rs:63:    Io(#[from] std::io::Error),
+crates/atuin-common/src/os/unix.rs:78:pub fn create_secure_temp_dir<P>(path: P) -> Result<P, SecureTempDirError>
+crates/atuin-common/src/os/unix.rs:82:    use std::io::ErrorKind;
+crates/atuin-common/src/os/unix.rs:87:        Err(e) if e.kind() == ErrorKind::AlreadyExists => {}
+crates/atuin-common/src/os/unix.rs:98:        return Err(SecureTempDirError::NotADirectory(path.into()));
+crates/atuin-common/src/rmp/decode.rs:2:pub use rmp::decode::bytes::{Bytes, BytesReadError};
+crates/atuin-common/src/rmp/decode.rs:4:    DecodeStringError, NumValueReadError, RmpRead, RmpReadErr, ValueReadError, read_array_len,
+crates/atuin-common/src/rmp/decode.rs:17:/// [`std::error::Error`] because this type is not, in general, `'static`, so a manual
+crates/atuin-common/src/rmp/decode.rs:23:pub enum DecodeError<'a, E: RmpReadErr = BytesReadError> {
+crates/atuin-common/src/rmp/decode.rs:24:    DecodeString(DecodeStringError<'a, E>),
+crates/atuin-common/src/rmp/decode.rs:25:    NumValueRead(NumValueReadError<E>),
+crates/atuin-common/src/rmp/decode.rs:26:    ValueRead(ValueReadError<E>),
+crates/atuin-common/src/rmp/decode.rs:36:impl<E: RmpReadErr> DecodeError<'_, E> {
+crates/atuin-common/src/db/sqlite/compactor.rs:9:use thiserror::Error;
+crates/atuin-common/src/db/sqlite/compactor.rs:16:#[derive(Debug, Error)]
+crates/atuin-common/src/db/sqlite/compactor.rs:17:enum WalCompactionError {
+crates/atuin-common/src/db/sqlite/compactor.rs:19:    Sqlx(#[from] sqlx::Error),
+crates/atuin-common/src/db/sqlite/compactor.rs:21:    Io(#[from] std::io::Error),
+crates/atuin-common/src/db/sqlite/compactor.rs:89:    ) -> Result<(), WalCompactionError> {
+crates/atuin-common/src/db/sqlite/compactor.rs:106:    async fn connect(opts: SqliteConnectOptions) -> Result<SqliteConnection, WalCompactionError> {
+crates/atuin-common/src/string/non_nul_str.rs:13:#[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
+crates/atuin-common/src/string/non_nul_str.rs:56:    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+crates/atuin-common/src/string/non_nul_str.rs:65:    fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+crates/atuin-common/src/string/non_nul_str.rs:67:        Self::new(inner).map_err(serde::de::Error::custom)
+crates/atuin-common/src/db/sqlite/builder.rs:8:use super::{Sqlite, SqliteOpenOrCreateError};
+crates/atuin-common/src/db/sqlite/builder.rs:123:    pub async fn open(self) -> Result<Sqlite, SqliteOpenOrCreateError> {
+crates/atuin-common/src/db/sqlite/builder.rs:127:            SqliteOpenOrCreateError::ConenctOptionsParsing(sqlx::Error::Configuration(
+crates/atuin-common/src/db/sqlite/builder.rs:133:            .map_err(SqliteOpenOrCreateError::ConenctOptionsParsing)?
+crates/atuin-common/src/db/sqlite/builder.rs:162:                return Err(SqliteOpenOrCreateError::BadSymlink(fs_path.clone()));
+crates/atuin-common/src/db/sqlite/builder.rs:168:                std::fs::create_dir_all(dir).map_err(SqliteOpenOrCreateError::FailedToCreateDir)?;
+crates/atuin-common/src/db/sqlite/builder.rs:185:                .map_err(SqliteOpenOrCreateError::FailedToSetPermissions)?;
+crates/atuin-common/src/db/sqlite/info.rs:5:use std::str::Utf8Error;
+crates/atuin-common/src/db/sqlite/info.rs:10:use sqlx::error::DatabaseError;
+crates/atuin-common/src/db/sqlite/info.rs:13:use thiserror::Error;
+crates/atuin-common/src/db/sqlite/info.rs:19:#[derive(Debug, Error)]
+crates/atuin-common/src/db/sqlite/info.rs:20:pub enum VersionError {
+crates/atuin-common/src/db/sqlite/info.rs:22:    Parsing(#[from] semver::Error),
+crates/atuin-common/src/db/sqlite/info.rs:24:    Query(#[from] sqlx::Error),
+crates/atuin-common/src/db/sqlite/info.rs:27:#[derive(Debug, Clone, Error)]
+crates/atuin-common/src/os/windows/mod.rs:7:use windows_sys::Win32::Foundation::GetLastError;
+crates/atuin-common/src/os/windows/mod.rs:13:pub fn get_last_error() -> std::io::Error {
+crates/atuin-common/src/os/windows/mod.rs:15:    // `i32` is what `std::io::Error` expects.
+crates/atuin-common/src/os/windows/mod.rs:16:    std::io::Error::from_raw_os_error(unsafe { GetLastError() } as i32)
+crates/atuin-common/src/os/windows/mod.rs:22:/// zero `BOOL` signals failure and the reason is retrieved via [`GetLastError`].
+crates/atuin-common/src/os/windows/mod.rs:23:pub fn fallible_do<T, F>(op: F) -> Result<(), std::io::Error>
+crates/atuin-common/src/os/windows/process.rs:22:    pub fn open(pid: u32, access: u32) -> Result<Self, std::io::Error> {
+crates/atuin-common/src/os/windows/process.rs:31:    pub fn terminate(&self) -> Result<(), std::io::Error> {
+crates/atuin-common/src/os/windows/process.rs:44:    pub fn send_ctrl_break(&self) -> Result<(), std::io::Error> {
+crates/atuin-common/src/os/windows/process.rs:59:    pub async fn force_stop(&self, timeout: Duration) -> Result<(), std::io::Error> {
+crates/atuin-common/src/os/process.rs:21:pub async fn force_terminate(pid: u32, timeout: Duration) -> Result<(), std::io::Error> {
+crates/atuin-common/src/os/unix/process.rs:13:pub async fn force_terminate(pid: Pid, timeout: Duration) -> Result<(), std::io::Error> {

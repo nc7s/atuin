@@ -1,0 +1,100 @@
+src/error.rs:27:impl Error {
+src/error.rs:189:impl From<Error> for io::Error {
+src/error.rs:203:    /// impl From<serde_json::Error> for MyError {
+src/error.rs:313:impl Error {
+src/error.rs:349:impl Display for ErrorCode {
+src/error.rs:389:impl serde::de::StdError for Error {
+src/error.rs:399:impl Display for Error {
+src/error.rs:405:impl Display for ErrorImpl {
+src/value/ser.rs:11:impl Serialize for Value {
+src/value/ser.rs:60:impl serde::Serializer for Serializer {
+src/value/ser.rs:327:impl serde::ser::SerializeSeq for SerializeVec {
+src/value/ser.rs:344:impl serde::ser::SerializeTuple for SerializeVec {
+src/value/ser.rs:360:impl serde::ser::SerializeTupleStruct for SerializeVec {
+src/value/ser.rs:376:impl serde::ser::SerializeTupleVariant for SerializeTupleVariant {
+src/value/ser.rs:397:impl serde::ser::SerializeMap for SerializeMap {
+src/value/ser.rs:458:impl serde::Serializer for MapKeySerializer {
+src/value/partial_eq.rs:31:impl PartialEq<str> for Value {
+src/value/partial_eq.rs:37:impl PartialEq<&str> for Value {
+src/value/partial_eq.rs:43:impl PartialEq<Value> for str {
+src/value/partial_eq.rs:49:impl PartialEq<Value> for &str {
+src/value/partial_eq.rs:55:impl PartialEq<String> for Value {
+src/value/partial_eq.rs:61:impl PartialEq<Value> for String {
+src/value/partial_eq.rs:70:            impl PartialEq<$ty> for Value {
+src/value/partial_eq.rs:76:            impl PartialEq<Value> for $ty {
+src/de.rs:117:impl ParserNumber {
+src/de.rs:923:            // The de::Error impl creates errors with unknown line and column.
+src/de.rs:1296:impl FromStr for Number {
+src/de.rs:1460:            // The de::Error impl creates errors with unknown line and column.
+src/io/core.rs:16:impl Display for Error {
+src/io/core.rs:22:impl Error {
+src/io/core.rs:62:impl Write for Vec<u8> {
+src/value/mod.rs:178:impl Debug for Value {
+src/value/mod.rs:197:impl Display for Value {
+src/value/mod.rs:242:            // Error value does not matter because Display impl just maps it
+src/value/mod.rs:266:impl Value {
+src/value/mod.rs:921:impl Default for Value {
+src/value/mod.rs:927:impl Default for &Value {
+src/raw.rs:121:impl RawValue {
+src/raw.rs:135:impl Clone for Box<RawValue> {
+src/raw.rs:141:impl ToOwned for RawValue {
+src/raw.rs:149:impl Default for Box<RawValue> {
+src/raw.rs:155:impl Debug for RawValue {
+src/raw.rs:164:impl Display for RawValue {
+src/raw.rs:170:impl RawValue {
+src/raw.rs:275:impl From<Box<RawValue>> for Box<str> {
+src/map.rs:38:impl Map<String, Value> {
+src/map.rs:386:impl Default for Map<String, Value> {
+src/map.rs:395:impl Clone for Map<String, Value> {
+src/map.rs:409:impl PartialEq for Map<String, Value> {
+src/map.rs:416:impl Eq for Map<String, Value> {}
+src/map.rs:418:impl Hash for Map<String, Value> {
+src/map.rs:483:impl Debug for Map<String, Value> {
+src/map.rs:491:impl serde::ser::Serialize for Map<String, Value> {
+src/value/index.rs:54:impl Index for usize {
+src/value/index.rs:83:impl Index for str {
+src/value/index.rs:107:impl Index for String {
+src/value/index.rs:137:    impl Sealed for usize {}
+src/value/index.rs:138:    impl Sealed for str {}
+src/value/index.rs:139:    impl Sealed for alloc::string::String {}
+src/value/index.rs:168:// Value::Array and getting the Vec directly. The Index impl means you can skip
+src/value/index.rs:175:// as_array, or match. The value of this impl is that it adds a way of working
+src/number.rs:37:impl PartialEq for N {
+src/number.rs:50:impl Eq for N {}
+src/number.rs:53:impl Hash for N {
+src/number.rs:75:impl Number {
+src/number.rs:350:impl Display for Number {
+src/number.rs:366:impl Debug for Number {
+src/number.rs:372:impl Serialize for Number {
+src/number.rs:700:impl From<ParserNumber> for Number {
+src/value/from.rs:11:            impl From<$ty> for Value {
+src/value/from.rs:30:impl From<f32> for Value {
+src/value/from.rs:47:impl From<f64> for Value {
+src/value/from.rs:64:impl From<bool> for Value {
+src/value/from.rs:80:impl From<String> for Value {
+src/value/from.rs:96:impl From<&str> for Value {
+src/value/from.rs:137:impl From<Number> for Value {
+src/value/from.rs:153:impl From<Map<String, Value>> for Value {
+src/ser.rs:1941:impl Formatter for CompactFormatter {}
+src/value/de.rs:155:impl FromStr for Value {
+src/value/de.rs:162:impl FromStr for Map<String, Value> {
+src/value/de.rs:625:impl SeqDeserializer {
+src/value/de.rs:659:impl MapDeserializer {
+src/value/de.rs:1385:impl Value {
+src/lexical/errors.rs:50:impl FloatErrors for u64 {
+src/lexical/math.rs:152:impl Hi64<u32> for [u32] {
+src/lexical/math.rs:179:impl Hi64<u64> for [u64] {
+src/lexical/bignum.rs:16:impl Default for Bigint {
+src/lexical/bignum.rs:24:impl Math for Bigint {
+src/lexical/cached.rs:20:impl ExtendedFloatArray {
+src/lexical/cached.rs:52:impl ModeratePathPowers {
+src/lexical/cached.rs:77:impl ModeratePathCache for ExtendedFloat {
+src/lexical/float.rs:21:impl ExtendedFloat {
+src/lexical/num.rs:61:macro_rules! as_primitive_impl {
+src/lexical/num.rs:64:            impl AsPrimitive for $ty {
+src/lexical/num.rs:108:macro_rules! as_cast_impl {
+src/lexical/num.rs:110:        impl AsCast for $ty {
+src/lexical/num.rs:129:macro_rules! number_impl {
+src/lexical/num.rs:132:            impl Number for $ty {}
+src/lexical/num.rs:144:macro_rules! integer_impl {
+src/lexical/num.rs:147:            impl Integer for $ty {

@@ -1,0 +1,20 @@
+6://! a test may want to assert on: the gRPC clients, the journal, the history db, the record store,
+10:pub mod corpus;
+11:pub mod scale;
+12:pub mod strategies;
+48:pub fn history(cmd: &str) -> History {
+54:pub fn history_at(cmd: &str, timestamp: time::OffsetDateTime) -> History {
+71:pub fn capture(output: &str) -> CommandCapture {
+81:pub struct TestEnvBuilder {
+88:impl TestEnvBuilder {
+92:    pub fn db_timeout(mut self, timeout: Duration) -> Self {
+99:    /// the journal and by the harness itself, which keeps assertions deterministic.
+101:    pub fn with_search_component(mut self) -> Self {
+109:    pub fn seed_rows(mut self, rows: usize) -> Self {
+115:    pub fn seed(mut self, seed: u64) -> Self {
+120:    pub async fn build(self) -> TestEnv {
+238:pub struct TestEnv {
+239:    pub tmp: TempDir,
+240:    pub settings: Settings,
+241:    pub history_db: Sqlite,
+242:    pub store: SqliteStore,

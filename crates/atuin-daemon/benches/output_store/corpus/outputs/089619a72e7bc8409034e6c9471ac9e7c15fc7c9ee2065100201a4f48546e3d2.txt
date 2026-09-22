@@ -1,0 +1,20 @@
+//! The domain event the hook command acts on.
+//!
+//! When an agent sends a hook event through the [`WireHookEvent`] interface, this may or may not be
+//! an event we care about. If we don't know how to deserialize it/don't care for it, we need to
+//! drop that on the floor. The [`HookEvent`] type represents agent events we know/care about.
+
+use atuin_common::string::NonNulStr;
+use serde_json::error::Category;
+
+use super::wire::{HookEventName, WireHookEvent, WireToolName};
+
+/// Why a hook payload could not be parsed.
+///
+/// A payload that is well-formed JSON but not an event Atuin models is *not* an
+/// error — it reduces to `Ok(None)`. Only input an agent could never send by
+/// design surfaces here.
+#[derive(Debug, thiserror::Error)]
+pub enum ParseError {
+    /// The payload on stdin was not valid JSON — a syntax error or truncated
+    /// input. Agents always emit syntactically valid JSON, so this signals a

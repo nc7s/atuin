@@ -1,0 +1,12 @@
+total 108K
+-rw-r--r-- 1 i i  214 Jul 24  2006 compiletest.rs
+-rw-r--r-- 1 i i 2.0K Jul 24  2006 debug.rs
+drwxrwxr-x 1 i i  126 Aug 20 00:38 lexical
+-rw-r--r-- 1 i i 1.1K Jul 24  2006 lexical.rs
+drwxrwxr-x 1 i i   12 Aug 20 00:38 macros
+-rw-r--r-- 1 i i 1.6K Jul 24  2006 map.rs
+drwxrwxr-x 1 i i  134 Aug 20 00:38 regression
+-rw-r--r-- 1 i i  130 Jul 24  2006 regression.rs
+-rw-r--r-- 1 i i 5.0K Jul 24  2006 stream.rs
+-rw-r--r-- 1 i i  77K Jul 24  2006 test.rs
+drwxrwxr-x 1 i i  820 Aug 20 00:38 ui

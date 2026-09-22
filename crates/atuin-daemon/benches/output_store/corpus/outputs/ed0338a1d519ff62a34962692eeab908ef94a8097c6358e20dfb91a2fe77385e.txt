@@ -1,0 +1,9 @@
+tests/macros/mod.rs:36:macro_rules! pretty_str_impl {
+tests/lexical/math.rs:11:impl Math for Bigint {
+tests/test.rs:1979:    impl Serialize for Float {
+tests/test.rs:2017:    impl Serialize for F32Bits {
+tests/test.rs:2046:    impl Serialize for F64Bits {
+tests/test.rs:2200:impl io::Read for FailReader {
+tests/test.rs:2391:    impl PartialEq for RawMapKey {
+tests/test.rs:2397:    impl Eq for RawMapKey {}
+tests/test.rs:2399:    impl Hash for RawMapKey {

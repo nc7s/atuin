@@ -1,0 +1,20 @@
+use crate::Uuid;
+
+impl Uuid {
+    /// Creates a UUID using a name from a namespace, based on the MD5
+    /// hash.
+    ///
+    /// A number of namespaces are available as constants in this crate:
+    ///
+    /// * [`NAMESPACE_DNS`]
+    /// * [`NAMESPACE_OID`]
+    /// * [`NAMESPACE_URL`]
+    /// * [`NAMESPACE_X500`]
+    ///
+    /// Note that usage of this method requires the `v3` feature of this crate
+    /// to be enabled.
+    ///
+    /// # Examples
+    ///
+    /// Generating a MD5 DNS UUID for `rust-lang.org`:
+    ///

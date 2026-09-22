@@ -1,0 +1,30 @@
+crates/atuin-common/src/sync/sharded_mutex.rs:49:    pub async fn lock(&self, key: &K) -> tokio::sync::MutexGuard<'_, V> {
+crates/atuin-common/src/sync/sharded_mutex.rs:86:    async fn the_same_key_waits_for_its_holder() {
+crates/atuin-common/src/sync/sharded_mutex.rs:104:    async fn waiter_ready(handle: &tokio::task::JoinHandle<()>) {
+crates/atuin-common/src/sync/sharded_mutex.rs:114:    async fn the_value_belongs_to_the_shard() {
+crates/atuin-common/src/sync/sharded_mutex.rs:124:    async fn the_guard_hands_out_the_stored_value() {
+crates/atuin-common/src/sync/sharded_mutex.rs:145:    async fn colliding_keys_serialise() {
+crates/atuin-common/src/sync/sharded_mutex.rs:164:    async fn keys_on_different_shards_lock_independently() {
+crates/atuin-common/src/db/mod.rs:386:    async fn primed_db() -> PrimedDb {
+crates/atuin-common/src/db/mod.rs:401:    async fn add_columns(conn: &mut PoolConnection<Sqlite>, columns: &[&str]) {
+crates/atuin-common/src/db/mod.rs:414:    async fn explicit_columns_survive_add_column(
+crates/atuin-common/src/sync/eager_future_cell.rs:127:    pub async fn get(&self) -> C::Value {
+crates/atuin-common/src/sync/eager_future_cell.rs:160:    async fn computes_once_and_caches(#[case] value: usize) {
+crates/atuin-common/src/sync/eager_future_cell.rs:199:    async fn overwrite_supersedes_a_slow_future() {
+crates/atuin-common/src/sync/eager_future_cell.rs:221:    async fn overwrite_replaces_an_already_completed_future() {
+crates/atuin-common/src/os/process.rs:21:pub async fn force_terminate(pid: u32, timeout: Duration) -> Result<(), std::io::Error> {
+crates/atuin-common/src/futures/mod.rs:51:    pub async fn retry<B, C, Fut, F>(self, mut fxn: F, timeout: Duration) -> Result<B, C>
+crates/atuin-common/src/futures/mod.rs:104:    pub async fn retry_sync<B, C, F>(self, mut fxn: F, timeout: Duration) -> Result<B, C>
+crates/atuin-common/src/db/sqlite/mod.rs:66:    async fn connect(
+crates/atuin-common/src/db/sqlite/mod.rs:91:    pub async fn info(&self) -> Info {
+crates/atuin-common/src/db/sqlite/mod.rs:97:    pub async fn close(&self) {
+crates/atuin-common/src/db/sqlite/builder.rs:123:    pub async fn open(self) -> Result<Sqlite, SqliteOpenOrCreateError> {
+crates/atuin-common/src/db/sqlite/compactor.rs:52:    async fn run(mut conn: SqliteConnection, info: EagerFutureCell<Info>) {
+crates/atuin-common/src/db/sqlite/compactor.rs:86:    async fn compact_wal(
+crates/atuin-common/src/db/sqlite/compactor.rs:106:    async fn connect(opts: SqliteConnectOptions) -> Result<SqliteConnection, WalCompactionError> {
+crates/atuin-common/src/db/sqlite/compactor.rs:135:    pub(super) async fn spawn_active(
+crates/atuin-common/src/db/sqlite/info.rs:60:    async fn query(pool: &SqlitePool) -> Self {
+crates/atuin-common/src/db/sqlite/info.rs:104:    async fn acquire_retrying(pool: &SqlitePool) -> Result<PoolConnection<Sqlite>, sqlx::Error> {
+crates/atuin-common/src/db/sqlite/info.rs:213:    async fn query_version(pool: &SqlitePool) -> Result<semver::Version, VersionError> {
+crates/atuin-common/src/os/windows/process.rs:59:    pub async fn force_stop(&self, timeout: Duration) -> Result<(), std::io::Error> {
+crates/atuin-common/src/os/unix/process.rs:13:pub async fn force_terminate(pid: Pid, timeout: Duration) -> Result<(), std::io::Error> {

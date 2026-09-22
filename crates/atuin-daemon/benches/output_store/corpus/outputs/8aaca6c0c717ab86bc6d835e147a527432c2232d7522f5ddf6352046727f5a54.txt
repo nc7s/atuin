@@ -1,0 +1,5 @@
+16:use super::Error;
+62:pub struct FrameEncoder<W: io::Write> {
+96:    fn init(&mut self) {
+123:    /// Errors on drop get silently ignored. If you want to handle errors then use [`finish()`] or
+128:    pub fn auto_finish(self) -> AutoFinishEncoder<W> {

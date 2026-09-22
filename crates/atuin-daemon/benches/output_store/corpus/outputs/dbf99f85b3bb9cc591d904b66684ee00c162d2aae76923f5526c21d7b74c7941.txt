@@ -1,0 +1,28 @@
+tests/suite_string_set.rs:15:        .assert();
+tests/replace.rs:7:            assert_eq!(re.$which($search, $replace), $result);
+tests/replace.rs:176:    assert_eq!(re.replacen("age: 1234", 2, "Z"), "age: ZZ34");
+tests/replace.rs:182:    assert_eq!(re.replacen("age: 1234", 2, "${1}Z"), "age: 1Z2Z34");
+tests/suite_string.rs:17:        .assert();
+tests/regression_fuzz.rs:27:    assert!(Regex::new(r"\P{any}").is_ok());
+tests/regression_fuzz.rs:39:    assert!(Regex::new(pat).is_err());
+tests/regression_fuzz.rs:48:    assert!(Regex::new(pat).is_ok());
+tests/regression_fuzz.rs:60:    assert!(re.is_match(hay));
+tests/suite_bytes_set.rs:15:        .assert();
+tests/regression.rs:12:    assert!(Regex::new("(*)").is_err());
+tests/regression.rs:13:    assert!(Regex::new("(?:?)").is_err());
+tests/regression.rs:14:    assert!(Regex::new("(?)").is_err());
+tests/regression.rs:15:    assert!(Regex::new("*").is_err());
+tests/regression.rs:22:    assert_eq!(
+tests/regression.rs:31:    assert!(Regex::new("(?m){1,1}").is_err());
+tests/regression.rs:37:    assert!(Regex::new("(((?x)))").is_ok());
+tests/regression.rs:45:    assert_eq!(&caps["foo"], "x");
+tests/misc.rs:7:    assert!(msg.contains("unclosed group"), "error message: {msg:?}");
+tests/misc.rs:12:    assert_eq!(r"[a-zA-Z0-9]+", regex!(r"[a-zA-Z0-9]+").as_str());
+tests/misc.rs:13:    assert_eq!(r"[a-zA-Z0-9]+", &format!("{}", regex!(r"[a-zA-Z0-9]+")));
+tests/misc.rs:14:    assert_eq!(
+tests/misc.rs:23:    assert_eq!(3, re.captures_len());
+tests/misc.rs:24:    assert_eq!((3, Some(3)), re.capture_names().size_hint());
+tests/misc.rs:25:    assert_eq!(
+tests/misc.rs:35:    assert_eq!(&cap[0], "abc");
+tests/suite_bytes.rs:17:        .assert();
+tests/searcher.rs:26:            assert_eq!(got_steps, $expect_steps);

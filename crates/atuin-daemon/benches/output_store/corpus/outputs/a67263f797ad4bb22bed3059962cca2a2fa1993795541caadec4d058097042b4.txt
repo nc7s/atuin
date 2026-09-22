@@ -1,0 +1,160 @@
+use crate::BackendError;
+#[cfg(any(
+    windows,
+    all(test, any(target_os = "linux", target_vendor = "apple")),
+    all(target_os = "linux", not(feature = "experimental-api-5"))
+))]
+use crate::db::{BACKEND_LOCK_RANGE, byte_range};
+use crate::{DatabaseError, Result, StorageBackend};
+use std::collections::HashSet;
+use std::fs::{File, TryLockError};
+use std::io;
+use std::ops::Bound;
+use std::sync::Mutex;
+use std::sync::atomic::{AtomicBool, Ordering};
+
+#[cfg(unix)]
+use std::os::unix::fs::FileExt;
+
+#[cfg(windows)]
+use std::os::windows::fs::FileExt;
+
+use super::range_lock::RangeLock;
+
+fn is_whole_storage(range: (Bound<u64>, Bound<u64>)) -> bool {
+    matches!(range.0, Bound::Unbounded | Bound::Included(0)) && range.1 == Bound::Unbounded
+}
+
+#[cfg(all(target_os = "linux", not(feature = "experimental-api-5")))]
+fn needs_legacy_lock(range: (Bound<u64>, Bound<u64>)) -> bool {
+    range == (Bound::Included(BACKEND_LOCK_RANGE.end), Bound::Unbounded)
+}
+
+// Detects whether flock and byte-range locks share a namespace.
+#[cfg(all(target_os = "linux", not(feature = "experimental-api-5")))]
+const NAMESPACE_PROBE_BYTE: u64 = BACKEND_LOCK_RANGE.start;
+
+// Serializes Windows queries and lock retries to avoid conflicts with temporary query locks.
+#[cfg(any(windows, all(test, any(target_os = "linux", target_vendor = "apple"))))]
+const QUERY_BYTE: u64 = BACKEND_LOCK_RANGE.start + 1;
+
+#[cfg(any(windows, all(test, any(target_os = "linux", target_vendor = "apple"))))]
+fn validate_query_mutex_range(
+    range: (Bound<u64>, Bound<u64>),
+    whole_storage_allowed: bool,
+) -> io::Result<()> {
+    if whole_storage_allowed && is_whole_storage(range) {
+        return Ok(());
+    }
+    let starts_before_end = match range.0 {
+        Bound::Unbounded => true,
+        Bound::Included(start) => start < BACKEND_LOCK_RANGE.end,
+        Bound::Excluded(start) => start < BACKEND_LOCK_RANGE.end - 1,
+    };
+    let ends_after_start = match range.1 {
+        Bound::Unbounded => true,
+        Bound::Included(end) => end >= BACKEND_LOCK_RANGE.start,
+        Bound::Excluded(end) => end > BACKEND_LOCK_RANGE.start,
+    };
+    if starts_before_end && ends_after_start {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            "lock range overlaps backend-reserved bytes",
+        ));
+    }
+    Ok(())
+}
+
+/// Stores a database as a file on-disk.
+#[derive(Debug)]
+pub struct FileBackend {
+    whole_file_locked: AtomicBool,
+    // UnlockFile requires exactly the range that was locked, so retain each acquisition.
+    locked_ranges: Mutex<HashSet<(Bound<u64>, Bound<u64>)>>,
+    file: File,
+}
+
+impl FileBackend {
+    /// Creates a new backend which stores data to the given file.
+    pub fn new(file: File) -> Result<Self, DatabaseError> {
+        Ok(Self {
+            whole_file_locked: AtomicBool::new(false),
+            locked_ranges: Mutex::new(HashSet::new()),
+            file,
+        })
+    }
+
+    // Best-effort 4.x compatibility: when a exclusive-writer open takes its suffix range,
+    // also take the flock used by older redb, unless it shares the range-lock namespace.
+    #[cfg(all(target_os = "linux", not(feature = "experimental-api-5")))]
+    fn lock_legacy_file(&self, shared: bool) -> io::Result<bool> {
+        match self.lock_whole_file(shared) {
+            Ok(false) => return Ok(false),
+            Ok(true) => {
+                if !matches!(
+                    self.file.query_lock(byte_range(NAMESPACE_PROBE_BYTE)),
+                    Ok(false)
+                ) {
+                    self.unlock_whole_file()?;
+                }
+            }
+            Err(_) => {}
+        }
+        Ok(true)
+    }
+
+    fn try_lock(&self, range: (Bound<u64>, Bound<u64>), shared: bool) -> io::Result<bool> {
+        #[cfg(all(target_os = "linux", not(feature = "experimental-api-5")))]
+        if needs_legacy_lock(range) && !self.lock_legacy_file(shared)? {
+            return Ok(false);
+        }
+
+        #[cfg(windows)]
+        let acquired = self.try_lock_with_query_mutex(range, shared);
+        #[cfg(not(windows))]
+        let acquired = self.try_lock_native(range, shared);
+        if matches!(acquired, Ok(true)) {
+            return acquired;
+        }
+
+        #[cfg(all(target_os = "linux", not(feature = "experimental-api-5")))]
+        if needs_legacy_lock(range) {
+            self.unlock_whole_file()?;
+        }
+        match acquired {
+            Err(err) if err.kind() == io::ErrorKind::Unsupported && is_whole_storage(range) => {
+                self.lock_whole_file(shared)
+            }
+            result => result,
+        }
+    }
+
+    fn try_lock_native(&self, range: (Bound<u64>, Bound<u64>), shared: bool) -> io::Result<bool> {
+        let acquired = if shared {
+            self.file.try_lock_shared_range(range)?
+        } else {
+            self.file.try_lock_range(range)?
+        };
+        if acquired {
+            self.locked_ranges.lock().unwrap().insert(range);
+        }
+        Ok(acquired)
+    }
+
+    #[cfg(any(windows, all(test, any(target_os = "linux", target_vendor = "apple"))))]
+    fn try_lock_with_query_mutex(
+        &self,
+        range: (Bound<u64>, Bound<u64>),
+        shared: bool,
+    ) -> io::Result<bool> {
+        validate_query_mutex_range(range, true)?;
+        let acquired = self.try_lock_native(range, shared);
+        if !matches!(acquired, Ok(false)) || is_whole_storage(range) {
+            return acquired;
+        }
+
+        // A query may hold the requested range temporarily. Retry while queries are excluded.
+        let query_byte = byte_range(QUERY_BYTE);
+        self.lock(query_byte, false)?;
+        let acquired = self.try_lock_native(range, shared);
+        if let Err(err) = self.unlock_native_range(query_byte) {

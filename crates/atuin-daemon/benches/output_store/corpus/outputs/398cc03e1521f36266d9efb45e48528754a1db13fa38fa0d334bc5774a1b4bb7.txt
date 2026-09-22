@@ -1,0 +1,80 @@
+41:pub type Limb = u32;
+44:pub const POW5_LIMB: &[Limb] = &POW5_32;
+47:pub const POW10_LIMB: &[Limb] = &POW10_32;
+54:pub type Limb = u64;
+57:pub const POW5_LIMB: &[Limb] = &POW5_64;
+60:pub const POW10_LIMB: &[Limb] = &POW10_64;
+67:pub(crate) fn as_limb<T: Integer>(t: T) -> Limb {
+73:fn as_wide<T: Integer>(t: T) -> Wide {
+83:fn split_u64(x: u64) -> [Limb; 2] {
+90:fn split_u64(x: u64) -> [Limb; 1] {
+101:pub fn nonzero<T: Integer>(x: &[T], rindex: usize) -> bool {
+109:fn u64_to_hi64_1(r0: u64) -> (u64, bool) {
+110:    debug_assert!(r0 != 0);
+117:fn u64_to_hi64_2(r0: u64, r1: u64) -> (u64, bool) {
+118:    debug_assert!(r0 != 0);
+132:    fn hi64_1(&self) -> (u64, bool);
+135:    fn hi64_2(&self) -> (u64, bool);
+138:    fn hi64_3(&self) -> (u64, bool);
+142:    fn hi64(&self) -> (u64, bool) {
+152:impl Hi64<u32> for [u32] {
+154:    fn hi64_1(&self) -> (u64, bool) {
+155:        debug_assert_eq!(self.len(), 1);
+161:    fn hi64_2(&self) -> (u64, bool) {
+162:        debug_assert_eq!(self.len(), 2);
+169:    fn hi64_3(&self) -> (u64, bool) {
+170:        debug_assert!(self.len() >= 3);
+179:impl Hi64<u64> for [u64] {
+181:    fn hi64_1(&self) -> (u64, bool) {
+182:        debug_assert_eq!(self.len(), 1);
+188:    fn hi64_2(&self) -> (u64, bool) {
+189:        debug_assert!(self.len() >= 2);
+197:    fn hi64_3(&self) -> (u64, bool) {
+215:    pub fn add(x: Limb, y: Limb) -> (Limb, bool) {
+221:    pub fn iadd(x: &mut Limb, y: Limb) -> bool {
+231:    pub fn sub(x: Limb, y: Limb) -> (Limb, bool) {
+237:    pub fn isub(x: &mut Limb, y: Limb) -> bool {
+249:    pub fn mul(x: Limb, y: Limb, carry: Limb) -> (Limb, Limb) {
+260:    pub fn imul(x: &mut Limb, y: Limb, carry: Limb) -> Limb {
+282:    pub fn iadd_impl(x: &mut Vec<Limb>, y: Limb, xstart: usize) {
+306:    pub fn iadd(x: &mut Vec<Limb>, y: Limb) {
+315:    pub fn isub_impl(x: &mut Vec<Limb>, y: Limb, xstart: usize) {
+316:        debug_assert!(x.len() > xstart && (x[xstart] >= y || x.len() > xstart + 1));
+334:    pub fn imul(x: &mut Vec<Limb>, y: Limb) {
+349:    pub fn mul(x: &[Limb], y: Limb) -> Vec<Limb> {
+388:    pub fn imul_pow5(x: &mut Vec<Limb>, n: u32) {
+405:        debug_assert!(bit_length != 0 && bit_length <= large_powers.len());
+432:                    debug_assert!(idx < large_powers.len());
+446:    pub fn leading_zeros(x: &[Limb]) -> usize {
+452:    pub fn bit_length(x: &[Limb]) -> usize {
+467:    pub fn ishl_bits(x: &mut Vec<Limb>, n: usize) {
+470:        debug_assert!(n < bits);
+501:    pub fn ishl_limbs(x: &mut Vec<Limb>, n: usize) {
+502:        debug_assert!(n != 0);
+511:    pub fn ishl(x: &mut Vec<Limb>, n: usize) {
+527:    pub fn normalize(x: &mut Vec<Limb>) {
+548:    pub fn compare(x: &[Limb], y: &[Limb]) -> cmp::Ordering {
+569:    pub fn less(x: &[Limb], y: &[Limb]) -> bool {
+575:    pub fn greater_equal(x: &[Limb], y: &[Limb]) -> bool {
+585:    pub fn iadd_impl(x: &mut Vec<Limb>, y: &[Limb], xstart: usize) {
+614:    pub fn iadd(x: &mut Vec<Limb>, y: &[Limb]) {
+620:    pub fn add(x: &[Limb], y: &[Limb]) -> Vec<Limb> {
+630:    pub fn isub(x: &mut Vec<Limb>, y: &[Limb]) {
+632:        debug_assert!(greater_equal(x, y));
+661:    pub const KARATSUBA_CUTOFF: usize = 32;
+670:    fn long_mul(x: &[Limb], y: &[Limb]) -> Vec<Limb> {
+691:    pub fn karatsuba_split(z: &[Limb], m: usize) -> (&[Limb], &[Limb]) {
+698:    fn karatsuba_mul(x: &[Limb], y: &[Limb]) -> Vec<Limb> {
+735:    fn karatsuba_uneven_mul(x: &[Limb], mut y: &[Limb]) -> Vec<Limb> {
+758:    fn karatsuba_mul_fwd(x: &[Limb], y: &[Limb]) -> Vec<Limb> {
+768:    pub fn imul(x: &mut Vec<Limb>, y: &[Limb]) {
+793:    fn data(&self) -> &Vec<Limb>;
+796:    fn data_mut(&mut self) -> &mut Vec<Limb>;
+802:    fn compare(&self, y: &Self) -> cmp::Ordering {
+810:    fn hi64(&self) -> (u64, bool) {
+818:    fn bit_length(&self) -> usize {
+826:    fn from_u64(x: u64) -> Self {
+838:    fn normalize(&mut self) {
+846:    fn iadd_small(&mut self, y: Limb) {
+854:    fn imul_small(&mut self, y: Limb) {
+860:    fn imul_pow2(&mut self, n: u32) {

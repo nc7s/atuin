@@ -1,0 +1,93 @@
+crates/atuin-client/src/database.rs:783:                        sqlx::Error::Decode(
+crates/atuin-client/src/database.rs:794:                        sqlx::Error::Decode(format!("invalid `after` filter {after:?}: {e}").into())
+crates/atuin-client/src/settings.rs:20:use thiserror::Error;
+crates/atuin-client/src/settings.rs:43:pub use disk_usage_limit::{DiskUsageLimit, DiskUsageLimitParseError};
+crates/atuin-client/src/settings.rs:880:    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+crates/atuin-client/src/settings.rs:899:                E: de::Error,
+crates/atuin-client/src/settings.rs:906:            fn visit_map<M>(self, mut map: M) -> Result<UiColumn, M::Error>
+crates/atuin-client/src/settings.rs:931:                let column_type = column_type.ok_or_else(|| de::Error::missing_field("type"))?;
+crates/atuin-client/src/settings.rs:976:    pub fn validate(&self) -> Result<(), UiValidationError> {
+crates/atuin-client/src/settings.rs:979:            return Err(UiValidationError::MultipleExpandingColumns(expand_count));
+crates/atuin-client/src/history.rs:5:use atuin_common::rmp::decode::{self, Bytes, DecodeError};
+crates/atuin-client/src/history.rs:6:use atuin_common::rmp::encode::{self, ByteBuf, EncodeError};
+crates/atuin-client/src/history.rs:208:    type Err = uuid::Error;
+crates/atuin-client/src/history.rs:216:    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+crates/atuin-client/src/history.rs:225:    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+crates/atuin-client/src/history.rs:230:        s.parse().map_err(serde::de::Error::custom)
+crates/atuin-client/src/history.rs:248:    ) -> Result<sqlx::encode::IsNull, sqlx::error::BoxDynError> {
+crates/atuin-client/src/history.rs:256:    ) -> Result<Self, sqlx::error::BoxDynError> {
+crates/atuin-client/src/api_client.rs:11:    ATUIN_CARGO_VERSION, ATUIN_HEADER_VERSION, ATUIN_VERSION, ChangePasswordRequest, ErrorResponse,
+crates/atuin-client/src/api_client.rs:248:        if let Ok(error) = serde_json::from_str::<ErrorResponse>(&body) {
+crates/atuin-client/src/theme.rs:3:use std::io::{Error, ErrorKind};
+crates/atuin-client/src/theme.rs:27:    AlertError,
+crates/atuin-client/src/theme.rs:264:        (tracing::Level::ERROR, Meaning::AlertError),
+crates/atuin-client/src/theme.rs:282:            (Meaning::AlertError, StyleFactory::from_fg_color(Color::DarkRed)),
+crates/atuin-client/src/theme.rs:323:                (Meaning::AlertError, StyleFactory::known_fg_string("saddlebrown")),
+crates/atuin-client/src/theme.rs:333:                (Meaning::AlertError, StyleFactory::known_fg_string("yellowgreen")),
+crates/atuin-client/src/theme.rs:386:    ) -> Result<&Theme, Box<dyn error::Error>> {
+crates/atuin-client/src/theme.rs:389:                return Err(Box::new(Error::new(
+crates/atuin-client/src/hub.rs:17:    ATUIN_CARGO_VERSION, ATUIN_HEADER_VERSION, CliCodeResponse, CliVerifyResponse, ErrorResponse,
+crates/atuin-client/src/hub.rs:22:use thiserror::Error;
+crates/atuin-client/src/hub.rs:56:#[derive(Debug, Error)]
+crates/atuin-client/src/hub.rs:57:pub enum HubError {
+crates/atuin-client/src/hub.rs:64:    Request(#[from] reqwest::Error),
+crates/atuin-client/src/hub.rs:66:    Url(#[from] atuin_common::url::UrlAppendError),
+crates/atuin-client/src/hub.rs:131:            Err(HubError::Status { status, .. }) if status == StatusCode::UNAUTHORIZED => {
+crates/atuin-client/src/hub.rs:261:async fn handle_resp_error(resp: reqwest::Response) -> Result<reqwest::Response, HubError> {
+crates/atuin-client/src/auth.rs:264:struct HubErrorResponse {
+crates/atuin-client/src/auth.rs:307:            && let Ok(err) = resp.json::<HubErrorResponse>().await
+crates/atuin-client/src/auth.rs:349:        if let Ok(err) = resp.json::<HubErrorResponse>().await {
+crates/atuin-client/src/auth.rs:400:        if let Ok(err) = resp.json::<HubErrorResponse>().await {
+crates/atuin-client/src/auth.rs:467:        if let Ok(err) = resp.json::<HubErrorResponse>().await {
+crates/atuin-client/src/packfile/record.rs:6:use atuin_common::rmp::decode::{self, Bytes, DecodeError, RmpRead};
+crates/atuin-client/src/packfile/record.rs:7:use atuin_common::rmp::encode::{self, ByteBuf, EncodeError, RmpWrite, TryEncodeError};
+crates/atuin-client/src/packfile/record.rs:13:use thiserror::Error;
+crates/atuin-client/src/packfile/record.rs:25:fn read_uuid<'a, R>(reader: &mut R) -> Result<Uuid, DecodeError<'a, R::Error>>
+crates/atuin-client/src/packfile/record.rs:33:fn write_uuid<W>(writer: &mut W, uuid: Uuid) -> Result<(), EncodeError<W::Error>>
+crates/atuin-client/src/packfile/record.rs:40:fn read_record<'a>(bytes: &mut Bytes<'a>) -> Result<Record<DecryptedData>, DecodeError<'a>> {
+crates/atuin-client/src/packfile/record.rs:61:) -> Result<(), EncodeError<W::Error>>
+crates/atuin-client/src/packfile/record.rs:77:fn read_encrypted_data<'a>(bytes: &mut Bytes<'a>) -> Result<EncryptedData, DecodeError<'a>> {
+crates/atuin-client/src/packfile/packer.rs:5:use thiserror::Error;
+crates/atuin-client/src/packfile/packer.rs:8:use super::record::{PackManifestData, PackManifestDataV1, ParsingError};
+crates/atuin-client/src/packfile/packer.rs:11:#[derive(Debug, Error)]
+crates/atuin-client/src/packfile/packer.rs:12:pub enum PackingError {
+crates/atuin-client/src/packfile/packer.rs:17:    ManifestLoad(#[from] ParsingError),
+crates/atuin-client/src/packfile/packer.rs:20:    ManifestStore(Box<dyn std::error::Error + Send + Sync>),
+crates/atuin-client/src/packfile/packer.rs:29:) -> Result<(), PackingError> {
+crates/atuin-client/src/packfile/packer.rs:41:        .map_err(PackingError::Store)?;
+crates/atuin-client/src/packfile/mod.rs:110:pub use packer::{PackingError, try_pack};
+crates/atuin-client/src/record/sqlite_store.rs:45:            Uuid::from_str(raw).map_err(|source| ::sqlx::Error::ColumnDecode {
+crates/atuin-client/src/record/sqlite_store.rs:260:            Err(sqlx::Error::RowNotFound) => Ok(None),
+crates/atuin-client/src/record/sqlite_store.rs:276:        let res: Result<(i64,), sqlx::Error> =
+crates/atuin-client/src/record/sqlite_store.rs:286:        let res: Result<(i64,), sqlx::Error> =
+crates/atuin-client/src/record/sqlite_store.rs:365:            Err(sqlx::Error::RowNotFound) => Ok(None),
+crates/atuin-client/src/record/sqlite_store.rs:375:        let res: Result<Vec<(String, String, i64)>, sqlx::Error> =
+crates/atuin-client/src/record/sync/mod.rs:30:use thiserror::Error;
+crates/atuin-client/src/record/sync/mod.rs:37:use crate::packfile::record::{PackManifestRecordView, ParsingError, UnpackError};
+crates/atuin-client/src/record/sync/mod.rs:52:#[derive(Error, Debug, Clone)]
+crates/atuin-client/src/record/sync/mod.rs:53:pub enum SyncError {
+crates/atuin-client/src/record/sync/mod.rs:58:    LocalStoreError {
+crates/atuin-client/src/record/sync/mod.rs:63:    SyncLogicError {
+crates/atuin-client/src/record/sync/mod.rs:68:    OperationalError {
+crates/atuin-client/src/record/sync/mod.rs:73:    RemoteRequestError {
+crates/atuin-client/src/record/sync/builder.rs:8:use super::{SyncEngine, SyncError};
+crates/atuin-client/src/record/sync/builder.rs:35:    pub async fn connect(self) -> Result<SyncEngine, SyncError> {
+crates/atuin-client/src/record/sync/builder.rs:42:                    .map_err(|e| SyncError::RemoteRequestError { msg: e.to_string() })?;
+crates/atuin-client/src/record/sync/builder.rs:47:                        .map_err(|e| SyncError::OperationalError { msg: e.to_string() })?,
+crates/atuin-client/src/record/sync/builder.rs:58:                .map_err(|e| SyncError::OperationalError { msg: e.to_string() })?
+crates/atuin-client/src/settings/disk_usage_limit.rs:6:use atuin_common::units::{ByteSize, Percent, PercentParseError};
+crates/atuin-client/src/settings/disk_usage_limit.rs:7:use serde::de::{Deserialize, Deserializer, Error, Visitor};
+crates/atuin-client/src/settings/disk_usage_limit.rs:53:#[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
+crates/atuin-client/src/settings/disk_usage_limit.rs:54:pub enum DiskUsageLimitParseError {
+crates/atuin-client/src/settings/disk_usage_limit.rs:56:    Percent(#[from] PercentParseError),
+crates/atuin-client/src/settings/disk_usage_limit.rs:62:    type Err = DiskUsageLimitParseError;
+crates/atuin-client/src/settings/disk_usage_limit.rs:72:        s.parse::<ByteSize>().map(Self::Bytes).map_err(DiskUsageLimitParseError::Bytes)
+crates/atuin-client/src/settings/disk_usage_limit.rs:77:    fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+crates/atuin-client/src/settings/watcher.rs:134:            move |res: Result<notify::Event, notify::Error>| {
+crates/atuin-client/src/settings/shells.rs:84:    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+crates/atuin-client/src/settings/shells.rs:112:    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+crates/atuin-client/src/settings/shells.rs:134:    fn parse(toml: &str) -> Result<Shells, toml::de::Error> {
+crates/atuin-client/src/settings/daemon.rs:6:use atuin_common::os::unix::{SecureTempDirError, create_secure_temp_dir};
+crates/atuin-client/src/settings/daemon.rs:214:    pub fn create_default_dir_if_needed(&self) -> Result<(), SecureTempDirError> {
+crates/atuin-client/src/settings/daemon.rs:480:        let Err(SecureTempDirError::WrongPermissions { permissions, .. }) =
+crates/atuin-client/src/settings/daemon.rs:494:            Err(SecureTempDirError::NotADirectory(_))

@@ -1,0 +1,20 @@
+2:    pub trait Sealed {}
+11:pub trait PatternRef: sealed::Sealed {
+12:    fn trim_start_matches<'a>(&mut self, s: &'a str) -> &'a str;
+13:    fn trim_end_matches<'a>(&mut self, s: &'a str) -> &'a str;
+21:            fn trim_start_matches<'a>(&mut self, s: &'a str) -> &'a str {
+25:            fn trim_end_matches<'a>(&mut self, s: &'a str) -> &'a str {
+41:pub trait TrimExt {
+44:    fn trim_matches_in_place<P: PatternRef>(&mut self, pattern: P);
+48:    fn trim_start_matches_in_place<P: PatternRef>(&mut self, pattern: P);
+52:    fn trim_end_matches_in_place<P: PatternRef>(&mut self, pattern: P);
+55:    fn trim_in_place(&mut self) {
+61:    fn trim_start_in_place(&mut self) {
+67:    fn trim_end_in_place(&mut self) {
+72:fn trim_start_matches_in_place<P: PatternRef>(s: &mut String, pattern: &mut P) {
+76:fn trim_end_matches_in_place<P: PatternRef>(s: &mut String, pattern: &mut P) {
+80:impl TrimExt for String {
+81:    fn trim_start_matches_in_place<P: PatternRef>(&mut self, mut pattern: P) {
+85:    fn trim_end_matches_in_place<P: PatternRef>(&mut self, mut pattern: P) {
+89:    fn trim_matches_in_place<P: PatternRef>(&mut self, mut pattern: P) {
+103:    fn trimmed(input: &str, pattern: impl super::PatternRef) -> String {

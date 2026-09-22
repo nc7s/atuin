@@ -1,0 +1,16 @@
+src/value/mod.rs:231:                let s = unsafe { str::from_utf8_unchecked(buf) };
+src/read.rs:473:                self.index = unsafe { chunk.as_ptr().offset_from(self.slice.as_ptr()) } as usize
+src/read.rs:714:            Ok(unsafe { str::from_utf8_unchecked(bytes) })
+src/read.rs:991:    unsafe {
+src/ser.rs:2106:        let string_run = unsafe { str::from_utf8_unchecked(string_run) };
+src/ser.rs:2121:            _ => unsafe { hint::unreachable_unchecked() },
+src/ser.rs:2127:    let string_run = unsafe { str::from_utf8_unchecked(bytes) };
+src/ser.rs:2250:    let string = unsafe {
+src/ser.rs:2269:    let string = unsafe {
+src/raw.rs:123:        unsafe { mem::transmute::<&str, &RawValue>(json) }
+src/raw.rs:127:        unsafe { mem::transmute::<Box<str>, Box<RawValue>>(json) }
+src/raw.rs:131:        unsafe { mem::transmute::<Box<RawValue>, Box<str>>(raw_value) }
+src/raw.rs:206:    /// JSON output wherever it is embedded, and other code (including unsafe
+src/raw.rs:208:    /// same way that unsafe code may rely on `str` containing valid UTF-8.
+src/raw.rs:223:    /// let raw = unsafe { RawValue::from_string_unchecked(json) };
+src/raw.rs:228:    pub unsafe fn from_string_unchecked(json: String) -> Box<Self> {

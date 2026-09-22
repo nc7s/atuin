@@ -1,0 +1,44 @@
+src/value/ser.rs:235:            vec: Vec::with_capacity(len.unwrap_or(0)),
+src/value/ser.rs:266:            map: Map::with_capacity(len.unwrap_or(0)),
+src/number.rs:302:    ///     let number: Number = serde_json::from_str(value).unwrap();
+src/number.rs:675:        seed.deserialize(self.number.take().unwrap().into_deserializer())
+src/map.rs:856:    ///         occupied.get_mut().as_array_mut().unwrap().push(json!(4));
+src/map.rs:861:    /// assert_eq!(map["serde"].as_array().unwrap().len(), 4);
+src/map.rs:882:    ///         occupied.into_mut().as_array_mut().unwrap().push(json!(4));
+src/map.rs:887:    /// assert_eq!(map["serde"].as_array().unwrap().len(), 4);
+src/value/mod.rs:85://! # untyped_example().unwrap();
+src/value/mod.rs:280:    /// assert_eq!(*object.get("A").unwrap(), json!(65));
+src/value/mod.rs:283:    /// assert_eq!(*array.get(2).unwrap(), json!("C"));
+src/value/mod.rs:322:    /// *object.get_mut("A").unwrap() = json!(69);
+src/value/mod.rs:325:    /// *array.get_mut(2).unwrap() = json!("D");
+src/value/mod.rs:361:    /// assert_eq!(v["a"].as_object().unwrap().len(), 1);
+src/value/mod.rs:381:    /// v["a"].as_object_mut().unwrap().clear();
+src/value/mod.rs:420:    /// assert_eq!(v["a"].as_array().unwrap().len(), 2);
+src/macros.rs:279:        $crate::to_value(&$other).unwrap()
+src/value/index.rs:71:                vec.get_mut(*self).unwrap_or_else(|| {
+src/value/index.rs:214:        index.index_into(self).unwrap_or(&NULL)
+src/lib.rs:87://! #     untyped_example().unwrap();
+src/lib.rs:155://! #     typed_example().unwrap();
+src/lib.rs:269://! #     print_an_address().unwrap();
+src/ser.rs:2093:        let (&byte, rest) = rest.split_first().unwrap();
+src/read.rs:389:        let raw = self.raw_buffer.take().unwrap();
+src/read.rs:444:            self.index += memchr::memchr2(b'"', b'\\', rest).unwrap_or(rest.len());
+src/read.rs:464:            let chars = Chunk::from_le_bytes(chunk.try_into().unwrap());
+src/error.rs:420:// end up seeing this representation because it is what unwrap() shows.
+src/error.rs:484:    let (line, column) = parse_line_col(&mut msg).unwrap_or((0, 0));
+src/raw.rs:307:///     extra_data: to_raw_value(&MyExtraData { a: 1, b: 2 }).unwrap(),
+src/raw.rs:310:/// #     serde_json::to_value(my_thing).unwrap(),
+src/raw.rs:331:/// println!("{}", serde_json::value::to_raw_value(&map).unwrap_err());
+src/raw.rs:552:        seed.deserialize(self.raw_value.take().unwrap().into_deserializer())
+src/raw.rs:577:        seed.deserialize(BorrowedStrDeserializer::new(self.raw_value.take().unwrap()))
+src/io/core.rs:38:        debug_assert_eq!(result.unwrap_or(0), buf.len());
+src/lexical/bhcomp.rs:46:        value += as_limb(to_digit(digit).unwrap());
+src/de.rs:199:    ///     let value = Value::deserialize(deserializer).unwrap();
+src/de.rs:224:        Ok(tri!(self.peek()).unwrap_or(b'\x00'))
+src/de.rs:236:        Ok(tri!(self.next_char()).unwrap_or(b'\x00'))
+src/de.rs:270:        let err = match self.peek_or_null().unwrap_or(b'\x00') {
+src/de.rs:1613:    /// # look_at_bytes().unwrap();
+src/de.rs:2357:///         println!("{}", value.unwrap());
+src/de.rs:2574:///     let u = read_user_from_file("test.json").unwrap();
+src/de.rs:2604:///     let listener = TcpListener::bind("127.0.0.1:4000").unwrap();
+src/lexical/parse.rs:63:        mantissa = match add_digit(mantissa, to_digit(c).unwrap()) {

@@ -1,0 +1,5 @@
+9:use tracing_subscriber::util::TryInitError;
+13:pub use otel::OtelCtxEnableError;
+15:#[derive(Debug, thiserror::Error)]
+16:pub enum LogCtxEnableError {
+18:    OtelCtx(#[from] OtelCtxEnableError),

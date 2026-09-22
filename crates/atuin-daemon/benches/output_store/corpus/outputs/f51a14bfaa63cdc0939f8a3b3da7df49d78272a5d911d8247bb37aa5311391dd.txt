@@ -1,0 +1,20 @@
+7:    error::{Error, ErrorKind},
+36:pub struct NonNilUuid(NonZeroU128);
+38:impl fmt::Debug for NonNilUuid {
+39:    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+44:impl fmt::Display for NonNilUuid {
+45:    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+50:impl PartialEq<Uuid> for NonNilUuid {
+51:    fn eq(&self, other: &Uuid) -> bool {
+56:impl PartialEq<NonNilUuid> for Uuid {
+57:    fn eq(&self, other: &NonNilUuid) -> bool {
+62:impl PartialOrd<Uuid> for NonNilUuid {
+63:    fn partial_cmp(&self, other: &Uuid) -> Option<Ordering> {
+68:impl PartialOrd<NonNilUuid> for Uuid {
+69:    fn partial_cmp(&self, other: &NonNilUuid) -> Option<Ordering> {
+74:impl NonNilUuid {
+76:    pub const fn new(uuid: Uuid) -> Option<Self> {
+88:    pub const unsafe fn new_unchecked(uuid: Uuid) -> Self {
+94:    pub const fn get(self) -> Uuid {
+99:impl From<NonNilUuid> for Uuid {
+109:    /// assert_eq!(uuid, uuid_again);

@@ -1,0 +1,20 @@
+22:pub mod input;
+24:pub mod turn;
+43:pub fn tool_spinner(label: impl Into<String>, done: bool) -> Spinner {
+56:fn md(source: impl Into<String>) -> Markdown {
+74:pub struct Working<'a> {
+75:    pub status: Option<&'a str>,
+76:    pub tip: Option<&'static Tip>,
+81:pub fn turn_view(turn: &UiTurn, first: bool, working: Option<Working<'_>>) -> AnyElement<'static> {
+89:pub fn user_turn_view(events: &[UiEvent], first_turn: bool) -> AnyElement<'static> {
+109:pub fn agent_turn_view(events: &[UiEvent], working: Option<Working<'_>>) -> AnyElement<'static> {
+137:pub fn responded_view(
+152:fn tip_line(tip: &'static Tip) -> impl Element + 'static {
+159:fn format_elapsed(elapsed: std::time::Duration) -> String {
+171:pub fn out_of_band_turn_view(events: &[UiEvent]) -> AnyElement<'static> {
+186:fn out_of_band_output_view(details: &OutOfBandOutputDetails) -> AnyElement<'static> {
+196:fn event_view(event: &UiEvent) -> AnyElement<'static> {
+207:fn tool_summary_view(summary: &ToolSummary) -> AnyElement<'static> {
+211:fn tool_call_view(details: &ToolCallDetails) -> AnyElement<'static> {
+228:fn tool_status_view(name: &str, status: &ToolResultStatus) -> AnyElement<'static> {
+232:        ToolResultStatus::Error { content } => text("✗ ")

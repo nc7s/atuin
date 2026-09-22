@@ -1,0 +1,5 @@
+3:use super::{Backend, CaptureError, DeleteOutputError, GetOutputError};
+7:pub struct NopBackend;
+9:impl Backend for NopBackend {
+10:    async fn capture(&self, _id: HistoryId, _capture: CommandCapture) -> Result<(), CaptureError> {
+14:    async fn get(&self, _id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {

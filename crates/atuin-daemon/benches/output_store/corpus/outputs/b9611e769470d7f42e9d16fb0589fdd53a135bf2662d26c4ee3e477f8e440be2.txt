@@ -1,0 +1,3 @@
+tests/test.rs:1298:        x: Option<isize>,
+tests/test.rs:1415:        x: Option<u32>,
+tests/test.rs:1446:        x: Option<u32>,

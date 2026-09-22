@@ -1,0 +1,60 @@
+use std::io::prelude::*;
+use std::path::PathBuf;
+
+use atuin_common::units::ByteSize;
+use config::{Config, Environment, File as ConfigFile, FileFormat};
+use eyre::{Result, eyre};
+use fs_err::{File, create_dir_all};
+use serde::{Deserialize, Serialize};
+
+use crate::db::DbSettings;
+
+static EXAMPLE_CONFIG: &str = include_str!("../server.toml");
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Metrics {
+    #[serde(alias = "enabled")]
+    pub enable: bool,
+    pub host: String,
+    pub port: u16,
+}
+
+impl Default for Metrics {
+    fn default() -> Self {
+        Self {
+            enable: false,
+            host: String::from("127.0.0.1"),
+            port: 9001,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Settings {
+    pub host: String,
+    pub port: u16,
+    pub path: String,
+    pub open_registration: bool,
+    pub max_record_size: ByteSize,
+    pub register_webhook_url: Option<url::Url>,
+    pub register_webhook_username: String,
+    pub metrics: Metrics,
+
+    /// Advertise a version that is not what we are _actually_ running
+    /// Many clients compare their version with api.atuin.sh, and if they differ, notify the user
+    /// that an update is available.
+    /// Now that we take beta releases, we should be able to advertise a different version to avoid
+    /// notifying users when the server runs something that is not a stable release.
+    pub fake_version: Option<String>,
+
+    #[serde(flatten)]
+    pub db_settings: DbSettings,
+}
+
+impl Settings {
+    pub fn new() -> Result<Self> {
+        let mut config_file = if let Ok(p) = std::env::var("ATUIN_CONFIG_DIR") {
+            PathBuf::from(p)
+        } else {
+            let mut config_file = PathBuf::new();
+            let config_dir = atuin_common::utils::config_dir();

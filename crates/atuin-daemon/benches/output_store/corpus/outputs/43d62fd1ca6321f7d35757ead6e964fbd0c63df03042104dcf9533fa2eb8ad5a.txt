@@ -1,0 +1,80 @@
+src/value/ser.rs:58:pub struct Serializer;
+src/value/ser.rs:302:pub struct SerializeVec {
+src/value/ser.rs:306:pub struct SerializeTupleVariant {
+src/value/ser.rs:322:pub struct SerializeStructVariant {
+src/value/ser.rs:448:struct MapKeySerializer;
+src/value/ser.rs:718:struct NumberValueEmitter;
+src/value/ser.rs:889:struct RawValueEmitter;
+src/iter.rs:3:pub struct LineColIterator<I> {
+src/number.rs:22:pub struct Number {
+src/number.rs:404:        struct NumberVisitor;
+src/number.rs:463:struct NumberKey;
+src/number.rs:471:        struct FieldVisitor;
+src/number.rs:498:pub struct NumberFromString {
+src/number.rs:508:        struct Visitor;
+src/number.rs:622:        newtype_struct seq tuple tuple_struct map struct enum identifier
+src/number.rs:647:        newtype_struct seq tuple tuple_struct map struct enum identifier
+src/value/mod.rs:223:        struct WriterFormatter<'a, 'b: 'a> {
+src/value/mod.rs:903:/// struct Settings {
+src/value/mod.rs:951:/// struct User {
+src/value/mod.rs:1011:/// struct User {
+src/value/mod.rs:1031:/// structure expected by `T`, for example if `T` is a struct type but the Value
+src/value/mod.rs:1034:/// is wrong with the data, for example required struct fields are missing from
+src/map.rs:29:pub struct Map<K, V> {
+src/map.rs:512:        struct Visitor;
+src/map.rs:631:pub struct VacantEntry<'a> {
+src/map.rs:636:pub struct OccupiedEntry<'a> {
+src/map.rs:1060:pub struct Iter<'a> {
+src/map.rs:1086:pub struct IterMut<'a> {
+src/map.rs:1112:pub struct IntoIter {
+src/map.rs:1127:pub struct Keys<'a> {
+src/value/index.rs:144:struct Type<'a>(&'a Value);
+src/io/core.rs:14:pub struct Error;
+src/macros.rs:1:/// Construct a `serde_json::Value` from a JSON literal.
+src/macros.rs:276:    // Any Serialize type: numbers, strings, struct literals, variables etc.
+src/error.rs:17:pub struct Error {
+src/error.rs:124:    /// struct ReaderThatWillTimeOut<'a>(&'a [u8]);
+src/error.rs:230:struct ErrorImpl {
+src/error.rs:465:struct JsonUnexpected<'a>(de::Unexpected<'a>);
+src/lib.rs:125://! struct Person {
+src/lib.rs:247://! struct Address {
+src/value/de.rs:28:        struct ValueVisitor;
+src/value/de.rs:277:        bytes byte_buf option unit unit_struct newtype_struct seq tuple
+src/value/de.rs:278:        tuple_struct map struct identifier
+src/value/de.rs:514:struct EnumDeserializer {
+src/value/de.rs:549:struct VariantDeserializer {
+src/value/de.rs:611:                &"struct variant",
+src/value/de.rs:615:                &"struct variant",
+src/value/de.rs:621:struct SeqDeserializer {
+src/ser.rs:17:pub struct Serializer<W, F = CompactFormatter> {
+src/ser.rs:416:        struct Adapter<'ser, W: 'ser, F: 'ser> {
+src/ser.rs:773:struct MapKeySerializer<'a, W: 'a, F: 'a> {
+src/ser.rs:1156:struct NumberStrEmitter<'a, W: 'a + io::Write, F: 'a + Formatter>(&'a mut Serializer<W, F>);
+src/ser.rs:1333:struct RawValueStrEmitter<'a, W: 'a + io::Write, F: 'a + Formatter>(&'a mut Serializer<W, F>);
+src/ser.rs:1939:pub struct CompactFormatter;
+src/ser.rs:1945:pub struct PrettyFormatter<'a> {
+src/ser.rs:1952:    /// Construct a pretty printer formatter that defaults to using two spaces for indentation.
+src/de.rs:31:pub struct Deserializer<R> {
+src/de.rs:1720:    /// Parses a newtype struct as the underlying value.
+src/de.rs:1919:struct SeqAccess<'a, R: 'a> {
+src/de.rs:1972:struct MapAccess<'a, R: 'a> {
+src/de.rs:2037:struct VariantAccess<'a, R: 'a> {
+src/de.rs:2100:struct UnitVariantAccess<'a, R: 'a> {
+src/de.rs:2156:            &"struct variant",
+src/de.rs:2163:struct MapKey<'a, R: 'a> {
+src/raw.rs:42:/// struct Input<'a> {
+src/raw.rs:49:/// struct Output<'a> {
+src/raw.rs:88:/// struct SomeStruct<'a> {
+src/raw.rs:111:/// struct SomeStruct {
+src/raw.rs:117:pub struct RawValue {
+src/raw.rs:246:    /// struct Response<'a> {
+src/raw.rs:288:/// pub struct Thing {
+src/raw.rs:299:/// struct MyExtraData {
+src/read.rs:119:pub struct Position {
+src/read.rs:149:pub struct IoRead<R>
+src/read.rs:164:pub struct SliceRead<'a> {
+src/read.rs:175:pub struct StrRead<'a> {
+src/lexical/float.rs:14:pub(crate) struct ExtendedFloat {
+src/lexical/cached.rs:12:pub(crate) struct ExtendedFloatArray {
+src/lexical/cached.rs:38:pub(crate) struct ModeratePathPowers {
+src/lexical/bignum.rs:11:pub(crate) struct Bigint {

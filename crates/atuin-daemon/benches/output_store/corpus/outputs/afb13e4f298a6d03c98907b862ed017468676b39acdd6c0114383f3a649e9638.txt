@@ -1,0 +1,5 @@
+1:use crate::BackendError;
+8:use crate::{DatabaseError, Result, StorageBackend};
+10:use std::fs::{File, TryLockError};
+24:fn is_whole_storage(range: (Bound<u64>, Bound<u64>)) -> bool {
+29:fn needs_legacy_lock(range: (Bound<u64>, Bound<u64>)) -> bool {

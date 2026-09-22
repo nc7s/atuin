@@ -1,0 +1,20 @@
+//! The daemon at the sizes real histories reach: the tiers fast enough for per-push CI. The
+//! 100k-write and 1M-row tiers of the same bodies live in `tests/nightly.rs`.
+#![cfg(unix)]
+
+mod common;
+
+use std::time::{Duration, Instant};
+
+use common::TestEnv;
+use common::scale::{
+    deleting_a_sample_leaves_everything_else_body, deleting_everything_in_one_request_body,
+    index_matches_db_after_seeding_body, rebuild_from_a_large_store_body, report,
+};
+use rstest::*;
+
+#[rstest]
+#[case::one_k(1_000)]
+#[case::ten_k(10_000)]
+#[case::hundred_k(100_000)]
+#[tokio::test(flavor = "multi_thread", worker_threads = 4)]

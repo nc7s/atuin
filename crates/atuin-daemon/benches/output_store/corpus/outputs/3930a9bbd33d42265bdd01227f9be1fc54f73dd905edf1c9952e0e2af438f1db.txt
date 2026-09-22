@@ -1,0 +1,1 @@
+74 crates/atuin/src/command/client/init/bash.rs

@@ -1,0 +1,160 @@
+use std::env;
+use std::ffi::OsStr;
+use std::path::PathBuf;
+use std::time::Duration;
+
+use atuin_common::db::sqlite::{Sqlite as CommonSqlite, SqliteBuilder};
+use atuin_common::filter::{self, OrFilter};
+use atuin_common::time::OffsetDateTimeExt;
+use atuin_common::{db, utils};
+use atuin_domain::record::{CmdOrigin, UNKNOWN_USER};
+use easy_cast::{CastTo, Conv, Nearest, Trunc};
+use itertools::Itertools;
+use sql_builder::bind::Bind;
+use sql_builder::{SqlBuilder, SqlName, esc, quote};
+use sqlx::sqlite::{SqlitePool, SqliteRow};
+use sqlx::{Result, Row};
+use time::OffsetDateTime;
+use tracing::instrument;
+use uuid::Uuid;
+
+use super::history::History;
+use super::ordering;
+use super::settings::{FilterMode, SearchMode, Settings};
+use crate::history::{AuthorKind, AuthorPattern, HistoryId, HistoryStats, KNOWN_AGENTS};
+
+#[derive(Clone)]
+pub struct Context {
+    pub session: String,
+    pub cwd: String,
+    pub cmd_origin: CmdOrigin,
+    pub host_id: String,
+    pub git_root: Option<PathBuf>,
+}
+
+#[derive(Clone, Copy, Default)]
+pub struct OptFilters<'a> {
+    pub exit: Option<i64>,
+    pub exclude_exit: Option<i64>,
+    /// Only commands that recorded a non-zero exit. Unlike `exclude_exit: 0`,
+    /// this also skips the `exit = -1` sentinel rows for commands still
+    /// running (or whose end hook never fired).
+    pub only_failed: bool,
+    pub cwd: Option<&'a str>,
+    pub exclude_cwd: Option<&'a str>,
+    pub before: Option<&'a str>,
+    pub after: Option<&'a str>,
+    pub limit: Option<i64>,
+    pub offset: Option<i64>,
+    pub reverse: bool,
+    pub include_duplicates: bool,
+    /// Author filter.
+    pub authors: OrFilter<&'a [AuthorPattern]>,
+    /// Shell filter. The empty string matches commands that have no recorded shell.
+    pub shells: OrFilter<&'a [String]>,
+}
+
+/// Build a query [`Context`] without requiring a live shell session.
+///
+/// Outside of an atuin-hooked shell (e.g. when running as an MCP server),
+/// `ATUIN_SESSION` is unset; the session is left empty so session-scoped
+/// filters simply match nothing.
+#[instrument(level = "trace", skip_all, err)]
+pub async fn query_context() -> eyre::Result<Context> {
+    let session = env::var("ATUIN_SESSION").unwrap_or_default();
+    let cmd_origin = CmdOrigin::probe_current();
+    let cwd = utils::get_current_dir();
+    let host_id = Settings::host_id().await?;
+    let git_root = utils::in_git_repo(cwd.as_str());
+
+    Ok(Context {
+        session,
+        cmd_origin,
+        cwd,
+        git_root,
+        host_id: host_id.0.as_simple().to_string(),
+    })
+}
+
+#[instrument(level = "trace", skip_all, err)]
+pub async fn current_context() -> eyre::Result<Context> {
+    if env::var("ATUIN_SESSION").is_err() {
+        return Err(eyre::eyre!(
+            "Failed to find $ATUIN_SESSION in the environment. Check that you have correctly set \
+             up your shell."
+        ));
+    }
+
+    query_context().await
+}
+
+impl Context {
+    #[must_use]
+    pub fn from_history(entry: &History) -> Self {
+        Self {
+            session: entry.session.clone(),
+            cwd: entry.cwd.clone(),
+            cmd_origin: entry.cmd_origin.clone(),
+            host_id: String::new(),
+            git_root: utils::in_git_repo(entry.cwd.as_str()),
+        }
+    }
+}
+
+/// Each entry is OR'd: [`AuthorPattern::AllUser`] → not an agent, [`AuthorPattern::AllAgent`] → an
+/// agent, [`AuthorPattern::Name`] → exact match.
+fn apply_author_filter(sql: &mut SqlBuilder, authors: OrFilter<&[AuthorPattern]>) {
+    let authors = match authors.items() {
+        filter::Items::All => return,
+        filter::Items::Some(a) => a,
+    };
+
+    // The username half of `hostname`, which is what `author` falls back to when nothing set it.
+    let user_expr = "CASE WHEN instr(hostname, ':') > 0 THEN substr(hostname, instr(hostname, \
+                     ':') + 1) ELSE hostname END";
+
+    let author_expr = std::fmt::from_fn(|f| {
+        write!(f, "CASE WHEN author IS NULL OR trim(author) = '' THEN {user_expr} ELSE author END")
+    });
+
+    let defaulted_expr = format!(
+        "CASE WHEN instr(hostname, ':') = 0 THEN hostname WHEN substr(hostname, instr(hostname, \
+         ':') + 1) = {unknown} THEN substr(hostname, 1, instr(hostname, ':') - 1) ELSE \
+         substr(hostname, instr(hostname, ':') + 1) END",
+        unknown = quote(UNKNOWN_USER),
+    );
+
+    // Mirrors [`History::is_agent`]: a recorded kind wins, and without one a known agent name means
+    // an agent, unless the author is only the name it defaulted to — a NULL/blank author *is* only
+    // that name, so it is never an agent. A kind we don't recognise (written by a newer version)
+    // falls through to the name heuristic, exactly like [`AuthorKind::from_repr`] mapping it to
+    // `None` — and so does a NULL kind, because `NULL IN (...)` is not true.
+    let is_agent = || {
+        format!(
+            "CASE WHEN author_kind IN ({kinds}) THEN author_kind = {agent} WHEN author IS NULL OR \
+             trim(author) = '' THEN 0 ELSE author IN ({names}) AND author <> {defaulted_expr} END",
+            kinds = AuthorKind::VARIANTS.iter().map(|kind| kind.as_u8()).join(", "),
+            agent = AuthorKind::Agent.as_u8(),
+            names = KNOWN_AGENTS.iter().map(quote).join(", "),
+        )
+    };
+
+    let mut conditions = authors.iter().map(|author| match author {
+        AuthorPattern::AllUser => format!("NOT ({})", is_agent()),
+        AuthorPattern::AllAgent => is_agent(),
+        AuthorPattern::Name(name) => {
+            format!("{author_expr} = {}", quote(name))
+        }
+    });
+
+    // Note: `conditions` cannot be empty; `OrFilter::items` is always non-empty.
+    sql.and_where(format!("({})", conditions.join(" OR ")));
+}
+
+fn apply_shell_filter(sql: &mut SqlBuilder, shells: OrFilter<&[String]>) {
+    let shells = match shells.items() {
+        filter::Items::All => return,
+        filter::Items::Some(s) => s,
+    };
+
+    let mut include_null = false;

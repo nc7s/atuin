@@ -1,0 +1,13 @@
+src/block/compress.rs
+src/block/decompress.rs
+src/block/decompress_safe.rs
+src/block/hashtable.rs
+src/block/mod.rs
+src/fastcpy.rs
+src/fastcpy_unsafe.rs
+src/frame/compress.rs
+src/frame/decompress.rs
+src/frame/header.rs
+src/frame/mod.rs
+src/lib.rs
+src/sink.rs

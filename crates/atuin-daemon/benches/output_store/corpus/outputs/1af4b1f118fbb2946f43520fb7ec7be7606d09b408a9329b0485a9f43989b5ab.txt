@@ -1,0 +1,134 @@
+crates/atuin-client/src/database.rs:91:impl Context {
+crates/atuin-client/src/database.rs:235:impl From<DbSearchMode> for SearchMode {
+crates/atuin-client/src/database.rs:245:// This impl is here rather than in settings.rs where `SearchMode` is defined to avoid having
+crates/atuin-client/src/database.rs:247:impl SearchMode {
+crates/atuin-client/src/database.rs:272:impl From<CommonSqlite> for Sqlite {
+crates/atuin-client/src/database.rs:322:impl Sqlite {
+crates/atuin-client/src/database.rs:324:    pub async fn new(path: impl AsRef<OsStr>, timeout: Duration) -> eyre::Result<Self> {
+crates/atuin-client/src/database.rs:411:    pub async fn save_bulk<'a>(&self, h: impl IntoIterator<Item = &'a History>) -> Result<()> {
+crates/atuin-client/src/settings.rs:77:impl RequestedSearchMode {
+crates/atuin-client/src/settings.rs:93:impl From<RequestedSearchMode> for SearchMode {
+crates/atuin-client/src/settings.rs:99:impl SearchMode {
+crates/atuin-client/src/settings.rs:146:impl FilterMode {
+crates/atuin-client/src/settings.rs:180:impl From<Dialect> for interim::Dialect {
+crates/atuin-client/src/settings.rs:239:impl KeymapMode {
+crates/atuin-client/src/settings.rs:280:impl CursorStyle {
+crates/atuin-client/src/settings.rs:305:impl Stats {
+crates/atuin-client/src/auth.rs:111:impl LegacyAuthClient {
+crates/atuin-client/src/auth.rs:145:impl AuthClient for LegacyAuthClient {
+crates/atuin-client/src/auth.rs:251:impl HubAuthClient {
+crates/atuin-client/src/auth.rs:269:impl AuthClient for HubAuthClient {
+crates/atuin-client/src/history.rs:57:impl AuthorKind {
+crates/atuin-client/src/history.rs:89:impl From<String> for AuthorPattern {
+crates/atuin-client/src/history.rs:99:impl From<&str> for AuthorPattern {
+crates/atuin-client/src/history.rs:138:impl Version {
+crates/atuin-client/src/history.rs:207:impl std::str::FromStr for HistoryId {
+crates/atuin-client/src/history.rs:215:impl Serialize for HistoryId {
+crates/atuin-client/src/history.rs:234:impl sqlx::Type<sqlx::Sqlite> for HistoryId {
+crates/atuin-client/src/history.rs:244:impl sqlx::Encode<'_, sqlx::Sqlite> for HistoryId {
+crates/atuin-client/src/api_client.rs:55:impl AuthToken {
+crates/atuin-client/src/api_client.rs:315:impl RecordsRequest {
+crates/atuin-client/src/api_client.rs:334:    ) -> impl Stream<Item = Result<Vec<Record<EncryptedData>>>> + 'static {
+crates/atuin-client/src/api_client.rs:422:impl Client {
+crates/atuin-client/src/api_client.rs:425:        sync_addr: impl Into<Arc<Url>>,
+crates/atuin-client/src/api_client.rs:506:        packfiles: impl Stream<Item = Result<PackedPackfile>>,
+crates/atuin-client/src/api_client.rs:532:        packfile: impl AsRef<[u8]> + Into<reqwest::Body>,
+crates/atuin-client/src/api_client.rs:568:        packfile: impl Into<reqwest::Body>,
+crates/atuin-client/src/theme.rs:73:impl Theme {
+crates/atuin-client/src/theme.rs:227:impl StyleFactory {
+crates/atuin-client/src/theme.rs:367:impl ThemeManager {
+crates/atuin-client/src/packfile/record.rs:116:impl PackManifestData {
+crates/atuin-client/src/packfile/record.rs:165:impl PackManifestDataV1 {
+crates/atuin-client/src/packfile/record.rs:221:impl From<DecodeError<'_>> for UnpackError {
+crates/atuin-client/src/packfile/record.rs:265:impl PackIA<'_> {
+crates/atuin-client/src/packfile/record.rs:361:        packed_bytes: impl AsRef<[u8]> + Send + 'static,
+crates/atuin-client/src/plugin.rs:10:impl OfficialPlugin {
+crates/atuin-client/src/plugin.rs:25:impl OfficialPluginRegistry {
+crates/atuin-client/src/plugin.rs:68:impl Default for OfficialPluginRegistry {
+crates/atuin-client/src/plugin.rs:79:impl PluginContext {
+crates/atuin-client/src/plugin.rs:89:impl Drop for PluginContext {
+crates/atuin-client/src/plugin.rs:99:impl UpdateOnWindowsContext {
+crates/atuin-client/src/plugin.rs:115:impl Drop for UpdateOnWindowsContext {
+crates/atuin-client/src/logs.rs:12:impl FromSettings for FileConfig {
+crates/atuin-client/src/logs.rs:27:impl FromSettings for LogConfig {
+crates/atuin-client/src/meta.rs:34:impl MetaStore {
+crates/atuin-client/src/meta.rs:35:    pub async fn new(path: impl AsRef<OsStr>, timeout: Duration) -> Result<Self> {
+crates/atuin-client/src/hub.rs:69:fn status_message(status: StatusCode, reason: Option<&str>) -> impl std::fmt::Display {
+crates/atuin-client/src/hub.rs:92:impl HubAuthSession {
+crates/atuin-client/src/record/sqlite_store.rs:30:/// Newtype over the foreign `Record<EncryptedData>` so we can `impl FromRow` for
+crates/atuin-client/src/record/sqlite_store.rs:66:impl SqliteStore {
+crates/atuin-client/src/record/sqlite_store.rs:68:    pub async fn new(path: impl AsRef<OsStr>, timeout: Duration) -> Result<Self> {
+crates/atuin-client/src/record/sqlite_store.rs:139:        records: impl Iterator<Item = &Record<paseto_v4::EncryptedData>> + Send + Sync,
+crates/atuin-client/src/settings/output.rs:17:impl OutputCapture {
+crates/atuin-client/src/settings/output.rs:54:impl Default for CaptureLimits {
+crates/atuin-client/src/settings/output.rs:80:impl Default for OutputCaptureConfig {
+crates/atuin-client/src/settings/output.rs:86:impl From<OutputCaptureConfig> for OutputCapture {
+crates/atuin-client/src/settings/output.rs:100:impl From<OutputCapture> for OutputCaptureConfig {
+crates/atuin-client/src/import/xonsh_sqlite.rs:33:impl HistDbEntry {
+crates/atuin-client/src/import/xonsh_sqlite.rs:96:impl Importer for XonshSqlite {
+crates/atuin-client/src/import/xonsh_sqlite.rs:119:    async fn load(self, loader: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/settings/disk_usage_limit.rs:34:impl DiskUsageLimit {
+crates/atuin-client/src/settings/disk_usage_limit.rs:61:impl FromStr for DiskUsageLimit {
+crates/atuin-client/src/settings/disk_usage_limit.rs:80:        impl Visitor<'_> for DiskUsageLimitVisitor {
+crates/atuin-client/src/settings/disk_usage_limit.rs:126:    fn any_lossless_limit() -> impl Strategy<Value = DiskUsageLimit> {
+crates/atuin-client/src/import/xonsh.rs:109:impl Importer for Xonsh {
+crates/atuin-client/src/import/xonsh.rs:129:    async fn load(self, loader: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/settings/watcher.rs:63:impl SettingsWatcher {
+crates/atuin-client/src/import/resh.rs:87:impl Importer for Resh {
+crates/atuin-client/src/import/resh.rs:99:    async fn load(self, h: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/record/sync/mod.rs:101:impl PackfileDownloadError {
+crates/atuin-client/src/record/sync/mod.rs:148:impl SyncEngine {
+crates/atuin-client/src/record/sync/mod.rs:323:impl Keyed<'_> {
+crates/atuin-client/src/record/sync/mod.rs:1708:        #[case] bad_data: impl FnOnce(HostId) -> EncryptedData,
+crates/atuin-client/src/settings/shells.rs:18:impl Shells {
+crates/atuin-client/src/settings/shells.rs:66:impl ShellFilter<'_> {
+crates/atuin-client/src/settings/shells.rs:111:impl Serialize for Shells {
+crates/atuin-client/src/import/powershell.rs:54:impl Importer for PowerShell {
+crates/atuin-client/src/import/powershell.rs:75:    async fn load(mut self, h: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/settings/daemon.rs:41:impl Default for Daemon {
+crates/atuin-client/src/settings/daemon.rs:56:impl Daemon {
+crates/atuin-client/src/settings/daemon.rs:84:    pub fn potential_socket_paths(&self) -> impl Iterator<Item = Cow<'_, Path>> + use<'_> {
+crates/atuin-client/src/settings/daemon.rs:88:    fn socket_path_ctx(&self, ctx: impl SocketCtx) -> SocketPath<'_> {
+crates/atuin-client/src/settings/daemon.rs:104:    fn existing_socket_path_ctx(&self, ctx: impl SocketCtx) -> Cow<'_, Path> {
+crates/atuin-client/src/settings/daemon.rs:117:        ctx: impl SocketCtx,
+crates/atuin-client/src/settings/daemon.rs:118:    ) -> impl Iterator<Item = Cow<'_, Path>> {
+crates/atuin-client/src/settings/daemon.rs:128:    fn default_socket_paths(&self, ctx: impl SocketCtx) -> impl Iterator<Item = PathBuf> {
+crates/atuin-client/src/import/zsh_histdb.rs:99:impl ZshHistDb {
+crates/atuin-client/src/import/zsh_histdb.rs:125:impl Importer for ZshHistDb {
+crates/atuin-client/src/import/zsh_histdb.rs:144:    async fn load(self, h: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/record/sync/builder.rs:32:impl SyncEngineInit<'_> {
+crates/atuin-client/src/record/sync/builder.rs:70:impl SyncEngine {
+crates/atuin-client/src/settings/scripts.rs:8:impl Default for Settings {
+crates/atuin-client/src/import/zsh.rs:22:impl Zsh {
+crates/atuin-client/src/import/zsh.rs:62:impl Entry {
+crates/atuin-client/src/import/zsh.rs:95:impl Importer for Zsh {
+crates/atuin-client/src/import/zsh.rs:107:    async fn load(self, h: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/settings/meta.rs:8:impl Default for Settings {
+crates/atuin-client/src/import/replxx.rs:44:impl Importer for Replxx {
+crates/atuin-client/src/import/replxx.rs:56:    async fn load(self, h: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/settings/kv.rs:8:impl Default for Settings {
+crates/atuin-client/src/import/nu.rs:20:impl Nu {
+crates/atuin-client/src/import/nu.rs:39:impl Importer for Nu {
+crates/atuin-client/src/import/nu.rs:51:    async fn load(self, h: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/import/nu_histdb.rs:33:impl From<HistDbEntry> for History {
+crates/atuin-client/src/import/nu_histdb.rs:87:impl NuHistDb {
+crates/atuin-client/src/import/nu_histdb.rs:102:impl Importer for NuHistDb {
+crates/atuin-client/src/import/nu_histdb.rs:120:    async fn load(self, h: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/import/mod.rs:28:    async fn load(self, loader: &mut impl Loader) -> Result<()>;
+crates/atuin-client/src/import/mod.rs:36:fn unix_byte_lines(input: &[u8]) -> impl Iterator<Item = &[u8]> {
+crates/atuin-client/src/import/mod.rs:128:    impl Loader for TestLoader {
+crates/atuin-client/src/import/fish.rs:46:impl Importer for Fish {
+crates/atuin-client/src/import/fish.rs:58:    async fn load(self, loader: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/import/bash.rs:27:impl Importer for Bash {
+crates/atuin-client/src/import/bash.rs:43:    async fn load(self, h: &mut impl Loader) -> Result<()> {
+crates/atuin-client/src/import/bash.rs:208:    fn is_strictly_sorted<T>(iter: impl IntoIterator<Item = T>) -> bool
+crates/atuin-client/src/history/builder.rs:35:impl HistoryImported {
+crates/atuin-client/src/history/builder.rs:40:impl From<HistoryImported> for History {
+crates/atuin-client/src/history/builder.rs:84:impl From<HistoryCaptured> for History {
+crates/atuin-client/src/history/builder.rs:138:impl From<HistoryFromDb> for History {
+crates/atuin-client/src/history/builder.rs:186:impl From<HistoryDaemonCapture> for History {
+crates/atuin-client/src/history/store.rs:43:impl HistoryRecord {
+crates/atuin-client/src/history/store.rs:135:impl HistoryStore {
+crates/atuin-client/src/history/store.rs:173:    async fn push_batch(&self, records: impl Iterator<Item = HistoryRecord>) -> Result<()> {
+crates/atuin-client/src/history/store.rs:217:        entries: impl IntoIterator<Item = History>,
+crates/atuin-client/src/history/store.rs:328:    ) -> impl Stream<Item = Result<Vec<History>>> + 'a {

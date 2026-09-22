@@ -1,0 +1,20 @@
+6:pub struct Limit {
+8:    pub start: usize,
+10:    pub end: usize,
+13:impl Limit {
+18:    pub const fn split_evenly(total_bytes: usize) -> Self {
+29:pub struct BoundedBuffer {
+41:pub struct BufferContents {
+45:    pub start: String,
+51:    pub end: Option<String>,
+54:impl BoundedBuffer {
+57:    pub fn new(limit: Limit) -> Self {
+67:    pub fn take(&mut self) -> BufferContents {
+72:            if cfg!(debug_assertions) {
+95:            if cfg!(debug_assertions) {
+115:    pub fn clear(&mut self) {
+122:impl fmt::Write for BoundedBuffer {
+123:    fn write_str(&mut self, s: &str) -> fmt::Result {
+203:    fn buffer(#[default(START)] start: usize, #[default(END)] end: usize) -> BoundedBuffer {
+208:    fn filled(limit: Limit, writes: &[impl AsRef<str>]) -> BufferContents {
+217:    fn parts(contents: &BufferContents) -> (&str, Option<&str>) {

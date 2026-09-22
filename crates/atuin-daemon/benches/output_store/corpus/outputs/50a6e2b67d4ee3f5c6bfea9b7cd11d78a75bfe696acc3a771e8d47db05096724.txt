@@ -1,0 +1,50 @@
+src/value/ser.rs:9:use serde::ser::{Impossible, Serialize};
+src/value/ser.rs:11:impl Serialize for Value {
+src/value/ser.rs:15:        S: ::serde::Serializer,
+src/value/ser.rs:25:                use serde::ser::SerializeMap;
+src/value/ser.rs:38:/// Serializer whose output is a `Value`.
+src/value/ser.rs:48:/// use serde::Serialize;
+src/value/ser.rs:53:///     T: Serialize,
+src/value/ser.rs:55:///     input.serialize(serde_json::value::Serializer)
+src/value/mod.rs:101:use serde::ser::Serialize;
+src/value/mod.rs:104:pub use self::ser::Serializer;
+src/value/mod.rs:946:/// use serde::Serialize;
+src/value/mod.rs:950:/// #[derive(Serialize)]
+src/value/mod.rs:979:/// This conversion can fail if `T`'s implementation of `Serialize` decides to
+src/value/mod.rs:997:    T: Serialize,
+src/value/mod.rs:999:    value.serialize(Serializer)
+src/map.rs:491:impl serde::ser::Serialize for Map<String, Value> {
+src/map.rs:495:        S: serde::ser::Serializer,
+src/map.rs:497:        use serde::ser::SerializeMap;
+src/macros.rs:21:/// `Serialize` trait, while any type interpolated into an object key must
+src/macros.rs:22:/// implement `Into<String>`. If the `Serialize` implementation of the
+src/macros.rs:276:    // Any Serialize type: numbers, strings, struct literals, variables etc.
+src/ser.rs:1://! Serialize a Rust data structure into JSON data.
+src/ser.rs:13:use serde::ser::{self, Impossible, Serialize};
+src/ser.rs:17:pub struct Serializer<W, F = CompactFormatter> {
+src/ser.rs:22:impl<W> Serializer<W>
+src/ser.rs:29:        Serializer::with_formatter(writer, CompactFormatter)
+src/ser.rs:33:impl<'a, W> Serializer<W, PrettyFormatter<'a>>
+src/ser.rs:40:        Serializer::with_formatter(writer, PrettyFormatter::new())
+src/ser.rs:44:impl<W, F> Serializer<W, F>
+src/lib.rs:121://! use serde::{Deserialize, Serialize};
+src/lib.rs:124://! #[derive(Serialize, Deserialize)]
+src/lib.rs:243://! use serde::{Deserialize, Serialize};
+src/lib.rs:246://! #[derive(Serialize, Deserialize)]
+src/lib.rs:259://!     // Serialize it to a JSON string.
+src/lib.rs:273://! Any type that implements Serde's `Serialize` trait can be serialized this
+src/lib.rs:276://! `#[derive(Serialize)]`.
+src/lib.rs:404:pub use crate::ser::{to_writer, to_writer_pretty, Serializer};
+src/raw.rs:13:use serde::ser::{Serialize, SerializeStruct, Serializer};
+src/raw.rs:38:/// use serde::{Deserialize, Serialize};
+src/raw.rs:48:/// #[derive(Serialize)]
+src/raw.rs:287:/// # #[derive(Serialize)]
+src/raw.rs:295:/// use serde::Serialize;
+src/raw.rs:298:/// #[derive(Serialize)]
+src/raw.rs:321:/// This conversion can fail if `T`'s implementation of `Serialize` decides to
+src/raw.rs:336:    T: ?Sized + Serialize,
+src/number.rs:15:use serde::{forward_to_deserialize_any, Deserialize, Deserializer, Serialize, Serializer};
+src/number.rs:372:impl Serialize for Number {
+src/number.rs:376:        S: Serializer,
+src/number.rs:388:        S: Serializer,
+src/number.rs:390:        use serde::ser::SerializeStruct;

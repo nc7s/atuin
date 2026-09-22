@@ -1,0 +1,20 @@
+//! A wrapper type for nil UUIDs that provides a more memory-efficient
+//! `Option<NonNilUuid>` representation.
+
+use std::{cmp::Ordering, fmt, num::NonZeroU128};
+
+use crate::{
+    error::{Error, ErrorKind},
+    Uuid,
+};
+
+/// A UUID that is guaranteed not to be the [nil UUID](https://www.ietf.org/rfc/rfc9562.html#name-nil-uuid).
+///
+/// This is useful for representing optional UUIDs more efficiently, as `Option<NonNilUuid>`
+/// takes up the same space as `Uuid`.
+///
+/// Note that `Uuid`s created by the following methods are guaranteed to be non-nil:
+///
+/// - [`Uuid::new_v1`]
+/// - [`Uuid::now_v1`]
+/// - [`Uuid::new_v3`]

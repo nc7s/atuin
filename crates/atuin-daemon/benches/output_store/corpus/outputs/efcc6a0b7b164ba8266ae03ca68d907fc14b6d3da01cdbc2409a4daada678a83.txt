@@ -1,0 +1,1 @@
+54 crates/atuin/src/command/client/account/delete.rs

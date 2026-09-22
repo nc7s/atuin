@@ -1,0 +1,34 @@
+src/v7.rs:210:        struct MaxContext;
+src/non_nil.rs:36:pub struct NonNilUuid(NonZeroU128);
+src/error.rs:5:pub struct Error(pub(crate) ErrorKind);
+src/error.rs:48:pub(crate) struct InvalidUuid<'a>(pub(crate) &'a [u8], pub(crate) RequestedUuid);
+src/fmt.rs:82:pub struct Hyphenated(Uuid);
+src/fmt.rs:98:pub struct Simple(Uuid);
+src/fmt.rs:114:pub struct Urn(Uuid);
+src/fmt.rs:130:pub struct Braced(Uuid);
+src/fmt.rs:300:    struct BracedBytes {
+src/builder.rs:24:/// The `Builder` type also always exposes APIs to construct [`Uuid`]s for any
+src/builder.rs:47:pub struct Builder(Uuid);
+src/rng.rs:31:    pub(super) struct RngImp;
+src/rng.rs:50:    pub(super) struct RngImp;
+src/rng.rs:108:    pub(super) struct RngImp;
+src/rng.rs:127:    pub(super) struct RngImp;
+src/rng.rs:171:    pub(super) struct RngImp;
+src/lib.rs:85://! This library also includes a [`Builder`] type that can be used to help construct UUIDs of any
+src/lib.rs:466:pub struct Uuid(Bytes);
+src/timestamp.rs:43:pub struct Timestamp {
+src/timestamp.rs:71:    /// Construct a `Timestamp` from the number of 100 nanosecond ticks since 00:00:00.00,
+src/timestamp.rs:90:    /// Construct a `Timestamp` from a Unix timestamp and up to a 128-bit counter, as used in version 7 UUIDs.
+src/timestamp.rs:105:    /// Construct a `Timestamp` from a Unix timestamp and up to a 128-bit counter, as used in version 7 UUIDs.
+src/timestamp.rs:518:        /// construct a version 7 UUID, the 14-bit counter will be padded with random data.
+src/timestamp.rs:523:        pub struct ContextV1 {
+src/timestamp.rs:528:            /// Construct a new context that's initialized with the given value.
+src/timestamp.rs:539:            /// Construct a new context that's initialized with a random value.
+src/external/serde_support.rs:69:struct UuidReadableVisitor<T> {
+src/external/serde_support.rs:117:struct UuidBytesVisitor<T> {
+src/external/serde_support.rs:318:            struct UuidContainer {
+src/external/serde_support.rs:328:            // more complex because of the struct wrapping the actual UUID
+src/external/serde_support.rs:380:/// struct Container {
+src/external/serde_support.rs:417:            struct UuidContainer {
+src/external/serde_support.rs:454:/// struct StructA {
+src/external/serde_support.rs:464:/// struct StructB {

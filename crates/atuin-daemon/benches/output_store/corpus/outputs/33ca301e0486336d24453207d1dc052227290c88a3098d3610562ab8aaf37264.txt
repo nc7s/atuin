@@ -1,0 +1,71 @@
+3:use crate::block::DecompressError;
+28:pub(super) fn read_integer(input: &[u8], input_pos: &mut usize) -> Result<usize, DecompressError> {
+37:            .ok_or(DecompressError::ExpectedAnotherByte)?;
+55:fn read_match_offset(input: &[u8], input_pos: &mut usize) -> Result<u16, DecompressError> {
+58:        .ok_or(DecompressError::ExpectedAnotherByte)?;
+62:        Err(DecompressError::OffsetZero)
+72:fn check_token() {
+73:    assert!(!does_token_fit(15));
+74:    assert!(does_token_fit(14));
+75:    assert!(does_token_fit(114));
+76:    assert!(!does_token_fit(0b11110000));
+77:    assert!(does_token_fit(0b10110000));
+84:fn does_token_fit(token: u8) -> bool {
+93:pub(crate) fn decompress_internal<const USE_DICT: bool, S: Sink>(
+97:) -> Result<usize, DecompressError> {
+124:            .ok_or(DecompressError::ExpectedAnotherByte)?;
+167:                return Err(DecompressError::OffsetOutOfBounds);
+191:                return Err(DecompressError::LiteralOutOfBounds);
+195:                return Err(DecompressError::OutputTooSmall {
+228:            return Err(DecompressError::OutputTooSmall {
+250:fn copy_from_dict(
+251:    output: &mut impl Sink,
+255:) -> Result<usize, DecompressError> {
+257:    debug_assert!(offset > output.pos());
+260:        return Err(DecompressError::OffsetOutOfBounds);
+271:fn duplicate_slice(
+272:    output: &mut impl Sink,
+275:) -> Result<(), DecompressError> {
+282:            return Err(DecompressError::OffsetOutOfBounds);
+301:fn duplicate_overlapping_slice(
+302:    sink: &mut impl Sink,
+305:) -> Result<(), DecompressError> {
+309:        return Err(DecompressError::OffsetOutOfBounds);
+323:pub fn decompress_into(input: &[u8], output: &mut [u8]) -> Result<usize, DecompressError> {
+331:pub fn decompress_into_with_dict(
+335:) -> Result<usize, DecompressError> {
+342:pub fn decompress_size_prepended(input: &[u8]) -> Result<Vec<u8>, DecompressError> {
+354:pub fn decompress(input: &[u8], min_uncompressed_size: usize) -> Result<Vec<u8>, DecompressError> {
+365:pub fn decompress_size_prepended_with_dict(
+368:) -> Result<Vec<u8>, DecompressError> {
+380:pub fn decompress_with_dict(
+384:) -> Result<Vec<u8>, DecompressError> {
+397:    fn all_literal() {
+398:        assert_eq!(decompress(&[0x30, b'a', b'4', b'9'], 3).unwrap(), b"a49");
+402:    fn incomplete_input() {
+403:        assert!(matches!(
+405:            Err(DecompressError::ExpectedAnotherByte)
+407:        assert!(matches!(
+410:            Err(DecompressError::ExpectedAnotherByte)
+412:        assert!(matches!(
+415:            Err(DecompressError::ExpectedAnotherByte)
+417:        assert!(matches!(
+420:            Err(DecompressError::ExpectedAnotherByte)
+426:    fn offset_oob() {
+428:        assert!(matches!(
+430:            Err(DecompressError::LiteralOutOfBounds)
+433:        assert!(matches!(
+435:            Err(DecompressError::OutputTooSmall {
+441:        assert!(matches!(
+443:            Err(DecompressError::OutputTooSmall {
+450:        assert!(matches!(
+455:            Err(DecompressError::OffsetOutOfBounds)
+458:        assert!(matches!(
+464:            Err(DecompressError::OffsetOutOfBounds)
+467:        assert!(matches!(
+469:            Err(DecompressError::OffsetOutOfBounds)
+472:        assert!(matches!(
+474:            Err(DecompressError::OffsetOutOfBounds)
+479:    fn offset_0() {
+480:        assert!(matches!(
+482:            Err(DecompressError::OffsetZero)

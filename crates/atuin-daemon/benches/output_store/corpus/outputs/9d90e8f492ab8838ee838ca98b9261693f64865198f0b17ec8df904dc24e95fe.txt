@@ -1,0 +1,5 @@
+6:pub struct RegexSearcher<'r, 't> {
+16:    fn into_searcher<'t>(self, haystack: &'t str) -> RegexSearcher<'r, 't> {
+25:    fn as_utf8_pattern<'p>(&'p self) -> Option<Utf8Pattern<'p>> {
+32:    fn haystack(&self) -> &'t str {
+37:    fn next(&mut self) -> SearchStep {

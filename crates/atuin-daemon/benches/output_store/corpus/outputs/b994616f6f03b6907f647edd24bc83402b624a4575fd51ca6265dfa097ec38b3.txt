@@ -1,0 +1,14 @@
+crates/atuin-daemon/src/output_capture/backend/redb.rs:95:            .map_err(|err| CaptureError::Serialize(Box::new(err)))?;
+crates/atuin-daemon/src/output_capture/backend/mod.rs:25:    Serialize(#[source] BackendError),
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:17:    type KeySerialized = [u8; 16];
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:21:    type ValueSerialized = Vec<u8>;
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:25:    fn serialize_key(key: Self::Key) -> Result<Self::KeySerialized, Self::KeySerializationError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:31:    ) -> Result<Self::ValueSerialized, Self::ValueSerializationError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:43:        serialized: Self::ValueSerialized,
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:70:            .map_err(|err| CaptureError::Serialize(Box::new(err)))?;
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/mod.rs:25:    type KeySerialized: Into<UserKey>;
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/mod.rs:34:    type ValueSerialized: Into<UserValue>;
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/mod.rs:47:    fn serialize_key(key: Self::Key) -> Result<Self::KeySerialized, Self::KeySerializationError>;
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/mod.rs:52:    ) -> Result<Self::ValueSerialized, Self::ValueSerializationError>;
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/mod.rs:56:        serialized: Self::ValueSerialized,
+crates/atuin-daemon/src/grpc/history/pb.rs:270:            CaptureError::Storage(_) | CaptureError::Serialize(_) => {

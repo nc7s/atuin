@@ -1,0 +1,105 @@
+crates/atuin-client/src/database.rs:61:/// filters simply match nothing.
+crates/atuin-client/src/database.rs:107:    let authors = match authors.items() {
+crates/atuin-client/src/database.rs:142:    let mut conditions = authors.iter().map(|author| match author {
+crates/atuin-client/src/database.rs:155:    let shells = match shells.items() {
+crates/atuin-client/src/database.rs:192:/// SQL predicate to match for a [`CmdOrigin`].
+crates/atuin-client/src/database.rs:237:        match mode {
+crates/atuin-client/src/database.rs:254:        match self {
+crates/atuin-client/src/database.rs:577:            match filter {
+crates/atuin-client/src/history/store.rs:63:        match self {
+crates/atuin-client/src/history/store.rs:93:        match record_type {
+crates/atuin-client/src/history/store.rs:250:            let hist = match Version::from_name(version.as_str()) {
+crates/atuin-client/src/history/store.rs:257:            match hist {
+crates/atuin-client/src/history/store.rs:301:            match i {
+crates/atuin-client/src/history/store.rs:344:                match kind {
+crates/atuin-client/src/history/store.rs:348:                            .map(|record| match record {
+crates/atuin-client/src/history/store.rs:359:                        let deletes = chunk.into_iter().map(|record| match record {
+crates/atuin-client/src/settings.rs:84:        match self {
+crates/atuin-client/src/settings.rs:102:        match self {
+crates/atuin-client/src/settings.rs:112:        match self {
+crates/atuin-client/src/settings.rs:149:        match self {
+crates/atuin-client/src/settings.rs:182:        match d {
+crates/atuin-client/src/settings.rs:242:        match self {
+crates/atuin-client/src/settings.rs:283:        match self {
+crates/atuin-client/src/settings.rs:413:        match self {
+crates/atuin-client/src/hub.rs:70:    std::fmt::from_fn(move |f| match status {
+crates/atuin-client/src/hub.rs:118:        match verify_code(&self.hub_address, &self.code).await {
+crates/atuin-client/src/hub.rs:158:                    match self.poll().await {
+crates/atuin-client/src/history.rs:91:        match value.as_str() {
+crates/atuin-client/src/history.rs:101:        match value {
+crates/atuin-client/src/history.rs:144:        match s {
+crates/atuin-client/src/history.rs:154:        match self {
+crates/atuin-client/src/history.rs:168:        match self {
+crates/atuin-client/src/history.rs:177:        match self {
+crates/atuin-client/src/history.rs:401:        match self.author_kind {
+crates/atuin-client/src/history.rs:497:        let intent = if match version {
+crates/atuin-client/src/auth.rs:202:        match resp.status().as_u16() {
+crates/atuin-client/src/auth.rs:227:        match resp.status().as_u16() {
+crates/atuin-client/src/auth.rs:401:            match err.code.as_deref() {
+crates/atuin-client/src/auth.rs:412:        match status {
+crates/atuin-client/src/auth.rs:468:            match err.code.as_deref() {
+crates/atuin-client/src/auth.rs:479:        match status {
+crates/atuin-client/src/settings/output.rs:21:        match self {
+crates/atuin-client/src/settings/output.rs:102:        let (enabled, limits) = match capture {
+crates/atuin-client/src/ordering.rs:8:    match mode {
+crates/atuin-client/src/ordering.rs:53:    // The unchanged match path: a tight match outranks a loose one.
+crates/atuin-client/src/api_client.rs:58:        match self {
+crates/atuin-client/src/api_client.rs:205:        match version.to_str() {
+crates/atuin-client/src/api_client.rs:320:        match pages.next().await {
+crates/atuin-client/src/api_client.rs:380:                        match this.page(cursor..stop).await {
+crates/atuin-client/src/settings/disk_usage_limit.rs:45:        match self {
+crates/atuin-client/src/meta.rs:123:        match self.get(KEY_LAST_SYNC).await? {
+crates/atuin-client/src/meta.rs:134:        match self.get(KEY_LAST_VERSION_CHECK).await? {
+crates/atuin-client/src/theme.rs:169:        let styles = match parent {
+crates/atuin-client/src/theme.rs:174:        .map(|(name, color)| match overrides.get(name) {
+crates/atuin-client/src/theme.rs:189:    match first_char {
+crates/atuin-client/src/theme.rs:229:        match from_string(name) {
+crates/atuin-client/src/theme.rs:373:            override_theme_dir: match theme_dir {
+crates/atuin-client/src/theme.rs:427:        let theme_config: ThemeConfig = match config.try_deserialize() {
+crates/atuin-client/src/theme.rs:444:        let parent: Option<&Theme> = match theme_config.theme.parent {
+crates/atuin-client/src/theme.rs:480:        match built_ins.get(name) {
+crates/atuin-client/src/settings/watcher.rs:46:    match result {
+crates/atuin-client/src/settings/watcher.rs:135:                match res {
+crates/atuin-client/src/settings/watcher.rs:155:                            // (either exact match or the file was renamed to our config)
+crates/atuin-client/src/settings/watcher.rs:232:            match Settings::new() {
+crates/atuin-client/src/packfile/record.rs:328:            .map_err(|e| match e {
+crates/atuin-client/src/settings/shells.rs:39:        ShellFilter(match self {
+crates/atuin-client/src/settings/shells.rs:40:            Self::Auto => match current_shell() {
+crates/atuin-client/src/settings/shells.rs:70:        match &self.0 {
+crates/atuin-client/src/settings/shells.rs:102:        Ok(match Repr::deserialize(deserializer)? {
+crates/atuin-client/src/settings/shells.rs:116:        match self {
+crates/atuin-client/src/settings/shells.rs:118:            Self::Fixed(filter) => match filter.items() {
+crates/atuin-client/src/settings/shells.rs:184:        let items = match filter.items() {
+crates/atuin-client/src/settings/daemon.rs:225:        match self {
+crates/atuin-client/src/settings/daemon.rs:233:        match self {
+crates/atuin-client/src/packfile/packer.rs:45:    let start = match &last_pack {
+crates/atuin-client/src/packfile/packer.rs:145:            .map(|record| match PackManifestData::parse(record).unwrap() {
+crates/atuin-client/src/record/sqlite_store.rs:259:        match res {
+crates/atuin-client/src/record/sqlite_store.rs:278:        match res {
+crates/atuin-client/src/record/sqlite_store.rs:291:        match res {
+crates/atuin-client/src/record/sqlite_store.rs:364:        match res {
+crates/atuin-client/src/record/sqlite_store.rs:380:        let res = match res {
+crates/atuin-client/src/record/sqlite_store.rs:487:            match record.clone().decrypt(key) {
+crates/atuin-client/src/record/sync/builder.rs:36:        let client = match self.client_source {
+crates/atuin-client/src/record/sync/builder.rs:44:                let caps = match caps {
+crates/atuin-client/src/record/sync/mod.rs:78:        "the encryption key on this machine does not match the data on the server. this usually \
+crates/atuin-client/src/record/sync/mod.rs:104:        match self {
+crates/atuin-client/src/record/sync/mod.rs:158:        match self.page_size_override {
+crates/atuin-client/src/record/sync/mod.rs:191:        let remote_index = match self.record_status().await {
+crates/atuin-client/src/record/sync/mod.rs:217:        let record = match self.client.records(&series).one().await {
+crates/atuin-client/src/record/sync/mod.rs:261:            .map(|diff| match (diff.local, diff.remote) {
+crates/atuin-client/src/record/sync/mod.rs:263:                (Some(local), Some(remote)) => Ok(match local.cmp(&remote) {
+crates/atuin-client/src/record/sync/mod.rs:304:        operations.sort_by_key(|op| match op {
+crates/atuin-client/src/import/zsh.rs:38:        match candidates.next() {
+crates/atuin-client/src/import/zsh.rs:65:        // anything that does not match that shape is a bare command line
+crates/atuin-client/src/import/zsh.rs:227:    /// does not match `: <start>:<duration>;<command>` is a bare command line;
+crates/atuin-client/src/import/zsh.rs:228:    /// values that do match but cannot be represented are dropped or saturated.
+crates/atuin-client/src/import/bash.rs:52:            .find_map(|(i, line)| match line {
+crates/atuin-client/src/import/bash.rs:74:            match line {
+crates/atuin-client/src/import/bash.rs:122:        match try_parse_line_as_timestamp(line) {
+crates/atuin-client/src/import/zsh_histdb.rs:147:            let command = match std::str::from_utf8(&entry.argv) {
+crates/atuin-client/src/import/zsh_histdb.rs:151:            let cwd = match std::str::from_utf8(&entry.dir) {
+crates/atuin-client/src/import/resh.rs:124:            let duration = match (start, end) {
+crates/atuin-client/src/import/resh.rs:126:                    match i64::try_from((end - start).whole_nanoseconds()) {
+crates/atuin-client/src/import/replxx.rs:27:        match candidates.next() {
+crates/atuin-client/src/import/replxx.rs:63:            match try_parse_line_as_timestamp(s) {

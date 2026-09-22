@@ -1,0 +1,62 @@
+src/regexset/string.rs:10:/// That is, a regex set will match a haystack when at least one of its
+src/regexset/string.rs:14:/// single `Regex` with many alternates, since only one alternate can match at
+src/regexset/string.rs:17:/// For example, consider regular expressions to match email addresses and
+src/regexset/string.rs:24:/// haystack*. If one has hundreds or thousands of regexes to match repeatedly
+src/regexset/string.rs:49:/// // Both patterns will match different ranges of this string.
+src/regexset/string.rs:66:///     // Dereference the match index to get the corresponding
+src/regexset/string.rs:69:///     // To get match locations or any other info, we then have to search the
+src/regexset/string.rs:115:/// // Try again, but with a haystack that doesn't match any regex in the set.
+src/lib.rs:71:* [`Regex::is_match`] reports whether a match exists in a particular haystack.
+src/lib.rs:72:* [`Regex::find`] reports the byte offsets of a match in a haystack, if one
+src/lib.rs:75:offsets of a match in a haystack and the byte offsets of each matching capture
+src/lib.rs:81:which patterns match and *not* the byte offsets of a match.
+src/lib.rs:178:name but uses a wildcard to match a middle initial. Our pattern serves as
+src/lib.rs:179:something like a template that will match a particular name with *any* middle
+src/lib.rs:196:* The `.` is a special pattern meta character that means "match any single
+src/lib.rs:198:"match any UTF-8 encoding of any Unicode scalar value other than `\n`.")
+src/regexset/bytes.rs:10:/// That is, a regex set will match a haystack when at least one of its
+src/regexset/bytes.rs:14:/// single `Regex` with many alternates, since only one alternate can match at
+src/regexset/bytes.rs:17:/// For example, consider regular expressions to match email addresses and
+src/regexset/bytes.rs:24:/// haystack*. If one has hundreds or thousands of regexes to match repeatedly
+src/regexset/bytes.rs:30:/// `RegexSet` is permitted to match invalid UTF-8.
+src/regexset/bytes.rs:41:/// match is found.
+src/regexset/bytes.rs:53:/// // Both patterns will match different ranges of this string.
+src/regexset/bytes.rs:70:///     // Dereference the match index to get the corresponding
+src/error.rs:61:        match *self {
+src/error.rs:70:        match *self {
+src/error.rs:86:        match *self {
+src/bytes.rs:12:# Example: match null terminated string
+src/bytes.rs:24:// The unwrap is OK here since a match requires the `cstr` capture to match.
+src/bytes.rs:34:This shows how to match an arbitrary byte pattern followed by a UTF-8 encoded
+src/bytes.rs:45:// Notice that despite the `.*` at the end, it will only match valid UTF-8
+src/bytes.rs:47:// the `.*` would match the rest of the bytes regardless of whether they were
+src/bytes.rs:52:// is correct because the existence of a match guarantees
+src/bytes.rs:69:match invalid UTF-8. When the `u` flag is disabled, the regex is said to be in
+src/regex/string.rs:61:/// an pattern. To force an expression to match the whole string (or a prefix
+src/regex/string.rs:97:/// the [`Captures::extract`] API to put the strings that match each group
+src/regex/string.rs:233:    /// Returns true if and only if there is a match for the regex anywhere
+src/regex/string.rs:237:    /// whether a match exists, since the underlying matching engine may be
+src/regex/string.rs:257:    /// This routine searches for the first match of this regex in the
+src/regex/string.rs:259:    /// provides access to both the byte offsets of the match and the actual
+src/regex/string.rs:317:    /// This routine searches for the first match of this regex in the haystack
+src/regex/string.rs:318:    /// given, and if found, returns not only the overall match but also the
+src/builders.rs:243:        /// match `💩` once, where as it will match 4 times when Unicode mode
+src/builders.rs:254:        /// compile if it could match invalid UTF-8. For example, when Unicode
+src/builders.rs:256:        /// `\n`), then it can match invalid UTF-8 and thus building a regex
+src/builders.rs:258:        /// only match ASCII bytes when Unicode mode is disabled, it's allowed.
+src/builders.rs:259:        /// But `\W` can match more than ASCII bytes, including invalid UTF-8,
+src/builders.rs:332:        /// match at the beginning and end of a line *in addition* to the
+src/builders.rs:333:        /// beginning and end of a haystack. More precisely, `^` will match at
+src/builders.rs:334:        /// the position immediately following a `\n` and `$` will match at the
+src/pattern.rs:38:        if let Some((s, e)) = self.next_match {
+src/pattern.rs:39:            self.next_match = None;
+src/pattern.rs:43:        match self.it.next() {
+src/pattern.rs:59:                    self.next_match = Some((s, e));
+src/regex/bytes.rs:65:/// an pattern. To force an expression to match the whole string (or a prefix
+src/regex/bytes.rs:71:/// regexes in this module can match arbitrary bytes.
+src/regex/bytes.rs:98:/// the [`Captures::extract`] API to put the strings that match each group
+src/regex/bytes.rs:132:/// match invalid UTF-8 are explicitly allowed. Here's one example that looks
+src/regex/bytes.rs:138:/// match valid UTF-8 while other parts are more permissive.
+src/regex/bytes.rs:235:    /// Returns true if and only if there is a match for the regex anywhere
+src/regex/bytes.rs:239:    /// whether a match exists, since the underlying matching engine may be
+src/regex/bytes.rs:259:    /// This routine searches for the first match of this regex in the

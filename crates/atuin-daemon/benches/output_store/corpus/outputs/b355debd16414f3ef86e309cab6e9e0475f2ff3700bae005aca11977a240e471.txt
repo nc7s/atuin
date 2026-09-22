@@ -1,0 +1,7 @@
+ M Cargo.lock
+ M Cargo.toml
+ M crates/atuin-daemon/Cargo.toml
+ M crates/atuin-daemon/src/lib.rs
+ M crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs
+ M crates/atuin-daemon/src/output_capture/backend/mod.rs
+ M crates/atuin-daemon/src/output_capture/mod.rs

@@ -1,0 +1,13 @@
+src/parser.rs:283:const fn decode_hex32(hex: &[u8; 32]) -> Option<[u8; 16]> {
+src/non_nil.rs:2://! `Option<NonNilUuid>` representation.
+src/non_nil.rs:13:/// This is useful for representing optional UUIDs more efficiently, as `Option<NonNilUuid>`
+src/non_nil.rs:32:/// may change. It is currently only guaranteed that `NonNilUuid` and `Option<NonNilUuid>`
+src/non_nil.rs:63:    fn partial_cmp(&self, other: &Uuid) -> Option<Ordering> {
+src/non_nil.rs:69:    fn partial_cmp(&self, other: &NonNilUuid) -> Option<Ordering> {
+src/non_nil.rs:76:    pub const fn new(uuid: Uuid) -> Option<Self> {
+src/non_nil.rs:141:            std::mem::size_of::<Option<NonNilUuid>>(),
+src/lib.rs:581:    pub const fn get_version(&self) -> Option<Version> {
+src/lib.rs:906:    pub const fn get_timestamp(&self) -> Option<Timestamp> {
+src/lib.rs:932:    pub const fn get_node_id(&self) -> Option<[u8; 6]> {
+src/external/arbitrary_support.rs:15:    fn size_hint(_: usize) -> (usize, Option<usize>) {
+src/external/arbitrary_support.rs:25:    fn size_hint(_: usize) -> (usize, Option<usize>) {

@@ -1,0 +1,37 @@
+crates/atuin-client/src/database.rs:324:    pub async fn new(path: impl AsRef<OsStr>, timeout: Duration) -> eyre::Result<Self> {
+crates/atuin-client/src/database.rs:1105:    pub fn new(database: Sqlite, page_size: usize, include_deleted: bool, unique: bool) -> Self {
+crates/atuin-client/src/database.rs:1229:    pub fn new(query: &'a str) -> Self {
+crates/atuin-client/src/database.rs:1308:    fn new_context() -> Context {
+crates/atuin-client/src/database.rs:1457:    async fn new_history_item(db: &Sqlite, cmd: &str) -> Result<()> {
+crates/atuin-client/src/database.rs:1461:    async fn new_history_item_at(
+crates/atuin-client/src/auth.rs:113:    pub fn new(
+crates/atuin-client/src/auth.rs:253:    pub fn new(address: &Url, hub_token: Option<String>) -> Self {
+crates/atuin-client/src/settings.rs:588:    pub fn new(file: impl Into<String>) -> Self {
+crates/atuin-client/src/settings.rs:859:    pub fn new(column_type: UiColumnType) -> Self {
+crates/atuin-client/src/settings.rs:1798:    pub fn new() -> Result<Self> {
+crates/atuin-client/src/packfile/record.rs:277:    pub fn new(record: &'a Record<EncryptedData>) -> Result<Self, ParsingError> {
+crates/atuin-client/src/history.rs:264:    pub fn new(uuid: Uuid) -> Self {
+crates/atuin-client/src/history.rs:350:    fn new(
+crates/atuin-client/src/api_client.rs:424:    pub fn new(
+crates/atuin-client/src/meta.rs:35:    pub async fn new(path: impl AsRef<OsStr>, timeout: Duration) -> Result<Self> {
+crates/atuin-client/src/theme.rs:102:    pub fn new(
+crates/atuin-client/src/theme.rs:369:    pub fn new(debug: Option<bool>, theme_dir: Option<String>) -> Self {
+crates/atuin-client/src/plugin.rs:12:    pub fn new(name: &str, description: &str, install_message: &str) -> Self {
+crates/atuin-client/src/plugin.rs:27:    pub fn new() -> Self {
+crates/atuin-client/src/plugin.rs:81:    pub fn new(_subcommand: &str) -> Self {
+crates/atuin-client/src/plugin.rs:102:    pub fn new() -> Self {
+crates/atuin-client/src/history/store.rs:137:    pub fn new(store: SqliteStore, host_id: HostId, encryption_key: paseto_v4::Key) -> Self {
+crates/atuin-client/src/record/sqlite_store.rs:68:    pub async fn new(path: impl AsRef<OsStr>, timeout: Duration) -> Result<Self> {
+crates/atuin-client/src/settings/watcher.rs:68:    pub fn new() -> Result<Self> {
+crates/atuin-client/src/import/nu_histdb.rs:108:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/zsh.rs:98:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/powershell.rs:57:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/xonsh_sqlite.rs:99:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/fish.rs:49:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/bash.rs:30:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/zsh_histdb.rs:131:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/nu.rs:42:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/mod.rs:26:    async fn new() -> Result<Self>;
+crates/atuin-client/src/import/resh.rs:90:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/xonsh.rs:112:    async fn new() -> Result<Self> {
+crates/atuin-client/src/import/replxx.rs:47:    async fn new() -> Result<Self> {

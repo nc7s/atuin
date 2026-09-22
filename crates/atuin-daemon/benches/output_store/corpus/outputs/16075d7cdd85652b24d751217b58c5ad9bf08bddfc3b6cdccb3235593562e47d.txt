@@ -1,0 +1,160 @@
+/*!
+This crate provides routines for searching strings for matches of a [regular
+expression] (aka "regex"). The regex syntax supported by this crate is similar
+to other regex engines, but it lacks several features that are not known how to
+implement efficiently. This includes, but is not limited to, look-around and
+backreferences. In exchange, all regex searches in this crate have worst case
+`O(m * n)` time complexity, where `m` is proportional to the size of the regex
+and `n` is proportional to the size of the string being searched.
+
+[regular expression]: https://en.wikipedia.org/wiki/Regular_expression
+
+If you just want API documentation, then skip to the [`Regex`] type. Otherwise,
+here's a quick example showing one way of parsing the output of a grep-like
+program:
+
+```rust
+use regex::Regex;
+
+let re = Regex::new(r"(?m)^([^:]+):([0-9]+):(.+)$").unwrap();
+let hay = "\
+path/to/foo:54:Blue Harvest
+path/to/bar:90:Something, Something, Something, Dark Side
+path/to/baz:3:It's a Trap!
+";
+
+let mut results = vec![];
+for (_, [path, lineno, line]) in re.captures_iter(hay).map(|c| c.extract()) {
+    results.push((path, lineno.parse::<u64>()?, line));
+}
+assert_eq!(results, vec![
+    ("path/to/foo", 54, "Blue Harvest"),
+    ("path/to/bar", 90, "Something, Something, Something, Dark Side"),
+    ("path/to/baz", 3, "It's a Trap!"),
+]);
+# Ok::<(), Box<dyn std::error::Error>>(())
+```
+
+Or, make use of the [`regex!`](crate::regex) macro to compile the regex once
+and re-use that same regex automatically. This is useful inside functions.
+For example:
+
+```rust
+use regex::regex;
+
+fn is_match(line: &str) -> bool {
+    // The regex will be compiled approximately once and reused automatically.
+    // This avoids the footgun of using `Regex::new` here, which would
+    // guarantee that it would be compiled every time this routine is called.
+    // This would likely make this routine much slower than it needs to be.
+    regex!(r"bar|baz").is_match(line)
+}
+
+let hay = "\
+path/to/foo:54:Blue Harvest
+path/to/bar:90:Something, Something, Something, Dark Side
+path/to/baz:3:It's a Trap!
+";
+
+let matches = hay.lines().filter(|line| is_match(line)).count();
+assert_eq!(matches, 2);
+```
+
+# Overview
+
+The primary type in this crate is a [`Regex`]. Its most important methods are
+as follows:
+
+* [`Regex::new`] compiles a regex using the default configuration. A
+[`RegexBuilder`] permits setting a non-default configuration. (For example,
+case insensitive matching, verbose mode and others.)
+* [`Regex::is_match`] reports whether a match exists in a particular haystack.
+* [`Regex::find`] reports the byte offsets of a match in a haystack, if one
+exists. [`Regex::find_iter`] returns an iterator over all such matches.
+* [`Regex::captures`] returns a [`Captures`], which reports both the byte
+offsets of a match in a haystack and the byte offsets of each matching capture
+group from the regex in the haystack.
+[`Regex::captures_iter`] returns an iterator over all such matches.
+
+There is also a [`RegexSet`], which permits searching for multiple regex
+patterns simultaneously in a single search. However, it currently only reports
+which patterns match and *not* the byte offsets of a match.
+
+Otherwise, this top-level crate documentation is organized as follows:
+
+* [Usage](#usage) shows how to add the `regex` crate to your Rust project.
+* [Examples](#examples) provides a limited selection of regex search examples.
+* [Performance](#performance) provides a brief summary of how to optimize regex
+searching speed.
+* [Unicode](#unicode) discusses support for non-ASCII patterns.
+* [Syntax](#syntax) enumerates the specific regex syntax supported by this
+crate.
+* [Untrusted input](#untrusted-input) discusses how this crate deals with regex
+patterns or haystacks that are untrusted.
+* [Crate features](#crate-features) documents the Cargo features that can be
+enabled or disabled for this crate.
+* [Other crates](#other-crates) links to other crates in the `regex` family.
+
+# Usage
+
+The `regex` crate is [on crates.io](https://crates.io/crates/regex) and can be
+used by adding `regex` to your dependencies in your project's `Cargo.toml`.
+Or more simply, just run `cargo add regex`.
+
+Here is a complete example that creates a new Rust project, adds a dependency
+on `regex`, creates the source code for a regex search and then runs the
+program.
+
+First, create the project in a new directory:
+
+```text
+$ mkdir regex-example
+$ cd regex-example
+$ cargo init
+```
+
+Second, add a dependency on `regex`:
+
+```text
+$ cargo add regex
+```
+
+Third, edit `src/main.rs`. Delete what's there and replace it with this:
+
+```
+use regex::Regex;
+
+fn main() {
+    let re = Regex::new(r"Hello (?<name>\w+)!").unwrap();
+    let Some(caps) = re.captures("Hello Murphy!") else {
+        println!("no match!");
+        return;
+    };
+    println!("The name is: {}", &caps["name"]);
+}
+```
+
+Fourth, run it with `cargo run`:
+
+```text
+$ cargo run
+   Compiling memchr v2.5.0
+   Compiling regex-syntax v0.7.1
+   Compiling aho-corasick v1.0.1
+   Compiling regex v1.8.1
+   Compiling regex-example v0.1.0 (/tmp/regex-example)
+    Finished dev [unoptimized + debuginfo] target(s) in 4.22s
+     Running `target/debug/regex-example`
+The name is: Murphy
+```
+
+The first time you run the program will show more output like above. But
+subsequent runs shouldn't have to re-compile the dependencies.
+
+# Examples
+
+This section provides a few examples, in tutorial style, showing how to
+search a haystack with a regex. There are more examples throughout the API
+documentation.
+
+Before starting though, it's worth defining a few terms:

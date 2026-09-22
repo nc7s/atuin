@@ -1,0 +1,20 @@
+use crate::io;
+use crate::sync::PoisonError;
+use crate::tree_store::{FILE_FORMAT_VERSION3, MAX_VALUE_LENGTH};
+use crate::{ReadTransaction, TypeName};
+use alloc::boxed::Box;
+use alloc::format;
+use alloc::string::String;
+use core::fmt::{Display, Formatter};
+use core::panic;
+
+/// Errors reported by a [`crate::StorageBackend`] locking operation.
+#[derive(Debug)]
+#[non_exhaustive]
+pub enum BackendError {
+    /// The underlying storage operation failed.
+    Io(io::Error),
+    /// The backend does not support the requested operation.
+    Unsupported,
+}
+

@@ -1,0 +1,25 @@
+tests/suite_string.rs:34:                .take(test.match_limit().unwrap_or(std::usize::MAX))
+tests/suite_string.rs:43:                .take(test.match_limit().unwrap_or(std::usize::MAX))
+tests/suite_string.rs:109:    // This unwrap is OK because we assume our 'caps' represents a match, and
+tests/suite_string.rs:112:    regex_test::Captures::new(0, spans).unwrap()
+tests/replace.rs:6:            let re = regex::Regex::new($re).unwrap();
+tests/replace.rs:175:    let re = regex::Regex::new(r"[0-9]").unwrap();
+tests/replace.rs:181:    let re = regex::Regex::new(r"([0-9])").unwrap();
+tests/suite_bytes.rs:26:                .take(test.match_limit().unwrap_or(std::usize::MAX))
+tests/suite_bytes.rs:35:                .take(test.match_limit().unwrap_or(std::usize::MAX))
+tests/suite_bytes.rs:104:    // This unwrap is OK because we assume our 'caps' represents a match, and
+tests/suite_bytes.rs:107:    regex_test::Captures::new(0, spans).unwrap()
+tests/regression_fuzz.rs:9:        regex::Regex::new($pattern).unwrap()
+tests/regression_fuzz.rs:59:    let re = Regex::new(pat).unwrap();
+tests/searcher.rs:17:            let re = regex::Regex::new($re).unwrap();
+tests/misc.rs:5:    let err = Regex::new(r"(").unwrap_err();
+tests/misc.rs:34:    let cap = re.captures("abc").unwrap();
+tests/misc.rs:44:    let cap = re.captures("abc").unwrap();
+tests/misc.rs:52:    let cap = re.captures("abc").unwrap();
+tests/misc.rs:62:        let caps = re.captures(s).unwrap();
+tests/misc.rs:71:    let cap = re.captures("abc").unwrap();
+tests/misc.rs:76:        let m = cap.get(0).unwrap();
+tests/misc.rs:81:        let m = cap.get(4).unwrap();
+tests/regression.rs:5:        regex::Regex::new($pattern).unwrap()
+tests/regression.rs:44:    let caps = re.captures("abx").unwrap();
+tests/regression.rs:52:    let re = regex::bytes::Regex::new(r"\bs(?:[ab])").unwrap();

@@ -1,0 +1,1 @@
+2:pub(crate) fn hash(ns: &[u8], src: &[u8]) -> [u8; 16] {

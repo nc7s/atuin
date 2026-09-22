@@ -1,0 +1,5 @@
+13	0	crates/atuin-daemon/Cargo.toml
+2	0	crates/atuin-daemon/src/lib.rs
+30	9	crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs
+3	1	crates/atuin-daemon/src/output_capture/backend/mod.rs
+8	0	crates/atuin-daemon/src/output_capture/mod.rs

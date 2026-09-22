@@ -1,0 +1,24 @@
+src/value/de.rs:563:    fn newtype_variant_seed<T>(self, seed: T) -> Result<T::Value, Error>
+src/value/de.rs:626:    fn new(vec: Vec<Value>) -> Self {
+src/value/de.rs:660:    fn new(map: Map<String, Value>) -> Self {
+src/value/de.rs:1073:    fn newtype_variant_seed<T>(self, seed: T) -> Result<T::Value, Error>
+src/value/de.rs:1136:    fn new(slice: &'de [Value]) -> Self {
+src/value/de.rs:1168:    fn new(map: &'de Map<String, Value>) -> Self {
+src/value/de.rs:1412:    fn new(value: Cow<'de, str>) -> Self {
+src/value/de.rs:1474:    fn newtype_variant_seed<T>(self, _seed: T) -> Result<T::Value, Error>
+src/ser.rs:28:    pub fn new(writer: W) -> Self {
+src/ser.rs:1953:    pub fn new() -> Self {
+src/read.rs:200:    pub fn new(reader: R) -> Self {
+src/read.rs:412:    pub fn new(slice: &'a [u8]) -> Self {
+src/read.rs:670:    pub fn new(s: &'a str) -> Self {
+src/map.rs:41:    pub fn new() -> Self {
+src/iter.rs:26:    pub fn new(iter: I) -> LineColIterator<I> {
+src/io/core.rs:23:    pub(crate) fn new(_kind: ErrorKind, _error: &'static str) -> Error {
+src/de.rs:59:    pub fn new(read: R) -> Self {
+src/de.rs:1925:    fn new(de: &'a mut Deserializer<R>) -> Self {
+src/de.rs:1978:    fn new(de: &'a mut Deserializer<R>) -> Self {
+src/de.rs:2042:    fn new(de: &'a mut Deserializer<R>) -> Self {
+src/de.rs:2078:    fn newtype_variant_seed<T>(self, seed: T) -> Result<T::Value>
+src/de.rs:2105:    fn new(de: &'a mut Deserializer<R>) -> Self {
+src/de.rs:2130:    fn newtype_variant_seed<T>(self, _seed: T) -> Result<T::Value>
+src/de.rs:2382:    pub fn new(read: R) -> Self {

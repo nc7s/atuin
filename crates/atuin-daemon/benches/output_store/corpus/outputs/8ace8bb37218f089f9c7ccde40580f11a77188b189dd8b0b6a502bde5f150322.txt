@@ -1,0 +1,82 @@
+tests/test.rs:2:    clippy::assertions_on_result_states,
+tests/test.rs:94:        assert_eq!(s, out);
+tests/test.rs:98:        assert_eq!(s, out);
+tests/test.rs:110:        assert_eq!(s, out);
+tests/test.rs:114:        assert_eq!(s, out);
+tests/test.rs:162:    assert!(v.is_null());
+tests/test.rs:165:    assert!(v.is_null());
+tests/test.rs:168:    assert!(v.is_null());
+tests/lexical/rounding.rs:11:    assert_eq!(lower_n_mask(0u64), 0b0);
+tests/lexical/rounding.rs:12:    assert_eq!(lower_n_mask(1u64), 0b1);
+tests/lexical/rounding.rs:13:    assert_eq!(lower_n_mask(2u64), 0b11);
+tests/lexical/rounding.rs:14:    assert_eq!(lower_n_mask(10u64), 0b1111111111);
+tests/lexical/rounding.rs:15:    assert_eq!(lower_n_mask(32u64), 0b11111111111111111111111111111111);
+tests/lexical/rounding.rs:20:    assert_eq!(lower_n_halfway(0u64), 0b0);
+tests/lexical/rounding.rs:21:    assert_eq!(lower_n_halfway(1u64), 0b1);
+tests/lexical/rounding.rs:22:    assert_eq!(lower_n_halfway(2u64), 0b10);
+tests/lexical/exponent.rs:8:    assert_eq!(scientific_exponent(0, 0, 5), -6);
+tests/lexical/exponent.rs:9:    assert_eq!(scientific_exponent(10, 0, 5), 4);
+tests/lexical/exponent.rs:10:    assert_eq!(scientific_exponent(-10, 0, 5), -16);
+tests/lexical/exponent.rs:13:    assert_eq!(scientific_exponent(0, 1, 5), 0);
+tests/lexical/exponent.rs:14:    assert_eq!(scientific_exponent(0, 2, 5), 1);
+tests/lexical/exponent.rs:15:    assert_eq!(scientific_exponent(0, 2, 20), 1);
+tests/lexical/exponent.rs:16:    assert_eq!(scientific_exponent(10, 2, 20), 11);
+tests/lexical/exponent.rs:17:    assert_eq!(scientific_exponent(-10, 2, 20), -9);
+tests/lexical/parse.rs:12:    assert_eq!(parse_concise_float::<F>(mantissa, exponent), expected);
+tests/lexical/parse.rs:21:    assert_eq!(
+tests/stream.rs:1:#![allow(clippy::assertions_on_result_states)]
+tests/stream.rs:12:            assert_eq!($stream.byte_offset(), 0);
+tests/stream.rs:18:            assert_eq!($stream.byte_offset(), 0);
+tests/stream.rs:25:            assert_eq!($stream.byte_offset(), 0);
+tests/stream.rs:36:        assert_eq!(stream.next().unwrap().unwrap()["x"], 39);
+tests/stream.rs:37:        assert_eq!(stream.byte_offset(), 8);
+tests/stream.rs:39:        assert_eq!(stream.next().unwrap().unwrap()["x"], 40);
+tests/stream.rs:40:        assert_eq!(stream.byte_offset(), 17);
+tests/lexical/num.rs:27:    assert!(x < y);
+tests/lexical/num.rs:28:    assert!(x != y);
+tests/lexical/num.rs:63:    assert!(T::from_bits(x.to_bits()) == x);
+tests/lexical/algorithm.rs:13:        assert!(f.is_some(), "should be valid {:?}.", (mantissa, exp));
+tests/lexical/algorithm.rs:18:    assert_eq!(f, Some(1.23e+17));
+tests/lexical/algorithm.rs:22:    assert!(f.is_none());
+tests/lexical/algorithm.rs:26:    assert!(f.is_none());
+tests/lexical/algorithm.rs:31:    assert!(f.is_none(), "exponent under min_exp");
+tests/lexical/algorithm.rs:34:    assert!(f.is_none(), "exponent above max_exp");
+tests/lexical/algorithm.rs:44:        assert!(f.is_some(), "should be valid {:?}.", (mantissa, exp));
+tests/lexical/algorithm.rs:50:    assert!(f.is_none(), "exponent under min_exp");
+tests/regression/issue979.rs:28:    assert!(err.to_string().contains("key must be a string"));
+tests/lexical/math.rs:49:    assert_eq!(x.compare(&y), cmp::Ordering::Less);
+tests/lexical/math.rs:50:    assert_eq!(x.compare(&x), cmp::Ordering::Equal);
+tests/lexical/math.rs:51:    assert_eq!(y.compare(&x), cmp::Ordering::Greater);
+tests/lexical/math.rs:60:    assert_eq!(x.compare(&y), cmp::Ordering::Greater);
+tests/lexical/math.rs:61:    assert_eq!(x.compare(&x), cmp::Ordering::Equal);
+tests/lexical/math.rs:62:    assert_eq!(y.compare(&x), cmp::Ordering::Less);
+tests/lexical/math.rs:71:    assert_eq!(x.compare(&y), cmp::Ordering::Greater);
+tests/lexical/math.rs:72:    assert_eq!(x.compare(&x), cmp::Ordering::Equal);
+tests/regression/issue953.rs:6:    assert!(x1.is_err());
+tests/regression/issue953.rs:8:    assert!(x2.is_err());
+tests/debug.rs:8:    assert_eq!(format!("{:?}", Number::from(1)), "Number(1)");
+tests/debug.rs:9:    assert_eq!(format!("{:?}", Number::from(-1)), "Number(-1)");
+tests/debug.rs:10:    assert_eq!(
+tests/debug.rs:18:    assert_eq!(format!("{:?}", json!(null)), "Null");
+tests/debug.rs:23:    assert_eq!(format!("{:?}", json!(true)), "Bool(true)");
+tests/debug.rs:24:    assert_eq!(format!("{:?}", json!(false)), "Bool(false)");
+tests/debug.rs:29:    assert_eq!(format!("{:?}", json!(1)), "Number(1)");
+tests/debug.rs:30:    assert_eq!(format!("{:?}", json!(-1)), "Number(-1)");
+tests/regression/issue520.rs:18:        E::Float(f) => assert_eq!(f, 159.1),
+tests/regression/issue795.rs:1:#![allow(clippy::assertions_on_result_states)]
+tests/regression/issue795.rs:58:    assert!(serde_json::from_str::<Enum>(s).is_err());
+tests/regression/issue795.rs:61:    assert!(serde_json::from_value::<Enum>(j).is_err());
+tests/lexical/float.rs:11:    assert_eq!(x.normalize(), shift);
+tests/lexical/float.rs:12:    assert_eq!(
+tests/lexical/float.rs:89:    assert_eq!(
+tests/lexical/float.rs:130:    assert_eq!(
+tests/lexical/float.rs:187:fn assert_normalized_eq(mut x: ExtendedFloat, mut y: ExtendedFloat) {
+tests/lexical/float.rs:190:    assert_eq!(x, y);
+tests/lexical/float.rs:200:        assert_normalized_eq(
+tests/lexical/float.rs:252:    assert_eq!(x.into_float::<f32>(), 0.0);
+tests/map.rs:15:    assert_eq!(keys, EXPECTED);
+tests/map.rs:26:    assert_eq!(keys, &["d", "b", "a", "c"]);
+tests/map.rs:45:    assert_eq!(keys, EXPECTED);
+tests/map.rs:46:    assert!(val.is_empty());
+tests/map.rs:56:    assert_eq!(keys, &["a", "c"]);
+tests/regression/issue1004.rs:11:    assert_eq!(json, "5.55");

@@ -1,0 +1,5 @@
+9:pub(super) struct BtreeBitmap {
+20:impl BtreeBitmap {
+21:    pub(crate) fn count_unset(&self) -> u32 {
+25:    pub(crate) fn has_unset(&self) -> bool {
+29:    pub(crate) fn get(&self, i: u32) -> bool {

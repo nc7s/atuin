@@ -1,0 +1,3 @@
+crates/atuin-client/src/lib.rs:1:#![deny(unsafe_code)]
+crates/atuin-client/src/import/zsh_histdb.rs:186:    #[allow(unsafe_code)]
+crates/atuin-client/src/import/zsh_histdb.rs:191:        unsafe { env::set_var(key, test_env_db) };

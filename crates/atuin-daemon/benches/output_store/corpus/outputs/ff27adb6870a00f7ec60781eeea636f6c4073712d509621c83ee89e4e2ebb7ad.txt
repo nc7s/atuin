@@ -1,0 +1,5 @@
+26:pub enum View {
+35:struct Run {
+45:impl Run {
+46:    fn new(entry: &History, session: bool, settings: &Settings) -> Self {
+70:pub struct Browser {

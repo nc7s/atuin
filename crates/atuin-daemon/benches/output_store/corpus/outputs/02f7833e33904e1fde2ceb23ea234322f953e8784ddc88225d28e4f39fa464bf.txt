@@ -1,0 +1,15 @@
+crates/atuin-client/src/database.rs:266:// TODO: implement IntoIterator
+crates/atuin-client/src/database.rs:718:                    // TODO smart case mode could be made configurable like in fzf
+crates/atuin-client/src/ordering.rs:21:        // TODO for fzf search we should sum up scores for each matched term
+crates/atuin-client/src/packfile/record.rs:47:            // TODO(ATU-589): Remove the vestigial `Host::_name` serialization.
+crates/atuin-client/src/packfile/record.rs:68:    // TODO(ATU-589): Remove the vestigial `Host::_name` serialization.
+crates/atuin-client/src/packfile/record.rs:339:            // TODO: One huge PASETO may not be the best choice. @ellie suggests switching to
+crates/atuin-client/src/history/store.rs:229:        // TODO(ellie): move the history store to its own file
+crates/atuin-client/src/history/store.rs:289:        // TODO(ellie): page or iterate this
+crates/atuin-client/src/history/store.rs:313:        // TODO(markovejnovic): Make this an iterator. The extra allocation is not useful.
+crates/atuin-client/src/history/store.rs:342:                // TODO(ATU-594): unwrapping the chunk into a typed `Vec` reallocates what
+crates/atuin-client/src/import/fish.rs:89:                // TODO: any other escape characters?
+crates/atuin-client/src/record/sync/mod.rs:11://! TODO(markovejnovic): Migrate this outside of `record/`, since it handles a lot more than just
+crates/atuin-client/src/record/sync/mod.rs:324:    // TODO(markovejnovic): Seriously revisit the syncing logic and coupling.
+crates/atuin-client/src/record/sync/mod.rs:426:    // TODO(markovejnovic): Seriously revisit the syncing logic and coupling.
+crates/atuin-client/src/record/sync/mod.rs:454:        // TODO: This adds a slight runtime cost, but while the packfile feature is new, let's err

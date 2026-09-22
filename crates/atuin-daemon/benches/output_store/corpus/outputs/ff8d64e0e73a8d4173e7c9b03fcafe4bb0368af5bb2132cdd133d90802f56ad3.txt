@@ -1,0 +1,5 @@
+8:pub enum Error {
+34:impl Error {
+35:    pub(crate) fn from_meta_build_error(err: meta::BuildError) -> Error {
+37:            Error::CompiledTooBig(size_limit)
+39:            Error::Syntax(err.to_string())

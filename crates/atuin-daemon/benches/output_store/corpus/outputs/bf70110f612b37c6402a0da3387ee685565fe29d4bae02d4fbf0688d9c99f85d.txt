@@ -1,0 +1,10 @@
+15:pub fn generate(n: usize, seed: u64) -> Vec<String> {
+21:struct Rng(u64);
+23:impl Rng {
+24:    fn new(seed: u64) -> Self {
+28:    fn next(&mut self) -> u64 {
+37:    fn below(&mut self, n: usize) -> usize {
+41:    fn pick(&mut self, xs: &[&'static str]) -> &'static str {
+47:    fn pick_common(&mut self, xs: &[&'static str]) -> &'static str {
+55:    fn arg(&mut self) -> u64 {
+144:fn gen_one(rng: &mut Rng) -> String {

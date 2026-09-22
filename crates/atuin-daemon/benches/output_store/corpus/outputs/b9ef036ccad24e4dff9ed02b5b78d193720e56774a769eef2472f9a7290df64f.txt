@@ -1,0 +1,20 @@
+5:use crate::{AccessGuard, Result, StorageError};
+14:enum ExtractState {
+20:    Errored,
+23:pub(crate) struct BtreeExtractIf<
+40:    pub(crate) fn new(
+65:    pub(crate) fn predicate_panicked(&self) -> bool {
+69:    pub(crate) fn close(&mut self) -> Result {
+74:            return if self.close_failed || self.state == ExtractState::Errored {
+75:                Err(StorageError::PreviousIo)
+90:    // committed. Errors surfaced by the iterator can lose removals too, so
+92:    pub(crate) fn close_failed(&self) -> bool {
+102:    fn latch_error(&mut self) {
+104:        self.state = ExtractState::Errored;
+107:    fn next_inner(&mut self) -> Result<Option<ExtractItem<'a, K, V>>> {
+115:                assert!(!self.predicate_running);
+134:    fn next_back_inner(&mut self) -> Result<Option<ExtractItem<'a, K, V>>> {
+140:                assert!(!self.predicate_running);
+161:    fn advance(
+166:            ExtractState::Errored => return Some(Err(StorageError::PreviousIo)),
+184:    fn next(&mut self) -> Option<Self::Item> {

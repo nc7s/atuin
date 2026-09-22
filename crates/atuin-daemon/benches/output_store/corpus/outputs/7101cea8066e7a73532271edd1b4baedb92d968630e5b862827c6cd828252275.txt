@@ -1,0 +1,3 @@
+src/error.rs:68:impl core::fmt::Display for Error {
+src/regex/string.rs:155:impl core::fmt::Display for Regex {
+src/regex/bytes.rs:157:impl core::fmt::Display for Regex {

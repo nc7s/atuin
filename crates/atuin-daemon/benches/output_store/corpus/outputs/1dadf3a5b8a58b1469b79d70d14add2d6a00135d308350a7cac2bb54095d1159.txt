@@ -1,0 +1,400 @@
+use alloc::{borrow::Cow, string::String, sync::Arc};
+
+use regex_automata::{meta, util::captures, Input, PatternID};
+
+use crate::{error::Error, RegexBuilder};
+
+/// A convenient way to construct regex patterns from string literals.
+///
+/// This macro can be used to construct reusable instances of [`Regex`] with
+/// reduced boilerplate. The constructed `Regex` is stored in a static so the
+/// pattern is compiled approximately once, even when called multiple times.
+///
+/// There is *no compile-time checking of patterns* with `regex!`. Instead,
+/// invalid patterns will panic the first time the regex is used. Invalid
+/// patterns should still not be used with `regex!`; if compile-time checking
+/// becomes feasible in the future, it may be added within a non-semver-breaking
+/// release. In the meantime, consider enabling [`clippy::invalid_regex`].
+///
+/// # Examples
+///
+/// ```
+/// use regex::{Regex, regex};
+///
+/// assert!(regex!("[a-z]").is_match("a"));
+/// assert!(regex!("(inconceivable!|classic blunder)").is_match("inconceivable!"));
+///
+/// let re: &Regex = regex!(r"(\d{3})-(\d{4})");
+/// assert_eq!(&re.captures("867-5309").unwrap()[1], "867");
+/// ```
+///
+/// An invalid pattern will panic when it is first used:
+///
+/// ```should_panic
+/// use regex::regex;
+///
+/// let re = regex!("invalid -> ("); // no panic here
+/// re.is_match("invalid -> (");     // panic!
+/// ```
+///
+/// [`clippy::invalid_regex`]: https://rust-lang.github.io/rust-clippy/master/#invalid_regex
+#[macro_export]
+macro_rules! regex {
+    ($re:literal) => {{
+        static REGEX: $crate::__private::Lazy<$crate::Regex> =
+            $crate::__private::Lazy::new(|| {
+                $crate::Regex::new($re).expect("invalid regex pattern")
+            });
+
+        // Coerce returned type from `&Lazy<Regex>` to `&Regex` to avoid making the
+        // inner type public.
+        let re: &$crate::Regex = &REGEX;
+        re
+    }};
+}
+
+/// A compiled regular expression for searching Unicode haystacks.
+///
+/// A `Regex` can be used to search haystacks, split haystacks into substrings
+/// or replace substrings in a haystack with a different substring. All
+/// searching is done with an implicit `(?s:.)*?` at the beginning and end of
+/// an pattern. To force an expression to match the whole string (or a prefix
+/// or a suffix), you must use an anchor like `^` or `$` (or `\A` and `\z`).
+///
+/// While this crate will handle Unicode strings (whether in the regular
+/// expression or in the haystack), all positions returned are **byte
+/// offsets**. Every byte offset is guaranteed to be at a Unicode code point
+/// boundary. That is, all offsets returned by the `Regex` API are guaranteed
+/// to be ranges that can slice a `&str` without panicking. If you want to
+/// relax this requirement, then you must search `&[u8]` haystacks with a
+/// [`bytes::Regex`](crate::bytes::Regex).
+///
+/// The only methods that allocate new strings are the string replacement
+/// methods. All other methods (searching and splitting) return borrowed
+/// references into the haystack given.
+///
+/// # Example
+///
+/// Find the offsets of a US phone number:
+///
+/// ```
+/// use regex::Regex;
+///
+/// let re = Regex::new("[0-9]{3}-[0-9]{3}-[0-9]{4}").unwrap();
+/// let m = re.find("phone: 111-222-3333").unwrap();
+/// assert_eq!(7..19, m.range());
+/// ```
+///
+/// # Example: extracting capture groups
+///
+/// A common way to use regexes is with capture groups. That is, instead of
+/// just looking for matches of an entire regex, parentheses are used to create
+/// groups that represent part of the match.
+///
+/// For example, consider a haystack with multiple lines, and each line has
+/// three whitespace delimited fields where the second field is expected to be
+/// a number and the third field a boolean. To make this convenient, we use
+/// the [`Captures::extract`] API to put the strings that match each group
+/// into a fixed size array:
+///
+/// ```
+/// use regex::Regex;
+///
+/// let hay = "
+/// rabbit         54 true
+/// groundhog 2 true
+/// does not match
+/// fox   109    false
+/// ";
+/// let re = Regex::new(r"(?m)^\s*(\S+)\s+([0-9]+)\s+(true|false)\s*$").unwrap();
+/// let mut fields: Vec<(&str, i64, bool)> = vec![];
+/// for (_, [f1, f2, f3]) in re.captures_iter(hay).map(|caps| caps.extract()) {
+///     fields.push((f1, f2.parse()?, f3.parse()?));
+/// }
+/// assert_eq!(fields, vec![
+///     ("rabbit", 54, true),
+///     ("groundhog", 2, true),
+///     ("fox", 109, false),
+/// ]);
+///
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
+///
+/// # Example: searching with the `Pattern` trait
+///
+/// **Note**: This section requires that this crate is compiled with the
+/// `pattern` Cargo feature enabled, which **requires nightly Rust**.
+///
+/// Since `Regex` implements `Pattern` from the standard library, one can
+/// use regexes with methods defined on `&str`. For example, `is_match`,
+/// `find`, `find_iter` and `split` can, in some cases, be replaced with
+/// `str::contains`, `str::find`, `str::match_indices` and `str::split`.
+///
+/// Here are some examples:
+///
+/// ```ignore
+/// use regex::Regex;
+///
+/// let re = Regex::new(r"\d+").unwrap();
+/// let hay = "a111b222c";
+///
+/// assert!(hay.contains(&re));
+/// assert_eq!(hay.find(&re), Some(1));
+/// assert_eq!(hay.match_indices(&re).collect::<Vec<_>>(), vec![
+///     (1, "111"),
+///     (5, "222"),
+/// ]);
+/// assert_eq!(hay.split(&re).collect::<Vec<_>>(), vec!["a", "b", "c"]);
+/// ```
+#[derive(Clone)]
+pub struct Regex {
+    pub(crate) meta: meta::Regex,
+    pub(crate) pattern: Arc<str>,
+}
+
+impl core::fmt::Display for Regex {
+    /// Shows the original regular expression.
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        write!(f, "{}", self.as_str())
+    }
+}
+
+impl core::fmt::Debug for Regex {
+    /// Shows the original regular expression.
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        f.debug_tuple("Regex").field(&self.as_str()).finish()
+    }
+}
+
+impl core::str::FromStr for Regex {
+    type Err = Error;
+
+    /// Attempts to parse a string into a regular expression
+    fn from_str(s: &str) -> Result<Regex, Error> {
+        Regex::new(s)
+    }
+}
+
+impl TryFrom<&str> for Regex {
+    type Error = Error;
+
+    /// Attempts to parse a string into a regular expression
+    fn try_from(s: &str) -> Result<Regex, Error> {
+        Regex::new(s)
+    }
+}
+
+impl TryFrom<String> for Regex {
+    type Error = Error;
+
+    /// Attempts to parse a string into a regular expression
+    fn try_from(s: String) -> Result<Regex, Error> {
+        Regex::new(&s)
+    }
+}
+
+/// Core regular expression methods.
+impl Regex {
+    /// Compiles a regular expression. Once compiled, it can be used repeatedly
+    /// to search, split or replace substrings in a haystack.
+    ///
+    /// Note that regex compilation tends to be a somewhat expensive process,
+    /// and unlike higher level environments, compilation is not automatically
+    /// cached for you. One should endeavor to compile a regex once and then
+    /// reuse it. For example, it's a bad idea to compile the same regex
+    /// repeatedly in a loop.
+    ///
+    /// # Errors
+    ///
+    /// If an invalid pattern is given, then an error is returned.
+    /// An error is also returned if the pattern is valid, but would
+    /// produce a regex that is bigger than the configured size limit via
+    /// [`RegexBuilder::size_limit`]. (A reasonable size limit is enabled by
+    /// default.)
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use regex::Regex;
+    ///
+    /// // An Invalid pattern because of an unclosed parenthesis
+    /// assert!(Regex::new(r"foo(bar").is_err());
+    /// // An invalid pattern because the regex would be too big
+    /// // because Unicode tends to inflate things.
+    /// assert!(Regex::new(r"\w{1000}").is_err());
+    /// // Disabling Unicode can make the regex much smaller,
+    /// // potentially by up to or more than an order of magnitude.
+    /// assert!(Regex::new(r"(?-u:\w){1000}").is_ok());
+    /// ```
+    pub fn new(re: &str) -> Result<Regex, Error> {
+        RegexBuilder::new(re).build()
+    }
+
+    /// Returns true if and only if there is a match for the regex anywhere
+    /// in the haystack given.
+    ///
+    /// It is recommended to use this method if all you need to do is test
+    /// whether a match exists, since the underlying matching engine may be
+    /// able to do less work.
+    ///
+    /// # Example
+    ///
+    /// Test if some haystack contains at least one word with exactly 13
+    /// Unicode word characters:
+    ///
+    /// ```
+    /// use regex::Regex;
+    ///
+    /// let re = Regex::new(r"\b\w{13}\b").unwrap();
+    /// let hay = "I categorically deny having triskaidekaphobia.";
+    /// assert!(re.is_match(hay));
+    /// ```
+    #[inline]
+    pub fn is_match(&self, haystack: &str) -> bool {
+        self.is_match_at(haystack, 0)
+    }
+
+    /// This routine searches for the first match of this regex in the
+    /// haystack given, and if found, returns a [`Match`]. The `Match`
+    /// provides access to both the byte offsets of the match and the actual
+    /// substring that matched.
+    ///
+    /// Note that this should only be used if you want to find the entire
+    /// match. If instead you just want to test the existence of a match,
+    /// it's potentially faster to use `Regex::is_match(hay)` instead of
+    /// `Regex::find(hay).is_some()`.
+    ///
+    /// # Example
+    ///
+    /// Find the first word with exactly 13 Unicode word characters:
+    ///
+    /// ```
+    /// use regex::Regex;
+    ///
+    /// let re = Regex::new(r"\b\w{13}\b").unwrap();
+    /// let hay = "I categorically deny having triskaidekaphobia.";
+    /// let mat = re.find(hay).unwrap();
+    /// assert_eq!(2..15, mat.range());
+    /// assert_eq!("categorically", mat.as_str());
+    /// ```
+    #[inline]
+    pub fn find<'h>(&self, haystack: &'h str) -> Option<Match<'h>> {
+        self.find_at(haystack, 0)
+    }
+
+    /// Returns an iterator that yields successive non-overlapping matches in
+    /// the given haystack. The iterator yields values of type [`Match`].
+    ///
+    /// # Time complexity
+    ///
+    /// Note that since `find_iter` runs potentially many searches on the
+    /// haystack and since each search has worst case `O(m * n)` time
+    /// complexity, the overall worst case time complexity for iteration is
+    /// `O(m * n^2)`.
+    ///
+    /// # Example
+    ///
+    /// Find every word with exactly 13 Unicode word characters:
+    ///
+    /// ```
+    /// use regex::Regex;
+    ///
+    /// let re = Regex::new(r"\b\w{13}\b").unwrap();
+    /// let hay = "Retroactively relinquishing remunerations is reprehensible.";
+    /// let matches: Vec<_> = re.find_iter(hay).map(|m| m.as_str()).collect();
+    /// assert_eq!(matches, vec![
+    ///     "Retroactively",
+    ///     "relinquishing",
+    ///     "remunerations",
+    ///     "reprehensible",
+    /// ]);
+    /// ```
+    #[inline]
+    pub fn find_iter<'r, 'h>(&'r self, haystack: &'h str) -> Matches<'r, 'h> {
+        Matches { haystack, it: self.meta.find_iter(haystack) }
+    }
+
+    /// This routine searches for the first match of this regex in the haystack
+    /// given, and if found, returns not only the overall match but also the
+    /// matches of each capture group in the regex. If no match is found, then
+    /// `None` is returned.
+    ///
+    /// Capture group `0` always corresponds to an implicit unnamed group that
+    /// includes the entire match. If a match is found, this group is always
+    /// present. Subsequent groups may be named and are numbered, starting
+    /// at 1, by the order in which the opening parenthesis appears in the
+    /// pattern. For example, in the pattern `(?<a>.(?<b>.))(?<c>.)`, `a`,
+    /// `b` and `c` correspond to capture group indices `1`, `2` and `3`,
+    /// respectively.
+    ///
+    /// You should only use `captures` if you need access to the capture group
+    /// matches. Otherwise, [`Regex::find`] is generally faster for discovering
+    /// just the overall match.
+    ///
+    /// # Example
+    ///
+    /// Say you have some haystack with movie names and their release years,
+    /// like "'Citizen Kane' (1941)". It'd be nice if we could search for
+    /// substrings looking like that, while also extracting the movie name and
+    /// its release year separately. The example below shows how to do that.
+    ///
+    /// ```
+    /// use regex::Regex;
+    ///
+    /// let re = Regex::new(r"'([^']+)'\s+\((\d{4})\)").unwrap();
+    /// let hay = "Not my favorite movie: 'Citizen Kane' (1941).";
+    /// let caps = re.captures(hay).unwrap();
+    /// assert_eq!(caps.get(0).unwrap().as_str(), "'Citizen Kane' (1941)");
+    /// assert_eq!(caps.get(1).unwrap().as_str(), "Citizen Kane");
+    /// assert_eq!(caps.get(2).unwrap().as_str(), "1941");
+    /// // You can also access the groups by index using the Index notation.
+    /// // Note that this will panic on an invalid index. In this case, these
+    /// // accesses are always correct because the overall regex will only
+    /// // match when these capture groups match.
+    /// assert_eq!(&caps[0], "'Citizen Kane' (1941)");
+    /// assert_eq!(&caps[1], "Citizen Kane");
+    /// assert_eq!(&caps[2], "1941");
+    /// ```
+    ///
+    /// Note that the full match is at capture group `0`. Each subsequent
+    /// capture group is indexed by the order of its opening `(`.
+    ///
+    /// We can make this example a bit clearer by using *named* capture groups:
+    ///
+    /// ```
+    /// use regex::Regex;
+    ///
+    /// let re = Regex::new(r"'(?<title>[^']+)'\s+\((?<year>\d{4})\)").unwrap();
+    /// let hay = "Not my favorite movie: 'Citizen Kane' (1941).";
+    /// let caps = re.captures(hay).unwrap();
+    /// assert_eq!(caps.get(0).unwrap().as_str(), "'Citizen Kane' (1941)");
+    /// assert_eq!(caps.name("title").unwrap().as_str(), "Citizen Kane");
+    /// assert_eq!(caps.name("year").unwrap().as_str(), "1941");
+    /// // You can also access the groups by name using the Index notation.
+    /// // Note that this will panic on an invalid group name. In this case,
+    /// // these accesses are always correct because the overall regex will
+    /// // only match when these capture groups match.
+    /// assert_eq!(&caps[0], "'Citizen Kane' (1941)");
+    /// assert_eq!(&caps["title"], "Citizen Kane");
+    /// assert_eq!(&caps["year"], "1941");
+    /// ```
+    ///
+    /// Here we name the capture groups, which we can access with the `name`
+    /// method or the `Index` notation with a `&str`. Note that the named
+    /// capture groups are still accessible with `get` or the `Index` notation
+    /// with a `usize`.
+    ///
+    /// The `0`th capture group is always unnamed, so it must always be
+    /// accessed with `get(0)` or `[0]`.
+    ///
+    /// Finally, one other way to get the matched substrings is with the
+    /// [`Captures::extract`] API:
+    ///
+    /// ```
+    /// use regex::Regex;
+    ///
+    /// let re = Regex::new(r"'([^']+)'\s+\((\d{4})\)").unwrap();
+    /// let hay = "Not my favorite movie: 'Citizen Kane' (1941).";
+    /// let (full, [title, year]) = re.captures(hay).unwrap().extract();
+    /// assert_eq!(full, "'Citizen Kane' (1941)");
+    /// assert_eq!(title, "Citizen Kane");

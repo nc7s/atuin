@@ -1,0 +1,1 @@
+844 crates/atuin/src/command/client/search/inspector/browser.rs

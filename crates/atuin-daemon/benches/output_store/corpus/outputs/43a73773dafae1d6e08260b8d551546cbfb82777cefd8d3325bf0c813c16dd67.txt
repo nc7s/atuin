@@ -1,0 +1,5 @@
+total 60K
+-rw-r--r-- 1 i i  19K Jul 24  2006 compress.rs
+-rw-r--r-- 1 i i  18K Jul 24  2006 decompress.rs
+-rw-r--r-- 1 i i  14K Jul 24  2006 header.rs
+-rw-r--r-- 1 i i 3.5K Jul 24  2006 mod.rs

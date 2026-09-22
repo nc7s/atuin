@@ -1,0 +1,14 @@
+crates/atuin-common/src/units/percent.rs:36:    pub const fn new(value: f64) -> Self {
+crates/atuin-common/src/encryption/paseto_v4.rs:133:    pub fn new_os_random() -> Self {
+crates/atuin-common/src/sync/sharded_mutex.rs:17:    pub fn new(shards: NonZeroUsize) -> Self {
+crates/atuin-common/src/slice.rs:49:    pub fn new(sorted: &'a [T], iter: I) -> Self {
+crates/atuin-common/src/filter.rs:40:    pub fn new_unchecked(sorted_deduped: L) -> Self {
+crates/atuin-common/src/db/sqlite/info.rs:194:    pub fn new_eager_future(pool: SqlitePool) -> EagerFutureCell<Self> {
+crates/atuin-common/src/sync/eager_future_cell.rs:103:    pub fn new<Fut>(work: Fut, handle: &Handle) -> Self
+crates/atuin-common/src/db/sqlite/builder.rs:42:    pub(super) fn new(input: &'a OsStr) -> Self {
+crates/atuin-common/src/range/chunks.rs:66:    pub(super) fn new(range: Range<T>, size: T) -> Self {
+crates/atuin-common/src/string/non_nul_str.rs:22:    pub fn new(inner: T) -> Result<Self, ContainsNul> {
+crates/atuin-common/src/range/py_style.rs:28:    pub fn new(start: i64, end: i64) -> Self {
+crates/atuin-common/src/path/display_rich.rs:24:    fn new(path: &'a Path) -> Self {
+crates/atuin-common/src/string/ellipsis.rs:37:    pub const fn new(marker: &'a str) -> Self {
+crates/atuin-common/src/string/bounded_buffer.rs:57:    pub fn new(limit: Limit) -> Self {

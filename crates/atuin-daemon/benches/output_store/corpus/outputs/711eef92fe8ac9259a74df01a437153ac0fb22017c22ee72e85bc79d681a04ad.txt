@@ -1,0 +1,6 @@
+20:pub fn stream_bridge(
+27:) -> impl futures::Stream<Item = Msg> + Send {
+92:                    StreamControl::Error(msg) => Some(Event::StreamError(msg)),
+97:                Err(e) => Some(Event::StreamError(e.to_string())),
+101:                // StreamDone and StreamError are terminal — the server won't
+105:                    matches!(event, Event::StreamDone { .. } | Event::StreamError(_));

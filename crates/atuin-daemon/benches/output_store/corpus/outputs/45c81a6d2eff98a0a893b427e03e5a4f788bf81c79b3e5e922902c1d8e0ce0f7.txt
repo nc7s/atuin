@@ -1,0 +1,25 @@
+10:pub mod interpolate;
+17:pub use walker::global_context_path;
+21:pub struct UserContext {
+23:    pub path: String,
+25:    pub data: String,
+34:pub struct UserContextCache {
+39:struct CacheSlot {
+46:impl UserContextCache {
+48:    pub async fn get_or_gather(
+78:    pub fn invalidate(&self) {
+87:    pub fn has_gathered(&self) -> Option<bool> {
+92:    fn lock(&self) -> MutexGuard<'_, CacheSlot> {
+102:pub async fn gather(start: &Path, global_path: Option<&Path>, shell: &str) -> Vec<UserContext> {
+143:    fn find<'a>(contexts: &'a [UserContext], path: &Path) -> Option<&'a UserContext> {
+149:    async fn cache_serves_stale_until_invalidated() {
+157:        assert_eq!(find(&contexts, &file).unwrap().data, "version one");
+162:        assert_eq!(find(&contexts, &file).unwrap().data, "version one");
+167:        assert_eq!(find(&contexts, &file).unwrap().data, "version two");
+172:    async fn invalidate_during_gather_is_not_lost() {
+194:        assert_eq!(find(&contexts, &file).unwrap().data.trim(), "one");
+199:        assert_eq!(find(&contexts, &file).unwrap().data.trim(), "two");
+204:    async fn slow_gather_does_not_overwrite_concurrent_result() {
+223:        assert_eq!(find(&contexts, &file).unwrap().data.trim(), "two");
+227:        assert_eq!(find(&contexts, &file).unwrap().data.trim(), "one");
+231:        assert_eq!(find(&contexts, &file).unwrap().data.trim(), "two");

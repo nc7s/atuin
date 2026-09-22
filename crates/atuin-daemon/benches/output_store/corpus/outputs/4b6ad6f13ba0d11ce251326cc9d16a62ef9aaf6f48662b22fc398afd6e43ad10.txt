@@ -1,0 +1,80 @@
+4:#[cfg(debug_assertions)]
+34:pub(crate) struct PageNumber {
+40:impl Hash for PageNumber {
+41:    fn hash<H: Hasher>(&self, state: &mut H) {
+50:impl Ord for PageNumber {
+51:    fn cmp(&self, other: &Self) -> Ordering {
+57:                assert!(
+68:impl PartialOrd for PageNumber {
+69:    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+74:impl PageNumber {
+75:    pub(crate) const fn serialized_size() -> usize {
+79:    pub(crate) fn new(region: u32, page_index: u32, page_order: u8) -> Self {
+80:        debug_assert!(region <= 0x000F_FFFF);
+81:        debug_assert!(page_index <= MAX_PAGE_INDEX);
+82:        debug_assert!(page_order <= MAX_MAX_PAGE_ORDER);
+90:    pub(crate) fn to_le_bytes(self) -> [u8; 8] {
+97:    pub(crate) fn from_le_bytes(bytes: [u8; 8]) -> Self {
+111:    pub(crate) fn to_order0(self) -> Vec<PageNumber> {
+142:    pub(crate) fn address_range(
+151:        debug_assert!(regional_start < region_size);
+158:    pub(crate) fn page_size_bytes(&self, page_size: u32) -> u64 {
+164:impl Debug for PageNumber {
+165:    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+175:    fn memory(&self) -> &[u8];
+177:    fn get_page_number(&self) -> PageNumber;
+180:pub struct PageImpl {
+183:    #[cfg(debug_assertions)]
+187:impl PageImpl {
+188:    pub(crate) fn to_arc(&self) -> Arc<[u8]> {
+193:impl Debug for PageImpl {
+194:    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+199:#[cfg(debug_assertions)]
+200:impl Drop for PageImpl {
+201:    fn drop(&mut self) {
+204:        assert!(*value > 0);
+212:impl Page for PageImpl {
+213:    fn memory(&self) -> &[u8] {
+217:    fn get_page_number(&self) -> PageNumber {
+222:impl Clone for PageImpl {
+223:    fn clone(&self) -> Self {
+224:        #[cfg(debug_assertions)]
+236:            #[cfg(debug_assertions)]
+243:// It is used in the Drop impl to ensure that the page is dropped before the transaction is committed.
+244:pub(crate) struct PageMut<'txn> {
+248:    #[cfg(debug_assertions)]
+252:impl PageMut<'_> {
+253:    pub(crate) fn memory_mut(&mut self) -> &mut [u8] {
+258:impl Page for PageMut<'_> {
+259:    fn memory(&self) -> &[u8] {
+263:    fn get_page_number(&self) -> PageNumber {
+268:impl Drop for PageMut<'_> {
+269:    fn drop(&mut self) {
+270:        #[cfg(debug_assertions)]
+271:        assert!(self.open_pages.lock().unwrap().remove(&self.page_number));
+276:pub(crate) enum PageHint {
+283:enum PageTrackerPolicy {
+289:impl PageTrackerPolicy {
+290:    pub(crate) fn new_tracking() -> Self {
+294:    pub(crate) fn is_empty(&self) -> bool {
+301:    pub(super) fn remove(&mut self, page: PageNumber) {
+305:                assert!(x.remove(&page));
+313:    pub(super) fn insert(&mut self, page: PageNumber) {
+317:                assert!(x.insert(page));
+325:    pub(crate) fn close(&mut self) -> PageNumberHashSet {
+336:    pub(crate) fn reset(&mut self) -> PageNumberHashSet {
+359:pub(crate) struct PageTracker {
+364:impl PageTracker {
+365:    pub(crate) fn new_tracking() -> Self {
+372:    pub(crate) fn ignore() -> Self {
+379:    pub(crate) fn closed() -> Self {
+386:    fn tracking(&self) -> bool {
+393:    pub(crate) fn disable(&self) {
+398:    pub(crate) fn insert(&self, page: PageNumber) {
+404:    pub(crate) fn remove(&self, page: PageNumber) {
+410:    pub(crate) fn is_empty(&self) -> bool {
+416:    pub(crate) fn close(&self) -> Result<PageNumberHashSet> {
+421:    pub(crate) fn reset(&self) -> PageNumberHashSet {
+431:    fn last_page() {
+447:    fn reserved_bits() {
+452:        assert_eq!(page_number, page_number2);

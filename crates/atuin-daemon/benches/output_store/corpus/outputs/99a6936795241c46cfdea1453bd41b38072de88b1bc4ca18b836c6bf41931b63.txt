@@ -1,0 +1,60 @@
+use crate::Result;
+use crate::sync::Mutex;
+use crate::tree_store::btree::{PagePath, UntypedBtree, UntypedBtreeMut, btree_stats};
+use crate::tree_store::btree_base::{
+    BRANCH, BranchAccessor, BranchMutator, Checksum, DEFERRED, LEAF, LeafAccessor, LeafPageMut,
+};
+use crate::tree_store::multimap_btree::DynamicCollectionType::{Inline, SubtreeV2};
+use crate::tree_store::{
+    AllPageNumbersBtreeIter, BtreeHeader, BtreeStats, Page, PageAllocator, PageHint, PageNumber,
+    PageNumberHashMap, PageResolver, PageTracker, RawBtree,
+};
+use crate::types::{Key, TypeName, Value};
+use alloc::sync::Arc;
+use alloc::vec;
+use alloc::vec::Vec;
+use core::cmp::max;
+use core::marker::PhantomData;
+use core::mem::size_of;
+use core::ops::Range;
+
+pub(crate) fn multimap_btree_stats(
+    root: Option<PageNumber>,
+    mem: &PageResolver,
+    fixed_key_size: Option<usize>,
+    fixed_value_size: Option<usize>,
+    hint: PageHint,
+) -> Result<BtreeStats> {
+    if let Some(root) = root {
+        multimap_stats_helper(root, mem, fixed_key_size, fixed_value_size, hint)
+    } else {
+        Ok(BtreeStats {
+            tree_height: 0,
+            leaf_pages: 0,
+            branch_pages: 0,
+            stored_leaf_bytes: 0,
+            metadata_bytes: 0,
+            fragmented_bytes: 0,
+        })
+    }
+}
+
+fn multimap_stats_helper(
+    page_number: PageNumber,
+    mem: &PageResolver,
+    fixed_key_size: Option<usize>,
+    fixed_value_size: Option<usize>,
+    hint: PageHint,
+) -> Result<BtreeStats> {
+    let page = mem.get_page(page_number, hint)?;
+    let node_mem = page.memory();
+    match node_mem[0] {
+        LEAF => {
+            let accessor = LeafAccessor::new(
+                page.memory(),
+                fixed_key_size,
+                DynamicCollection::<()>::fixed_width_with(fixed_value_size),
+            );
+            let mut leaf_bytes = 0u64;
+            let mut is_branch = false;
+            for i in 0..accessor.num_pairs() {

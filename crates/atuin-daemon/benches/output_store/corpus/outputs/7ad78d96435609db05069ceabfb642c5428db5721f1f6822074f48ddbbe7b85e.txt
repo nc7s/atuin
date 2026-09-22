@@ -1,0 +1,34 @@
+35:/// assert_eq!(first, 1);
+37:pub trait Index: private::Sealed {
+40:    fn index_into<'v>(&self, v: &'v Value) -> Option<&'v Value>;
+44:    fn index_into_mut<'v>(&self, v: &'v mut Value) -> Option<&'v mut Value>;
+51:    fn index_or_insert<'v>(&self, v: &'v mut Value) -> &'v mut Value;
+54:impl Index for usize {
+55:    fn index_into<'v>(&self, v: &'v Value) -> Option<&'v Value> {
+61:    fn index_into_mut<'v>(&self, v: &'v mut Value) -> Option<&'v mut Value> {
+67:    fn index_or_insert<'v>(&self, v: &'v mut Value) -> &'v mut Value {
+83:impl Index for str {
+84:    fn index_into<'v>(&self, v: &'v Value) -> Option<&'v Value> {
+90:    fn index_into_mut<'v>(&self, v: &'v mut Value) -> Option<&'v mut Value> {
+96:    fn index_or_insert<'v>(&self, v: &'v mut Value) -> &'v mut Value {
+107:impl Index for String {
+108:    fn index_into<'v>(&self, v: &'v Value) -> Option<&'v Value> {
+111:    fn index_into_mut<'v>(&self, v: &'v mut Value) -> Option<&'v mut Value> {
+114:    fn index_or_insert<'v>(&self, v: &'v mut Value) -> &'v mut Value {
+123:    fn index_into<'v>(&self, v: &'v Value) -> Option<&'v Value> {
+126:    fn index_into_mut<'v>(&self, v: &'v mut Value) -> Option<&'v mut Value> {
+129:    fn index_or_insert<'v>(&self, v: &'v mut Value) -> &'v mut Value {
+136:    pub trait Sealed {}
+137:    impl Sealed for usize {}
+138:    impl Sealed for str {}
+139:    impl Sealed for alloc::string::String {}
+144:struct Type<'a>(&'a Value);
+147:    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+168:// Value::Array and getting the Vec directly. The Index impl means you can skip
+175:// as_array, or match. The value of this impl is that it adds a way of working
+206:    /// assert_eq!(data["x"]["y"], json!(["z", "zz"]));
+207:    /// assert_eq!(data["x"]["y"][0], json!("z"));
+209:    /// assert_eq!(data["a"], json!(null)); // returns null for undefined values
+210:    /// assert_eq!(data["a"]["b"], json!(null)); // does not panic
+212:    fn index(&self, index: I) -> &Value {
+255:    fn index_mut(&mut self, index: I) -> &mut Value {

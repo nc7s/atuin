@@ -1,0 +1,186 @@
+src/types.rs:27:impl TypeClassification {
+src/types.rs:61:impl PartialEq for TypeName {
+src/types.rs:67:impl Eq for TypeName {}
+src/types.rs:69:impl TypeName {
+src/types.rs:202:impl MutInPlaceValue for &[u8] {
+src/types.rs:249:impl Value for () {
+src/types.rs:284:impl Key for () {
+src/types.rs:290:impl Value for bool {
+src/types/uuid.rs:5:impl Value for Uuid {
+src/types/uuid.rs:38:impl Key for Uuid {
+src/types/chrono_v0_4.rs:18:impl Value for NaiveDate {
+src/types/chrono_v0_4.rs:60:impl Key for NaiveDate {
+src/types/chrono_v0_4.rs:70:impl Value for NaiveTime {
+src/types/chrono_v0_4.rs:117:impl Key for NaiveTime {
+src/types/chrono_v0_4.rs:126:impl Value for NaiveDateTime {
+src/types/chrono_v0_4.rs:188:impl Key for NaiveDateTime {
+src/types/chrono_v0_4.rs:196:impl Value for DateTime<FixedOffset> {
+src/types/chrono_v0_4.rs:267:impl Key for DateTime<FixedOffset> {
+src/multimap_table.rs:556:        key: impl Borrow<K::SelfType<'k>>,
+src/multimap_table.rs:557:        value: impl Borrow<V::SelfType<'v>>,
+src/multimap_table.rs:729:        key: impl Borrow<K::SelfType<'k>>,
+src/multimap_table.rs:730:        value: impl Borrow<V::SelfType<'v>>,
+src/multimap_table.rs:874:        key: impl Borrow<K::SelfType<'a>>,
+src/multimap_table.rs:948:    fn get<'a>(&self, key: impl Borrow<K::SelfType<'a>>) -> Result<MultimapValue<'_, V>> {
+src/multimap_table.rs:969:    fn range<'a>(&self, range: impl KeyRange<'a, K>) -> Result<MultimapRange<'_, K, V>> {
+src/multimap_table.rs:975:    fn range<'a, KR>(&self, range: impl RangeBounds<KR> + 'a) -> Result<MultimapRange<'_, K, V>>
+src/transaction_tracker.rs:25:impl TransactionId {
+src/transaction_tracker.rs:57:impl SavepointId {
+src/transaction_tracker.rs:63:impl Value for SavepointId {
+src/transaction_tracker.rs:90:impl Key for SavepointId {
+src/transaction_tracker.rs:139:impl State {
+src/transaction_tracker.rs:271:impl TransactionTracker {
+src/transaction_tracker.rs:394:        ids: impl IntoIterator<Item = TransactionId>,
+src/transaction_tracker.rs:639:    pub(crate) fn invalidate_savepoints(&self, savepoints: impl IntoIterator<Item = SavepointId>) {
+src/sync.rs:297:    impl Condvar {
+src/sync.rs:330:        // direction cannot be asserted here, and is held by the explicit impl on `MutexGuard`.
+src/error.rs:21:impl From<io::Error> for BackendError {
+src/error.rs:32:impl From<BackendError> for io::Error {
+src/error.rs:43:impl From<BackendError> for Error {
+src/error.rs:49:impl Display for BackendError {
+src/error.rs:58:impl core::error::Error for BackendError {
+src/error.rs:92:impl From<io::Error> for StorageError {
+src/error.rs:98:impl From<BackendError> for StorageError {
+src/error.rs:107:impl From<StorageError> for Error {
+src/transactions.rs:83:impl PageList<'_> {
+src/transactions.rs:102:impl Value for PageList<'_> {
+src/transactions.rs:135:impl MutInPlaceValue for PageList<'_> {
+src/transactions.rs:155:impl Value for TransactionIdWithPagination {
+src/transactions.rs:196:impl Key for TransactionIdWithPagination {
+src/transactions.rs:217:impl Value for AllocatorStateKey {
+src/transactions.rs:269:impl Key for AllocatorStateKey {
+src/transactions.rs:333:impl DatabaseStats {
+src/tuple_types.rs:78:impl ElementType {
+src/tuple_types.rs:226:macro_rules! fixed_width_impl {
+src/tuple_types.rs:238:macro_rules! as_bytes_impl {
+src/tuple_types.rs:262:macro_rules! type_name_impl {
+src/tuple_types.rs:287:macro_rules! from_bytes_variable_impl {
+src/tuple_types.rs:313:macro_rules! from_bytes_fixed_impl {
+src/tuple_types.rs:333:macro_rules! compare_variable_impl {
+src/tuple_types.rs:363:macro_rules! compare_fixed_impl {
+src/table.rs:42:impl TableStats {
+src/table.rs:106:impl Drop for RetainPanicGuard<'_> {
+src/table.rs:145:        key: impl Borrow<K::SelfType<'k>>,
+src/table.rs:196:        range: impl KeyRange<'a, K>,
+src/table.rs:219:        range: impl RangeBounds<KR> + 'a,
+src/table.rs:273:        range: impl KeyRange<'a, K>,
+src/table.rs:290:        range: impl RangeBounds<KR> + 'a,
+src/table.rs:325:        key: impl Borrow<K::SelfType<'k>>,
+src/key_range.rs:41:impl Sealed for RangeFull {}
+src/db.rs:226:impl UntypedTableHandle {
+src/db.rs:232:impl TableHandle for UntypedTableHandle {
+src/db.rs:238:impl Sealed for UntypedTableHandle {}
+src/db.rs:250:impl UntypedMultimapTableHandle {
+src/db.rs:256:impl MultimapTableHandle for UntypedMultimapTableHandle {
+src/db.rs:262:impl Sealed for UntypedMultimapTableHandle {}
+src/db.rs:395:impl CacheStats {
+src/db.rs:435:impl WriteSlot {
+src/io.rs:71:    impl Error {
+src/io.rs:73:        pub fn other(message: impl Into<String>) -> Self {
+src/io.rs:80:    impl Display for Error {
+src/io.rs:86:    impl core::error::Error for Error {}
+src/tree_store/btree.rs:47:impl PagePath {
+src/tree_store/btree.rs:87:impl UntypedBtree {
+src/tree_store/btree.rs:160:impl UntypedBtreeMut {
+src/tree_store/btree.rs:913:impl RawBtree {
+src/tree_store/table_tree_base.rs:24:impl TableType {
+src/tree_store/table_tree_base.rs:31:impl Into<u8> for TableType {
+src/tree_store/table_tree_base.rs:43:impl From<u8> for TableType {
+src/tree_store/table_tree_base.rs:77:impl InternalTableDefinition {
+src/tree_store/table_tree_base.rs:354:impl Value for InternalTableDefinition {
+src/tree_store/multimap_btree.rs:371:impl UntypedMultiBtree {
+src/tree_store/multimap_btree.rs:438:impl From<u8> for DynamicCollectionType {
+src/tree_store/multimap_btree.rs:450:impl Into<u8> for DynamicCollectionType {
+src/tree_store/multimap_btree.rs:595:impl UntypedDynamicCollection {
+src/tree_store/table_tree.rs:33:impl PageListMut {
+src/tree_store/table_tree.rs:53:impl Iterator for TableNameIter {
+src/tree_store/table_tree.rs:78:impl TableTree {
+src/tree_store/table_tree.rs:243:impl TableTreeMut {
+src/tree_store/table_tree.rs:417:        f: impl FnOnce(&mut BtreeMut<K, V>) -> Result,
+src/tree_store/table_tree.rs:465:        f: impl FnOnce(&mut Self, &mut BtreeMut<K, V>) -> Result,
+src/tree_store/table_tree.rs:808:impl Drop for TableTreeMut {
+src/tree_store/btree_mutator.rs:57:impl DeletedPairs {
+src/tree_store/btree_cursor.rs:31:impl Branch {
+src/tree_store/btree_cursor.rs:98:impl Direction {
+src/tree_store/btree_cursor.rs:306:impl LeafRunRewrite {
+src/tree_store/btree_cursor.rs:395:impl InsertRun {
+src/tree_store/btree_cursor.rs:722:impl CursorPosition {
+src/tree_store/btree_cursor.rs:1998:        operation: impl FnOnce(&mut CursorMut<'a, '_, K, V>) -> Result<R>,
+src/tree_store/btree_cursor.rs:2355:        operation: impl FnOnce(&mut CursorMut<'a, '_, K, V>) -> Result<R>,
+src/tree_store/btree_iters.rs:62:impl AllPageNumbersBtreeIter {
+src/tree_store/btree_iters.rs:78:impl Iterator for AllPageNumbersBtreeIter {
+src/tree_store/page_store/savepoint.rs:39:impl Savepoint {
+src/tree_store/page_store/savepoint.rs:85:impl Drop for Savepoint {
+src/tree_store/page_store/savepoint.rs:111:impl SerializedSavepoint<'_> {
+src/tree_store/page_store/savepoint.rs:223:impl Value for SerializedSavepoint<'_> {
+src/tree_store/btree_base.rs:122:impl BtreeHeader {
+src/tree_store/btree_base.rs:186:impl EitherPage<'_> {
+src/tree_store/btree_base.rs:350:    pub fn insert<'v>(&mut self, value: impl Borrow<V::SelfType<'v>>) -> Result<()> {
+src/tree_store/btree_base.rs:428:        // no-op. This Drop impl is only here to ensure that self is dropped before the transaction
+src/tree_store/btree_base.rs:459:        // no-op. This Drop impl is only here to ensure that self is dropped before the transaction
+src/tree_store/btree_base.rs:705:impl OwnedEntryBuffer {
+src/tree_store/btree_base.rs:818:    pub(super) fn entries(&self) -> impl Iterator<Item = (&[u8], &[u8])> {
+src/tree_store/btree_base.rs:1238:impl Drop for RawLeafBuilder<'_> {
+src/tree_store/page_store/region.rs:17:impl RegionTracker {
+src/tree_store/page_store/region.rs:109:impl Allocators {
+src/tree_store/page_store/base.rs:40:impl Hash for PageNumber {
+src/tree_store/page_store/base.rs:50:impl Ord for PageNumber {
+src/tree_store/page_store/base.rs:68:impl PartialOrd for PageNumber {
+src/tree_store/page_store/base.rs:74:impl PageNumber {
+src/tree_store/page_store/base.rs:164:impl Debug for PageNumber {
+src/tree_store/page_store/base.rs:187:impl PageImpl {
+src/tree_store/page_store/base.rs:193:impl Debug for PageImpl {
+src/tree_store/page_store/base.rs:200:impl Drop for PageImpl {
+src/tree_store/page_store/fast_hash.rs:22:    impl Hasher for FastHasher64 {
+src/tree_store/page_store/active_transactions.rs:12:    query: impl Fn(Range<u64>) -> Result<bool, E>,
+src/tree_store/page_store/backends.rs:22:impl ReadOnlyBackend {
+src/tree_store/page_store/backends.rs:29:impl StorageBackend for ReadOnlyBackend {
+src/tree_store/page_store/backends.rs:87:// Hand-written: the derived impl would print every byte of the database, and opening a database
+src/tree_store/page_store/backends.rs:90:impl Debug for InMemoryBackend {
+src/tree_store/page_store/backends.rs:99:impl InMemoryBackend {
+src/tree_store/page_store/backends.rs:105:impl InMemoryBackend {
+src/tree_store/page_store/backends.rs:122:impl StorageBackend for InMemoryBackend {
+src/tree_store/page_store/page_manager.rs:110:impl PageResolver {
+src/tree_store/page_store/page_manager.rs:140:impl UncommittedPages {
+src/tree_store/page_store/page_manager.rs:186:impl PageAllocator {
+src/tree_store/page_store/page_manager.rs:211:    pub(crate) fn adopt_unpersisted(&self, pages: impl IntoIterator<Item = PageNumber>) {
+src/tree_store/page_store/page_manager.rs:315:impl AllocatorState {
+src/tree_store/page_store/page_manager.rs:334:impl InMemoryState {
+src/tree_store/page_store/page_manager.rs:408:impl UnpersistedState {
+src/tree_store/page_store/page_manager.rs:451:        pages: impl IntoIterator<Item = PageNumber>,
+src/tree_store/page_store/buddy_allocator.rs:38:impl BuddyAllocator {
+src/tree_store/page_store/bitmap.rs:20:impl BtreeBitmap {
+src/tree_store/page_store/bitmap.rs:237:impl U64GroupedBitmap {
+src/tree_store/page_store/cached_file.rs:31:impl WritablePage {
+src/tree_store/page_store/cached_file.rs:41:impl Drop for WritablePage {
+src/tree_store/page_store/cached_file.rs:69:impl LRUWriteCache {
+src/tree_store/page_store/cached_file.rs:134:impl Drop for CheckedBackend {
+src/tree_store/page_store/cached_file.rs:142:impl CheckedBackend {
+src/tree_store/page_store/cached_file.rs:151:    fn try_lock_range(&self, range: impl RangeBounds<u64>) -> Result<bool> {
+src/tree_store/page_store/cached_file.rs:158:    fn try_lock_shared_range(&self, range: impl RangeBounds<u64>) -> Result<bool> {
+src/tree_store/page_store/cached_file.rs:166:    fn lock_range(&self, range: impl RangeBounds<u64>) -> Result {
+src/tree_store/page_store/header.rs:110:impl UnrepairedDatabaseHeader {
+src/tree_store/page_store/header.rs:358:impl DatabaseHeader {
+src/tree_store/page_store/header.rs:489:impl TransactionHeader {
+src/tree_store/page_store/header.rs:632:    impl FailingBackend {
+src/tree_store/page_store/header.rs:727:    impl StorageBackend for FailingBackend {
+src/tree_store/page_store/header.rs:1101:    fn patch_god_byte(path: &std::path::Path, patch: impl FnOnce(&mut u8)) {
+src/tree_store/page_store/header.rs:1167:    impl LenOverrideBackend {
+src/tree_store/page_store/header.rs:1174:    impl StorageBackend for LenOverrideBackend {
+src/tree_store/page_store/layout.rs:21:impl RegionLayout {
+src/tree_store/page_store/layout.rs:81:impl DatabaseLayout {
+src/tree_store/page_store/file_backend/fallback.rs:18:impl FileBackend {
+src/tree_store/page_store/file_backend/fallback.rs:48:impl StorageBackend for FileBackend {
+src/tree_store/page_store/lru_cache.rs:72:    pub(crate) fn iter(&self) -> impl ExactSizeIterator<Item = (&u64, &T)> {
+src/tree_store/page_store/lru_cache.rs:76:    pub(crate) fn iter_mut(&mut self) -> impl ExactSizeIterator<Item = (&u64, &mut T)> {
+src/tree_store/page_store/file_backend/range_lock.rs:20:    fn try_lock_range(&self, _range: impl RangeBounds<u64>) -> io::Result<bool> {
+src/tree_store/page_store/file_backend/range_lock.rs:24:    fn try_lock_shared_range(&self, _range: impl RangeBounds<u64>) -> io::Result<bool> {
+src/tree_store/page_store/file_backend/range_lock.rs:29:    fn lock_range(&self, _range: impl RangeBounds<u64>) -> io::Result<()> {
+src/tree_store/page_store/file_backend/range_lock.rs:33:    fn lock_shared_range(&self, _range: impl RangeBounds<u64>) -> io::Result<()> {
+src/tree_store/page_store/file_backend/range_lock.rs:37:    fn unlock_range(&self, _range: impl RangeBounds<u64>) -> io::Result<()> {
+src/tree_store/page_store/file_backend/range_lock.rs:44:    fn query_lock(&self, _range: impl RangeBounds<u64>) -> io::Result<bool> {
+src/tree_store/page_store/file_backend/range_lock.rs:57:impl RangeLock for File {}
+src/tree_store/page_store/file_backend/range_lock.rs:60:fn checked_range(range: impl RangeBounds<u64>) -> io::Result<(u64, u64)> {
+src/tree_store/page_store/file_backend/optimized.rs:77:impl FileBackend {
+src/tree_store/page_store/file_backend/optimized.rs:252:impl StorageBackend for FileBackend {
+src/tree_store/page_store/file_backend/optimized.rs:580:    impl QueryMutexOperation {

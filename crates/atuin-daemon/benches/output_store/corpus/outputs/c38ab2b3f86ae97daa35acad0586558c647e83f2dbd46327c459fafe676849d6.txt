@@ -1,0 +1,56 @@
+src/regexset/string.rs:53:/// let set = RegexSet::new(patterns).unwrap();
+src/regexset/string.rs:58:///     .map(|pat| Regex::new(pat).unwrap())
+src/regexset/string.rs:71:///     .map(|re| re.find(hay).unwrap().as_str())
+src/regexset/string.rs:102:/// ]).unwrap();
+src/regexset/string.rs:151:    /// let set = RegexSet::new([r"\w+", r"\d+"]).unwrap();
+src/regexset/string.rs:181:        RegexSetBuilder::new(empty).build().unwrap()
+src/regexset/string.rs:205:    /// let set = RegexSet::new([r"\w+", r"\d+"]).unwrap();
+src/regexset/string.rs:236:    /// let set = RegexSet::new([r"\bbar\b", r"(?m)^bar$"]).unwrap();
+src/lib.rs:19:let re = Regex::new(r"(?m)^([^:]+):([0-9]+):(.+)$").unwrap();
+src/lib.rs:128:    let re = Regex::new(r"Hello (?<name>\w+)!").unwrap();
+src/lib.rs:185:// We use 'unwrap()' here because it would be a bug in our program if the
+src/lib.rs:188:let re = Regex::new(r"Homer (.)\. Simpson").unwrap();
+src/lib.rs:226:let re = Regex::new(r"Homer (?<middle>.)\. Simpson").unwrap();
+src/lib.rs:244:let re = Regex::new(r"^\d{4}-\d{2}-\d{2}$").unwrap();
+src/lib.rs:259:let re = Regex::new(r"^\d{4}-\d{2}-\d{2}$").unwrap();
+src/lib.rs:281:let re = Regex::new(r"[0-9]{4}-[0-9]{2}-[0-9]{2}").unwrap();
+src/regexset/bytes.rs:57:/// let set = RegexSet::new(patterns).unwrap();
+src/regexset/bytes.rs:62:///     .map(|pat| Regex::new(pat).unwrap())
+src/regexset/bytes.rs:75:///     .map(|re| re.find(hay).unwrap().as_bytes())
+src/regexset/bytes.rs:106:/// ]).unwrap();
+src/regexset/bytes.rs:155:    /// let set = RegexSet::new([r"\w+", r"\d+"]).unwrap();
+src/regexset/bytes.rs:185:        RegexSetBuilder::new(empty).build().unwrap()
+src/regexset/bytes.rs:209:    /// let set = RegexSet::new([r"\w+", r"\d+"]).unwrap();
+src/regexset/bytes.rs:240:    /// let set = RegexSet::new([r"\bbar\b", r"(?m)^bar$"]).unwrap();
+src/error.rs:81:// errors when people use `Regex::new(...).unwrap()`. It's a little weird,
+src/builders.rs:277:        ///     .unwrap();
+src/builders.rs:286:        ///     .unwrap();
+src/builders.rs:315:        ///     .unwrap();
+src/builders.rs:358:        ///     .unwrap();
+src/builders.rs:388:        ///     .unwrap();
+src/builders.rs:427:        ///     .unwrap();
+src/builders.rs:445:        ///     .unwrap();
+src/builders.rs:485:        ///     .unwrap();
+src/regex/string.rs:28:/// assert_eq!(&re.captures("867-5309").unwrap()[1], "867");
+src/regex/string.rs:83:/// let re = Regex::new("[0-9]{3}-[0-9]{3}-[0-9]{4}").unwrap();
+src/regex/string.rs:84:/// let m = re.find("phone: 111-222-3333").unwrap();
+src/regex/string.rs:109:/// let re = Regex::new(r"(?m)^\s*(\S+)\s+([0-9]+)\s+(true|false)\s*$").unwrap();
+src/regex/string.rs:138:/// let re = Regex::new(r"\d+").unwrap();
+src/regex/string.rs:248:    /// let re = Regex::new(r"\b\w{13}\b").unwrap();
+src/regex/string.rs:274:    /// let re = Regex::new(r"\b\w{13}\b").unwrap();
+src/regex/string.rs:276:    /// let mat = re.find(hay).unwrap();
+src/bytes.rs:20:let re = Regex::new(r"(?-u)(?<cstr>[^\x00]+)\x00").unwrap();
+src/bytes.rs:24:// The unwrap is OK here since a match requires the `cstr` capture to match.
+src/bytes.rs:27:      .map(|c| c.name("cstr").unwrap().as_bytes())
+src/bytes.rs:42:).unwrap();
+src/bytes.rs:49:let (_, [title]) = re.captures(hay).unwrap().extract();
+src/bytes.rs:51:// We can UTF-8 decode the title now. And the unwrap here
+src/bytes.rs:54:let title = std::str::from_utf8(title).unwrap();
+src/regex/bytes.rs:28:/// assert_eq!(&re.captures(b"867-5309").unwrap()[1], b"867");
+src/regex/bytes.rs:84:/// let re = Regex::new("[0-9]{3}-[0-9]{3}-[0-9]{4}").unwrap();
+src/regex/bytes.rs:85:/// let m = re.find(b"phone: 111-222-3333").unwrap();
+src/regex/bytes.rs:110:/// let re = Regex::new(r"(?m)^\s*(\S+)\s+([0-9]+)\s+(true|false)\s*$").unwrap();
+src/regex/bytes.rs:113:///     // These unwraps are OK because our pattern is written in a way where
+src/regex/bytes.rs:115:///     let f2 = std::str::from_utf8(f2).unwrap();
+src/regex/bytes.rs:116:///     let f3 = std::str::from_utf8(f3).unwrap();
+src/regex/bytes.rs:146:/// let re = Regex::new(r"(?s)(?-u:.)*?(?<f1>.+)(?-u:.)*?(?<f2>.+)").unwrap();

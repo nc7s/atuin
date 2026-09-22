@@ -1,0 +1,60 @@
+//! The block decompression algorithm.
+use crate::block::{DecompressError, MINMATCH};
+use crate::fastcpy_unsafe;
+use crate::sink::SliceSink;
+use crate::sink::{PtrSink, Sink};
+#[allow(unused_imports)]
+use alloc::vec::Vec;
+
+/// Copies data to output_ptr by self-referential copy from start and match_length
+#[inline]
+unsafe fn duplicate(
+    output_ptr: &mut *mut u8,
+    output_end: *mut u8,
+    start: *const u8,
+    match_length: usize,
+) {
+    // We cannot simply use memcpy or `extend_from_slice`, because these do not allow
+    // self-referential copies: http://ticki.github.io/img/lz4_runs_encoding_diagram.svg
+
+    // Considering that `wild_copy_match_16` can copy up to `16 - 1` extra bytes.
+    // Defer to `duplicate_overlapping` in case of an overlapping match
+    // OR the if the wild copy would copy beyond the end of the output.
+    if (output_ptr.offset_from(start) as usize) < match_length + 16 - 1
+        || (output_end.offset_from(*output_ptr) as usize) < match_length + 16 - 1
+    {
+        duplicate_overlapping(output_ptr, start, match_length);
+    } else {
+        debug_assert!(
+            output_ptr.add(match_length / 16 * 16 + ((match_length % 16) != 0) as usize * 16)
+                <= output_end
+        );
+        wild_copy_from_src_16(start, *output_ptr, match_length);
+        *output_ptr = output_ptr.add(match_length);
+    }
+}
+
+#[inline]
+fn wild_copy_from_src_16(mut source: *const u8, mut dst_ptr: *mut u8, num_items: usize) {
+    // Note: if the compiler auto-vectorizes this it'll hurt performance!
+    // It's not the case for 16 bytes stepsize, but for 8 bytes.
+    unsafe {
+        let dst_ptr_end = dst_ptr.add(num_items);
+        loop {
+            core::ptr::copy_nonoverlapping(source, dst_ptr, 16);
+            source = source.add(16);
+            dst_ptr = dst_ptr.add(16);
+            if dst_ptr >= dst_ptr_end {
+                break;
+            }
+        }
+    }
+}
+
+/// Copy function, if the data start + match_length overlaps into output_ptr
+#[inline]
+#[cfg_attr(feature = "nightly", optimize(size))] // to avoid loop unrolling
+unsafe fn duplicate_overlapping(
+    output_ptr: &mut *mut u8,
+    mut start: *const u8,
+    match_length: usize,

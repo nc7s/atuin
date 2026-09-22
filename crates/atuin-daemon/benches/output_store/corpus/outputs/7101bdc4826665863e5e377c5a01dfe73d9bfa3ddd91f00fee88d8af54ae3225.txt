@@ -1,0 +1,20 @@
+use super::Value;
+use crate::map::Map;
+use crate::number::Number;
+use alloc::borrow::{Cow, ToOwned};
+use alloc::string::String;
+use alloc::vec::Vec;
+
+macro_rules! from_integer {
+    ($($ty:ident)*) => {
+        $(
+            impl From<$ty> for Value {
+                fn from(n: $ty) -> Self {
+                    Value::Number(n.into())
+                }
+            }
+        )*
+    };
+}
+
+from_integer! {

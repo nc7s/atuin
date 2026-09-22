@@ -1,0 +1,20 @@
+6:fn scientific_exponent_test() {
+8:    assert_eq!(scientific_exponent(0, 0, 5), -6);
+9:    assert_eq!(scientific_exponent(10, 0, 5), 4);
+10:    assert_eq!(scientific_exponent(-10, 0, 5), -16);
+13:    assert_eq!(scientific_exponent(0, 1, 5), 0);
+14:    assert_eq!(scientific_exponent(0, 2, 5), 1);
+15:    assert_eq!(scientific_exponent(0, 2, 20), 1);
+16:    assert_eq!(scientific_exponent(10, 2, 20), 11);
+17:    assert_eq!(scientific_exponent(-10, 2, 20), -9);
+20:    assert_eq!(scientific_exponent(i32::MIN, 0, 0), i32::MIN);
+21:    assert_eq!(scientific_exponent(i32::MIN, 0, 5), i32::MIN);
+24:    assert_eq!(scientific_exponent(i32::MAX, 0, 0), i32::MAX - 1);
+25:    assert_eq!(scientific_exponent(i32::MAX, 5, 0), i32::MAX);
+29:fn mantissa_exponent_test() {
+30:    assert_eq!(mantissa_exponent(10, 5, 0), 5);
+31:    assert_eq!(mantissa_exponent(0, 5, 0), -5);
+32:    assert_eq!(mantissa_exponent(i32::MAX, 5, 0), i32::MAX - 5);
+33:    assert_eq!(mantissa_exponent(i32::MAX, 0, 5), i32::MAX);
+34:    assert_eq!(mantissa_exponent(i32::MIN, 5, 0), i32::MIN);
+35:    assert_eq!(mantissa_exponent(i32::MIN, 0, 5), i32::MIN + 5);

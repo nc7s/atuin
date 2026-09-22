@@ -1,0 +1,7 @@
+tests/test.rs:67:enum Animal {
+tests/test.rs:592:    enum E {
+tests/test.rs:2093:    enum Enum {
+tests/test.rs:2144:    enum E {
+tests/regression/issue795.rs:10:pub enum Enum {
+tests/regression/issue795.rs:28:                formatter.write_str("enum Enum")
+tests/regression/issue520.rs:7:enum E {

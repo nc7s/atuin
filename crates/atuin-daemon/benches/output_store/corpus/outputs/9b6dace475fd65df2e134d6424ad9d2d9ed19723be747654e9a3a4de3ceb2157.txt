@@ -1,0 +1,20 @@
+24:struct HistDbEntry {
+33:impl HistDbEntry {
+34:    fn into_hist_with_cmd_origin(self, cmd_origin: CmdOrigin) -> History {
+70:fn xonsh_db_path(xonsh_data_dir: Option<String>) -> Result<PathBuf> {
+90:pub struct XonshSqlite {
+96:impl Importer for XonshSqlite {
+99:    async fn new() -> Result<Self> {
+112:    async fn entries(&mut self) -> Result<usize> {
+119:    async fn load(self, loader: &mut impl Loader) -> Result<()> {
+150:    fn test_db_path_xonsh() {
+152:        assert_eq!(db_path, PathBuf::from("/home/user/xonsh_data/xonsh-history.sqlite"));
+156:    fn out_of_range_timestamp_falls_back_to_epoch() {
+167:        assert_eq!(hist.timestamp, OffsetDateTime::UNIX_EPOCH);
+168:        assert_eq!(hist.command, "echo hello");
+172:    async fn test_import() {
+183:            assert_eq!(actual.timestamp, expected.timestamp);
+184:            assert_eq!(actual.command, expected.command);
+185:            assert_eq!(actual.cwd, expected.cwd);
+186:            assert_eq!(actual.exit, expected.exit);
+187:            assert_eq!(actual.duration, expected.duration);

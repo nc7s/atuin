@@ -1,0 +1,10 @@
+tests/lib.rs
+tests/misc.rs
+tests/regression.rs
+tests/regression_fuzz.rs
+tests/replace.rs
+tests/searcher.rs
+tests/suite_bytes.rs
+tests/suite_bytes_set.rs
+tests/suite_string.rs
+tests/suite_string_set.rs

@@ -1,0 +1,5 @@
+5:use crate::{bytes::RegexBuilder, error::Error};
+7:/// A convenient way to construct regex patterns from string literals.
+9:/// This macro can be used to construct reusable instances of [`Regex`] with
+24:/// assert!(regex!("[a-z]").is_match(b"a"));
+25:/// assert!(regex!("(inconceivable!|classic blunder)").is_match(b"inconceivable!"));

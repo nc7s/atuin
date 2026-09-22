@@ -1,0 +1,20 @@
+//! Extension trait for truncating a string to a budget (display columns or
+//! bytes) with an ellipsis.
+
+use std::borrow::Cow;
+use std::fmt;
+
+use unicode_segmentation::UnicodeSegmentation;
+
+use super::Measure;
+use super::align::{AlignExt, Alignment};
+
+/// Which side of the string to elide when it does not fit.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Pos {
+    /// Keep the tail, elide the head: `…orld`.
+    Start,
+    /// Keep both ends, elide the middle: `he…ld`.
+    Middle,
+    /// Keep the head, elide the tail: `hello…`.
+    End,

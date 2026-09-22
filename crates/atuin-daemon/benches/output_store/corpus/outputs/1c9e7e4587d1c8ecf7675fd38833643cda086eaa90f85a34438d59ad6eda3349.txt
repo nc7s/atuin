@@ -1,0 +1,20 @@
+2:pub struct SlashCommand {
+3:    pub name: String,
+4:    pub description: String,
+7:    pub is_builtin: bool,
+10:impl SlashCommand {
+11:    pub fn new(name: &str, description: &str) -> Self {
+19:    pub fn builtin(name: &str, description: &str) -> Self {
+28:pub struct SlashCommandRegistry {
+33:pub struct SlashCommandSearchResult {
+34:    pub command: SlashCommand,
+35:    pub relevance: f32,
+36:    pub span: (usize, usize),
+39:impl SlashCommandRegistry {
+40:    pub fn new() -> Self {
+46:    pub fn register(&mut self, command: SlashCommand) {
+50:    pub fn get_commands(&self) -> &[SlashCommand] {
+54:    pub fn contains_builtin(&self, name: &str) -> bool {
+58:    pub fn search_fuzzy(&self, query: &str) -> Vec<SlashCommandSearchResult> {
+83:impl Default for SlashCommandRegistry {
+84:    fn default() -> Self {

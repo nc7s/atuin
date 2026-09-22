@@ -1,0 +1,11 @@
+total 184K
+-rw-rw-r-- 1 i i  15K Sep  3 05:15 cursor.rs
+drwxr-xr-x 1 i i   28 Sep 10 03:18 engines
+-rw-rw-r-- 1 i i 3.8K Sep  3 05:15 engines.rs
+drwxrwxr-x 1 i i   28 Sep  3 05:15 highlights
+-rw-rw-r-- 1 i i  15K Sep 10 03:18 history_list.rs
+drwxrwxr-x 1 i i   60 Sep 10 03:18 inspector
+-rw-rw-r-- 1 i i 9.4K Sep 10 03:18 inspector.rs
+-rw-rw-r-- 1 i i 123K Sep 10 03:18 interactive.rs
+drwxrwxr-x 1 i i  110 Sep 10 03:18 keybindings
+-rw-rw-r-- 1 i i 8.3K Sep 21 15:29 syntax.rs

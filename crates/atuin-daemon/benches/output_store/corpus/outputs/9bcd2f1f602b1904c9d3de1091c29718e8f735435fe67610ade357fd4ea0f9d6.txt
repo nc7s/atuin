@@ -1,0 +1,20 @@
+7:use thiserror::Error;
+10:pub mod pb;
+12:#[derive(Debug, Error)]
+14:pub struct TooManyItemsError(pub usize);
+17:#[derive(Debug, Error)]
+18:pub enum CollectCappedError<E> {
+21:    TooMany(TooManyItemsError),
+30:impl<E> From<CollectCappedError<E>> for Status
+32:    E: std::error::Error + Into<Self>,
+34:    fn from(err: CollectCappedError<E>) -> Self {
+37:            CollectCappedError::TooMany(err) => Self::invalid_argument(err.to_string()),
+38:            CollectCappedError::Item(e) => e.into(),
+40:            CollectCappedError::Stream(status) => status,
+46:pub trait TryCollectResultsCappedExt<C, T, E>: Stream<Item = Result<C, Status>> + Sized
+49:    E: std::error::Error,
+52:    fn try_collect_capped(
+55:    ) -> impl Future<Output = Result<Vec<T>, CollectCappedError<E>>> + Send
+62:        self.map_err(CollectCappedError::Stream).try_fold(
+68:                    .map_err(CollectCappedError::Item)?;
+71:                    return Err(CollectCappedError::TooMany(TooManyItemsError(max)));

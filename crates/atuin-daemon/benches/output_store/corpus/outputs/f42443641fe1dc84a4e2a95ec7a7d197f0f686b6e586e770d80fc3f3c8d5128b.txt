@@ -1,0 +1,1 @@
+42 crates/atuin/src/command/client/sync/status.rs

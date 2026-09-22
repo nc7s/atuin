@@ -1,0 +1,60 @@
+use crate::tree_store::page_store::base::MAX_REGIONS;
+use crate::tree_store::page_store::bitmap::BtreeBitmap;
+use crate::tree_store::page_store::buddy_allocator::BuddyAllocator;
+use crate::tree_store::page_store::layout::DatabaseLayout;
+use crate::tree_store::page_store::page_manager::{INITIAL_REGIONS, MAX_MAX_PAGE_ORDER};
+use alloc::vec;
+use alloc::vec::Vec;
+use core::cmp::{self, max};
+use core::mem::size_of;
+
+// Tracks the page orders that MAY BE free in each region. This data structure is optimistic, so
+// a region may not actually have a page free for a given order
+pub(crate) struct RegionTracker {
+    order_trackers: Vec<BtreeBitmap>,
+}
+
+impl RegionTracker {
+    pub(crate) fn new(regions: u32, orders: u8) -> Self {
+        let mut data = vec![];
+        for _ in 0..orders {
+            data.push(BtreeBitmap::new_padded(regions, regions, MAX_REGIONS));
+        }
+        Self {
+            order_trackers: data,
+        }
+    }
+
+    // Format:
+    // num_orders: u32 number of order allocators
+    // allocator_lens: u32 length of each allocator
+    // data: BtreeBitmap data for each order
+    pub(super) fn to_vec(&self) -> Vec<u8> {
+        let mut result = vec![];
+        let orders: u32 = self.order_trackers.len().try_into().unwrap();
+        let allocator_lens: Vec<u32> = self
+            .order_trackers
+            .iter()
+            .map(|x| x.to_vec().len().try_into().unwrap())
+            .collect();
+        result.extend(orders.to_le_bytes());
+        for allocator_len in allocator_lens {
+            result.extend(allocator_len.to_le_bytes());
+        }
+        for order in &self.order_trackers {
+            result.extend(&order.to_vec());
+        }
+        result
+    }
+
+    pub(super) fn from_bytes(page: &[u8]) -> Self {
+        let orders = u32::from_le_bytes(page[..size_of::<u32>()].try_into().unwrap());
+        let mut start = size_of::<u32>();
+        let mut allocator_lens = vec![];
+        for _ in 0..orders {
+            let allocator_len =
+                u32::from_le_bytes(page[start..start + size_of::<u32>()].try_into().unwrap())
+                    as usize;
+            allocator_lens.push(allocator_len);
+            start += size_of::<u32>();
+        }

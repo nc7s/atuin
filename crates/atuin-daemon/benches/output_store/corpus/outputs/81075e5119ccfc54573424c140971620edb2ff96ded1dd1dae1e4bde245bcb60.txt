@@ -1,0 +1,1 @@
+71 crates/atuin-domain/src/caps/all.rs

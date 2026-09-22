@@ -1,0 +1,5 @@
+5:pub struct Error(pub(crate) ErrorKind);
+8:pub(crate) enum ErrorKind {
+48:pub(crate) struct InvalidUuid<'a>(pub(crate) &'a [u8], pub(crate) RequestedUuid);
+51:pub(crate) enum RequestedUuid {
+61:    pub fn into_err(self) -> Error {

@@ -1,0 +1,4 @@
+7:pub enum Cmd {
+16:impl Cmd {
+21:    pub fn run(&self) -> Option<impl AsyncFnOnce(Settings) -> eyre::Result<()> + use<>> {
+38:    pub fn log_config(&self) -> Option<LogConfig> {

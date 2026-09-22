@@ -1,0 +1,80 @@
+4:    Database, ReadableDatabase, ReadableTable, ReadableTableMetadata, StorageError,
+5:    TableDefinition, TransactionError,
+12:fn create_tempfile() -> tempfile::NamedTempFile {
+21:fn key(i: u64) -> String {
+25:fn assert_u64_table_contents(db: &Database, expected: &[(u64, u64)]) {
+28:    assert_eq!(table.len().unwrap(), expected.len() as u64);
+37:    assert_eq!(actual, expected);
+39:        assert_eq!(table.get(key).unwrap().unwrap().value(), *value);
+44:fn bulk_load_into_empty_table() {
+56:        assert_eq!(table.len().unwrap(), 10_000);
+57:        assert_eq!(table.get(&5432).unwrap().unwrap().value(), 5432 * 7);
+62:    assert_u64_table_contents(&db, &expected);
+67:    assert_u64_table_contents(&db, &expected);
+73:fn bulk_load_crosses_flush_threshold() {
+94:    assert_eq!(table.len().unwrap(), 600);
+98:        assert_eq!(k.value(), key(i));
+99:        assert_eq!(v.value(), vec![i as u8; 2000 + (index % 3000)]);
+106:fn bulk_load_large_values() {
+130:        assert_eq!(value.value(), vec![i as u8; size]);
+136:fn append_to_existing_table() {
+154:            assert_eq!(cursor.peek_prev().unwrap().unwrap().0.value(), 999);
+159:        assert_eq!(table.len().unwrap(), 2000);
+164:    assert_u64_table_contents(&db, &expected);
+168:fn insert_into_middle_gap() {
+180:        assert_eq!(cursor.peek_prev().unwrap().unwrap().0.value(), 498);
+181:        assert_eq!(cursor.peek_next().unwrap().unwrap().0.value(), 500);
+184:        assert_eq!(cursor.peek_prev().unwrap().unwrap().0.value(), 499);
+185:        assert_eq!(cursor.peek_next().unwrap().unwrap().0.value(), 500);
+193:    assert_u64_table_contents(&db, &expected);
+199:fn insert_into_middle_of_tall_tree() {
+223:    assert_u64_table_contents(&db, &expected);
+227:fn unordered_keys_rejected() {
+240:            assert!(matches!(
+242:                Err(StorageError::UnorderedKey)
+248:        assert!(matches!(
+250:            Err(StorageError::UnorderedKey)
+252:        assert!(matches!(
+254:            Err(StorageError::UnorderedKey)
+262:    assert_u64_table_contents(&db, &expected);
+266:fn bound_positions() {
+284:        assert_eq!(peeked(&mut cursor), (None, Some(10)));
+287:        assert_eq!(peeked(&mut cursor), (Some(10), Some(20)));
+290:        assert_eq!(peeked(&mut cursor), (Some(20), Some(30)));
+293:        assert_eq!(peeked(&mut cursor), (Some(30), None));
+296:        assert_eq!(peeked(&mut cursor), (Some(20), Some(30)));
+299:        assert_eq!(peeked(&mut cursor), (Some(10), Some(20)));
+303:        assert_eq!(peeked(&mut cursor), (Some(20), Some(30)));
+306:        assert_eq!(peeked(&mut cursor), (Some(20), Some(30)));
+313:fn peeks_during_pending_inserts() {
+326:        assert_eq!(prev_key.value(), 20);
+327:        assert_eq!(prev_value.value(), 200);
+329:        assert_eq!(cursor.peek_next().unwrap().unwrap().0.value(), 30);
+331:        assert_eq!(cursor.peek_prev().unwrap().unwrap().0.value(), 21);
+337:    assert_u64_table_contents(&db, &expected);
+341:fn peeks_on_empty_table_and_at_start() {
+350:            assert!(cursor.peek_prev().unwrap().is_none());
+351:            assert!(cursor.peek_next().unwrap().is_none());
+353:            assert_eq!(cursor.peek_prev().unwrap().unwrap().0.value(), 100);
+354:            assert!(cursor.peek_next().unwrap().is_none());
+361:            assert!(cursor.peek_prev().unwrap().is_none());
+362:            assert_eq!(cursor.peek_next().unwrap().unwrap().0.value(), 100);
+364:            assert_eq!(cursor.peek_prev().unwrap().unwrap().0.value(), 50);
+365:            assert_eq!(cursor.peek_next().unwrap().unwrap().0.value(), 100);
+371:    assert_u64_table_contents(&db, &[(50, 50), (100, 100)]);
+377:fn empty_and_rejected_only_cursors() {
+388:        assert!(matches!(
+390:            Err(StorageError::UnorderedKey)
+393:        assert_eq!(table.len().unwrap(), 1);
+397:    assert_u64_table_contents(&db, &[(10, 10)]);
+403:fn incremental_appends_across_transactions() {
+421:    assert_u64_table_contents(&db, &expected);
+426:fn abort_discards_cursor_inserts() {
+448:    assert_u64_table_contents(&db, &[(1, 1)]);
+451:fn populate_u64_table(db: &Database, entries: impl Iterator<Item = (u64, u64)>) {
+463:fn peeked_key(entry: Option<(redb::AccessGuard<u64>, redb::AccessGuard<u64>)>) -> Option<u64> {
+468:fn read_cursor_all_bound_positions() {
+494:        assert_eq!(peeked_key(cursor.peek_prev().unwrap()), *previous);
+495:        assert_eq!(peeked_key(cursor.peek_next().unwrap()), *next);
+497:        assert_eq!(peeked_key(cursor.peek_prev().unwrap()), *previous);
+498:        assert_eq!(peeked_key(cursor.peek_next().unwrap()), *next);

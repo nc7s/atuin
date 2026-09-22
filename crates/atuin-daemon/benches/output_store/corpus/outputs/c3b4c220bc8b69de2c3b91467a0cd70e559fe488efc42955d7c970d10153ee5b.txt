@@ -1,0 +1,20 @@
+7:use std::sync::mpsc::{self, RecvTimeoutError, SyncSender};
+26:fn pty_parent_fd(parent: &dyn MasterPty) -> Option<OwnedFd> {
+37:fn pty_cwd(parent: Option<BorrowedFd<'_>>, child: Option<Pid>) -> Option<PathBuf> {
+51:fn tcgetpgrp(terminal: BorrowedFd<'_>) -> Option<Pid> {
+62:pub struct CwdUpdater {
+67:impl CwdUpdater {
+74:    pub fn new(master: &dyn MasterPty, child: Option<Pid>) -> Self {
+94:                    Err(RecvTimeoutError::Timeout) => {}
+95:                    Err(RecvTimeoutError::Disconnected) => return,
+115:    pub fn update(&self) {
+135:    fn settles_on<T: PartialEq>(expected: &T, mut read: impl FnMut() -> T) -> T {
+147:    fn open_pty() -> PtyPair {
+159:    fn spawn_shell(pair: &PtyPair, cwd: &Path) -> Box<dyn portable_pty::Child + Send + Sync> {
+166:    fn pid_of(process_id: Option<u32>) -> Option<Pid> {
+173:    struct Fixture {
+187:    impl Fixture {
+189:        fn new(cwd: &Path) -> Self {
+212:        fn cwd(&self) -> Option<PathBuf> {
+217:        fn send_line(&mut self, line: &str) {
+223:        fn interrupt(&mut self) {

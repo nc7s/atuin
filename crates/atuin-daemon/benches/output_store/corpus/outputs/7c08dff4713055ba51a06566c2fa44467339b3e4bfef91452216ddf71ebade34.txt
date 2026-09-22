@@ -1,0 +1,61 @@
+src/sink.rs:154:        debug_assert!(new_pos <= self.capacity());
+src/sink.rs:173:        assert!(copy_len <= data.len());
+src/sink.rs:223:        assert!(
+src/sink.rs:281:        debug_assert!(new_pos <= self.capacity());
+src/sink.rs:299:        assert!(copy_len <= data.len());
+src/sink.rs:332:        assert_eq!(sink.pos(), 1);
+src/sink.rs:333:        assert_eq!(sink.capacity(), 5);
+src/fastcpy_unsafe.rs:129:            prop_assert_eq!(&left, &right);
+src/fastcpy_unsafe.rs:139:            assert_eq!(left, right);
+src/fastcpy_unsafe.rs:151:        assert_eq!(left, right);
+src/fastcpy_unsafe.rs:163:        assert_eq!(left, right);
+src/lib.rs:56://! assert_eq!(input, uncompressed);
+src/lib.rs:82:extern crate more_asserts;
+src/fastcpy.rs:109:            prop_assert_eq!(&left, &right);
+src/fastcpy.rs:119:            assert_eq!(left, right);
+src/fastcpy.rs:131:        assert_eq!(left, right);
+src/fastcpy.rs:143:        assert_eq!(left, right);
+src/frame/header.rs:238:        assert!(write_size <= buffer.len());
+src/frame/header.rs:272:        debug_assert_eq!(offset, write_size);
+src/block/mod.rs:13://! assert_eq!(input, uncompressed);
+src/block/mod.rs:178:    assert_eq!(value, value_decompressed);
+src/frame/decompress.rs:190:        debug_assert_eq!(self.dst_start, self.dst_end);
+src/frame/decompress.rs:201:            debug_assert_eq!(self.dst.capacity(), max_block_size * 2 + WINDOW_SIZE);
+src/frame/decompress.rs:205:                debug_assert!(self.dst_start >= max_block_size + WINDOW_SIZE);
+src/frame/decompress.rs:221:                debug_assert!(self.dst_start + self.ext_dict_len >= WINDOW_SIZE)
+src/frame/decompress.rs:224:            debug_assert_eq!(self.ext_dict_len, 0);
+src/frame/decompress.rs:225:            debug_assert_eq!(self.dst.capacity(), max_block_size);
+src/frame/decompress.rs:283:                    debug_assert!(self.dst_start + max_block_size <= self.ext_dict_offset);
+src/frame/decompress.rs:287:                    debug_assert!(head.len() - self.dst_start >= max_block_size);
+src/block/decompress_safe.rs:73:    assert!(!does_token_fit(15));
+src/block/decompress_safe.rs:74:    assert!(does_token_fit(14));
+src/block/decompress_safe.rs:75:    assert!(does_token_fit(114));
+src/block/decompress_safe.rs:76:    assert!(!does_token_fit(0b11110000));
+src/block/decompress_safe.rs:77:    assert!(does_token_fit(0b10110000));
+src/block/decompress_safe.rs:257:    debug_assert!(offset > output.pos());
+src/block/decompress_safe.rs:398:        assert_eq!(decompress(&[0x30, b'a', b'4', b'9'], 3).unwrap(), b"a49");
+src/block/decompress_safe.rs:403:        assert!(matches!(
+src/frame/compress.rs:210:        debug_assert!(self.is_frame_open);
+src/frame/compress.rs:262:        debug_assert!(self.is_frame_open);
+src/frame/compress.rs:264:        debug_assert!(self.src_end - self.src_start <= max_block_size);
+src/frame/compress.rs:281:            debug_assert_eq!(self.frame_info.block_mode, BlockMode::Linked);
+src/frame/compress.rs:326:        debug_assert_eq!(self.src_start, self.src_end);
+src/frame/compress.rs:333:            debug_assert_eq!(self.src.capacity(), max_block_size * 2 + WINDOW_SIZE);
+src/frame/compress.rs:352:                debug_assert!(self.src_start + self.ext_dict_len >= WINDOW_SIZE)
+src/frame/compress.rs:354:            debug_assert!(
+src/block/decompress.rs:28:        debug_assert!(
+src/block/decompress.rs:93:    debug_assert!(output_ptr.offset_from(output_base) >= 0);
+src/block/decompress.rs:94:    debug_assert!(offset > output_ptr.offset_from(output_base) as usize);
+src/block/decompress.rs:96:    debug_assert!(ext_dict.len() + output_ptr.offset_from(output_base) as usize >= offset);
+src/block/decompress.rs:181:    assert!(!does_token_fit(15));
+src/block/decompress.rs:182:    assert!(does_token_fit(14));
+src/block/decompress.rs:183:    assert!(does_token_fit(114));
+src/block/decompress.rs:184:    assert!(!does_token_fit(0b11110000));
+src/block/compress.rs:326:    assert!(input_pos <= input.len());
+src/block/compress.rs:328:        assert!(ext_dict.len() <= super::WINDOW_SIZE);
+src/block/compress.rs:329:        assert!(ext_dict.len() <= input_stream_offset);
+src/block/compress.rs:331:        assert!(input_stream_offset
+src/block/compress.rs:336:        assert!(ext_dict.is_empty());
+src/block/compress.rs:396:            debug_assert!(candidate <= input_stream_offset + cur);
+src/block/compress.rs:414:                debug_assert!(
+src/block/compress.rs:427:                debug_assert!(input_pos == 0, "Lost history in prefix mode");

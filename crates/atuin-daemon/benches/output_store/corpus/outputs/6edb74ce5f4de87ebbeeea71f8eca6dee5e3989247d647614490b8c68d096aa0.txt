@@ -1,0 +1,80 @@
+5:use crate::{error::Error, RegexBuilder};
+7:/// A convenient way to construct regex patterns from string literals.
+9:/// This macro can be used to construct reusable instances of [`Regex`] with
+24:/// assert!(regex!("[a-z]").is_match("a"));
+25:/// assert!(regex!("(inconceivable!|classic blunder)").is_match("inconceivable!"));
+28:/// assert_eq!(&re.captures("867-5309").unwrap()[1], "867");
+85:/// assert_eq!(7..19, m.range());
+114:/// assert_eq!(fields, vec![
+120:/// # Ok::<(), Box<dyn std::error::Error>>(())
+141:/// assert!(hay.contains(&re));
+142:/// assert_eq!(hay.find(&re), Some(1));
+143:/// assert_eq!(hay.match_indices(&re).collect::<Vec<_>>(), vec![
+147:/// assert_eq!(hay.split(&re).collect::<Vec<_>>(), vec!["a", "b", "c"]);
+150:pub struct Regex {
+155:impl core::fmt::Display for Regex {
+157:    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+162:impl core::fmt::Debug for Regex {
+164:    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+169:impl core::str::FromStr for Regex {
+170:    type Err = Error;
+173:    fn from_str(s: &str) -> Result<Regex, Error> {
+178:impl TryFrom<&str> for Regex {
+179:    type Error = Error;
+182:    fn try_from(s: &str) -> Result<Regex, Error> {
+187:impl TryFrom<String> for Regex {
+188:    type Error = Error;
+191:    fn try_from(s: String) -> Result<Regex, Error> {
+197:impl Regex {
+207:    /// # Errors
+221:    /// assert!(Regex::new(r"foo(bar").is_err());
+224:    /// assert!(Regex::new(r"\w{1000}").is_err());
+227:    /// assert!(Regex::new(r"(?-u:\w){1000}").is_ok());
+229:    pub fn new(re: &str) -> Result<Regex, Error> {
+250:    /// assert!(re.is_match(hay));
+253:    pub fn is_match(&self, haystack: &str) -> bool {
+277:    /// assert_eq!(2..15, mat.range());
+278:    /// assert_eq!("categorically", mat.as_str());
+281:    pub fn find<'h>(&self, haystack: &'h str) -> Option<Match<'h>> {
+305:    /// assert_eq!(matches, vec![
+313:    pub fn find_iter<'r, 'h>(&'r self, haystack: &'h str) -> Matches<'r, 'h> {
+347:    /// assert_eq!(caps.get(0).unwrap().as_str(), "'Citizen Kane' (1941)");
+348:    /// assert_eq!(caps.get(1).unwrap().as_str(), "Citizen Kane");
+349:    /// assert_eq!(caps.get(2).unwrap().as_str(), "1941");
+354:    /// assert_eq!(&caps[0], "'Citizen Kane' (1941)");
+355:    /// assert_eq!(&caps[1], "Citizen Kane");
+356:    /// assert_eq!(&caps[2], "1941");
+370:    /// assert_eq!(caps.get(0).unwrap().as_str(), "'Citizen Kane' (1941)");
+371:    /// assert_eq!(caps.name("title").unwrap().as_str(), "Citizen Kane");
+372:    /// assert_eq!(caps.name("year").unwrap().as_str(), "1941");
+377:    /// assert_eq!(&caps[0], "'Citizen Kane' (1941)");
+378:    /// assert_eq!(&caps["title"], "Citizen Kane");
+379:    /// assert_eq!(&caps["year"], "1941");
+399:    /// assert_eq!(full, "'Citizen Kane' (1941)");
+400:    /// assert_eq!(title, "Citizen Kane");
+401:    /// assert_eq!(year, "1941");
+404:    pub fn captures<'h>(&self, haystack: &'h str) -> Option<Captures<'h>> {
+439:    /// assert_eq!(movies, vec![
+444:    /// # Ok::<(), Box<dyn std::error::Error>>(())
+457:    /// assert_eq!(&caps["title"], "Citizen Kane");
+458:    /// assert_eq!(&caps["year"], "1941");
+461:    /// assert_eq!(&caps["title"], "The Wizard of Oz");
+462:    /// assert_eq!(&caps["year"], "1939");
+465:    /// assert_eq!(&caps["title"], "M");
+466:    /// assert_eq!(&caps["year"], "1931");
+469:    pub fn captures_iter<'r, 'h>(
+497:    /// assert_eq!(fields, vec!["a", "b", "c", "d", "e"]);
+510:    /// assert_eq!(got, vec!["Mary", "had", "a", "little", "lamb"]);
+515:    /// assert_eq!(got, vec![""]);
+520:    /// assert_eq!(got, vec!["lion", "", "tiger", "leopard"]);
+525:    /// assert_eq!(got, vec!["lion", "tiger", "leopard"]);
+537:    /// assert_eq!(got, vec!["", "", "", "", "a", "", "b", "c"]);
+542:    /// assert_eq!(got, vec!["(", "", "", ")"]);
+554:    /// assert_eq!(got, vec!["", "1", ""]);
+567:    /// assert_eq!(got, vec!["", "r", "u", "s", "t", ""]);
+573:    /// assert_eq!(got, vec!["", "☃", ""]);
+585:    /// assert_eq!(got, vec!["", "", "", "", "a", "", "b", "c"]);
+599:    /// assert_eq!(got, vec!["", "a", "b", "c"]);
+602:    pub fn split<'r, 'h>(&'r self, haystack: &'h str) -> Split<'r, 'h> {
+633:    /// assert_eq!(fields, vec!["Hey", "How", "are you?"]);
+644:    /// assert_eq!(got, vec!["Mary", "had", "a little lamb"]);

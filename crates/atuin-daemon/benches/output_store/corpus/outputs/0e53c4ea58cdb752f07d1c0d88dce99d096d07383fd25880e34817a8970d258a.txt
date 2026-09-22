@@ -1,0 +1,7 @@
+17:pub trait KeyRange<'a, K: Key + 'a>: Sealed {
+20:    fn key_bounds(&self) -> (Bound<Vec<u8>>, Bound<Vec<u8>>);
+28:            fn key_bounds(&self) -> (Bound<Vec<u8>>, Bound<Vec<u8>>) {
+41:impl Sealed for RangeFull {}
+44:    fn key_bounds(&self) -> (Bound<Vec<u8>>, Bound<Vec<u8>>) {
+52:    fn key_bounds(&self) -> (Bound<Vec<u8>>, Bound<Vec<u8>>) {
+60:    fn key_bounds(&self) -> (Bound<Vec<u8>>, Bound<Vec<u8>>) {

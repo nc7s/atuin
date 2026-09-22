@@ -1,0 +1,53 @@
+src/types.rs:72:    pub fn new(name: &str) -> Self {
+src/types.rs:114:    pub fn name(&self) -> &str {
+src/multimap_table.rs:250:    pub fn len(&self) -> u64 {
+src/multimap_table.rs:254:    pub fn is_empty(&self) -> bool {
+src/multimap_table.rs:423:    pub fn len(&self) -> u64 {
+src/multimap_table.rs:427:    pub fn is_empty(&self) -> bool {
+src/multimap_table.rs:554:    pub fn insert<'k, 'v>(
+src/multimap_table.rs:727:    pub fn remove<'k, 'v>(
+src/multimap_table.rs:872:    pub fn remove_all<'a>(
+src/multimap_table.rs:1217:    pub fn get<'a>(&self, key: impl Borrow<K::SelfType<'a>>) -> Result<MultimapValue<'static, V>> {
+src/db.rs:399:    pub fn evictions(&self) -> u64 {
+src/db.rs:404:    pub fn read_hits(&self) -> u64 {
+src/db.rs:409:    pub fn read_misses(&self) -> u64 {
+src/db.rs:414:    pub fn write_hits(&self) -> u64 {
+src/db.rs:419:    pub fn write_misses(&self) -> u64 {
+src/db.rs:424:    pub fn used_bytes(&self) -> usize {
+src/db.rs:676:    pub fn open(path: impl AsRef<Path>) -> Result<ReadOnlyDatabase, DatabaseError> {
+src/db.rs:802:    pub fn create(path: impl AsRef<Path>) -> Result<Database, DatabaseError> {
+src/io.rs:73:        pub fn other(message: impl Into<String>) -> Self {
+src/transactions.rs:335:    pub fn tree_height(&self) -> u32 {
+src/transactions.rs:340:    pub fn allocated_pages(&self) -> u64 {
+src/transactions.rs:345:    pub fn leaf_pages(&self) -> u64 {
+src/transactions.rs:350:    pub fn branch_pages(&self) -> u64 {
+src/transactions.rs:356:    pub fn stored_bytes(&self) -> u64 {
+src/transactions.rs:361:    pub fn metadata_bytes(&self) -> u64 {
+src/transactions.rs:366:    pub fn fragmented_bytes(&self) -> u64 {
+src/transactions.rs:371:    pub fn page_size(&self) -> usize {
+src/table.rs:44:    pub fn tree_height(&self) -> u32 {
+src/table.rs:49:    pub fn leaf_pages(&self) -> u64 {
+src/table.rs:54:    pub fn branch_pages(&self) -> u64 {
+src/table.rs:60:    pub fn stored_bytes(&self) -> u64 {
+src/table.rs:65:    pub fn metadata_bytes(&self) -> u64 {
+src/table.rs:70:    pub fn fragmented_bytes(&self) -> u64 {
+src/table.rs:143:    pub fn get_mut<'k>(
+src/table.rs:151:    pub fn pop_first(&mut self) -> Result<Option<(AccessGuard<'_, K>, AccessGuard<'_, V>)>> {
+src/tree_store/table_tree.rs:733:    pub fn stats(&self) -> Result<DatabaseStats> {
+src/tree_store/page_store/xxh3.rs:59:pub fn hash64_with_seed(data: &[u8], seed: u64) -> u64 {
+src/tree_store/page_store/xxh3.rs:86:pub fn hash128_with_seed(data: &[u8], seed: u64) -> u128 {
+src/tree_store/btree_base.rs:260:    pub fn value(&self) -> V::SelfType<'_> {
+src/tree_store/btree_base.rs:345:    pub fn value(&self) -> V::SelfType<'_> {
+src/tree_store/btree_base.rs:350:    pub fn insert<'v>(&mut self, value: impl Borrow<V::SelfType<'v>>) -> Result<()> {
+src/tree_store/page_store/bitmap.rs:243:    pub fn new_full(len: u32, capacity: u32) -> Self {
+src/tree_store/page_store/bitmap.rs:248:    pub fn xxh3_hash(&self) -> u128 {
+src/tree_store/page_store/bitmap.rs:271:    pub fn to_vec(&self) -> Vec<u8> {
+src/tree_store/page_store/bitmap.rs:281:    pub fn from_bytes(serialized: &[u8]) -> Self {
+src/tree_store/page_store/bitmap.rs:331:    pub fn len(&self) -> u32 {
+src/tree_store/page_store/bitmap.rs:335:    pub fn resize(&mut self, new_len: u32, full: bool) {
+src/tree_store/page_store/bitmap.rs:365:    pub fn get(&self, bit: u32) -> bool {
+src/tree_store/page_store/bitmap.rs:373:    pub fn set(&mut self, bit: u32) -> bool {
+src/tree_store/page_store/file_backend/optimized.rs:79:    pub fn new(file: File) -> Result<Self, DatabaseError> {
+src/tree_store/page_store/backends.rs:23:    pub fn new(inner: Box<dyn StorageBackend>) -> Self {
+src/tree_store/page_store/backends.rs:107:    pub fn new() -> Self {
+src/tree_store/page_store/file_backend/fallback.rs:20:    pub fn new(file: File) -> Result<Self, DatabaseError> {

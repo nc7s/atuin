@@ -1,0 +1,14 @@
+src/v8.rs:28:    pub const fn new_v8(buf: [u8; 16]) -> Uuid {
+src/non_nil.rs:76:    pub const fn new(uuid: Uuid) -> Option<Self> {
+src/non_nil.rs:88:    pub const unsafe fn new_unchecked(uuid: Uuid) -> Self {
+src/v7.rs:72:    pub fn new_v7(ts: Timestamp) -> Self {
+src/v6.rs:92:    pub fn new_v6(ts: Timestamp, node_id: &[u8; 6]) -> Self {
+src/v5.rs:36:    pub fn new_v5(namespace: &Uuid, name: &[u8]) -> Uuid {
+src/v4.rs:33:    pub fn new_v4() -> Uuid {
+src/timestamp.rs:533:            pub const fn new(count: u16) -> Self {
+src/timestamp.rs:541:            pub fn new_random() -> Self {
+src/timestamp.rs:631:            pub const fn new(local_key: &'static LocalKey<C>) -> Self {
+src/timestamp.rs:776:            pub const fn new() -> Self {
+src/timestamp.rs:1011:            fn new(bits: usize) -> Self {
+src/v3.rs:37:    pub fn new_v3(namespace: &Uuid, name: &[u8]) -> Uuid {
+src/v1.rs:92:    pub fn new_v1(ts: Timestamp, node_id: &[u8; 6]) -> Self {

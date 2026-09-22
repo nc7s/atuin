@@ -1,0 +1,60 @@
+//! Width-aware one-line labels that middle-elide a command instead of
+//! clipping it at the right edge.
+//!
+//! eye-declare's `Spinner` hard-clips its label and `Text` word-wraps;
+//! neither suits a long shell command on a status line, where the tail
+//! (flags, paths) matters as much as the head. These elements measure at
+//! render time and splice an ellipsis into the middle so both ends stay
+//! visible. Truncation is display-only — anywhere the user must review a
+//! command in full (permission prompts for shell, suggested commands)
+//! keeps the wrapping renderers.
+
+use std::time::Duration;
+
+use atuin_common::string::ellipsis::{Indicator, Pos};
+use atuin_common::string::{EllipsizeExt as _, Measure};
+use easy_cast::Conv;
+use eye_declare::{Element, Spinner};
+use ratatui_core::buffer::Buffer;
+use ratatui_core::layout::Rect;
+use ratatui_core::style::Style;
+use unicode_width::UnicodeWidthStr as _;
+
+/// Fit `command` into `cols` display columns on a single line: whitespace
+/// runs (including newlines in multiline commands) collapse to single
+/// spaces, and the middle is elided when it still doesn't fit.
+fn fit_middle(command: &str, cols: usize) -> String {
+    let one_line = command.split_whitespace().collect::<Vec<_>>().join(" ");
+    one_line.ellipsize(Measure::Columns(cols), Pos::Middle, Indicator::UNICODE).to_string()
+}
+
+/// A tool spinner labeled `prefix` + command, the command middle-elided to
+/// the render width. Styling matches [`super::tool_spinner`]; the done
+/// checkmark is always hidden, as in the shell tool view.
+pub struct CommandSpinner {
+    prefix: &'static str,
+    command: String,
+    done: bool,
+}
+
+pub fn command_spinner(
+    prefix: &'static str,
+    command: impl Into<String>,
+    done: bool,
+) -> CommandSpinner {
+    CommandSpinner {
+        prefix,
+        command: command.into(),
+        done,
+    }
+}
+
+impl CommandSpinner {
+    fn spinner_at(&self, width: u16) -> Spinner {
+        // Marker glyph + trailing space while animating; a done spinner
+        // with a hidden checkmark has no marker (see Spinner::render).
+        let marker_cols = if self.done {
+            0
+        } else {
+            2
+        };

@@ -1,0 +1,37 @@
+crates/atuin-daemon/src/client.rs:137:            intent: h.intent.unwrap_or_default(),
+crates/atuin-daemon/src/client.rs:138:            shell: h.shell.unwrap_or_default(),
+crates/atuin-daemon/src/output_capture/backend/redb.rs:80:                        .saturating_add(u64::try_from(value.value().len()).unwrap_or(u64::MAX));
+crates/atuin-daemon/src/grpc/history/pb.rs:92:            intent: history.intent.unwrap_or_default(),
+crates/atuin-daemon/src/grpc/history/pb.rs:95:            shell: history.shell.unwrap_or_default(),
+crates/atuin-daemon/src/grpc/history/pb.rs:338:        let meta = capture.meta.unwrap_or_default();
+crates/atuin-daemon/src/grpc/history/pb.rs:343:            terminal_width: u16::try_from(meta.terminal_width).unwrap_or(u16::MAX),
+crates/atuin-daemon/src/grpc/history/pb.rs:344:            terminal_height: u16::try_from(meta.terminal_height).unwrap_or(u16::MAX),
+crates/atuin-daemon/src/grpc/history/pb.rs:445:            .unwrap_or(u64::MAX),
+crates/atuin-daemon/src/grpc/history/pb.rs:449:            .unwrap_or(u64::MAX),
+crates/atuin-daemon/src/grpc/history/pb.rs:461:                (range.start, usize::try_from(count).unwrap_or(0))
+crates/atuin-daemon/src/search/index.rs:425:        if !self.shells.contains(history.shell.as_deref().unwrap_or_default()) {
+crates/atuin-daemon/src/search/index.rs:521:            frecency_map.as_ref().and_then(|f| f.get(hay_idx).copied()).unwrap_or(0)
+crates/atuin-daemon/src/search/index.rs:727:        let mut data = CommandData::new(&history1, 0, &interner).unwrap();
+crates/atuin-daemon/src/search/index.rs:752:        let mut data = CommandData::new(&h1, 0, &interner).unwrap();
+crates/atuin-daemon/src/search/index.rs:854:            index.commands.get("foo bar --baz").unwrap().most_recent_id(),
+crates/atuin-daemon/src/search/index.rs:879:            index.commands.get("echo beta").unwrap().most_recent_id(),
+crates/atuin-daemon/src/search/index.rs:895:        let expected = index.commands.get("echo déjà-vu").unwrap().most_recent_id();
+crates/atuin-daemon/src/search/index.rs:995:                .unwrap_or_default();
+crates/atuin-daemon/src/history_journal.rs:284:        const DEFAULT_LIFECYCLE_SHARDS: NonZeroUsize = NonZeroUsize::new(64).unwrap();
+crates/atuin-daemon/src/history_journal.rs:364:        history.duration = i64::try_from(duration.as_nanos()).unwrap_or(i64::MAX);
+crates/atuin-daemon/src/history_journal.rs:671:        let tmp = tempfile::tempdir().unwrap();
+crates/atuin-daemon/src/history_journal.rs:674:            HistoryDatabase::new(tmp.path().join("history.db"), timeout).await.unwrap();
+crates/atuin-daemon/src/history_journal.rs:675:        let store = SqliteStore::new(tmp.path().join("records.db"), timeout).await.unwrap();
+crates/atuin-daemon/src/history_journal.rs:678:        let caps = CapClient::new("http://127.0.0.1:1".parse().unwrap(), reqwest::Client::new());
+crates/atuin-daemon/src/history_journal.rs:690:            .cmd_origin(CmdOrigin::try_from("test-host:test-user").unwrap())
+crates/atuin-daemon/src/history_journal.rs:703:        journal.finish(id, 0, Duration::from_millis(1)).await.unwrap();
+crates/atuin-daemon/src/grpc/common/mod.rs:108:        let got = stream.try_collect_capped(100).await.unwrap();
+crates/atuin-daemon/src/grpc/common/mod.rs:120:        let err = stream.try_collect_capped(3).await.unwrap_err();
+crates/atuin-daemon/src/grpc/common/mod.rs:128:        let err = stream.try_collect_capped(100).await.unwrap_err();
+crates/atuin-daemon/src/grpc/common/mod.rs:137:        let err = stream.try_collect_capped(100).await.unwrap_err();
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:167:                freed = freed.saturating_add(u64::try_from(value.len()).unwrap_or(u64::MAX));
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:433:        let err = store.capture(hid(1), cap("second")).await.unwrap_err();
+crates/atuin-daemon/src/components/sync.rs:234:                Duration::try_from_secs_f64(new_interval).unwrap_or_else(|_| ticker.period());
+crates/atuin-daemon/src/components/search.rs:268:                    search_req.filter_mode.try_into().unwrap_or(FilterMode::Global);
+crates/atuin-daemon/src/components/search.rs:283:                let shells = OrFilter::from_list(search_req.shells).unwrap_or_default();
+crates/atuin-daemon/src/components/search.rs:336:        let shells = OrFilter::from_list(request.into_inner().shells).unwrap_or_default();

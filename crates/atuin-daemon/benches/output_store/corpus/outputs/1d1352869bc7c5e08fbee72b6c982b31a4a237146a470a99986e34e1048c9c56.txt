@@ -1,0 +1,1 @@
+83 crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs

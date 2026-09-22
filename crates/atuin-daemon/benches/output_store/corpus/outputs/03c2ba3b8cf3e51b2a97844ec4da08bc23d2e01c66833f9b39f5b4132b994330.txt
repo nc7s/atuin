@@ -1,0 +1,59 @@
+crates/atuin-common/src/units/percent.rs:29:pub struct Percent(f64);
+crates/atuin-common/src/string.rs:162:    struct Safe<'a>(&'a Url);
+crates/atuin-common/src/time/offset_date_time.rs:20:pub struct TimestampOutOfRange {
+crates/atuin-common/src/time/offset_date_time.rs:27:pub struct TimespecOutOfRange {
+crates/atuin-common/src/time/offset_date_time.rs:80:pub struct OffsetDateTimeDisplay {
+crates/atuin-common/src/secrets.rs:39:struct Pattern {
+crates/atuin-common/src/secrets.rs:537:    pub(super) struct Test {
+crates/atuin-common/src/slice.rs:33:/// specify all the generic parameters. This way, the parameters on the struct can be inferred, and
+crates/atuin-common/src/slice.rs:35:pub struct SortedDedupedSliceComparer<'a, T, I> {
+crates/atuin-common/src/time/duration.rs:14:pub struct DurationOverflow {
+crates/atuin-common/src/time/duration.rs:60:pub struct DurationDisplay {
+crates/atuin-common/src/range/py_style.rs:16:pub struct PyStyleIdxRange {
+crates/atuin-common/src/range/py_style.rs:120:pub struct SplitRanges {
+crates/atuin-common/src/range/chunks.rs:59:pub struct Chunks<T: ChunkInt> {
+crates/atuin-common/src/fs.rs:4:pub struct RemoveOnDropPath<P: AsRef<Path> = PathBuf>(
+crates/atuin-common/src/time/utc_offset.rs:72:pub struct UtcOffsetSpec(pub UtcOffset);
+crates/atuin-common/src/logs.rs:33:pub struct FileConfig {
+crates/atuin-common/src/logs.rs:52:pub struct StderrConfig {
+crates/atuin-common/src/logs.rs:68:pub struct LogConfig {
+crates/atuin-common/src/path/mod.rs:27:pub struct EnvDependentPathBuf {
+crates/atuin-common/src/path/display_rich.rs:16:pub struct RichDisplay<'a> {
+crates/atuin-common/src/filter.rs:22:pub struct OrFilter<L> {
+crates/atuin-common/src/filter.rs:273:pub struct Comparer<'a, T, I>(ComparerInner<'a, T, I>);
+crates/atuin-common/src/test_utils/capture.rs:25:pub struct LogItem {
+crates/atuin-common/src/test_utils/capture.rs:31:pub struct CapturedLogs {
+crates/atuin-common/src/test_utils/capture.rs:43:struct CaptureLayer {
+crates/atuin-common/src/test_utils/capture.rs:49:        struct Visitor(Option<String>);
+crates/atuin-common/src/string/ellipsis.rs:27:pub struct Indicator<'a>(#[as_ref(str)] &'a str);
+crates/atuin-common/src/string/ellipsis.rs:122:pub struct Ellipsized<'a>(Repr<'a>);
+crates/atuin-common/src/sync/sharded_mutex.rs:9:pub struct Sharded<K, M> {
+crates/atuin-common/src/string/non_nul_str.rs:10:pub struct NonNulStr<T = String>(T);
+crates/atuin-common/src/string/non_nul_str.rs:15:pub struct ContainsNul {
+crates/atuin-common/src/db/mod.rs:124:pub struct SqliteDbUrl<T: Borrow<str> = String>(pub T);
+crates/atuin-common/src/db/mod.rs:128:pub struct PostgresDbUrl<T: Borrow<Url> = Url>(pub T);
+crates/atuin-common/src/db/mod.rs:132:pub struct MysqlDbUrl<T: Borrow<Url> = Url>(pub T);
+crates/atuin-common/src/db/mod.rs:380:    struct PrimedDb {
+crates/atuin-common/src/string/bounded_buffer.rs:6:pub struct Limit {
+crates/atuin-common/src/string/bounded_buffer.rs:29:pub struct BoundedBuffer {
+crates/atuin-common/src/string/bounded_buffer.rs:41:pub struct BufferContents {
+crates/atuin-common/src/sync/eager_future_cell.rs:72:struct Inner<C> {
+crates/atuin-common/src/sync/eager_future_cell.rs:81:pub struct EagerFuture<C> {
+crates/atuin-common/src/sync/eager_future_cell.rs:180:        // The explicit handle lets us construct (and eagerly spawn) from a thread that is not
+crates/atuin-common/src/db/sqlite/mod.rs:23:pub struct Sqlite {
+crates/atuin-common/src/os/unix/tty.rs:9:pub struct TtyId {
+crates/atuin-common/src/os/unix/tty.rs:12:    /// Corresponds to `st_dev` in `struct stat`.
+crates/atuin-common/src/os/unix/tty.rs:17:    /// Corresponds to `st_rdev` in `struct stat`.
+crates/atuin-common/src/os/unix/tty.rs:96:        struct Restore {
+crates/atuin-common/src/os/windows/process.rs:13:pub struct Handle {
+crates/atuin-common/src/db/sqlite/builder.rs:27:pub struct SqliteBuilder<'a> {
+crates/atuin-common/src/db/sqlite/compactor.rs:25:struct ActiveCompactor {
+crates/atuin-common/src/db/sqlite/compactor.rs:130:pub(super) struct Compactor {
+crates/atuin-common/src/db/sqlite/info.rs:41:pub struct Info {
+crates/atuin-common/src/db/sqlite/info.rs:54:struct FfiInfo {
+crates/atuin-common/src/encryption/paseto_v4.rs:97:pub struct PlainTextEncodedKey(String);
+crates/atuin-common/src/encryption/paseto_v4.rs:122:pub struct Key([u8; 32]);
+crates/atuin-common/src/encryption/paseto_v4.rs:372:    /// Attempt to construct this key from a mnemonic.
+crates/atuin-common/src/encryption/paseto_v4.rs:469:    pub struct Json {
+crates/atuin-common/src/encryption/paseto_v4.rs:512:pub struct EncryptedData {
+crates/atuin-common/src/encryption/paseto_v4.rs:560:struct EncryptedJson {

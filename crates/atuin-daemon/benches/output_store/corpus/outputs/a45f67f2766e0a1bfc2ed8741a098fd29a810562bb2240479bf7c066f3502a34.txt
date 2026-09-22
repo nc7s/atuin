@@ -1,0 +1,6 @@
+10:pub(crate) fn shr(fp: &mut ExtendedFloat, shift: i32) {
+12:    debug_assert!((shift as u64) < bits, "shr() overflow in shift right.");
+23:pub(crate) fn overflowing_shr(fp: &mut ExtendedFloat, shift: i32) {
+25:    debug_assert!(
+40:pub(crate) fn shl(fp: &mut ExtendedFloat, shift: i32) {
+42:    debug_assert!((shift as u64) < bits, "shl() overflow in shift left.");

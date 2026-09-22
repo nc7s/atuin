@@ -1,0 +1,57 @@
+f98361cf chore(release): prepare for release 18.22.0 (#4095)
+
+ crates/atuin-server/Cargo.toml | 2 +-
+ crates/atuin/Cargo.toml        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+09763aa5 fix: build error (#4094)
+
+ crates/atuin/src/command/client/search/inspector/output.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+4dbd306d feat: add [output_capture] settings (#4069)
+
+ crates/atuin-client/src/settings.rs                |  14 +
+ .../atuin-client/src/settings/disk_usage_limit.rs  | 222 +++++++++++++
+ crates/atuin-client/src/settings/output.rs         | 132 ++++++++
+ crates/atuin-common/Cargo.toml                     |   1 +
+ crates/atuin-common/src/lib.rs                     |   1 +
+ crates/atuin-common/src/string/bounded_buffer.rs   |  14 +
+ crates/atuin-common/src/units/mod.rs               |   6 +
+ crates/atuin-common/src/units/percent.rs           | 315 +++++++++++++++++++
+ crates/atuin-daemon/Cargo.toml                     |   1 +
+ crates/atuin-daemon/src/grpc/history/pb.rs         |   4 -
+ crates/atuin-daemon/src/lib.rs                     |   5 +-
+ .../src/output_capture/backend/fjall/gc.rs         |  58 ++++
+ .../src/output_capture/backend/fjall/mod.rs        | 345 ++++++++++++++-------
+ crates/atuin-daemon/src/output_capture/mod.rs      |  11 +-
+ crates/atuin-daemon/tests/common/mod.rs            |   5 +-
+ crates/atuin-pty-proxy/src/capture.rs              |  84 +++--
+ crates/atuin-pty-proxy/src/lib.rs                  |   2 +-
+ crates/atuin-pty-proxy/src/pty_proxy.rs            |  12 +-
+ crates/atuin-pty-proxy/src/runtime.rs              |   2 +-
+ crates/atuin-pty-proxy/src/screen.rs               |  35 +--
+ crates/atuin-server/src/handlers/v0/record.rs      |   7 +-
+ crates/atuin-server/src/settings.rs                |  40 ++-
+ crates/atuin-server/tests/common/mod.rs            |   2 +-
+ crates/atuin-server/tests/sync.rs                  |   2 +-
+ crates/atuin/src/command/client.rs                 |   2 +-
+ crates/atuin/src/command/mod.rs                    |  15 +-
+ crates/atuin/tests/e2e_capture.rs                  |   4 +-
+ 27 files changed, 1132 insertions(+), 209 deletions(-)
+05467258 feat: rework inspector and add output view (#4090)
+
+ crates/atuin-client/src/database.rs                | 207 ++++-
+ crates/atuin-client/src/history.rs                 |  14 +-
+ crates/atuin/Cargo.toml                            |   3 +-
+ .../atuin/src/command/client/search/inspector.rs   | 652 ++++++----------
+ .../command/client/search/inspector/bindings.rs    | 133 ++++
+ .../src/command/client/search/inspector/browser.rs | 844 +++++++++++++++++++++
+ .../src/command/client/search/inspector/output.rs  | 364 +++++++++
+ .../atuin/src/command/client/search/interactive.rs | 576 +++++++++++---
+ .../command/client/search/keybindings/actions.rs   |  12 +
+ .../client/search/keybindings/conditions.rs        |  43 +-
+ .../command/client/search/keybindings/defaults.rs  |  66 +-
+ 11 files changed, 2295 insertions(+), 619 deletions(-)
+d82701db chore: link to upstream rustix issue in atuin-pty-proxy (#4093)
+
+ crates/atuin-pty-proxy/src/cwd_updater.rs | 3 +++
+ 1 file changed, 3 insertions(+)

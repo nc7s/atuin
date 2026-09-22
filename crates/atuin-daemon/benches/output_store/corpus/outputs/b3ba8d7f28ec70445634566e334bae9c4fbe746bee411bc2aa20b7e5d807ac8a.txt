@@ -1,0 +1,245 @@
+f98361cf chore(release): prepare for release 18.22.0 (#4095)
+
+ crates/atuin-server/Cargo.toml | 2 +-
+ crates/atuin/Cargo.toml        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+09763aa5 fix: build error (#4094)
+
+ crates/atuin/src/command/client/search/inspector/output.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+4dbd306d feat: add [output_capture] settings (#4069)
+
+ crates/atuin-client/src/settings.rs                |  14 +
+ .../atuin-client/src/settings/disk_usage_limit.rs  | 222 +++++++++++++
+ crates/atuin-client/src/settings/output.rs         | 132 ++++++++
+ crates/atuin-common/Cargo.toml                     |   1 +
+ crates/atuin-common/src/lib.rs                     |   1 +
+ crates/atuin-common/src/string/bounded_buffer.rs   |  14 +
+ crates/atuin-common/src/units/mod.rs               |   6 +
+ crates/atuin-common/src/units/percent.rs           | 315 +++++++++++++++++++
+ crates/atuin-daemon/Cargo.toml                     |   1 +
+ crates/atuin-daemon/src/grpc/history/pb.rs         |   4 -
+ crates/atuin-daemon/src/lib.rs                     |   5 +-
+ .../src/output_capture/backend/fjall/gc.rs         |  58 ++++
+ .../src/output_capture/backend/fjall/mod.rs        | 345 ++++++++++++++-------
+ crates/atuin-daemon/src/output_capture/mod.rs      |  11 +-
+ crates/atuin-daemon/tests/common/mod.rs            |   5 +-
+ crates/atuin-pty-proxy/src/capture.rs              |  84 +++--
+ crates/atuin-pty-proxy/src/lib.rs                  |   2 +-
+ crates/atuin-pty-proxy/src/pty_proxy.rs            |  12 +-
+ crates/atuin-pty-proxy/src/runtime.rs              |   2 +-
+ crates/atuin-pty-proxy/src/screen.rs               |  35 +--
+ crates/atuin-server/src/handlers/v0/record.rs      |   7 +-
+ crates/atuin-server/src/settings.rs                |  40 ++-
+ crates/atuin-server/tests/common/mod.rs            |   2 +-
+ crates/atuin-server/tests/sync.rs                  |   2 +-
+ crates/atuin/src/command/client.rs                 |   2 +-
+ crates/atuin/src/command/mod.rs                    |  15 +-
+ crates/atuin/tests/e2e_capture.rs                  |   4 +-
+ 27 files changed, 1132 insertions(+), 209 deletions(-)
+05467258 feat: rework inspector and add output view (#4090)
+
+ crates/atuin-client/src/database.rs                | 207 ++++-
+ crates/atuin-client/src/history.rs                 |  14 +-
+ crates/atuin/Cargo.toml                            |   3 +-
+ .../atuin/src/command/client/search/inspector.rs   | 652 ++++++----------
+ .../command/client/search/inspector/bindings.rs    | 133 ++++
+ .../src/command/client/search/inspector/browser.rs | 844 +++++++++++++++++++++
+ .../src/command/client/search/inspector/output.rs  | 364 +++++++++
+ .../atuin/src/command/client/search/interactive.rs | 576 +++++++++++---
+ .../command/client/search/keybindings/actions.rs   |  12 +
+ .../client/search/keybindings/conditions.rs        |  43 +-
+ .../command/client/search/keybindings/defaults.rs  |  66 +-
+ 11 files changed, 2295 insertions(+), 619 deletions(-)
+d82701db chore: link to upstream rustix issue in atuin-pty-proxy (#4093)
+
+ crates/atuin-pty-proxy/src/cwd_updater.rs | 3 +++
+ 1 file changed, 3 insertions(+)
+ceb10f73 chore: don't fail if we can't capture output (#4086)
+
+ crates/atuin-daemon/src/grpc/history/pb.rs         |  6 +-
+ crates/atuin-daemon/src/history_journal.rs         | 76 +++++++++++++++++++---
+ .../src/output_capture/backend/failing.rs          | 29 +++++++++
+ .../atuin-daemon/src/output_capture/backend/mod.rs |  8 +++
+ crates/atuin-daemon/src/output_capture/mod.rs      | 12 ++++
+ crates/atuin/src/command/mod.rs                    |  7 +-
+ 6 files changed, 124 insertions(+), 14 deletions(-)
+b6e96f8a feat(pty-proxy): mirror the CWD of the PTY proxy child (#4091)
+
+ crates/atuin-common/src/os/unix/process.rs | 103 +++++++++
+ crates/atuin-pty-proxy/Cargo.toml          |   3 +-
+ crates/atuin-pty-proxy/src/cwd_updater.rs  | 345 +++++++++++++++++++++++++++++
+ crates/atuin-pty-proxy/src/lib.rs          |   2 +
+ crates/atuin-pty-proxy/src/runtime.rs      |   7 +
+ crates/atuin/tests/e2e_pty_proxy_cwd.rs    | 131 +++++++++++
+ 6 files changed, 590 insertions(+), 1 deletion(-)
+05164b55 feat(pty-proxy): keep the start and end of command captures that exceed the max size (#4092)
+
+ crates/atuin-ai/src/tools/mod.rs                   |  79 +++-
+ crates/atuin-client/src/history/capture.rs         |  18 +-
+ .../proptest-regressions/string/bounded_buffer.txt |  12 +
+ crates/atuin-common/src/range/mod.rs               |   2 +-
+ crates/atuin-common/src/range/py_style.rs          | 241 +++++++++-
+ crates/atuin-common/src/string.rs                  |   4 +-
+ crates/atuin-common/src/string/bounded_buffer.rs   | 497 +++++++++++++++++++++
+ crates/atuin-common/src/string/buffer.rs           | 321 -------------
+ crates/atuin-common/src/string/trim.rs             | 169 ++++++-
+ crates/atuin-daemon/proto/common.proto             |   2 +
+ crates/atuin-daemon/proto/history.proto            |  38 +-
+ crates/atuin-daemon/src/client.rs                  |   8 +-
+ crates/atuin-daemon/src/grpc/history/mod.rs        |   2 +-
+ crates/atuin-daemon/src/grpc/history/pb.rs         | 275 +++++++++---
+ .../src/output_capture/backend/fjall/mod.rs        |  56 ++-
+ .../src/output_capture/backend/fjall/schema/mod.rs |   6 +-
+ .../backend/fjall/schema/{v1.rs => v2.rs}          |  18 +-
+ crates/atuin-daemon/src/output_capture/mod.rs      |   6 +-
+ crates/atuin-daemon/tests/common/mod.rs            |   4 +-
+ crates/atuin-daemon/tests/history_delete.rs        |   4 +-
+ crates/atuin-daemon/tests/lifecycle.rs             |  67 ++-
+ crates/atuin-pty-proxy/src/capture.rs              | 376 ++++++++++++----
+ crates/atuin-pty-proxy/src/screen.rs               |  27 +-
+ crates/atuin/src/command/mod.rs                    |  22 +-
+ 24 files changed, 1670 insertions(+), 584 deletions(-)
+95528099 fix(server): emit HTTP access logs at INFO and compile in debug tracing (#4087)
+
+ crates/atuin-server/src/router.rs | 15 +++++++++------
+ crates/atuin-server/src/trace.rs  | 34 ++++++++++++++--------------------
+ 2 files changed, 23 insertions(+), 26 deletions(-)
+d2bd0030 fix(server): wrap multi-write DB operations in transactions (#4088)
+
+ crates/atuin-server/src/db/mod.rs        | 34 ++++++++++++++++++++++++----
+ crates/atuin-server/src/db/mysql/mod.rs  | 30 ++++++++++++++++++++++--
+ crates/atuin-server/src/handlers/user.rs | 39 ++++++++++++--------------------
+ crates/atuin-server/tests/db_story.rs    | 31 +++++++++++++++++++++++++
+ 4 files changed, 103 insertions(+), 31 deletions(-)
+23705245 fix(sync): expand a packfile whose range is a hole below the store head (#4085)
+
+ crates/atuin-client/src/record/sync/mod.rs | 60 +++++++++++++++++++++++++++---
+ 1 file changed, 54 insertions(+), 6 deletions(-)
+e3e188a6 fix(daemon): delete captured output when history entries are deleted (#4074)
+
+ crates/atuin-client/src/history/store.rs           |  38 ++++
+ crates/atuin-common/src/sync/mod.rs                |   2 +
+ crates/atuin-common/src/sync/sharded_mutex.rs      | 195 ++++++++++++++++++
+ crates/atuin-daemon/src/grpc/history/mod.rs        |  30 ++-
+ crates/atuin-daemon/src/grpc/history/pb.rs         |  25 ++-
+ crates/atuin-daemon/src/history_journal.rs         | 224 ++++++++++++++++++---
+ crates/atuin-daemon/src/lib.rs                     |   6 +-
+ .../src/output_capture/backend/fjall/mod.rs        |  83 +++++++-
+ .../atuin-daemon/src/output_capture/backend/mod.rs |   9 +
+ .../atuin-daemon/src/output_capture/backend/nop.rs |   6 +-
+ crates/atuin-daemon/src/output_capture/mod.rs      |  28 ++-
+ crates/atuin-daemon/tests/common/mod.rs            |  14 +-
+ crates/atuin-daemon/tests/concurrency.rs           |  70 ++++++-
+ crates/atuin-daemon/tests/history_delete.rs        | 172 +++++++++++++++-
+ crates/atuin-daemon/tests/journal_model.rs         |  52 ++++-
+ crates/atuin-daemon/tests/lifecycle.rs             |   8 +-
+ 16 files changed, 898 insertions(+), 64 deletions(-)
+5e15dbbc test: filtered commands leave no captured output (#4081)
+
+ crates/atuin/tests/e2e_capture.rs | 159 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 159 insertions(+)
+187e9a9e chore: temporary workaround for flaky test (#4083)
+
+ crates/atuin-daemon/src/history_journal.rs |  4 +++
+ crates/atuin-daemon/tests/concurrency.rs   | 47 +++++++++++++++++++++++-------
+ 2 files changed, 41 insertions(+), 10 deletions(-)
+7c3ef46c refactor(daemon): split output capture into fjall and nop backends (#4082)
+
+ crates/atuin-daemon/Cargo.toml                     |   2 +
+ crates/atuin-daemon/src/lib.rs                     |   4 +-
+ .../src/output_capture/backend/fjall/mod.rs        | 272 +++++++++++++++++++
+ .../{ => backend/fjall}/schema/mod.rs              |   0
+ .../{ => backend/fjall}/schema/v1.rs               |   0
+ .../atuin-daemon/src/output_capture/backend/mod.rs |  42 +++
+ .../atuin-daemon/src/output_capture/backend/nop.rs |  17 ++
+ crates/atuin-daemon/src/output_capture/mod.rs      | 288 ++++-----------------
+ crates/atuin-daemon/tests/common/mod.rs            |   2 +-
+ 9 files changed, 387 insertions(+), 240 deletions(-)
+6e80127d feat: Redact secrets from captured command output (#4071)
+
+ crates/atuin-client/src/history.rs         |    5 +-
+ crates/atuin-client/src/lib.rs             |    1 -
+ crates/atuin-client/src/secrets.rs         |  177 ----
+ crates/atuin-common/Cargo.toml             |    1 +
+ crates/atuin-common/src/lib.rs             |    1 +
+ crates/atuin-common/src/secrets.rs         | 1259 ++++++++++++++++++++++++++++
+ crates/atuin-daemon/src/client.rs          |    4 +-
+ crates/atuin-daemon/src/history_journal.rs |   14 +
+ crates/atuin-daemon/tests/lifecycle.rs     |   72 ++
+ crates/atuin/src/command/mod.rs            |   13 +-
+ 10 files changed, 1364 insertions(+), 183 deletions(-)
+2ccce5d8 fix(pty-proxy): make PTY proxy aware of other PTYs (#4079)
+
+ crates/atuin-client/src/settings.rs                |   1 +
+ crates/atuin-common/src/encryption/paseto_v4.rs    | 150 +++++++++++--
+ crates/atuin-common/src/fs.rs                      |  31 +++
+ crates/atuin-common/src/lib.rs                     |   1 +
+ crates/atuin-common/src/os/unix.rs                 |   1 +
+ crates/atuin-common/src/os/unix/tty.rs             | 131 ++++++++++++
+ crates/atuin-daemon/tests/history_delete.rs        |   4 +-
+ crates/atuin-pty-proxy/Cargo.toml                  |   4 +
+ crates/atuin-pty-proxy/src/lib.rs                  |   2 +
+ crates/atuin-pty-proxy/src/pty_proxy.rs            | 204 +++++++++---------
+ crates/atuin-pty-proxy/src/runtime.rs              | 134 +++++++++---
+ crates/atuin-pty-proxy/src/screen.rs               | 233 +++++++++++++++++++--
+ crates/atuin/src/command/client.rs                 |  59 ++++--
+ crates/atuin/src/command/client/history.rs         |   3 +-
+ crates/atuin/src/command/client/init.rs            |  11 +-
+ crates/atuin/src/command/client/internal.rs        |  33 ++-
+ crates/atuin/src/command/client/search.rs          |   1 +
+ .../atuin/src/command/client/search/interactive.rs |  13 +-
+ crates/atuin/src/shell/atuin.bash                  |  20 +-
+ crates/atuin/src/shell/atuin.fish                  |  17 +-
+ crates/atuin/src/shell/atuin.nu                    |  17 +-
+ crates/atuin/src/shell/atuin.zsh                   |  20 +-
+ crates/atuin/tests/pty_proxy_active.rs             |  36 ++++
+ 23 files changed, 918 insertions(+), 208 deletions(-)
+34ee7405 test: e2e pty test harness (#4075)
+
+ crates/atuin/Cargo.toml                     |   9 +
+ crates/atuin/tests/README.md                |  29 +++
+ crates/atuin/tests/common/mod.rs            | 186 ++++++++++++++++++
+ crates/atuin/tests/common/pty.rs            | 286 ++++++++++++++++++++++++++++
+ crates/atuin/tests/common/shell.rs          |  88 +++++++++
+ crates/atuin/tests/e2e_daemon.rs            | 128 +++++++++++++
+ crates/atuin/tests/e2e_fresh_install.rs     |  80 ++++++++
+ crates/atuin/tests/e2e_pty.rs               | 250 ++++++++++++++++++++++++
+ crates/atuin/tests/shells/bash-blesh.toml   |  12 ++
+ crates/atuin/tests/shells/bash-preexec.toml |   6 +
+ crates/atuin/tests/shells/fish-default.toml |  10 +
+ crates/atuin/tests/shells/fish-vi.toml      |  11 ++
+ crates/atuin/tests/shells/zsh-emacs.toml    |   8 +
+ crates/atuin/tests/shells/zsh-vi.toml       |   8 +
+ 14 files changed, 1111 insertions(+)
+740992f0 fix(daemon): stream large DeleteHistory requests (#4076)
+
+ crates/atuin-daemon/Cargo.toml              |   1 +
+ crates/atuin-daemon/proto/history.proto     |  22 ++++-
+ crates/atuin-daemon/src/client.rs           |  28 ++++--
+ crates/atuin-daemon/src/grpc/common/mod.rs  | 144 ++++++++++++++++++++++++++++
+ crates/atuin-daemon/src/grpc/history/mod.rs |  19 ++--
+ crates/atuin-daemon/src/grpc/history/pb.rs  |  88 +++++++++++++++--
+ crates/atuin-daemon/tests/adversarial.rs    |   4 +-
+ crates/atuin-daemon/tests/common/scale.rs   |  12 +--
+ crates/atuin-daemon/tests/nightly.rs        |   6 ++
+ crates/atuin-daemon/tests/scale.rs          |  21 +---
+ 10 files changed, 290 insertions(+), 55 deletions(-)
+74e4f817 feat: Version Stored Output Capture and Avoid PB on disk (#4068)
+
+ crates/atuin-client/src/history.rs                 |   3 +
+ crates/atuin-client/src/history/capture.rs         |  24 +++
+ crates/atuin-daemon/src/grpc/history/mod.rs        |   6 +-
+ crates/atuin-daemon/src/grpc/history/pb.rs         |  37 +++-
+ crates/atuin-daemon/src/history_journal.rs         |   3 +-
+ .../{output_capture.rs => output_capture/mod.rs}   |  43 ++---
+ .../atuin-daemon/src/output_capture/schema/mod.rs  |  62 ++++++
+ .../atuin-daemon/src/output_capture/schema/v1.rs   |  83 ++++++++
+ crates/atuin-pty-proxy/src/capture.rs              | 208 ++++++++-------------
+ crates/atuin-pty-proxy/src/screen.rs               |  23 ++-
+ crates/atuin/src/command/mod.rs                    |  13 +-
+ crates/atuin/src/shell/atuin.bash                  |   2 +-
+ crates/atuin/src/shell/atuin.fish                  |   2 +-
+ crates/atuin/src/shell/atuin.nu                    |   2 +-
+ crates/atuin/src/shell/atuin.zsh                   |   2 +-
+ 15 files changed, 331 insertions(+), 182 deletions(-)

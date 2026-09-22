@@ -1,0 +1,20 @@
+use {
+    anyhow::Result,
+    regex::{RegexSet, RegexSetBuilder},
+    regex_test::{CompiledRegex, RegexTest, TestResult, TestRunner},
+};
+
+/// Tests the default configuration of the hybrid NFA/DFA.
+#[test]
+fn default() -> Result<()> {
+    let mut runner = TestRunner::new()?;
+    runner
+        .expand(&["is_match", "which"], |test| test.compiles())
+        .blacklist_iter(super::BLACKLIST)
+        .test_iter(crate::suite()?.iter(), compiler)
+        .assert();
+    Ok(())
+}
+
+fn run_test(re: &RegexSet, test: &RegexTest) -> TestResult {
+    let hay = match std::str::from_utf8(test.haystack()) {

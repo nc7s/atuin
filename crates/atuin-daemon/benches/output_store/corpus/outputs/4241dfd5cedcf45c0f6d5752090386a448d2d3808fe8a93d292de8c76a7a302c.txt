@@ -1,0 +1,14 @@
+crates/atuin-daemon/src/client.rs:71:    pub async fn new(path: PathBuf) -> Result<Self> {
+crates/atuin-daemon/src/client.rs:98:    pub async fn new(port: u64) -> Result<Self> {
+crates/atuin-daemon/src/client.rs:290:    pub async fn new(path: PathBuf) -> Result<Self> {
+crates/atuin-daemon/src/client.rs:315:    pub async fn new(port: u64) -> Result<Self> {
+crates/atuin-daemon/src/history_journal.rs:277:    pub fn new(
+crates/atuin-daemon/src/daemon.rs:411:    pub fn new(settings: Settings) -> Self {
+crates/atuin-daemon/src/components/sync.rs:54:    pub fn new() -> Self {
+crates/atuin-daemon/src/search/index.rs:134:    pub fn new(history: &History, haystack_index: usize, interner: &ThreadedRodeo) -> Option<Self> {
+crates/atuin-daemon/src/search/index.rs:284:    pub fn new(text: Arc<str>) -> Self {
+crates/atuin-daemon/src/search/index.rs:369:    pub fn new(shells: OrFilter<Vec<String>>) -> Self {
+crates/atuin-daemon/src/components/search.rs:47:    pub fn new() -> Self {
+crates/atuin-daemon/src/grpc/history/mod.rs:249:    pub fn new(journal: Arc<HistoryJournal>, daemon_handle: DaemonHandle) -> Self {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:48:    fn new(db: OptimisticTxDatabase) -> fjall::Result<Self> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:292:    pub fn new(db: OptimisticTxDatabase, budget: Option<ByteSize>) -> fjall::Result<Self> {

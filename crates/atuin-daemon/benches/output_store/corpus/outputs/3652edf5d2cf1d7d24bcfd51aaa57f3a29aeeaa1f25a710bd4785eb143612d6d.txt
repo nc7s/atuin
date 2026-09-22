@@ -1,0 +1,20 @@
+14:pub enum Pos {
+27:pub struct Indicator<'a>(#[as_ref(str)] &'a str);
+31:    pub const ASCII: Self = Self("...");
+33:    pub const UNICODE: Self = Self("…");
+37:    pub const fn new(marker: &'a str) -> Self {
+42:impl Default for Indicator<'_> {
+44:    fn default() -> Self {
+49:pub trait EllipsizeExt: AsRef<str> {
+53:    fn ellipsize<'a>(
+96:    fn pad_ellipsize<'a>(
+122:pub struct Ellipsized<'a>(Repr<'a>);
+125:enum Repr<'a> {
+143:    fn contiguous(text: &'a str, source_offset: usize) -> Self {
+150:    fn spliced(
+167:    pub fn source_index(self, output_byte: usize) -> Option<usize> {
+189:impl fmt::Display for Ellipsized<'_> {
+190:    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+209:    fn from(ellipsized: Ellipsized<'a>) -> Self {
+217:impl PartialEq<str> for Ellipsized<'_> {
+219:    fn eq(&self, other: &str) -> bool {

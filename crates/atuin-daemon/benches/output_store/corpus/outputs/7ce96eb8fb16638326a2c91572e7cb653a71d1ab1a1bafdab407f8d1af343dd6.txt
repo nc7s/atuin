@@ -1,0 +1,20 @@
+14:pub type EagerFutureCell<T> = EagerFuture<OnceCell<T>>;
+19:pub type MutEagerFutureCell<T> = EagerFuture<Mutex<Option<T>>>;
+24:    pub fn overwrite(&self, value: T) {
+32:pub trait ResultCell: Default + Send + Sync + 'static {
+36:    fn fill(&self, value: Self::Value);
+39:    fn peek(&self) -> Option<Self::Value>;
+45:    fn fill(&self, value: T) {
+49:    fn peek(&self) -> Option<T> {
+57:    fn fill(&self, value: T) {
+65:    fn peek(&self) -> Option<T> {
+72:struct Inner<C> {
+81:pub struct EagerFuture<C> {
+87:    fn clone(&self) -> Self {
+96:    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+103:    pub fn new<Fut>(work: Fut, handle: &Handle) -> Self
+127:    pub async fn get(&self) -> C::Value {
+160:    async fn computes_once_and_caches(#[case] value: usize) {
+173:        assert_eq!(cell.get().await, value);
+174:        assert_eq!(cell.get().await, value);
+175:        assert_eq!(calls.load(Ordering::SeqCst), 1);

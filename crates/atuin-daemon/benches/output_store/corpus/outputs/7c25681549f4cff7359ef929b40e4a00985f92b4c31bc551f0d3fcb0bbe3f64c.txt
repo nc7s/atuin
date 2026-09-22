@@ -1,0 +1,62 @@
+crates/atuin-common/src/shell.rs:132:    where
+crates/atuin-common/src/slice.rs:6:where
+crates/atuin-common/src/slice.rs:41:where
+crates/atuin-common/src/futures/stream.rs:37:where
+crates/atuin-common/src/fs.rs:16:// specified in the where clause" warning.
+crates/atuin-common/src/futures/mod.rs:52:    where
+crates/atuin-common/src/futures/mod.rs:105:    where
+crates/atuin-common/src/filter.rs:73:    where
+crates/atuin-common/src/filter.rs:106:    where
+crates/atuin-common/src/filter.rs:138:    where
+crates/atuin-common/src/filter.rs:168:    where
+crates/atuin-common/src/filter.rs:190:where
+crates/atuin-common/src/filter.rs:201:where
+crates/atuin-common/src/filter.rs:283:where
+crates/atuin-common/src/sync/eager_future_cell.rs:104:    where
+crates/atuin-common/src/secrets.rs:11://! The group is optional wherever the surrounding text is recognisable on its own. That is what
+crates/atuin-common/src/secrets.rs:19://! Both are best-effort. [`redact`] in particular is applied to rendered terminal output, where a
+crates/atuin-common/src/secrets.rs:640:    /// Boundary strings where a rewrite is most likely to drift from the old set: bare mentions,
+crates/atuin-common/src/secrets.rs:905:        fn each_prefilter_matches_exactly_where_its_pattern_does(s in credential_dense()) {
+crates/atuin-common/src/encryption/paseto_v4.rs:303:        // condition where another process could observe a partially written key file, but it is
+crates/atuin-common/src/encryption/paseto_v4.rs:321:        // TODO(taylordotfish): This has a race condition where another process can observe a
+crates/atuin-common/src/encryption/paseto_v4.rs:651:where
+crates/atuin-common/src/encryption/paseto_v4.rs:691:where
+crates/atuin-common/src/utils.rs:199:where
+crates/atuin-common/src/os/unix.rs:79:where
+crates/atuin-common/src/path/mod.rs:24:/// This type is used as part of a workaround to handle the case where the daemon may have been
+crates/atuin-common/src/path/mod.rs:25:/// spawned in an environment with `$TMPDIR` unset, but where `$TMPDIR` *is* set when the client is
+crates/atuin-common/src/path/display_rich.rs:79:        //                      spread throughout the code everywhere.
+crates/atuin-common/src/path/display_rich.rs:249:    // where the rendered text differs from `self.path`.
+crates/atuin-common/src/string/non_nul_str.rs:62:where
+crates/atuin-common/src/rmp/decode.rs:103:where
+crates/atuin-common/src/rmp/decode.rs:122:where
+crates/atuin-common/src/rmp/decode.rs:146:where
+crates/atuin-common/src/rmp/decode.rs:161:where
+crates/atuin-common/src/rmp/decode.rs:173:where
+crates/atuin-common/src/rmp/decode.rs:187:where
+crates/atuin-common/src/rmp/decode.rs:201:where
+crates/atuin-common/src/rmp/decode.rs:224:where
+crates/atuin-common/src/rmp/encode.rs:38:where
+crates/atuin-common/src/rmp/encode.rs:57:where
+crates/atuin-common/src/rmp/encode.rs:68:where
+crates/atuin-common/src/rmp/encode.rs:117:where
+crates/atuin-common/src/rmp/encode.rs:133:where
+crates/atuin-common/src/string/bounded_buffer.rs:79:                          this type's invariants; every place where `self.end` is modified is \
+crates/atuin-common/src/string/bounded_buffer.rs:102:                          this type's invariants; every place where `self.end` is modified is \
+crates/atuin-common/src/string/bounded_buffer.rs:157:                // * `Err(e)` where `e.error_len()` is `None`: `b` is the start of a multibyte UTF-8
+crates/atuin-common/src/string/bounded_buffer.rs:159:                // * `Err(e)` where `e.error_len()` is `Some`: `b` is the middle of a multibyte
+crates/atuin-common/src/os/unix/process.rs:119:    /// A child chdirs somewhere between fork and exec, so it may not have arrived yet.
+crates/atuin-common/src/os/windows/mod.rs:21:/// A returned value of `0` is treated as the failure case, matching the Win32 convention where a
+crates/atuin-common/src/os/windows/mod.rs:24:where
+crates/atuin-common/src/string/ellipsis.rs:23:/// The marker spliced in where content was dropped: [`Indicator::ASCII`]
+crates/atuin-common/src/string/ellipsis.rs:103:    where
+crates/atuin-common/src/db/mod.rs:61:where
+crates/atuin-common/src/db/mod.rs:72:where
+crates/atuin-common/src/db/mod.rs:86:where
+crates/atuin-common/src/db/mod.rs:107:            // "SELECT * FROM foobar" where foobar has columns foo and bar, sqlx will cache the
+crates/atuin-common/src/db/mod.rs:187:where
+crates/atuin-common/src/url.rs:42:    where
+crates/atuin-common/src/url.rs:72:    where
+crates/atuin-common/src/os/unix/tty.rs:83:        // redundant everywhere it compiles.
+crates/atuin-common/src/time/duration.rs:323:                (Err(_), Ok(_)) => prop_assert!(false, "time succeeded where std failed"),
+crates/atuin-common/src/time/offset_date_time.rs:317:    /// negative year, where a naive `{:04}` would render `-044` instead of `-0044`.

@@ -1,0 +1,79 @@
+2:use crate::block::{DecompressError, MINMATCH};
+11:unsafe fn duplicate(
+28:        debug_assert!(
+38:fn wild_copy_from_src_16(mut source: *const u8, mut dst_ptr: *mut u8, num_items: usize) {
+57:unsafe fn duplicate_overlapping(
+85:unsafe fn copy_from_dict(
+93:    debug_assert!(output_ptr.offset_from(output_base) >= 0);
+94:    debug_assert!(offset > output_ptr.offset_from(output_base) as usize);
+96:    debug_assert!(ext_dict.len() + output_ptr.offset_from(output_base) as usize >= offset);
+126:pub(super) fn read_integer_ptr(
+129:) -> Result<usize, DecompressError> {
+140:                return Err(DecompressError::ExpectedAnotherByte);
+161:fn read_match_offset(input_ptr: &mut *const u8) -> Result<u16, DecompressError> {
+170:        Err(DecompressError::OffsetZero)
+180:fn check_token() {
+181:    assert!(!does_token_fit(15));
+182:    assert!(does_token_fit(14));
+183:    assert!(does_token_fit(114));
+184:    assert!(!does_token_fit(0b11110000));
+185:    assert!(does_token_fit(0b10110000));
+192:fn does_token_fit(token: u8) -> bool {
+201:pub(crate) fn decompress_internal<const USE_DICT: bool, S: Sink>(
+205:) -> Result<usize, DecompressError> {
+208:        return Err(DecompressError::ExpectedAnotherByte);
+215:        debug_assert!(ext_dict.is_empty());
+267:            debug_assert!(
+283:            debug_assert!(input_ptr_end as usize - input_ptr as usize >= 2);
+288:                return Err(DecompressError::OffsetOutOfBounds);
+307:            debug_assert!(start_ptr >= output_base);
+308:            debug_assert!(start_ptr < output_end);
+309:            debug_assert!(unsafe { output_end.offset_from(start_ptr) as usize } >= match_length);
+347:                    return Err(DecompressError::LiteralOutOfBounds);
+350:                    return Err(DecompressError::OutputTooSmall {
+374:                return Err(DecompressError::ExpectedAnotherByte);
+400:                return Err(DecompressError::OffsetOutOfBounds);
+403:                return Err(DecompressError::OutputTooSmall {
+418:                        return Err(DecompressError::ExpectedAnotherByte);
+432:        debug_assert!(start_ptr >= output_base);
+433:        debug_assert!(start_ptr < output_end);
+434:        debug_assert!(unsafe { output_end.offset_from(start_ptr) as usize } >= match_length);
+441:                return Err(DecompressError::ExpectedAnotherByte);
+454:pub fn decompress_into(input: &[u8], output: &mut [u8]) -> Result<usize, DecompressError> {
+462:pub fn decompress_into_with_dict(
+466:) -> Result<usize, DecompressError> {
+478:pub fn decompress_with_dict(
+482:) -> Result<Vec<u8>, DecompressError> {
+496:pub fn decompress_size_prepended(input: &[u8]) -> Result<Vec<u8>, DecompressError> {
+508:pub fn decompress(input: &[u8], min_uncompressed_size: usize) -> Result<Vec<u8>, DecompressError> {
+522:pub fn decompress_size_prepended_with_dict(
+525:) -> Result<Vec<u8>, DecompressError> {
+535:    fn all_literal() {
+536:        assert_eq!(decompress(&[0x30, b'a', b'4', b'9'], 3).unwrap(), b"a49");
+540:    fn incomplete_input() {
+541:        assert!(matches!(
+543:            Err(DecompressError::ExpectedAnotherByte)
+545:        assert!(matches!(
+548:            Err(DecompressError::ExpectedAnotherByte)
+550:        assert!(matches!(
+553:            Err(DecompressError::ExpectedAnotherByte)
+555:        assert!(matches!(
+558:            Err(DecompressError::ExpectedAnotherByte)
+564:    fn offset_oob() {
+566:        assert!(matches!(
+568:            Err(DecompressError::LiteralOutOfBounds)
+571:        assert!(matches!(
+573:            Err(DecompressError::OutputTooSmall {
+579:        assert!(matches!(
+581:            Err(DecompressError::OutputTooSmall {
+588:        assert!(matches!(
+593:            Err(DecompressError::OffsetOutOfBounds)
+596:        assert!(matches!(
+602:            Err(DecompressError::OffsetOutOfBounds)
+605:        assert!(matches!(
+607:            Err(DecompressError::OffsetOutOfBounds)
+610:        assert!(matches!(
+612:            Err(DecompressError::OffsetOutOfBounds)
+617:    fn offset_0() {
+618:        assert!(matches!(
+620:            Err(DecompressError::OffsetZero)

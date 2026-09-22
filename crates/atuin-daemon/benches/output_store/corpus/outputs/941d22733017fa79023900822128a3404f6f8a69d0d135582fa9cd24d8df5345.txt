@@ -1,0 +1,5 @@
+17:pub static APP_USER_AGENT: &str = concat!("atuin/", env!("CARGO_PKG_VERSION"));
+21:pub enum StreamControl {
+27:    Error(String),
+33:pub enum StreamContent {
+51:pub enum StreamFrame {

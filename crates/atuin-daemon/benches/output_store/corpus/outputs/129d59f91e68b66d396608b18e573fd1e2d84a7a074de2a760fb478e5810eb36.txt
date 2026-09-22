@@ -1,0 +1,60 @@
+use std::time::Duration;
+
+use atuin_client::database::Sqlite;
+use easy_cast::Conv;
+use eyre::{Context as _, Result, bail};
+use tracing::{debug, info};
+
+use crate::context::{AppContext, ClientContext};
+use crate::fsm::AgentFsm;
+use crate::session::{LocalSessionService, SessionManager, SessionService};
+use crate::tui::app::{AiApp, ExitOutcome, IoContext};
+use crate::tui::state::ConversationEvent;
+
+pub async fn run(
+    initial_command: Option<String>,
+    api_endpoint: Option<String>,
+    api_token: Option<String>,
+    settings: &atuin_client::settings::Settings,
+    output_for_hook: bool,
+) -> Result<()> {
+    if settings.ai.enabled == Some(false) {
+        return Ok(());
+    }
+
+    if settings.ai.enabled.is_none() {
+        match prompt_ai_setup()? {
+            SetupChoice::EnableAi => {
+                set_ai_enabled(true).await?;
+            }
+            SetupChoice::DisableKeybind => {
+                set_ai_enabled(false).await?;
+                emit_shell_result(ExitOutcome::Cancel, output_for_hook);
+                return Ok(());
+            }
+            SetupChoice::Cancel => {
+                emit_shell_result(ExitOutcome::Cancel, output_for_hook);
+                return Ok(());
+            }
+        }
+    }
+
+    let endpoint = match api_endpoint.as_deref() {
+        Some(raw) => reqwest::Url::parse(raw).context("invalid --api-endpoint URL")?,
+        None => settings
+            .ai
+            .endpoint
+            .clone()
+            .unwrap_or_else(|| atuin_client::settings::DEFAULT_HUB_URL.clone()),
+    };
+    let endpoint_is_hub = settings.is_hub_ai_endpoint(&endpoint);
+    let api_token = api_token.as_deref().or(settings.ai.api_token.as_deref());
+
+    let (token, token_from_hub_session) = match api_token {
+        Some(token) => (token.to_string(), false),
+        None if endpoint_is_hub => (ensure_hub_session(settings).await?, true),
+        // An OSS server may not require auth; hit it without a token rather
+        // than forcing a login flow that doesn't apply.
+        None => (String::new(), false),
+    };
+

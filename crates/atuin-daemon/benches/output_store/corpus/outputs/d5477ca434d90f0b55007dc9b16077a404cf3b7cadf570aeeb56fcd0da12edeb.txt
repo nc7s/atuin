@@ -1,0 +1,7 @@
+src/frame/mod.rs:35:pub enum Error {
+src/frame/header.rs:39:pub enum BlockSize {
+src/frame/header.rs:83:pub enum BlockMode {
+src/frame/header.rs:376:pub(crate) enum BlockInfo {
+src/block/mod.rs:82:pub enum DecompressError {
+src/block/mod.rs:103:pub enum CompressError {
+src/block/compress.rs:731:pub enum CompressTable {

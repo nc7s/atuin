@@ -1,0 +1,7 @@
+src/sink.rs:107:    pub fn new(output: &'a mut [u8], pos: usize) -> Self {
+src/block/hashtable.rs:64:    pub fn new() -> Self {
+src/block/hashtable.rs:102:    pub fn new() -> Self {
+src/block/hashtable.rs:144:    pub fn new() -> Self {
+src/frame/header.rs:153:    pub fn new() -> Self {
+src/frame/decompress.rs:76:    pub fn new(rdr: R) -> FrameDecoder<R> {
+src/frame/compress.rs:156:    pub fn new(wtr: W) -> Self {

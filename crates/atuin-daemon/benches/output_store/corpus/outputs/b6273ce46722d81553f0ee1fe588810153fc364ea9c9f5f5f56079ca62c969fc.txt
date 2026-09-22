@@ -1,0 +1,80 @@
+crates/atuin-common/src/shell.rs:68:        match self {
+crates/atuin-common/src/shell.rs:110:        match name {
+crates/atuin-common/src/string.rs:40:        match s.char_indices().nth(max_chars) {
+crates/atuin-common/src/string.rs:103:        match self {
+crates/atuin-common/src/string.rs:110:        match self {
+crates/atuin-common/src/secrets.rs:176:    // The password and the key are separate patterns because one match can only capture one group,
+crates/atuin-common/src/secrets.rs:491:/// a pattern can also match text that holds no value to remove.
+crates/atuin-common/src/secrets.rs:496:    let mut out = match redact_once(s) {
+crates/atuin-common/src/secrets.rs:507:        let next = match redact_once(&out) {
+crates/atuin-common/src/secrets.rs:738:    // One match can only fill one group, which is why the login password and key are separate
+crates/atuin-common/src/secrets.rs:776:    /// false: a pattern can match text that holds no value to remove.
+crates/atuin-common/src/secrets.rs:800:    // match overlapping spans and must collapse into a single marker.
+crates/atuin-common/src/secrets.rs:870:            match redact(&s) {
+crates/atuin-common/src/logs.rs:22:        match self {
+crates/atuin-common/src/time/offset_date_time.rs:120:        match self.style {
+crates/atuin-common/src/time/offset_date_time.rs:316:    /// descriptors are the specification it has to match -- including the padding of a
+crates/atuin-common/src/time/offset_date_time.rs:347:            match expected_nanos(secs, nsecs) {
+crates/atuin-common/src/rmp/encode.rs:43:    match value {
+crates/atuin-common/src/rmp/encode.rs:99:        match e {
+crates/atuin-common/src/filter.rs:28:    /// allows items that match any element of the list.
+crates/atuin-common/src/filter.rs:143:        Comparer(match (iter, self.is_all()) {
+crates/atuin-common/src/filter.rs:294:        match self.0 {
+crates/atuin-common/src/filter.rs:446:            match OrFilter::from_list(items.clone()) {
+crates/atuin-common/src/rmp/decode.rs:38:        match self {
+crates/atuin-common/src/rmp/decode.rs:39:            Self::DecodeString(e) => DecodeError::DecodeString(match e {
+crates/atuin-common/src/rmp/decode.rs:60:        match self {
+crates/atuin-common/src/rmp/decode.rs:82:    let (string, rest) = match read_str_from_slice(slice) {
+crates/atuin-common/src/rmp/decode.rs:88:                bytes.read_u8().expect("TypeMismatch implies stream contains a marker byte");
+crates/atuin-common/src/rmp/decode.rs:127:    let err = match read(reader) {
+crates/atuin-common/src/rmp/decode.rs:207:    let (len, error) = match read_len(reader) {
+crates/atuin-common/src/time/duration.rs:125:        match segments(self.duration) {
+crates/atuin-common/src/time/duration.rs:158:        match self.style {
+crates/atuin-common/src/time/duration.rs:299:            match std::time::Duration::try_new(secs, nsecs) {
+crates/atuin-common/src/time/duration.rs:316:            match (std_result, time_result) {
+crates/atuin-common/src/utils.rs:161:    match env::var("PWD") {
+crates/atuin-common/src/utils.rs:163:        Err(_) => match env::current_dir() {
+crates/atuin-common/src/docs.rs:40:    match std::str::from_utf8(bytes.split_at(end).0) {
+crates/atuin-common/src/slice.rs:81:            match self.slice.binary_search_by_key(&item, |s| s.borrow()) {
+crates/atuin-common/src/string/align.rs:29:        let (left, right) = match align {
+crates/atuin-common/src/encryption/paseto_v4.rs:187:        match <[u8; 32]>::try_from(&*buf) {
+crates/atuin-common/src/encryption/paseto_v4.rs:196:                match rmp::Marker::from_u8(buf[0]) {
+crates/atuin-common/src/encryption/paseto_v4.rs:268:        match loop {
+crates/atuin-common/src/encryption/paseto_v4.rs:276:                match fs::OpenOptions::new().write(true).create_new(true).open(&tmp_path) {
+crates/atuin-common/src/encryption/paseto_v4.rs:306:        let mut file = match std::fs::OpenOptions::new().write(true).create_new(true).open(path) {
+crates/atuin-common/src/encryption/paseto_v4.rs:334:        match Self::try_load_from_path(path) {
+crates/atuin-common/src/encryption/paseto_v4.rs:338:                match key.try_write_path(path) {
+crates/atuin-common/src/encryption/paseto_v4.rs:344:                        .map_err(|e| match e {
+crates/atuin-common/src/string/ellipsis.rs:71:            return match side {
+crates/atuin-common/src/string/ellipsis.rs:83:        match side {
+crates/atuin-common/src/string/ellipsis.rs:168:        match self.0 {
+crates/atuin-common/src/string/ellipsis.rs:191:        match self.0 {
+crates/atuin-common/src/string/ellipsis.rs:210:        match ellipsized.0 {
+crates/atuin-common/src/string/ellipsis.rs:220:        match self.0 {
+crates/atuin-common/src/string/ellipsis.rs:284:        match b {
+crates/atuin-common/src/string/ellipsis.rs:291:        match b {
+crates/atuin-common/src/db/mod.rs:42:        match self {
+crates/atuin-common/src/db/mod.rs:209:        match self {
+crates/atuin-common/src/db/mod.rs:228:        match self {
+crates/atuin-common/src/string/non_nul_str.rs:23:        match inner.as_ref().find('\0') {
+crates/atuin-common/src/string/non_nul_str.rs:123:            match s.find('\0') {
+crates/atuin-common/src/futures/stream.rs:48:            match Pin::new(&mut stream).peek().await {
+crates/atuin-common/src/futures/mod.rs:67:        let mut last = match fxn().await {
+crates/atuin-common/src/futures/mod.rs:73:            match self {
+crates/atuin-common/src/futures/mod.rs:75:                    match fxn().await {
+crates/atuin-common/src/futures/mod.rs:88:                        match fxn().await {
+crates/atuin-common/src/path/display_rich.rs:54:        match std::env::current_dir() {
+crates/atuin-common/src/path/display_rich.rs:80:        match directories::BaseDirs::new() {
+crates/atuin-common/src/os/unix.rs:85:    match std::fs::DirBuilder::new().mode(0o700).create(path.as_ref()) {
+crates/atuin-common/src/os/unix/process.rs:16:    let is_original_alive = || match identity {
+crates/atuin-common/src/os/unix/process.rs:21:    match process::kill_process(pid, Signal::TERM) {
+crates/atuin-common/src/os/unix/process.rs:48:    match process::kill_process(pid, Signal::KILL) {
+crates/atuin-common/src/db/sqlite/compactor.rs:53:        let wal_path = match info.get().await.wal_path().map(Path::to_path_buf) {
+crates/atuin-common/src/db/sqlite/compactor.rs:61:        let wal = match tokio::fs::File::open(&wal_path).await {
+crates/atuin-common/src/db/sqlite/compactor.rs:139:        match ActiveCompactor::connect(opts).await {
+crates/atuin-common/src/db/sqlite/builder.rs:64:        let (database, params) = match stripped.split_once('?') {
+crates/atuin-common/src/db/sqlite/builder.rs:139:        match self.journal {
+crates/atuin-common/src/db/sqlite/info.rs:66:        let mut conn = match Self::acquire_retrying(pool).await {
+crates/atuin-common/src/db/sqlite/info.rs:71:        let mut handle = match conn.lock_handle().await {
+crates/atuin-common/src/db/sqlite/info.rs:115:                    match pool.acquire().await {
+crates/atuin-common/src/db/sqlite/info.rs:139:        match usize::try_from(limit) {

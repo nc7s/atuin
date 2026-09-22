@@ -1,0 +1,160 @@
+#[cfg(feature = "experimental_cursor")]
+use crate::tree_store::btree_base::RawBranchBuilder;
+use crate::tree_store::btree_base::{
+    BRANCH, BranchAccessor, BranchBuilder, BranchMutator, Checksum, DEFERRED, LEAF, LeafAccessor,
+    LeafBuilder, LeafMutator, OwnedEntryBuffer, branch_separator, is_single_large_value,
+    leaf_below_merge_threshold, leaf_split_required, retained_after_removals,
+};
+use crate::tree_store::btree_mutator::DeletionResult::{
+    DeletedBranch, DeletedSubtree, PartialBranch, PartialLeaf, Subtree,
+};
+use crate::tree_store::page_store::{Page, PageImpl, PageMut};
+use crate::tree_store::{
+    AccessGuardMutInPlace, BtreeHeader, PageAllocator, PageHint, PageNumber, PageTracker,
+};
+use crate::types::{Key, Value};
+use crate::{AccessGuard, Result};
+use alloc::borrow::Cow;
+use alloc::sync::Arc;
+use alloc::vec;
+use alloc::vec::Vec;
+use core::cmp::{max, min};
+use core::marker::PhantomData;
+use core::ops::Range;
+
+#[derive(Debug)]
+enum DeletionResult {
+    // A proper subtree
+    Subtree(PageNumber),
+    // A child subtree was removed completely and should be removed from its parent.
+    // If this reaches the root, the tree becomes empty.
+    DeletedSubtree,
+    // A leaf with fewer entries than desired
+    PartialLeaf {
+        page: Arc<[u8]>,
+        deleted_pairs: DeletedPairs,
+    },
+    // A branch page subtree with fewer children than desired.
+    // Held in unbuilt form: the caller will merge it with a sibling and build a new page,
+    // so allocating a page here just to free it again would be wasteful.
+    // Checksums are retained because preserved children may be clean pages whose real
+    // checksums must be propagated (finalize only recomputes uncommitted pages).
+    PartialBranch {
+        children: Vec<(PageNumber, Checksum)>,
+        keys: Vec<Vec<u8>>,
+    },
+    // Indicates that the branch node was deleted, and includes the only remaining child.
+    // Checksum is retained for the same reason as `PartialBranch`.
+    DeletedBranch(PageNumber, Checksum),
+}
+
+#[derive(Debug)]
+enum DeletedPairs {
+    One(usize),
+    Many(Vec<usize>),
+}
+
+impl DeletedPairs {
+    fn len(&self) -> usize {
+        match self {
+            Self::One(_) => 1,
+            Self::Many(indexes) => indexes.len(),
+        }
+    }
+}
+
+// A page produced while splicing an insert run into the tree, with a bound on
+// its subtree: a separator no less than the subtree's greatest key. The bound
+// is None when the parent's stored separator still covers the subtree, which
+// includes the node holding the tree's original last entry.
+#[cfg(feature = "experimental_cursor")]
+type SplicedNode = (PageNumber, Checksum, Option<Vec<u8>>);
+
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+enum LeafDeleteDisposition {
+    Delete,
+    Merge,
+    Rebuild,
+}
+
+struct LeafDeletePlan {
+    retained_pairs: usize,
+    disposition: LeafDeleteDisposition,
+}
+
+struct InsertionResult<'a, V: Value + 'static> {
+    // the new root page
+    new_root: PageNumber,
+    // checksum of the root page
+    root_checksum: Checksum,
+    // Following sibling, if the root had to be split
+    additional_sibling: Option<(Vec<u8>, PageNumber, Checksum)>,
+    // The inserted value for .insert_reserve() to use
+    inserted_value: AccessGuardMutInPlace<'a, V>,
+    // The previous value, if any
+    old_value: Option<AccessGuard<'a, V>>,
+}
+
+pub(crate) struct MutateHelper<'a, 'b, K: Key, V: Value> {
+    root: &'b mut Option<BtreeHeader>,
+    page_allocator: &'b PageAllocator,
+    freed: &'b mut Vec<PageNumber>,
+    allocated: &'b Arc<PageTracker>,
+    _key_type: PhantomData<K>,
+    _value_type: PhantomData<V>,
+    _lifetime: PhantomData<&'a ()>,
+}
+
+impl<'a, 'b, K: Key + 'static, V: Value + 'static> MutateHelper<'a, 'b, K, V> {
+    pub(crate) fn new(
+        root: &'b mut Option<BtreeHeader>,
+        page_allocator: &'b PageAllocator,
+        freed: &'b mut Vec<PageNumber>,
+        allocated: &'b Arc<PageTracker>,
+    ) -> Self {
+        Self {
+            root,
+            page_allocator,
+            freed,
+            allocated,
+            _key_type: PhantomData,
+            _value_type: PhantomData,
+            _lifetime: PhantomData,
+        }
+    }
+
+    fn conditional_free(&mut self, page_number: PageNumber) {
+        self.page_allocator
+            .conditional_free(page_number, self.allocated, self.freed);
+    }
+
+    pub(crate) fn delete(&mut self, key: &K::SelfType<'_>) -> Result<Option<AccessGuard<'a, V>>> {
+        self.delete_key(K::as_bytes(key).as_ref(), true)
+    }
+
+    // If `allow_in_place` is false, leaf memory is never modified in place, so guards and
+    // snapshots backed by leaf buffers remain valid after the deletion.
+    pub(super) fn delete_key(
+        &mut self,
+        key: &[u8],
+        allow_in_place: bool,
+    ) -> Result<Option<AccessGuard<'a, V>>> {
+        if let Some(BtreeHeader {
+            root: p, length, ..
+        }) = *self.root
+        {
+            let (deletion_result, found) = self.delete_helper(
+                self.page_allocator.get_page(p, PageHint::None)?,
+                key,
+                allow_in_place,
+            )?;
+            if found.is_none() {
+                // The tree was not modified; leave *self.root untouched so that any clean
+                // root page keeps its already-valid checksum.
+                return Ok(None);
+            }
+            self.finish_deletion(deletion_result, length - 1)?;
+            Ok(found)
+        } else {
+            Ok(None)
+        }

@@ -1,0 +1,13 @@
+25:pub mod keybindings;
+32:pub struct Cmd {
+164:impl Cmd {
+166:    pub fn is_interactive(&self) -> bool {
+175:    pub async fn run(
+322:async fn run_non_interactive(
+359:pub async fn prepare_index(settings: &Settings) -> Result<()> {
+380:    fn parses_query_args(#[case] args: Vec<&str>, #[case] expected: Vec<&str>) {
+382:        assert_eq!(cmd.query, expected);
+386:    fn search_author_cli_flag() {
+389:        assert_eq!(cmd.author, vec![
+396:    fn search_author_cli_flag_parses_the_special_values() {
+407:        assert_eq!(cmd.author, vec![

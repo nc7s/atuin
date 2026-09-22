@@ -1,0 +1,101 @@
+src/number.rs:375:    where
+src/number.rs:387:    where
+src/number.rs:401:    where
+src/number.rs:418:            where
+src/number.rs:430:            where
+src/number.rs:438:            where
+src/number.rs:446:            where
+src/number.rs:468:    where
+src/value/ser.rs:14:    where
+src/value/ser.rs:52:/// where
+src/value/ser.rs:199:    where
+src/value/ser.rs:212:    where
+src/value/ser.rs:227:    where
+src/value/ser.rs:295:    where
+src/value/ser.rs:332:    where
+src/value/ser.rs:349:    where
+src/map.rs:74:    where
+src/map.rs:87:    where
+src/map.rs:100:    where
+src/map.rs:113:    where
+src/map.rs:157:    where
+src/map.rs:180:    where
+src/map.rs:201:    where
+src/map.rs:219:    where
+src/value/mod.rs:289:    /// way. This returns `Value::Null` in cases where `get` would have returned
+src/value/mod.rs:996:where
+src/value/mod.rs:1038:where
+src/value/index.rs:120:where
+src/value/index.rs:140:    impl<T> Sealed for &T where T: ?Sized + Sealed {}
+src/value/index.rs:179:where
+src/value/index.rs:219:where
+src/value/from.rs:275:where
+src/value/de.rs:25:    where
+src/value/de.rs:48:            where
+src/value/de.rs:61:            where
+src/value/de.rs:76:            where
+src/value/de.rs:95:            where
+src/value/de.rs:108:            where
+src/value/de.rs:122:            where
+src/value/de.rs:173:        where
+src/ser.rs:23:where
+src/ser.rs:34:where
+src/ser.rs:45:where
+src/ser.rs:64:where
+src/ser.rs:226:    where
+src/ser.rs:240:    where
+src/ser.rs:277:    where
+src/ser.rs:411:    where
+src/read.rs:103:    where
+src/read.rs:125:where
+src/read.rs:133:where
+src/read.rs:150:where
+src/read.rs:190:where
+src/read.rs:211:impl<R> private::Sealed for IoRead<R> where R: io::Read {}
+src/read.rs:215:where
+src/read.rs:224:    where
+src/raw.rs:206:    /// JSON output wherever it is embedded, and other code (including unsafe
+src/raw.rs:335:where
+src/raw.rs:346:    where
+src/raw.rs:357:    where
+src/raw.rs:370:            where
+src/raw.rs:387:    where
+src/raw.rs:400:            where
+src/raw.rs:419:    where
+src/lexical/errors.rs:38:        // IE, b10100 | 100000, where `|` signifies the truncation point.
+src/lexical/rounding.rs:150:where
+src/lexical/rounding.rs:190:where
+src/lexical/rounding.rs:219:where
+src/lexical/algorithm.rs:19:where
+src/lexical/algorithm.rs:43:        // Check to see if we have a disguised fast-path, where the
+src/lexical/algorithm.rs:81:where
+src/lexical/algorithm.rs:152:where
+src/lexical/algorithm.rs:178:where
+src/iter.rs:23:where
+src/iter.rs:49:where
+src/lexical/parse.rs:15:where
+src/lexical/parse.rs:50:where
+src/lexical/bhcomp.rs:23:where
+src/lexical/bhcomp.rs:63:    // to add a 1 after the rest of the array, it doesn't matter where,
+src/lexical/bhcomp.rs:112:where
+src/lexical/bhcomp.rs:136:where
+src/lexical/bhcomp.rs:194:where
+src/lexical/bhcomp.rs:198:    // where the significant digits start in the fraction.
+src/lexical/float.rs:107:    where
+src/lexical/float.rs:144:where
+src/lexical/float.rs:161:where
+src/error.rs:338:    where
+src/lexical/math.rs:26://  Platforms where native 128-bit multiplication is explicitly supported:
+src/lexical/math.rs:30://  Platforms where native 64-bit multiplication is supported and
+src/lexical/math.rs:35://  Platforms where native 128-bit multiplication is not supported,
+src/lexical/math.rs:366:    /// where `p` is `n+m`. In short, it scales very poorly.
+src/lexical/math.rs:732:    /// Karatsuba multiplication algorithm where y is substantially larger than x.
+src/lexical/math.rs:772:            // We're not really in a condition where using Karatsuba
+src/de.rs:42:where
+src/de.rs:74:where
+src/de.rs:119:    where
+src/de.rs:155:    where
+src/de.rs:320:    where
+src/de.rs:347:    where
+src/de.rs:357:    where
+src/de.rs:389:    where

@@ -1,0 +1,60 @@
+//! Effects (outputs) from the agent FSM.
+//!
+//! The FSM returns these as data; the driver is responsible for executing them.
+
+use std::path::PathBuf;
+use std::time::Duration;
+
+use atuin_client::history::HistoryId;
+use serde_json::Value;
+
+use crate::permissions::rule::Rule;
+use crate::permissions::writer::RuleDisposition;
+use crate::tools::ClientToolCall;
+
+/// Where to write a permission rule.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum PermissionTarget {
+    /// Project-level: `<git_root_or_cwd>/.atuin/permissions.ai.toml`
+    Project,
+    /// Global: `~/.config/atuin/permissions.ai.toml`
+    Global,
+}
+
+/// Side effects the driver should execute after a state transition.
+#[derive(Debug, Clone)]
+pub enum Effect {
+    // ─── Network ────────────────────────────────────────────────
+    /// Start a new streaming request to the server.
+    StartStream {
+        messages: Vec<Value>,
+        session_id: Option<String>,
+    },
+    /// Abort the active stream connection.
+    AbortStream,
+
+    // ─── Tool orchestration ─────────────────────────────────────
+    /// Run the permission resolver for a tool call.
+    CheckPermission {
+        tool_id: String,
+        tool: ClientToolCall,
+    },
+    /// Execute a tool (file read, edit, write, shell, history search).
+    ExecuteTool {
+        tool_id: String,
+        tool: ClientToolCall,
+    },
+    /// Kill a running tool (send interrupt to shell command).
+    AbortTool {
+        tool_id: String,
+    },
+    /// Look up the command string behind an atuin_output call's history id
+    /// in the local history db, for display (the model only passes a UUID).
+    /// Resolves via `Event::OutputCommandResolved`.
+    ResolveOutputCommand {
+        tool_id: String,
+        history_id: HistoryId,
+    },
+    /// Load a skill's content asynchronously (read + interpolate).
+    LoadSkill {
+        name: String,

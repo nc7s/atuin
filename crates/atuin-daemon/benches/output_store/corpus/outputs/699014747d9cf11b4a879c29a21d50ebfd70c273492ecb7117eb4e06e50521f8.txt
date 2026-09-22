@@ -1,0 +1,12 @@
+12:use crate::handlers::{ErrorResponse, ErrorResponseStatus, RespExt};
+16:pub async fn post(
+20:) -> Result<(), ErrorResponseStatus<'static>> {
+37:        return Err(ErrorResponse::reply("could not add records; record too large")
+44:        return Err(ErrorResponse::reply("failed to add record")
+52:pub async fn index(
+55:) -> Result<Json<RecordStatus>, ErrorResponseStatus<'static>> {
+63:            return Err(ErrorResponse::reply("failed to calculate record index")
+74:pub struct NextParams {
+82:pub async fn next(
+86:) -> Result<Json<Vec<Record<EncryptedData>>>, ErrorResponseStatus<'static>> {
+96:            return Err(ErrorResponse::reply("failed to calculate record index")

@@ -1,0 +1,69 @@
+tests/corrupted_btree_descent.rs:5:use redb::{ReadOnlyDatabase, ReadableDatabase, ReadableTable, StorageError, TableDefinition};
+tests/corrupted_btree_descent.rs:140:    assert!(matches!(table.get(&0u64), Err(StorageError::Corrupted(_))));
+tests/corrupted_btree_descent.rs:141:    assert!(matches!(table.first(), Err(StorageError::Corrupted(_))));
+tests/corrupted_btree_descent.rs:142:    assert!(matches!(table.last(), Err(StorageError::Corrupted(_))));
+tests/corrupted_btree_descent.rs:145:        Err(StorageError::Corrupted(_)) => {}
+tests/corrupted_btree_descent.rs:148:            Some(Err(StorageError::Corrupted(_)))
+tests/corrupted_btree_descent.rs:153:        Err(StorageError::Corrupted(_)) => {}
+tests/corrupted_btree_descent.rs:154:        Ok(mut iter) => assert!(matches!(iter.next(), Some(Err(StorageError::Corrupted(_))))),
+tests/multiprocess_tests.rs:4:use redb::{ConcurrencyMode, Database, DatabaseError, StorageError};
+tests/multiprocess_tests.rs:104:        fn len(&self) -> Result<u64, std::io::Error> {
+tests/multiprocess_tests.rs:107:        fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), std::io::Error> {
+tests/multiprocess_tests.rs:110:        fn set_len(&self, len: u64) -> Result<(), std::io::Error> {
+tests/multiprocess_tests.rs:116:        fn sync_data(&self) -> Result<(), std::io::Error> {
+tests/multiprocess_tests.rs:122:        fn write(&self, offset: u64, data: &[u8]) -> Result<(), std::io::Error> {
+tests/multiprocess_tests.rs:199:    fn create(path: &Path, mode: ConcurrencyMode) -> Result<Database, DatabaseError> {
+tests/multiprocess_tests.rs:261:            Err(DatabaseError::DatabaseAlreadyOpen)
+tests/check_integrity_nondurable.rs:54:    fn len(&self) -> Result<u64, std::io::Error> {
+tests/check_integrity_nondurable.rs:57:    fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), std::io::Error> {
+tests/check_integrity_nondurable.rs:61:            return Err(std::io::Error::from(std::io::ErrorKind::UnexpectedEof));
+tests/check_integrity_nondurable.rs:66:    fn set_len(&self, len: u64) -> Result<(), std::io::Error> {
+tests/check_integrity_nondurable.rs:73:    fn sync_data(&self) -> Result<(), std::io::Error> {
+tests/check_integrity_nondurable.rs:76:    fn write(&self, offset: u64, data: &[u8]) -> Result<(), std::io::Error> {
+tests/check_integrity_nondurable.rs:80:            return Err(std::io::Error::from(std::io::ErrorKind::UnexpectedEof));
+tests/cursor_tests.rs:4:    Database, ReadableDatabase, ReadableTable, ReadableTableMetadata, StorageError,
+tests/cursor_tests.rs:5:    TableDefinition, TransactionError,
+tests/cursor_tests.rs:242:                Err(StorageError::UnorderedKey)
+tests/cursor_tests.rs:250:            Err(StorageError::UnorderedKey)
+tests/cursor_tests.rs:254:            Err(StorageError::UnorderedKey)
+tests/cursor_tests.rs:390:            Err(StorageError::UnorderedKey)
+tests/cursor_tests.rs:646:        Err(TransactionError::ReadTransactionStillInUse(_))
+tests/cursor_tests.rs:821:            Err(StorageError::UnorderedKey)
+tests/multimap_tests.rs:3:    ReadableTableMetadata, TableError, TransactionError,
+tests/multimap_tests.rs:353:        Err(TableError::TableTypeMismatch { .. })
+tests/multimap_tests.rs:361:        Err(TableError::TableTypeMismatch { .. })
+tests/multimap_tests.rs:706:        Err(TransactionError::ReadTransactionStillInUse(_))
+tests/multimap_tests.rs:739:        Err(TransactionError::ReadTransactionStillInUse(_))
+tests/check_integrity_failure.rs:6:    Database, DatabaseError, ReadableDatabase, StorageBackend, StorageError, TableDefinition,
+tests/check_integrity_failure.rs:42:    fn len(&self) -> Result<u64, std::io::Error> {
+tests/check_integrity_failure.rs:45:    fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), std::io::Error> {
+tests/check_integrity_failure.rs:49:            return Err(std::io::Error::from(std::io::ErrorKind::UnexpectedEof));
+tests/check_integrity_failure.rs:54:    fn set_len(&self, len: u64) -> Result<(), std::io::Error> {
+tests/check_integrity_failure.rs:61:    fn sync_data(&self) -> Result<(), std::io::Error> {
+tests/check_integrity_failure.rs:64:    fn write(&self, offset: u64, data: &[u8]) -> Result<(), std::io::Error> {
+tests/check_integrity_failure.rs:68:            return Err(std::io::Error::from(std::io::ErrorKind::UnexpectedEof));
+tests/crash_consistency.rs:13:use std::io::ErrorKind;
+tests/crash_consistency.rs:61:    fn len(&self) -> Result<u64, std::io::Error> {
+tests/crash_consistency.rs:65:    fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), std::io::Error> {
+tests/crash_consistency.rs:69:            return Err(std::io::Error::from(ErrorKind::UnexpectedEof));
+tests/crash_consistency.rs:75:    fn set_len(&self, len: u64) -> Result<(), std::io::Error> {
+tests/crash_consistency.rs:84:    fn sync_data(&self) -> Result<(), std::io::Error> {
+tests/crash_consistency.rs:93:    fn write(&self, offset: u64, data: &[u8]) -> Result<(), std::io::Error> {
+tests/integration_tests.rs:7:    AccessGuard, Builder, CommitError, CompactionError, Database, Durability, Key, MultimapRange,
+tests/integration_tests.rs:9:    ReadableTableMetadata, SetDurabilityError, StorageBackend, TableDefinition, TableStats,
+tests/integration_tests.rs:10:    TransactionError, Value, WriteTransaction,
+tests/integration_tests.rs:12:use redb::{DatabaseError, ReadableMultimapTable, SavepointError, StorageError, TableError};
+tests/integration_tests.rs:15:use std::io::{ErrorKind, Write};
+tests/integration_tests.rs:107:    fn len(&self) -> Result<u64, std::io::Error> {
+tests/integration_tests.rs:111:    fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), std::io::Error> {
+tests/integration_tests.rs:115:    fn set_len(&self, len: u64) -> Result<(), std::io::Error> {
+tests/basic_tests.rs:3:use redb::CommitError;
+tests/basic_tests.rs:5:use redb::DatabaseError;
+tests/basic_tests.rs:9:    ReadableDatabase, ReadableTable, ReadableTableMetadata, StorageError, TableDefinition,
+tests/basic_tests.rs:10:    TableError, TableHandle, TypeName, Value, WriteTransaction,
+tests/basic_tests.rs:90:            Err(DatabaseError::DatabaseAlreadyOpen)
+tests/basic_tests.rs:108:        Err(DatabaseError::DatabaseAlreadyOpen)
+tests/basic_tests.rs:130:        Err(DatabaseError::DatabaseAlreadyOpen)
+tests/basic_tests.rs:166:        Err(TableError::TableDoesNotExist(_))
+tests/backward_compatibility.rs:568:        Err(redb::TableError::TableTypeMismatch { .. })
+tests/backward_compatibility.rs:594:        Err(redb::TableError::TableTypeMismatch { .. })

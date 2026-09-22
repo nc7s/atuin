@@ -1,0 +1,62 @@
+crates/atuin-daemon/src/client.rs:57:            return match status.code() {
+crates/atuin-daemon/src/client.rs:251:        match self.client.get_command_output(request).await {
+crates/atuin-daemon/src/client.rs:276:            shells: match params.shells.into_list() {
+crates/atuin-daemon/src/client.rs:359:            shells: match shells.into_list() {
+crates/atuin-daemon/src/client.rs:371:        match filter_mode {
+crates/atuin-daemon/src/server.rs:20:#[allow(clippy::unused_async, reason = "needs to match the cfg(not(unix)) version")]
+crates/atuin-daemon/src/server.rs:52:            match actual_path {
+crates/atuin-daemon/src/server.rs:110:            match rx.recv().await {
+crates/atuin-daemon/src/server.rs:172:            match rx.recv().await {
+crates/atuin-daemon/src/output_capture/benchmark.rs:36:        let backend = match engine {
+crates/atuin-daemon/src/output_capture/benchmark.rs:48:        match &self.backend {
+crates/atuin-daemon/src/output_capture/benchmark.rs:55:        match &self.backend {
+crates/atuin-daemon/src/output_capture/benchmark.rs:62:        match &self.backend {
+crates/atuin-daemon/src/output_capture/benchmark.rs:70:        match &self.backend {
+crates/atuin-daemon/src/output_capture/benchmark.rs:78:        match &self.backend {
+crates/atuin-daemon/src/output_capture/benchmark.rs:86:        match &self.backend {
+crates/atuin-daemon/src/output_capture/benchmark.rs:94:        match &mut self.backend {
+crates/atuin-daemon/src/output_capture/mod.rs:21:        match FjallBackend::open(path, max_disk_usage) {
+crates/atuin-daemon/src/components/sync.rs:109:    let host_id = match Settings::host_id().await {
+crates/atuin-daemon/src/components/sync.rs:158:                match cmd {
+crates/atuin-daemon/src/components/sync.rs:184:    let logged_in = match settings.logged_in().await {
+crates/atuin-daemon/src/components/sync.rs:216:    match res {
+crates/atuin-daemon/src/components/sync.rs:256:                match batch {
+crates/atuin-daemon/src/search/index.rs:81:        let recency_score: f64 = match age_hours {
+crates/atuin-daemon/src/search/index.rs:252:        match self {
+crates/atuin-daemon/src/search/index.rs:272:/// (diacritics removed) we actually match against.
+crates/atuin-daemon/src/search/index.rs:285:        let normalized = match text.normalize_diacritics() {
+crates/atuin-daemon/src/search/index.rs:330:/// Frizbee handles fuzzy matching; results are ranked by match quality,
+crates/atuin-daemon/src/search/index.rs:354:    /// Aligned with [`Self::haystack`] by index, so scoring a match is an
+crates/atuin-daemon/src/search/index.rs:408:                match pager.next().await {
+crates/atuin-daemon/src/search/index.rs:437:            match self.commands.entry(Arc::from(command)) {
+crates/atuin-daemon/src/daemon.rs:207:///         match event {
+crates/atuin-daemon/src/daemon.rs:319:            match event_rx.recv().await {
+crates/atuin-daemon/src/history_journal.rs:496:                    match self.active_cmds.remove(&id) {
+crates/atuin-daemon/src/history_journal.rs:512:                match self.history_store.delete(id).await {
+crates/atuin-daemon/src/history_journal.rs:563:        match rebuilt {
+crates/atuin-daemon/src/components/search.rs:160:        match event {
+crates/atuin-daemon/src/components/search.rs:257:                let search_req = match req {
+crates/atuin-daemon/src/components/search.rs:287:                let index = match this.maybe_rebuild_index(shells).await {
+crates/atuin-daemon/src/components/search.rs:353:    match (mode, context) {
+crates/atuin-daemon/src/grpc/history/mod.rs:105:/// `DAEMON_PROTOCOL_VERSION` mismatch and the daemon will get restarted, one way or another.**
+crates/atuin-daemon/src/grpc/history/mod.rs:159:/// bail-on-mismatch path -- it never sends `Shutdown` and never respawns the daemon itself.
+crates/atuin-daemon/src/grpc/history/mod.rs:164:///     mismatch the client bails. A rebuild changes the unit's `ExecStart` store path, so
+crates/atuin-daemon/src/grpc/history/mod.rs:190:/// false`. On a mismatch the client therefore bails and defers to systemd (autostart is
+crates/atuin-daemon/src/grpc/history/mod.rs:287:        let duration = match req.duration {
+crates/atuin-daemon/src/grpc/history/mod.rs:371:                event: Some(match event {
+crates/atuin-daemon/src/lib.rs:70:    let output_capture = match settings.output.limits() {
+crates/atuin-daemon/src/grpc/common/mod.rs:35:        match err {
+crates/atuin-daemon/src/grpc/common/mod.rs:138:        match err {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:82:            match tx.commit().map_err(|err| CaptureError::Storage(Box::new(err)))? {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:100:            match keyspace.get(key).map_err(|err| GetOutputError::Storage(Box::new(err)))? {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:132:            match tx.commit().map_err(|err| DeleteOutputError::Storage(Box::new(err)))? {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:173:            match tx.commit().map_err(|err| DeleteOutputError::Storage(Box::new(err)))? {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:312:    match limit {
+crates/atuin-daemon/src/grpc/history/pb.rs:64:        match kind {
+crates/atuin-daemon/src/grpc/history/pb.rs:74:        match kind {
+crates/atuin-daemon/src/grpc/history/pb.rs:214:        match event {
+crates/atuin-daemon/src/grpc/history/pb.rs:224:        match value {
+crates/atuin-daemon/src/grpc/history/pb.rs:234:        match value {
+crates/atuin-daemon/src/grpc/history/pb.rs:242:        match value {
+crates/atuin-daemon/src/grpc/history/pb.rs:252:        match value {
+crates/atuin-daemon/src/grpc/history/pb.rs:260:        match value {

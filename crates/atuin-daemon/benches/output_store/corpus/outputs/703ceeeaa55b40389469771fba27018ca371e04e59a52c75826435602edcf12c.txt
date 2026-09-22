@@ -1,0 +1,160 @@
+// Adapted from https://github.com/Alexhuszagh/rust-lexical.
+
+//! Building-blocks for arbitrary-precision math.
+//!
+//! These algorithms assume little-endian order for the large integer
+//! buffers, so for a `vec![0, 1, 2, 3]`, `3` is the most significant limb,
+//! and `0` is the least significant limb.
+
+use super::large_powers;
+use super::num::*;
+use super::small_powers::*;
+use alloc::vec::Vec;
+use core::{cmp, iter, mem};
+
+// ALIASES
+// -------
+
+//  Type for a single limb of the big integer.
+//
+//  A limb is analogous to a digit in base10, except, it stores 32-bit
+//  or 64-bit numbers instead.
+//
+//  This should be all-known 64-bit platforms supported by Rust.
+//      https://forge.rust-lang.org/platform-support.html
+//
+//  Platforms where native 128-bit multiplication is explicitly supported:
+//      - x86_64 (Supported via `MUL`).
+//      - mips64 (Supported via `DMULTU`, which `HI` and `LO` can be read-from).
+//
+//  Platforms where native 64-bit multiplication is supported and
+//  you can extract hi-lo for 64-bit multiplications.
+//      aarch64 (Requires `UMULH` and `MUL` to capture high and low bits).
+//      powerpc64 (Requires `MULHDU` and `MULLD` to capture high and low bits).
+//
+//  Platforms where native 128-bit multiplication is not supported,
+//  requiring software emulation.
+//      sparc64 (`UMUL` only supported double-word arguments).
+
+// 32-BIT LIMB
+#[cfg(fast_arithmetic = "32")]
+pub type Limb = u32;
+
+#[cfg(fast_arithmetic = "32")]
+pub const POW5_LIMB: &[Limb] = &POW5_32;
+
+#[cfg(fast_arithmetic = "32")]
+pub const POW10_LIMB: &[Limb] = &POW10_32;
+
+#[cfg(fast_arithmetic = "32")]
+type Wide = u64;
+
+// 64-BIT LIMB
+#[cfg(fast_arithmetic = "64")]
+pub type Limb = u64;
+
+#[cfg(fast_arithmetic = "64")]
+pub const POW5_LIMB: &[Limb] = &POW5_64;
+
+#[cfg(fast_arithmetic = "64")]
+pub const POW10_LIMB: &[Limb] = &POW10_64;
+
+#[cfg(fast_arithmetic = "64")]
+type Wide = u128;
+
+/// Cast to limb type.
+#[inline]
+pub(crate) fn as_limb<T: Integer>(t: T) -> Limb {
+    Limb::as_cast(t)
+}
+
+/// Cast to wide type.
+#[inline]
+fn as_wide<T: Integer>(t: T) -> Wide {
+    Wide::as_cast(t)
+}
+
+// SPLIT
+// -----
+
+/// Split u64 into limbs, in little-endian order.
+#[inline]
+#[cfg(fast_arithmetic = "32")]
+fn split_u64(x: u64) -> [Limb; 2] {
+    [as_limb(x), as_limb(x >> 32)]
+}
+
+/// Split u64 into limbs, in little-endian order.
+#[inline]
+#[cfg(fast_arithmetic = "64")]
+fn split_u64(x: u64) -> [Limb; 1] {
+    [as_limb(x)]
+}
+
+// HI64
+// ----
+
+// NONZERO
+
+/// Check if any of the remaining bits are non-zero.
+#[inline]
+pub fn nonzero<T: Integer>(x: &[T], rindex: usize) -> bool {
+    let len = x.len();
+    let slc = &x[..len - rindex];
+    slc.iter().rev().any(|&x| x != T::ZERO)
+}
+
+/// Shift 64-bit integer to high 64-bits.
+#[inline]
+fn u64_to_hi64_1(r0: u64) -> (u64, bool) {
+    debug_assert!(r0 != 0);
+    let ls = r0.leading_zeros();
+    (r0 << ls, false)
+}
+
+/// Shift 2 64-bit integers to high 64-bits.
+#[inline]
+fn u64_to_hi64_2(r0: u64, r1: u64) -> (u64, bool) {
+    debug_assert!(r0 != 0);
+    let ls = r0.leading_zeros();
+    let rs = 64 - ls;
+    let v = match ls {
+        0 => r0,
+        _ => (r0 << ls) | (r1 >> rs),
+    };
+    let n = r1 << ls != 0;
+    (v, n)
+}
+
+/// Trait to export the high 64-bits from a little-endian slice.
+trait Hi64<T>: AsRef<[T]> {
+    /// Get the hi64 bits from a 1-limb slice.
+    fn hi64_1(&self) -> (u64, bool);
+
+    /// Get the hi64 bits from a 2-limb slice.
+    fn hi64_2(&self) -> (u64, bool);
+
+    /// Get the hi64 bits from a 3-limb slice.
+    fn hi64_3(&self) -> (u64, bool);
+
+    /// High-level exporter to extract the high 64 bits from a little-endian slice.
+    #[inline]
+    fn hi64(&self) -> (u64, bool) {
+        match self.as_ref().len() {
+            0 => (0, false),
+            1 => self.hi64_1(),
+            2 => self.hi64_2(),
+            _ => self.hi64_3(),
+        }
+    }
+}
+
+impl Hi64<u32> for [u32] {
+    #[inline]
+    fn hi64_1(&self) -> (u64, bool) {
+        debug_assert_eq!(self.len(), 1);
+        let r0 = self[0] as u64;
+        u64_to_hi64_1(r0)
+    }
+
+    #[inline]

@@ -1,0 +1,8 @@
+total 68K
+-rw-r--r-- 1 i i 3.8K Jul 24  2006 algorithm.rs
+-rw-r--r-- 1 i i 1.3K Jul 24  2006 exponent.rs
+-rw-r--r-- 1 i i  14K Jul 24  2006 float.rs
+-rw-r--r-- 1 i i 5.4K Jul 24  2006 math.rs
+-rw-r--r-- 1 i i 1.6K Jul 24  2006 num.rs
+-rw-r--r-- 1 i i  17K Jul 24  2006 parse.rs
+-rw-r--r-- 1 i i 8.9K Jul 24  2006 rounding.rs

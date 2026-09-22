@@ -1,0 +1,60 @@
+use crate::Result;
+use crate::sync::Mutex;
+use crate::tree_store::page_store::cached_file::WritablePage;
+#[cfg(debug_assertions)]
+use crate::tree_store::page_store::fast_hash::PageNumberHashMap;
+use crate::tree_store::page_store::fast_hash::PageNumberHashSet;
+use crate::tree_store::page_store::page_manager::MAX_MAX_PAGE_ORDER;
+use alloc::sync::Arc;
+use core::cmp::Ordering;
+use core::fmt::{Debug, Formatter};
+use core::hash::{Hash, Hasher};
+use core::marker::PhantomData;
+use core::mem;
+use core::ops::Range;
+use core::sync::atomic::{AtomicBool, Ordering as AtomicOrdering};
+
+pub(crate) const MAX_VALUE_LENGTH: usize = 3 * 1024 * 1024 * 1024;
+pub(crate) const MAX_PAIR_LENGTH: usize = 3 * 1024 * 1024 * 1024 + 768 * 1024 * 1024;
+pub(crate) const MAX_PAGE_INDEX: u32 = 0x000F_FFFF;
+pub(crate) const MAX_REGIONS: u32 = 0x0010_0000;
+
+// On-disk format is:
+// TODO: consider implementing an optimization in which we store the number of order-0 pages that
+// are actually used, in these reserved bits, so that the reads to the PagedCachedFile layer can avoid
+// reading all the zeros at the end of the page.
+// lowest 20bits: page index within the region. Only the lowest `20 - order_exponent` bits may be read.
+// The remaining bits are reserved for future use and must be ignored
+// second 20bits: region number
+// 19bits: reserved
+// highest 5bits: page order exponent
+//
+// Assuming a reasonable page size, like 4kiB, this allows for 4kiB * 2^20 * 2^20 = 4PiB of usable space
+#[derive(Copy, Clone, Eq, PartialEq)]
+pub(crate) struct PageNumber {
+    pub(crate) region: u32,
+    pub(crate) page_index: u32,
+    pub(crate) page_order: u8,
+}
+
+impl Hash for PageNumber {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        let mut temp = 0x000F_FFFF & u64::from(self.page_index);
+        temp |= (0x000F_FFFF & u64::from(self.region)) << 20;
+        temp |= (0b0001_1111 & u64::from(self.page_order)) << 59;
+        state.write_u64(temp);
+    }
+}
+
+// PageNumbers are ordered as determined by their starting address in the database file
+impl Ord for PageNumber {
+    fn cmp(&self, other: &Self) -> Ordering {
+        match self.region.cmp(&other.region) {
+            Ordering::Less => Ordering::Less,
+            Ordering::Equal => {
+                let self_order0 = self.page_index * 2u32.pow(self.page_order.into());
+                let other_order0 = other.page_index * 2u32.pow(other.page_order.into());
+                assert!(
+                    self_order0 != other_order0 || self.page_order == other.page_order,
+                    "{self:?} overlaps {other:?}, but is not equal"
+                );

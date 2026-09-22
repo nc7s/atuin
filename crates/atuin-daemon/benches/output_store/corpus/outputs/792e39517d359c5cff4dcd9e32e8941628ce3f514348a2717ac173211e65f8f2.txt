@@ -1,0 +1,4 @@
+17:pub enum PermissionTarget {
+26:pub enum Effect {
+106:pub enum TimeoutKind {
+117:pub enum ExitAction {

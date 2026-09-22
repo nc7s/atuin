@@ -1,0 +1,45 @@
+crates/atuin-client/src/database.rs:151:    sql.and_where(format!("({})", conditions.join(" OR ")));
+crates/atuin-client/src/database.rs:173:        // `SqlBuilder::and_where` wraps the whole expression in parentheses; we don't need to add
+crates/atuin-client/src/database.rs:179:    sql.and_where(cond.expect("nonempty list of shells must result in at least one condition"));
+crates/atuin-client/src/database.rs:245:// This impl is here rather than in settings.rs where `SearchMode` is defined to avoid having
+crates/atuin-client/src/database.rs:395:        db::query("delete from history where id = ?1").bind(id).execute(&mut **tx).await?;
+crates/atuin-client/src/database.rs:462:            "select {HISTORY_COLUMNS} from history where id = ?1"
+crates/atuin-client/src/database.rs:488:            debug!("loading somewhere around {} history items", size_hint.0);
+crates/atuin-client/src/database.rs:505:                "select {HISTORY_COLUMNS} from history where id in ({placeholders}) and \
+crates/atuin-client/src/settings.rs:881:    where
+crates/atuin-client/src/settings.rs:898:            where
+crates/atuin-client/src/settings.rs:907:            where
+crates/atuin-client/src/history.rs:217:    where
+crates/atuin-client/src/history.rs:226:    where
+crates/atuin-client/src/history.rs:751:    // Test that we don't save history where necessary
+crates/atuin-client/src/ordering.rs:15:where
+crates/atuin-client/src/theme.rs:391:                    "Empty theme directory override and could not find theme elsewhere",
+crates/atuin-client/src/theme.rs:674:             theme elsewhere"
+crates/atuin-client/src/packfile/record.rs:26:where
+crates/atuin-client/src/packfile/record.rs:34:where
+crates/atuin-client/src/packfile/record.rs:62:where
+crates/atuin-client/src/packfile/record.rs:89:where
+crates/atuin-client/src/record/sqlite_store.rs:208:        let ours_present = db::query("select 1 from store where id = ?1 limit 1")
+crates/atuin-client/src/record/sqlite_store.rs:220:            "select {STORE_COLUMNS} from store where store.id = ?1"
+crates/atuin-client/src/record/sqlite_store.rs:231:        db::query("delete from store where id = ?1")
+crates/atuin-client/src/record/sqlite_store.rs:252:            "select {STORE_COLUMNS} from store where host=?1 and tag=?2 order by idx desc limit 1"
+crates/atuin-client/src/record/sqlite_store.rs:287:            db::query_as("select count(*) from store where tag=?1")
+crates/atuin-client/src/record/sqlite_store.rs:314:                 select idx + 1 as idx from store where host = ?1 and tag = ?2
+crates/atuin-client/src/record/sqlite_store.rs:318:             where idx not in (select idx from store where host = ?1 and tag = ?2)",
+crates/atuin-client/src/record/sqlite_store.rs:336:            "select {STORE_COLUMNS} from store where idx >= ?1 and host = ?2 and tag = ?3 order \
+crates/atuin-client/src/settings/output.rs:37:/// How much captured output is kept, and where it goes.
+crates/atuin-client/src/import/bash.rs:63:        // where several lines are recorded in succession without individual timestamps
+crates/atuin-client/src/import/bash.rs:209:    where
+crates/atuin-client/src/record/sync/mod.rs:8://!   has an RPC call to query for N records. This query returns a page of "loose" records, where
+crates/atuin-client/src/record/sync/mod.rs:450:        // One higher than the latest record index we have locally. The case described above where
+crates/atuin-client/src/import/mod.rs:61:    where
+crates/atuin-client/src/import/mod.rs:73:where
+crates/atuin-client/src/import/mod.rs:84:where
+crates/atuin-client/src/import/mod.rs:91:where
+crates/atuin-client/src/settings/daemon.rs:154:    /// has `$TMPDIR` unset, but where `$TMPDIR` *is* set when the client is run.
+crates/atuin-client/src/settings/daemon.rs:372:    // With nothing configured we use the per-uid default, and only fall back to where an older
+crates/atuin-client/src/settings/daemon.rs:384:    // daemon may have been started in an environment where `$TMPDIR` was unset.
+crates/atuin-client/src/settings/watcher.rs:224:            // (handles case where file was deleted - we'll get notified when it's recreated)
+crates/atuin-client/src/settings/shells.rs:36:    where
+crates/atuin-client/src/settings/shells.rs:85:    where
+crates/atuin-client/src/settings/shells.rs:113:    where

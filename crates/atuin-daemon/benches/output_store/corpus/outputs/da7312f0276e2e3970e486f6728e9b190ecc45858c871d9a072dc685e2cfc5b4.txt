@@ -1,0 +1,400 @@
+use crate::AccessGuard;
+use crate::sync::Mutex;
+use crate::tree_store::btree_base::{
+    BRANCH, BranchAccessor, LEAF, LeafAccessor, MAX_BTREE_DEPTH, OwnedEntryBuffer,
+    leaf_below_merge_threshold, leaf_fits_one_page, retained_after_removals,
+};
+use crate::tree_store::btree_iters::EntryGuard;
+use crate::tree_store::btree_mutator::MutateHelper;
+use crate::tree_store::page_store::{Page, PageHint, PageImpl};
+use crate::tree_store::{BtreeHeader, PageAllocator, PageNumber, PageResolver, PageTracker};
+use crate::types::{Key, Value};
+use crate::{Result, StorageError};
+#[cfg(feature = "experimental_cursor")]
+use alloc::boxed::Box;
+use alloc::string::ToString;
+use alloc::sync::Arc;
+use alloc::vec;
+use alloc::vec::Vec;
+use core::cmp::Ordering;
+use core::marker::PhantomData;
+use core::ops::Bound;
+use core::ops::Bound::{Excluded, Included, Unbounded};
+use core::ops::Range;
+
+#[derive(Clone)]
+struct Branch {
+    page: PageImpl,
+    child_index: usize,
+}
+
+impl Branch {
+    fn new(page: PageImpl, child_index: usize) -> Self {
+        Self { page, child_index }
+    }
+
+    fn into_parts(self) -> (PageImpl, usize) {
+        (self.page, self.child_index)
+    }
+
+    // The index and page of the child adjacent to `child_index` in `direction`,
+    // if the branch has one. Shared by the stepping code and the run machinery,
+    // whose "the step stays under this parent" invariant requires they agree.
+    fn adjacent_child(
+        &self,
+        direction: Direction,
+        fixed_key_width: Option<usize>,
+    ) -> Option<(usize, PageNumber)> {
+        let accessor = BranchAccessor::new(&self.page, fixed_key_width);
+        let child_index = match direction {
+            Direction::Next => {
+                let next = self.child_index + 1;
+                (next < accessor.count_children()).then_some(next)?
+            }
+            Direction::Previous => self.child_index.checked_sub(1)?,
+        };
+        Some((child_index, accessor.child_page(child_index).unwrap()))
+    }
+}
+
+#[derive(Copy, Clone)]
+pub(super) enum Position<'a> {
+    // Gap before the first key.
+    Start,
+    // Gap after the last key.
+    End,
+    // Gap before `key`, or where `key` would be inserted.
+    Before(&'a [u8]),
+    // Gap after `key`, or where `key` would be inserted.
+    After(&'a [u8]),
+}
+
+impl<'a> Position<'a> {
+    // The gap before the first key the bound admits.
+    pub(super) fn from_lower_bound(bound: Bound<&'a [u8]>) -> Self {
+        match bound {
+            Included(key) => Self::Before(key),
+            Excluded(key) => Self::After(key),
+            Unbounded => Self::Start,
+        }
+    }
+
+    // The gap after the last key the bound admits.
+    pub(super) fn from_upper_bound(bound: Bound<&'a [u8]>) -> Self {
+        match bound {
+            Included(key) => Self::After(key),
+            Excluded(key) => Self::Before(key),
+            Unbounded => Self::End,
+        }
+    }
+}
+
+#[derive(Copy, Clone, PartialEq)]
+enum Direction {
+    Next,
+    Previous,
+}
+
+impl Direction {
+    fn is_next(self) -> bool {
+        matches!(self, Self::Next)
+    }
+
+    fn opposite(self) -> Self {
+        match self {
+            Self::Next => Self::Previous,
+            Self::Previous => Self::Next,
+        }
+    }
+}
+
+fn lower_bound_entry<K: Key>(accessor: &LeafAccessor<'_>, position: Position<'_>) -> usize {
+    match position {
+        Position::Start => 0,
+        Position::End => accessor.num_pairs(),
+        Position::Before(query) | Position::After(query) => {
+            let (mut position_index, found) = accessor.position::<K>(query);
+            if matches!(position, Position::After(_)) && found {
+                position_index += 1;
+            }
+            position_index
+        }
+    }
+}
+
+fn child_to_visit<K: Key>(
+    accessor: &BranchAccessor<'_, '_, PageImpl>,
+    position: Position<'_>,
+) -> usize {
+    match position {
+        Position::Start => 0,
+        Position::End => accessor.count_children() - 1,
+        Position::Before(query) | Position::After(query) => accessor.child_for_key::<K>(query).0,
+    }
+}
+
+fn descend_to_position<K: Key + 'static, V: Value + 'static, F>(
+    page: PageImpl,
+    position: Position<'_>,
+    path: &mut Vec<Branch>,
+    get_page: &mut F,
+) -> Result<Leaf>
+where
+    F: FnMut(PageNumber) -> Result<PageImpl>,
+{
+    let mut page = page;
+    loop {
+        let (child_index, child_page) = match page.memory()[0] {
+            LEAF => {
+                let (leaf_position, len) = {
+                    let accessor =
+                        LeafAccessor::new(page.memory(), K::fixed_width(), V::fixed_width());
+                    (
+                        lower_bound_entry::<K>(&accessor, position),
+                        accessor.num_pairs(),
+                    )
+                };
+                return Ok(Leaf {
+                    page,
+                    position: leaf_position,
+                    len,
+                });
+            }
+            BRANCH => {
+                let accessor = BranchAccessor::new(&page, K::fixed_width());
+                let child_index = child_to_visit::<K>(&accessor, position);
+                (child_index, accessor.child_page(child_index).unwrap())
+            }
+            _ => unreachable!(),
+        };
+        if path.len() >= MAX_BTREE_DEPTH {
+            return Err(StorageError::Corrupted(
+                "Btree exceeded maximum depth".to_string(),
+            ));
+        }
+        path.push(Branch::new(page, child_index));
+        page = get_page(child_page)?;
+    }
+}
+
+fn move_to_adjacent_leaf<K: Key + 'static, V: Value + 'static, F>(
+    path: &mut Vec<Branch>,
+    direction: Direction,
+    get_page: &mut F,
+) -> Result<Option<Leaf>>
+where
+    F: FnMut(PageNumber) -> Result<PageImpl>,
+{
+    for index in (0..path.len()).rev() {
+        if let Some((child_index, child_page)) =
+            path[index].adjacent_child(direction, K::fixed_width())
+        {
+            path[index].child_index = child_index;
+            path.truncate(index + 1);
+            let page = get_page(child_page)?;
+            let edge = if direction.is_next() {
+                Position::Start
+            } else {
+                Position::End
+            };
+            return descend_to_position::<K, V, F>(page, edge, path, get_page).map(Some);
+        }
+    }
+
+    Ok(None)
+}
+
+fn prepare_leaf<K: Key + 'static, V: Value + 'static, F>(
+    leaf: &mut Option<Leaf>,
+    path: &mut Vec<Branch>,
+    direction: Direction,
+    get_page: &mut F,
+) -> Result<bool>
+where
+    F: FnMut(PageNumber) -> Result<PageImpl>,
+{
+    while let Some(current) = leaf.as_ref() {
+        if (direction.is_next() && current.position < current.len)
+            || (!direction.is_next() && current.position > 0)
+        {
+            return Ok(true);
+        }
+        let Some(next_leaf) = move_to_adjacent_leaf::<K, V, F>(path, direction, get_page)? else {
+            return Ok(false);
+        };
+        *leaf = Some(next_leaf);
+    }
+
+    Ok(false)
+}
+
+fn entry<K: Key + 'static, V: Value + 'static>(leaf: &Leaf, position: usize) -> EntryGuard<K, V> {
+    let (key, value) = LeafAccessor::new(leaf.page.memory(), K::fixed_width(), V::fixed_width())
+        .entry_ranges(position)
+        .expect("cursor entry must exist");
+    EntryGuard::new(leaf.page.clone(), key, value)
+}
+
+fn entry_ref<K: Key + 'static, V: Value + 'static>(
+    leaf: &Leaf,
+    position: usize,
+) -> EntryRef<'_, K, V> {
+    let (key_range, value_range) =
+        LeafAccessor::new(leaf.page.memory(), K::fixed_width(), V::fixed_width())
+            .entry_ranges(position)
+            .expect("cursor entry must exist");
+    EntryRef {
+        page: &leaf.page,
+        key_range,
+        value_range,
+        _key_type: PhantomData,
+        _value_type: PhantomData,
+    }
+}
+
+fn key_data<K: Key + 'static, V: Value + 'static>(leaf: &Leaf, position: usize) -> Vec<u8> {
+    LeafAccessor::new(leaf.page.memory(), K::fixed_width(), V::fixed_width())
+        .entry(position)
+        .expect("cursor entry must exist")
+        .key()
+        .to_vec()
+}
+
+// The key a scan reseeks past after this leaf is flushed or spliced away: the
+// leaf's key furthest in the scan direction.
+fn scan_boundary_key<K: Key + 'static, V: Value + 'static>(
+    leaf: &Leaf,
+    direction: Direction,
+) -> Vec<u8> {
+    match direction {
+        Direction::Next => key_data::<K, V>(leaf, leaf.len - 1),
+        Direction::Previous => key_data::<K, V>(leaf, 0),
+    }
+}
+
+#[derive(Clone)]
+struct Leaf {
+    page: PageImpl,
+    position: usize,
+    len: usize,
+}
+
+// A contiguous run of leaf children under one parent branch. When deleting
+// from a leaf would leave it sparse, the cursor buffers the run's retained
+// entries and replaces the originals with packed leaves in one parent update,
+// instead of merging each sparse leaf into its neighbor one rewrite at a time.
+//
+// While a run is open the tree is never mutated, so cursor paths stay valid.
+// The buffered entries hold no page references, so an open run also survives
+// foreign mutations; only the parent path captured at splice time must be
+// current. Runs grow in either scan direction.
+struct LeafRunRewrite {
+    parent_page: PageNumber,
+    direction: Direction,
+    // The parent's children consumed so far: a contiguous range extended
+    // upward by forward scans and downward by backward scans.
+    replaced_children: Range<usize>,
+    // All retained entries of the run, kept in ascending key order: forward
+    // scans append at the back, backward scans prepend at the front. A run
+    // opens at a leaf left below the merge threshold and extends across every
+    // later leaf with removals under the same parent, so the buffer is
+    // bounded by fanout x page_size.
+    entries: OwnedEntryBuffer,
+    removed_pairs: u64,
+}
+
+impl LeafRunRewrite {
+    fn new(parent_page: PageNumber, child_index: usize, direction: Direction) -> Self {
+        let origin = match direction {
+            Direction::Next => child_index,
+            Direction::Previous => child_index + 1,
+        };
+        let replaced_children = origin..origin;
+        Self {
+            parent_page,
+            direction,
+            replaced_children,
+            entries: OwnedEntryBuffer::default(),
+            removed_pairs: 0,
+        }
+    }
+
+    fn append_entries_from<K: Key, V: Value>(
+        &mut self,
+        page: PageImpl,
+        child_index: usize,
+        removed_indexes: &[usize],
+    ) {
+        debug_assert!(removed_indexes.windows(2).all(|pair| pair[0] < pair[1]));
+        // Hard asserts: a violation would splice the wrong children out of
+        // the parent, so it must not be compiled out of release builds.
+        match self.direction {
+            Direction::Next => {
+                assert_eq!(child_index, self.replaced_children.end);
+                self.replaced_children.end += 1;
+            }
+            Direction::Previous => {
+                assert_eq!(child_index + 1, self.replaced_children.start);
+                self.replaced_children.start -= 1;
+            }
+        }
+        self.removed_pairs += removed_indexes.len() as u64;
+
+        // A forward scan's leaf is entirely greater than the run so far, and a
+        // backward scan's entirely smaller.
+        let accessor = LeafAccessor::new(page.memory(), K::fixed_width(), V::fixed_width());
+        self.entries
+            .extend_from_leaf(&accessor, removed_indexes, self.direction.is_next());
+    }
+}
+
+// The threshold at which a cursor's pending inserts are spliced into the
+// tree. The splice cost is dominated by rebuilding the ancestor path, so what
+// matters is the flush count; measurements flatten out around 1MiB.
+#[cfg(feature = "experimental_cursor")]
+const INSERT_FLUSH_BYTES: usize = 1024 * 1024;
+
+// Which side of the gap a run's pending inserts fall on: `insert_before`
+// buffers ascending arrivals behind the gap, `insert_after` descending
+// arrivals in front of it. The two cannot share the ends-only buffer, so
+// switching direction splices the pending run first.
+#[cfg(feature = "experimental_cursor")]
+#[derive(Copy, Clone, PartialEq)]
+enum RunDirection {
+    Ascending,
+    Descending,
+}
+
+// Pending inserts at the cursor's gap, in ascending key order throughout. An
+// ascending run's buffer holds the current leaf's entries before the gap and
+// then the inserts, appended in arrival order; a descending run's holds only
+// the inserts, prepended in arrival order, and the leaf's entries join at
+// the flush. Either way the splice packs the buffer plus the rest of the
+// leaf into full leaves in one parent update per flush instead of descending
+// the tree per insert.
+//
+// While a run is open the tree is never mutated and the cursor position never
+// moves, so the position's path stays valid until the splice.
+#[cfg(feature = "experimental_cursor")]
+struct InsertRun {
+    direction: RunDirection,
+    // Key of the entry after the gap when the run opened; None when the gap
+    // is at the end of the tree.
+    opening_next_key: Option<Vec<u8>>,
+    // Greatest key at or before the gap: the last insert or, before any
+    // insert, the entry preceding the gap; None at the start of the tree.
+    // Inserts must sort strictly above it.
+    previous_key: Option<Vec<u8>>,
+    entries: OwnedEntryBuffer,
+    // Buffered pairs that are new inserts; the rest were copied from the
+    // current leaf.
+    inserted_pairs: u64,
+}
+
+#[cfg(feature = "experimental_cursor")]
+impl InsertRun {
+    // The buffered entry nearest the gap on the entry-before side, if any:
+    // a pending insert or an entry copied from the leaf's head. A descending
+    // run buffers nothing on that side; the predecessor stays in the leaf.
+    fn buffered_previous(&self) -> Option<(&[u8], &[u8])> {
+        match self.direction {

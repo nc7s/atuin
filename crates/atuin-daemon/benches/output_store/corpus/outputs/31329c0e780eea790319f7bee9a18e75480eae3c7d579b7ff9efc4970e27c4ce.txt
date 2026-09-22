@@ -1,0 +1,60 @@
+use std::fmt;
+
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
+
+/// All possible actions that can be triggered by a keybinding.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum Action {
+    // Cursor movement
+    CursorLeft,
+    CursorRight,
+    CursorWordLeft,
+    CursorWordRight,
+    CursorWordEnd,
+    CursorStart,
+    CursorEnd,
+
+    // Editing
+    DeleteCharBefore,
+    DeleteCharAfter,
+    DeleteWordBefore,
+    DeleteWordAfter,
+    DeleteToWordBoundary,
+    ClearLine,
+    ClearToStart,
+    ClearToEnd,
+
+    // List navigation
+    SelectNext,
+    SelectPrevious,
+    ScrollHalfPageUp,
+    ScrollHalfPageDown,
+    ScrollPageUp,
+    ScrollPageDown,
+    ScrollToTop,
+    ScrollToBottom,
+    ScrollToScreenTop,
+    ScrollToScreenMiddle,
+    ScrollToScreenBottom,
+
+    // Commands — accept selection and execute immediately
+    Accept,
+    AcceptNth(u8),
+    // Commands — return selection to command line without executing
+    ReturnSelection,
+    ReturnSelectionNth(u8),
+    // Commands — other
+    Copy,
+    Delete,
+    DeleteAll,
+    ReturnOriginal,
+    ReturnQuery,
+    Exit,
+    Redraw,
+    CycleFilterMode,
+    CycleSearchMode,
+    SwitchContext,
+    ClearContext,
+    ToggleTab,
+
+    // Mode changes

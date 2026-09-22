@@ -1,0 +1,160 @@
+//! When serializing or deserializing JSON goes wrong.
+
+use crate::io;
+use alloc::boxed::Box;
+use alloc::string::{String, ToString};
+use core::fmt::{self, Debug, Display};
+use core::result;
+use core::str::FromStr;
+use serde::{de, ser};
+#[cfg(feature = "std")]
+use std::error;
+#[cfg(feature = "std")]
+use std::io::ErrorKind;
+
+/// This type represents all possible errors that can occur when serializing or
+/// deserializing JSON data.
+pub struct Error {
+    /// This `Box` allows us to keep the size of `Error` as small as possible. A
+    /// larger `Error` type was substantially slower due to all the functions
+    /// that pass around `Result<T, Error>`.
+    err: Box<ErrorImpl>,
+}
+
+/// Alias for a `Result` with the error type `serde_json::Error`.
+pub type Result<T> = result::Result<T, Error>;
+
+impl Error {
+    /// One-based line number at which the error was detected.
+    ///
+    /// Characters in the first line of the input (before the first newline
+    /// character) are in line 1.
+    pub fn line(&self) -> usize {
+        self.err.line
+    }
+
+    /// One-based column number at which the error was detected.
+    ///
+    /// The first character in the input and any characters immediately
+    /// following a newline character are in column 1.
+    ///
+    /// Note that errors may occur in column 0, for example if a read from an
+    /// I/O stream fails immediately following a previously read newline
+    /// character.
+    pub fn column(&self) -> usize {
+        self.err.column
+    }
+
+    /// Categorizes the cause of this error.
+    ///
+    /// - `Category::Io` - failure to read or write bytes on an I/O stream
+    /// - `Category::Syntax` - input that is not syntactically valid JSON
+    /// - `Category::Data` - input data that is semantically incorrect
+    /// - `Category::Eof` - unexpected end of the input data
+    pub fn classify(&self) -> Category {
+        match self.err.code {
+            ErrorCode::Message(_) => Category::Data,
+            ErrorCode::Io(_) => Category::Io,
+            ErrorCode::EofWhileParsingList
+            | ErrorCode::EofWhileParsingObject
+            | ErrorCode::EofWhileParsingString
+            | ErrorCode::EofWhileParsingValue => Category::Eof,
+            ErrorCode::ExpectedColon
+            | ErrorCode::ExpectedListCommaOrEnd
+            | ErrorCode::ExpectedObjectCommaOrEnd
+            | ErrorCode::ExpectedSomeIdent
+            | ErrorCode::ExpectedSomeValue
+            | ErrorCode::ExpectedDoubleQuote
+            | ErrorCode::InvalidEscape
+            | ErrorCode::InvalidNumber
+            | ErrorCode::NumberOutOfRange
+            | ErrorCode::InvalidUnicodeCodePoint
+            | ErrorCode::ControlCharacterWhileParsingString
+            | ErrorCode::KeyMustBeAString
+            | ErrorCode::ExpectedNumericKey
+            | ErrorCode::FloatKeyMustBeFinite
+            | ErrorCode::LoneLeadingSurrogateInHexEscape
+            | ErrorCode::TrailingComma
+            | ErrorCode::TrailingCharacters
+            | ErrorCode::UnexpectedEndOfHexEscape
+            | ErrorCode::RecursionLimitExceeded => Category::Syntax,
+        }
+    }
+
+    /// Returns true if this error was caused by a failure to read or write
+    /// bytes on an I/O stream.
+    pub fn is_io(&self) -> bool {
+        self.classify() == Category::Io
+    }
+
+    /// Returns true if this error was caused by input that was not
+    /// syntactically valid JSON.
+    pub fn is_syntax(&self) -> bool {
+        self.classify() == Category::Syntax
+    }
+
+    /// Returns true if this error was caused by input data that was
+    /// semantically incorrect.
+    ///
+    /// For example, JSON containing a number is semantically incorrect when the
+    /// type being deserialized into holds a String.
+    pub fn is_data(&self) -> bool {
+        self.classify() == Category::Data
+    }
+
+    /// Returns true if this error was caused by prematurely reaching the end of
+    /// the input data.
+    ///
+    /// Callers that process streaming input may be interested in retrying the
+    /// deserialization once more data is available.
+    pub fn is_eof(&self) -> bool {
+        self.classify() == Category::Eof
+    }
+
+    /// The kind reported by the underlying standard library I/O error, if this
+    /// error was caused by a failure to read or write bytes on an I/O stream.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use serde_json::Value;
+    /// use std::io::{self, ErrorKind, Read};
+    /// use std::process;
+    ///
+    /// struct ReaderThatWillTimeOut<'a>(&'a [u8]);
+    ///
+    /// impl<'a> Read for ReaderThatWillTimeOut<'a> {
+    ///     fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
+    ///         if self.0.is_empty() {
+    ///             Err(io::Error::new(ErrorKind::TimedOut, "timed out"))
+    ///         } else {
+    ///             self.0.read(buf)
+    ///         }
+    ///     }
+    /// }
+    ///
+    /// fn main() {
+    ///     let reader = ReaderThatWillTimeOut(br#" {"k": "#);
+    ///
+    ///     let _: Value = match serde_json::from_reader(reader) {
+    ///         Ok(value) => value,
+    ///         Err(error) => {
+    ///             if error.io_error_kind() == Some(ErrorKind::TimedOut) {
+    ///                 // Maybe this application needs to retry certain kinds of errors.
+    ///
+    ///                 # return;
+    ///             } else {
+    ///                 eprintln!("error: {}", error);
+    ///                 process::exit(1);
+    ///             }
+    ///         }
+    ///     };
+    /// }
+    /// ```
+    #[cfg(feature = "std")]
+    pub fn io_error_kind(&self) -> Option<ErrorKind> {
+        if let ErrorCode::Io(io_error) = &self.err.code {
+            Some(io_error.kind())
+        } else {
+            None
+        }

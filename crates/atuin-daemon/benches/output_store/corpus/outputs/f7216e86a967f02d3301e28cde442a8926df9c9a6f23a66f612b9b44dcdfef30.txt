@@ -1,0 +1,20 @@
+6:    Condvar, Mutex, MutexGuard, PoisonError, RwLock, RwLockReadGuard, RwLockWriteGuard,
+11:    Condvar, Mutex, MutexGuard, PoisonError, RwLock, RwLockReadGuard, RwLockWriteGuard,
+41:    /// Mirrors [`std::sync::PoisonError`]. These locks never poison, so this is never returned.
+42:    pub(crate) struct PoisonError<T> {
+46:    impl<T> PoisonError<T> {
+47:        pub(crate) fn into_inner(self) -> T {
+53:    impl<T> Debug for PoisonError<T> {
+54:        fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+55:            f.write_str("PoisonError { .. }")
+59:    pub(crate) type LockResult<G> = Result<G, PoisonError<G>>;
+61:    /// The lock is held by someone else. Mirrors [`std::sync::TryLockError::WouldBlock`].
+63:    pub(crate) struct WouldBlock;
+67:    pub(crate) struct Mutex<T: ?Sized> {
+78:        pub(crate) const fn new(data: T) -> Self {
+87:        pub(crate) fn lock(&self) -> LockResult<MutexGuard<'_, T>> {
+103:        pub(crate) fn try_lock(&self) -> TryLockResult<MutexGuard<'_, T>> {
+116:        fn default() -> Self {
+122:        fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+130:    pub(crate) struct MutexGuard<'a, T: ?Sized> {
+147:        fn deref(&self) -> &T {

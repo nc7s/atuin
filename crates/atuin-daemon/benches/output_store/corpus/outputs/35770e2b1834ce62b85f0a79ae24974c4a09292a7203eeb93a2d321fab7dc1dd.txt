@@ -1,0 +1,7 @@
+21:async fn index_matches_db_after_seeding(#[case] rows: usize) {
+29:async fn deleting_a_sample_leaves_everything_else(#[case] rows: usize) {
+38:async fn deleting_everything_in_one_request(#[case] rows: usize) {
+46:async fn rebuild_from_a_large_store(#[case] rows: usize) {
+55:async fn shell_hooks_stay_fast_on_a_large_index(#[case] rows: usize) {
+64:    assert!(mean < Duration::from_millis(50), "mean hook round-trip {mean:?}");
+65:    assert_eq!(env.active_rows().await, i64::try_from(rows + 500).unwrap());

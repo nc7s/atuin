@@ -1,0 +1,20 @@
+13://! assert_eq!(input, uncompressed);
+30:pub use compress::*;
+31:pub use decompress::*;
+33:use core::{error::Error, fmt};
+82:pub enum DecompressError {
+102:/// Errors that can happen during compression.
+103:pub enum CompressError {
+108:impl fmt::Display for DecompressError {
+109:    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+111:            DecompressError::OutputTooSmall { expected, actual } => {
+118:            DecompressError::LiteralOutOfBounds => {
+121:            DecompressError::ExpectedAnotherByte => {
+124:            DecompressError::OffsetZero => f.write_str("0 is not a valid match offset"),
+125:            DecompressError::OffsetOutOfBounds => {
+132:impl fmt::Display for CompressError {
+133:    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+135:            CompressError::OutputTooSmall => f.write_str(
+143:impl Error for DecompressError {}
+145:impl Error for CompressError {}
+151:pub fn uncompressed_size(input: &[u8]) -> Result<(usize, &[u8]), DecompressError> {

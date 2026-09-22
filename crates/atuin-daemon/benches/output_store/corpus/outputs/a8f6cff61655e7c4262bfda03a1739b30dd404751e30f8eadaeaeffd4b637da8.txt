@@ -1,0 +1,20 @@
+47://! enum Value {
+65://! fn untyped_example() -> Result<()> {
+86://! # fn main() {
+109://! tedious to work with for anything more significant. Error handling is
+125://! struct Person {
+131://! fn typed_example() -> Result<()> {
+154://! # fn main() {
+185://! fn main() {
+214://! # fn random_phone() -> u16 { 0 }
+247://! struct Address {
+252://! fn print_an_address() -> Result<()> {
+268://! # fn main() {
+386:pub mod __private {
+388:    pub use alloc::vec;
+394:pub use crate::de::from_reader;
+396:pub use crate::de::{from_slice, from_str, Deserializer, StreamDeserializer};
+398:pub use crate::error::{Error, Result};
+400:pub use crate::ser::{to_string, to_string_pretty, to_vec, to_vec_pretty};
+404:pub use crate::ser::{to_writer, to_writer_pretty, Serializer};
+406:pub use crate::value::{from_value, to_value, Map, Number, Value};

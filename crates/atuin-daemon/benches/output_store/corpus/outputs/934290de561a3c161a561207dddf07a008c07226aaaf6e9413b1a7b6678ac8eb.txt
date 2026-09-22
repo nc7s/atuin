@@ -1,0 +1,3 @@
+7:enum E {
+12:fn test() {
+18:        E::Float(f) => assert_eq!(f, 159.1),

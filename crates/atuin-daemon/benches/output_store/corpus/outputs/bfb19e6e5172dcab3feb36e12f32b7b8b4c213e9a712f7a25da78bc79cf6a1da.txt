@@ -1,0 +1,3 @@
+17:fn serialize(bencher: divan::Bencher, n: usize) {
+26:fn deserialize(bencher: divan::Bencher, n: usize) {
+43:fn records(n: usize) -> Vec<HistoryRecord> {

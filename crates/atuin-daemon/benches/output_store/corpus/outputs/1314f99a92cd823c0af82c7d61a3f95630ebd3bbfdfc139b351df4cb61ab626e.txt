@@ -1,0 +1,31 @@
+src/sink.rs:114:impl Sink for SliceSink<'_> {
+src/sink.rs:216:impl PtrSink {
+src/sink.rs:239:impl Sink for PtrSink {
+src/block/mod.rs:108:impl fmt::Display for DecompressError {
+src/block/mod.rs:132:impl fmt::Display for CompressError {
+src/block/mod.rs:143:impl Error for DecompressError {}
+src/block/mod.rs:145:impl Error for CompressError {}
+src/frame/mod.rs:74:impl From<Error> for io::Error {
+src/frame/mod.rs:96:impl From<io::Error> for Error {
+src/frame/mod.rs:105:impl fmt::Display for Error {
+src/frame/mod.rs:111:impl std::error::Error for Error {}
+src/block/hashtable.rs:61:impl HashTable4KU16 {
+src/block/hashtable.rs:75:impl HashTable for HashTable4KU16 {
+src/block/hashtable.rs:99:impl HashTable4K {
+src/block/hashtable.rs:119:impl HashTable for HashTable4K {
+src/block/hashtable.rs:142:impl HashTable8K {
+src/block/hashtable.rs:153:impl HashTable for HashTable8K {
+src/frame/header.rs:55:impl BlockSize {
+src/frame/header.rs:151:impl FrameInfo {
+src/frame/header.rs:382:impl BlockInfo {
+src/block/decompress_safe.rs:251:    output: &mut impl Sink,
+src/block/decompress_safe.rs:272:    output: &mut impl Sink,
+src/block/decompress_safe.rs:302:    sink: &mut impl Sink,
+src/block/compress.rs:224:pub(super) fn write_integer(output: &mut impl Sink, mut n: usize) {
+src/block/compress.rs:237:fn handle_last_literals(output: &mut impl Sink, input: &[u8], start: usize) {
+src/block/compress.rs:493:fn push_byte(output: &mut impl Sink, el: u8) {
+src/block/compress.rs:499:fn push_byte(output: &mut impl Sink, el: u8) {
+src/block/compress.rs:508:fn push_u16(output: &mut impl Sink, el: u16) {
+src/block/compress.rs:514:fn push_u16(output: &mut impl Sink, el: u16) {
+src/block/compress.rs:523:fn copy_literals_wild(output: &mut impl Sink, input: &[u8], input_start: usize, len: usize) {
+src/block/compress.rs:529:fn copy_literals_wild(output: &mut impl Sink, input: &[u8], input_start: usize, len: usize) {

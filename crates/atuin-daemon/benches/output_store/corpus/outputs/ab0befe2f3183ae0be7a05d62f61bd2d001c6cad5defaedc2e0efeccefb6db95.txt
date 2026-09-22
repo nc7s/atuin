@@ -1,0 +1,29 @@
+src/parser.rs:138:        match try_parse(input) {
+src/parser.rs:148:    match (input.len(), input) {
+src/parser.rs:214:    match decode_hex32(&hex) {
+src/parser.rs:244:    match [s[8], s[13], s[18], s[23]] {
+src/parser.rs:274:    match decode_hex32(&hex) {
+src/non_nil.rs:77:        match NonZeroU128::new(uuid.as_u128()) {
+src/macros.rs:37:        const OUTPUT: $crate::Uuid = match $crate::Uuid::try_parse($uuid) {
+src/lib.rs:517:        match self.as_bytes()[8] {
+src/lib.rs:522:            // The above match arms are actually exhaustive
+src/lib.rs:582:        match self.get_version_num() {
+src/lib.rs:907:        match self.get_version() {
+src/lib.rs:933:        match self.get_version() {
+src/lib.rs:1388:                "{uuid} version doesn't match {expected:?}"
+src/lib.rs:1393:                "{uuid} version doesn't match {}",
+src/timestamp.rs:1356:            let before_epoch = match SystemTime::UNIX_EPOCH.checked_sub(Duration::from_nanos(1_000))
+src/fmt.rs:46:        match *self {
+src/error.rs:68:        let input_str = match std::str::from_utf8(self.0) {
+src/error.rs:73:        let (bounds, mut format) = match (self.1, self.0) {
+src/error.rs:107:            match (format, character) {
+src/error.rs:174:        match self.0 {
+src/builder.rs:795:        (self.0).0[8] = match v {
+src/external/serde_support.rs:95:            match seq.next_element()? { Some(e) => e, None => return Err(A::Error::invalid_length(0, &self)) },
+src/external/serde_support.rs:96:            match seq.next_element()? { Some(e) => e, None => return Err(A::Error::invalid_length(1, &self)) },
+src/external/serde_support.rs:97:            match seq.next_element()? { Some(e) => e, None => return Err(A::Error::invalid_length(2, &self)) },
+src/external/serde_support.rs:98:            match seq.next_element()? { Some(e) => e, None => return Err(A::Error::invalid_length(3, &self)) },
+src/external/serde_support.rs:99:            match seq.next_element()? { Some(e) => e, None => return Err(A::Error::invalid_length(4, &self)) },
+src/external/serde_support.rs:100:            match seq.next_element()? { Some(e) => e, None => return Err(A::Error::invalid_length(5, &self)) },
+src/external/serde_support.rs:101:            match seq.next_element()? { Some(e) => e, None => return Err(A::Error::invalid_length(6, &self)) },
+src/external/serde_support.rs:102:            match seq.next_element()? { Some(e) => e, None => return Err(A::Error::invalid_length(7, &self)) },

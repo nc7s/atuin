@@ -1,0 +1,17 @@
+5:impl Arbitrary<'_> for Uuid {
+6:    fn arbitrary(u: &mut Unstructured<'_>) -> arbitrary::Result<Self> {
+10:            .map_err(|_| arbitrary::Error::NotEnoughData)?;
+15:    fn size_hint(_: usize) -> (usize, Option<usize>) {
+19:impl arbitrary::Arbitrary<'_> for NonNilUuid {
+20:    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+22:        Self::try_from(uuid).map_err(|_| arbitrary::Error::IncorrectFormat)
+25:    fn size_hint(_: usize) -> (usize, Option<usize>) {
+37:    fn test_arbitrary() {
+42:        assert_eq!(Some(Version::Random), uuid.get_version());
+43:        assert_eq!(Variant::RFC4122, uuid.get_variant());
+47:    fn test_arbitrary_empty() {
+53:        assert!(uuid.is_err());
+57:    fn test_arbitrary_non_nil() {
+63:        assert_eq!(Some(Version::Random), uuid.get_version());
+64:        assert_eq!(Variant::RFC4122, uuid.get_variant());
+65:        assert!(!uuid.is_nil());

@@ -1,0 +1,2 @@
+14:pub fn parse_concise_float<F>(mantissa: u64, mant_exp: i32) -> F
+49:pub fn parse_truncated_float<F>(integer: &[u8], mut fraction: &[u8], exponent: i32) -> F

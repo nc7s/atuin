@@ -1,0 +1,4 @@
+4:pub struct Settings {
+5:    pub db_path: String,
+8:impl Default for Settings {
+9:    fn default() -> Self {

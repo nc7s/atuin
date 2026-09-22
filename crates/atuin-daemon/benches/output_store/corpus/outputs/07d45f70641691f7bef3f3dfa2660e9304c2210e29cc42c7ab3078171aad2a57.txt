@@ -1,0 +1,9 @@
+total 188K
+-rw-r--r-- 1 i i 106K Jul 24  2006 builders.rs
+-rw-r--r-- 1 i i 3.8K Jul 24  2006 bytes.rs
+-rw-r--r-- 1 i i 4.2K Jul 24  2006 error.rs
+-rw-r--r-- 1 i i  621 Jul 24  2006 find_byte.rs
+-rw-r--r-- 1 i i  59K Jul 24  2006 lib.rs
+-rw-r--r-- 1 i i 1.9K Jul 24  2006 pattern.rs
+drwxr-xr-x 1 i i   46 Aug 19 11:13 regex
+drwxr-xr-x 1 i i   46 Aug 19 11:13 regexset

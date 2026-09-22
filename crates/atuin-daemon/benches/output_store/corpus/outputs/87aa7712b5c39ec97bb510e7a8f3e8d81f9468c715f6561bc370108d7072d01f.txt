@@ -1,0 +1,60 @@
+use std::fmt::Write as _;
+use std::process::Command;
+use std::{io, process};
+
+#[cfg(feature = "client")]
+use atuin_client::plugin::{OfficialPluginRegistry, PluginContext};
+use clap::CommandFactory;
+use clap::builder::{StyledStr, Styles};
+use eyre::Result;
+
+use crate::Atuin;
+
+pub fn run(args: &[String]) -> Result<()> {
+    let subcommand = &args[0];
+    let bin = format!("atuin-{subcommand}");
+    let mut cmd = Command::new(&bin);
+    cmd.args(&args[1..]);
+
+    #[cfg(feature = "client")]
+    let context = PluginContext::new(subcommand);
+
+    let spawn_result = match cmd.spawn() {
+        Ok(child) => Ok(child),
+        Err(e) => match e.kind() {
+            io::ErrorKind::NotFound => {
+                let output = render_not_found(subcommand, &bin);
+                Err(output)
+            }
+            _ => Err(e.to_string().into()),
+        },
+    };
+
+    match spawn_result {
+        Ok(mut child) => {
+            let status = child.wait()?;
+            if status.success() {
+                Ok(())
+            } else {
+                #[cfg(feature = "client")]
+                drop(context);
+
+                process::exit(status.code().unwrap_or(1));
+            }
+        }
+        Err(e) => {
+            eprintln!("{}", e.ansi());
+
+            #[cfg(feature = "client")]
+            drop(context);
+
+            process::exit(1);
+        }
+    }
+}
+
+fn render_not_found(subcommand: &str, bin: &str) -> StyledStr {
+    let mut output = StyledStr::new();
+    let styles = Styles::styled();
+
+    let error = styles.get_error();

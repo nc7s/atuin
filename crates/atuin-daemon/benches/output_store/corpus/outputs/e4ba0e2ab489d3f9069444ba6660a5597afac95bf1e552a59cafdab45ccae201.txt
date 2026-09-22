@@ -1,0 +1,8 @@
+22:fn parse_mantissa<F>(integer: &[u8], fraction: &[u8]) -> Bigint
+80:pub(super) fn b_extended<F: Float>(f: F) -> ExtendedFloat {
+86:pub(super) fn bh_extended<F: Float>(f: F) -> ExtendedFloat {
+99:fn round_nearest_tie_even(fp: &mut ExtendedFloat, shift: i32, is_truncated: bool) {
+111:fn large_atof<F>(mantissa: Bigint, exponent: i32) -> F
+135:fn small_atof<F>(mantissa: Bigint, exponent: i32, f: F) -> F
+142:    debug_assert!(real_exp < 0);
+193:pub(crate) fn bhcomp<F>(b: F, integer: &[u8], mut fraction: &[u8], exponent: i32) -> F

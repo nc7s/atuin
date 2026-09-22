@@ -1,0 +1,20 @@
+6:use atuin_common::rmp::decode::{self, Bytes, DecodeError, RmpRead};
+7:use atuin_common::rmp::encode::{self, ByteBuf, EncodeError, RmpWrite, TryEncodeError};
+13:use thiserror::Error;
+19:pub struct PackedPackfile {
+20:    pub manifest_id: RecordId,
+21:    pub records: Vec<RecordId>,
+22:    pub blob: Vec<u8>,
+25:fn read_uuid<'a, R>(reader: &mut R) -> Result<Uuid, DecodeError<'a, R::Error>>
+33:fn write_uuid<W>(writer: &mut W, uuid: Uuid) -> Result<(), EncodeError<W::Error>>
+40:fn read_record<'a>(bytes: &mut Bytes<'a>) -> Result<Record<DecryptedData>, DecodeError<'a>> {
+58:fn write_record<W>(
+61:) -> Result<(), EncodeError<W::Error>>
+77:fn read_encrypted_data<'a>(bytes: &mut Bytes<'a>) -> Result<EncryptedData, DecodeError<'a>> {
+85:fn write_encrypted_data<W>(
+88:) -> Result<(), EncodeError<W::Error>>
+97:#[derive(Debug, Error)]
+98:pub enum ParsingError {
+104:    MalformedBody(Box<dyn std::error::Error + Send + Sync>),
+106:    InvalidRange(#[from] InvalidRangeError),
+111:pub enum PackManifestData {

@@ -1,0 +1,20 @@
+//! A Python-slice-style index range that resolves into a valid [`Range`] over a slice.
+
+use std::ops::Range;
+
+use easy_cast::Conv;
+
+/// A slice range in Python-slice style: both ends **inclusive**, negatives count from the end.
+///
+/// Resolve it against a slice (or a length) with [`resolve_for`](Self::resolve_for) to get a plain
+/// half-open [`Range<usize>`] that is always valid to index that slice with.
+///
+/// NOTE: Unlike Python, this is an **inclusive** range!
+#[cfg_attr(feature = "proto", derive(prost::Message))]
+#[cfg_attr(not(feature = "proto"), derive(Debug))]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+pub struct PyStyleIdxRange {
+    #[cfg_attr(feature = "proto", prost(int64, tag = "1"))]
+    pub start: i64,
+    #[cfg_attr(feature = "proto", prost(int64, tag = "2"))]
+    pub end: i64,

@@ -1,0 +1,44 @@
+ Downloading crates ...
+  Downloaded stacker v0.1.24
+  Downloaded automod v1.0.17
+  Downloaded toml v1.1.3+spec-1.1.0
+  Downloaded trybuild v1.0.118
+  Downloaded psm v0.1.31
+  Downloaded cc v1.3.0
+  Downloaded ar_archive_writer v0.5.2
+   Compiling serde_core v1.0.229
+   Compiling object v0.37.3
+   Compiling syn v3.0.2
+   Compiling cc v1.3.0
+   Compiling stacker v0.1.24
+   Compiling serde_json v1.0.150
+   Compiling winnow v1.0.4
+   Compiling serde v1.0.229
+   Compiling target-triple v1.0.1
+   Compiling toml_parser v1.1.2+spec-1.1.0
+   Compiling serde_derive v1.0.229
+   Compiling ref-cast v1.0.26
+   Compiling rustversion v1.0.23
+   Compiling toml_writer v1.1.2+spec-1.1.0
+   Compiling toml_datetime v1.1.1+spec-1.1.0
+   Compiling serde_spanned v1.1.1
+   Compiling toml v1.1.3+spec-1.1.0
+   Compiling ar_archive_writer v0.5.2
+   Compiling ref-cast-impl v1.0.26
+   Compiling syn v2.0.119
+   Compiling psm v0.1.31
+   Compiling dissimilar v1.0.11
+   Compiling termcolor v1.4.1
+   Compiling trybuild v1.0.118
+   Compiling serde_stacker v0.1.14
+   Compiling serde_bytes v0.11.19
+   Compiling indoc v2.0.7
+   Compiling automod v1.0.17
+   Compiling serde_json v1.0.151 (/workspace/serde-json)
+    Finished `test` profile [unoptimized] target(s) in 8.77s
+     Running unittests src/lib.rs (/workspace/target/debug/deps/serde_json-7854381cd722755c)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

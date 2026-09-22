@@ -1,0 +1,4 @@
+total 52K
+-rw-r--r-- 1 i i 24K Jul 24  2006 bytes.rs
+-rw-r--r-- 1 i i  45 Jul 24  2006 mod.rs
+-rw-r--r-- 1 i i 24K Jul 24  2006 string.rs

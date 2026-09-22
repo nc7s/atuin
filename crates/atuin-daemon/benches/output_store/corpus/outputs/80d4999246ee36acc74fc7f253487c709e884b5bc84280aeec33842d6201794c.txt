@@ -1,0 +1,3 @@
+src/frame/compress.rs:266:        // Reposition the compression table if we're anywhere near an overflowing hazard
+src/block/compress.rs:368:        // The number of bytes before our cursor, where the duplicate starts.
+src/block/compress.rs:732:    /// Table using 16-bit entries, suitable for inputs where `input.len() < u16::MAX`.

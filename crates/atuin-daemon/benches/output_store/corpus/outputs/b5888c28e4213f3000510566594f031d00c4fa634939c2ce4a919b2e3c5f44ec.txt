@@ -1,0 +1,3 @@
+5:pub(crate) fn find_byte(needle: u8, haystack: &[u8]) -> Option<usize> {
+7:    fn imp(needle: u8, haystack: &[u8]) -> Option<usize> {
+12:    fn imp(needle: u8, haystack: &[u8]) -> Option<usize> {

@@ -1,0 +1,30 @@
+src/regexset/string.rs:132:pub struct RegexSet {
+src/regexset/string.rs:459:pub struct SetMatches(PatternSet);
+src/regexset/string.rs:652:pub struct SetMatchesIntoIter {
+src/regexset/string.rs:698:pub struct SetMatchesIter<'a>(PatternSetIter<'a>);
+src/regexset/bytes.rs:136:pub struct RegexSet {
+src/regexset/bytes.rs:463:pub struct SetMatches(PatternSet);
+src/regexset/bytes.rs:656:pub struct SetMatchesIntoIter {
+src/regexset/bytes.rs:702:pub struct SetMatchesIter<'a>(PatternSetIter<'a>);
+src/pattern.rs:6:pub struct RegexSearcher<'r, 't> {
+src/builders.rs:44:struct Builder {
+src/builders.rs:212:    pub struct RegexBuilder {
+src/builders.rs:787:    pub struct RegexSetBuilder {
+src/builders.rs:1372:    pub struct RegexBuilder {
+src/builders.rs:1966:    pub struct RegexSetBuilder {
+src/regex/bytes.rs:7:/// A convenient way to construct regex patterns from string literals.
+src/regex/bytes.rs:9:/// This macro can be used to construct reusable instances of [`Regex`] with
+src/regex/bytes.rs:152:pub struct Regex {
+src/regex/bytes.rs:1536:pub struct Match<'h> {
+src/regex/bytes.rs:1685:pub struct Captures<'h> {
+src/regex/bytes.rs:1992:        struct CapturesDebugMap<'a> {
+src/regex/bytes.rs:2012:        struct Key<'a>(usize, Option<&'a str>);
+src/regex/bytes.rs:2024:        struct Value<'a>(Match<'a>);
+src/regex/string.rs:7:/// A convenient way to construct regex patterns from string literals.
+src/regex/string.rs:9:/// This macro can be used to construct reusable instances of [`Regex`] with
+src/regex/string.rs:150:pub struct Regex {
+src/regex/string.rs:1539:pub struct Match<'h> {
+src/regex/string.rs:1691:pub struct Captures<'h> {
+src/regex/string.rs:1999:        struct CapturesDebugMap<'a> {
+src/regex/string.rs:2019:        struct Key<'a>(usize, Option<&'a str>);
+src/regex/string.rs:2031:        struct Value<'a>(Match<'a>);

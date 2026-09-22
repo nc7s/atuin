@@ -1,0 +1,165 @@
+src/multimap_table.rs:188:    ) -> Result<Self> {
+src/multimap_table.rs:218:    ) -> Result<Self> {
+src/multimap_table.rs:260:    type Item = Result<AccessGuard<'a, V>>;
+src/multimap_table.rs:360:    type Item = Result<(AccessGuard<'a, K>, MultimapValue<'a, V>)>;
+src/multimap_table.rs:433:    type Item = Result<OwnedAccessGuard<V>>;
+src/multimap_table.rs:469:    type Item = Result<(OwnedAccessGuard<K>, OwnedMultimapValue<V>)>;
+src/multimap_table.rs:558:    ) -> Result<bool> {
+src/multimap_table.rs:731:    ) -> Result<bool> {
+src/transaction_tracker.rs:519:    ) -> Result<(TransactionId, Option<BtreeHeader>)> {
+src/sync.rs:59:    pub(crate) type LockResult<G> = Result<G, PoisonError<G>>;
+src/sync.rs:65:    pub(crate) type TryLockResult<G> = Result<G, WouldBlock>;
+src/sync.rs:87:        pub(crate) fn lock(&self) -> LockResult<MutexGuard<'_, T>> {
+src/sync.rs:103:        pub(crate) fn try_lock(&self) -> TryLockResult<MutexGuard<'_, T>> {
+src/sync.rs:195:        pub(crate) fn read(&self) -> LockResult<RwLockReadGuard<'_, T>> {
+src/sync.rs:215:        pub(crate) fn write(&self) -> LockResult<RwLockWriteGuard<'_, T>> {
+src/sync.rs:307:        ) -> LockResult<MutexGuard<'a, T>> {
+src/table.rs:146:    ) -> Result<Option<AccessGuardMut<'_, V>>> {
+src/table.rs:151:    pub fn pop_first(&mut self) -> Result<Option<(AccessGuard<'_, K>, AccessGuard<'_, V>)>> {
+src/table.rs:156:    pub fn pop_last(&mut self) -> Result<Option<(AccessGuard<'_, K>, AccessGuard<'_, V>)>> {
+src/table.rs:176:    ) -> Result<ExtractIf<'_, K, V, F>> {
+src/table.rs:198:    ) -> Result<ExtractIf<'_, K, V, F>> {
+src/table.rs:221:    ) -> Result<ExtractIf<'_, K, V, F>>
+src/table.rs:233:    ) -> Result<Range<'_, K, V>> {
+src/table.rs:244:    ) -> Result<ExtractIf<'_, K, V, F>> {
+src/lib.rs:40://! fn main() -> Result<(), Error> {
+src/lib.rs:106:pub type Result<T = (), E = StorageError> = core::result::Result<T, E>;
+src/transactions.rs:435:    fn get<'a>(&self, key: impl Borrow<K::SelfType<'a>>) -> Result<Option<AccessGuard<'_, V>>>
+src/transactions.rs:442:    fn range<'a, KR>(&self, range: impl RangeBounds<KR> + 'a) -> Result<Range<'_, K, V>>
+src/transactions.rs:456:    ) -> Result<ExtractIf<'_, K, V, F>>
+src/transactions.rs:469:    ) -> Result<Option<AccessGuard<'_, V>>> {
+src/transactions.rs:487:    ) -> Result<Option<AccessGuard<'_, V>>>
+src/transactions.rs:500:    ) -> Result<AccessGuardMutInPlace<'_, V>> {
+src/transactions.rs:561:    ) -> Result<SystemTable<'s, K, V>> {
+src/transactions.rs:587:    ) -> Result<Option<BtreeHeader>> {
+src/db.rs:76:    fn len(&self) -> core::result::Result<u64, io::Error>;
+src/db.rs:81:    fn read(&self, offset: u64, out: &mut [u8]) -> core::result::Result<(), io::Error>;
+src/db.rs:86:    fn set_len(&self, len: u64) -> core::result::Result<(), io::Error>;
+src/db.rs:89:    fn sync_data(&self) -> core::result::Result<(), io::Error>;
+src/db.rs:92:    fn write(&self, offset: u64, data: &[u8]) -> core::result::Result<(), io::Error>;
+src/db.rs:101:    fn close(&self) -> core::result::Result<(), io::Error> {
+src/db.rs:113:    ) -> core::result::Result<bool, BackendError> {
+src/db.rs:125:    ) -> core::result::Result<bool, BackendError> {
+src/tree_store/btree.rs:182:    pub(super) fn finalize_dirty_checksums(&mut self) -> Result<Option<BtreeHeader>> {
+src/tree_store/btree.rs:202:    fn finalize_dirty_checksums_helper(&mut self, page_number: PageNumber) -> Result<Checksum> {
+src/tree_store/btree.rs:290:    ) -> Result<bool> {
+src/tree_store/btree.rs:306:    ) -> Result<Option<(PageNumber, Checksum)>> {
+src/tree_store/btree.rs:395:    pub(crate) fn finalize_dirty_checksums(&mut self) -> Result<Option<BtreeHeader>> {
+src/tree_store/btree.rs:437:    ) -> Result<bool> {
+src/tree_store/btree.rs:457:    ) -> Result<Option<AccessGuard<'_, V>>> {
+src/tree_store/btree.rs:485:    ) -> Result<()> {
+src/tree_store/btree_iters.rs:79:    type Item = Result<PageNumber>;
+src/tree_store/btree_cursor_range.rs:67:    ) -> Result<Self> {
+src/tree_store/btree_cursor_range.rs:78:    ) -> Result<Self> {
+src/tree_store/btree_cursor_range.rs:134:    fn prepare(&mut self, side: Side) -> Result<bool> {
+src/tree_store/btree_cursor_range.rs:168:    fn cursors_have_remaining(&mut self) -> Result<bool> {
+src/tree_store/btree_cursor_range.rs:185:    fn advance_cursor(&mut self, side: Side) -> Result<Option<EntryGuard<K, V>>> {
+src/tree_store/btree_cursor_range.rs:208:    fn next_from(&mut self, side: Side) -> Option<Result<EntryGuard<K, V>>> {
+src/tree_store/btree_cursor_range.rs:219:    fn next_from_inner(&mut self, side: Side) -> Option<Result<EntryGuard<K, V>>> {
+src/tree_store/btree_cursor_range.rs:253:    type Item = Result<EntryGuard<K, V>>;
+src/tree_store/table_tree_base.rs:129:    ) -> Result<(), TableError> {
+src/tree_store/table_tree_base.rs:159:    ) -> Result<(), TableError> {
+src/tree_store/table_tree_base.rs:241:    ) -> Result<Option<BtreeHeader>> {
+src/tree_store/btree_cursor.rs:141:) -> Result<Leaf>
+src/tree_store/btree_cursor.rs:143:    F: FnMut(PageNumber) -> Result<PageImpl>,
+src/tree_store/btree_cursor.rs:184:) -> Result<Option<Leaf>>
+src/tree_store/btree_cursor.rs:186:    F: FnMut(PageNumber) -> Result<PageImpl>,
+src/tree_store/btree_cursor.rs:212:) -> Result<bool>
+src/tree_store/btree_cursor.rs:214:    F: FnMut(PageNumber) -> Result<PageImpl>,
+src/tree_store/btree_cursor.rs:503:    fn latch_errors<T>(&mut self, result: Result<T>) -> Result<T> {
+src/tree_store/btree_cursor.rs:542:    fn ensure_has_entry(&mut self, direction: Direction) -> Result<bool> {
+src/tree_store/btree_mutator.rs:85:struct InsertionResult<'a, V: Value + 'static> {
+src/tree_store/btree_mutator.rs:131:    pub(crate) fn delete(&mut self, key: &K::SelfType<'_>) -> Result<Option<AccessGuard<'a, V>>> {
+src/tree_store/btree_mutator.rs:141:    ) -> Result<Option<AccessGuard<'a, V>>> {
+src/tree_store/btree_mutator.rs:225:    ) -> Result<(AccessGuard<'a, K>, AccessGuard<'a, V>)> {
+src/tree_store/btree_mutator.rs:394:    ) -> Result<Vec<(PageNumber, Vec<u8>)>> {
+src/tree_store/btree_mutator.rs:570:    ) -> Result<Vec<SplicedNode>> {
+src/tree_store/btree_mutator.rs:605:    fn build_branch_nodes(&mut self, children: &[SplicedNode]) -> Result<Vec<SplicedNode>> {
+src/tree_store/btree_mutator.rs:687:    ) -> Result<(Option<AccessGuard<'a, V>>, AccessGuardMutInPlace<'a, V>)> {
+src/tree_store/btree_base.rs:58:) -> Result<Checksum, StorageError> {
+src/tree_store/btree_base.rs:88:) -> Result<Checksum, StorageError> {
+src/tree_store/btree_base.rs:350:    pub fn insert<'v>(&mut self, value: impl Borrow<V::SelfType<'v>>) -> Result<()> {
+src/tree_store/btree_base.rs:903:    ) -> Result<(PageMut<'txn>, Cow<'a, [u8]>, PageMut<'txn>)> {
+src/tree_store/btree_base.rs:971:    pub(super) fn build<'txn>(self) -> Result<PageMut<'txn>> {
+src/tree_store/btree_base.rs:2018:    pub(super) fn build<'txn>(self) -> Result<PageMut<'txn>> {
+src/tree_store/btree_base.rs:2050:    pub(super) fn build_split<'txn>(self) -> Result<(PageMut<'txn>, Cow<'a, [u8]>, PageMut<'txn>)> {
+src/tree_store/extract_if.rs:11:type AdvanceInner<T, R> = fn(&mut T) -> Result<Option<R>>;
+src/tree_store/extract_if.rs:107:    fn next_inner(&mut self) -> Result<Option<ExtractItem<'a, K, V>>> {
+src/tree_store/extract_if.rs:134:    fn next_back_inner(&mut self) -> Result<Option<ExtractItem<'a, K, V>>> {
+src/tree_store/extract_if.rs:164:    ) -> Option<Result<ExtractItem<'a, K, V>>> {
+src/tree_store/extract_if.rs:182:    type Item = Result<ExtractItem<'a, K, V>>;
+src/tree_store/multimap_btree.rs:27:) -> Result<BtreeStats> {
+src/tree_store/multimap_btree.rs:48:) -> Result<BtreeStats> {
+src/tree_store/multimap_btree.rs:161:) -> Result<bool> {
+src/tree_store/multimap_btree.rs:207:) -> Result<(PageNumber, Checksum)> {
+src/tree_store/multimap_btree.rs:289:) -> Result<Option<BtreeHeader>> {
+src/tree_store/table_tree.rs:54:    type Item = Result<String>;
+src/tree_store/table_tree.rs:84:    ) -> Result<Self> {
+src/tree_store/table_tree.rs:95:    pub(crate) fn verify_checksums(&self) -> Result<bool> {
+src/tree_store/table_tree.rs:146:    pub(crate) fn count_tables(&self) -> Result<u64> {
+src/tree_store/table_tree.rs:156:    pub(crate) fn list_tables(&self, table_type: TableType) -> Result<Vec<String>> {
+src/tree_store/table_tree.rs:173:    ) -> Result<Option<InternalTableDefinition>, TableError> {
+src/tree_store/table_tree.rs:188:    ) -> Result<Option<InternalTableDefinition>, TableError> {
+src/tree_store/table_tree.rs:332:    ) -> Result<(Option<BtreeHeader>, PageNumberHashSet, Vec<PageNumber>)> {
+src/tree_store/page_store/cached_file.rs:151:    fn try_lock_range(&self, range: impl RangeBounds<u64>) -> Result<bool> {
+src/tree_store/page_store/cached_file.rs:158:    fn try_lock_shared_range(&self, range: impl RangeBounds<u64>) -> Result<bool> {
+src/tree_store/page_store/cached_file.rs:191:    fn query_lock_range(&self, range: impl RangeBounds<u64>) -> Result<bool> {
+src/tree_store/page_store/cached_file.rs:198:    fn check_failure(&self) -> Result<()> {
+src/tree_store/page_store/cached_file.rs:218:    fn len(&self) -> Result<u64> {
+src/tree_store/page_store/cached_file.rs:227:    fn read(&self, offset: u64, out: &mut [u8]) -> Result<()> {
+src/tree_store/page_store/cached_file.rs:236:    fn set_len(&self, len: u64) -> Result<()> {
+src/tree_store/page_store/cached_file.rs:245:    fn sync_data(&self) -> Result<()> {
+src/tree_store/page_store/savepoint.rs:139:    ) -> Result<Savepoint> {
+src/tree_store/page_store/savepoint.rs:158:    pub(crate) fn get_ids(&self) -> Result<(SavepointId, TransactionId)> {
+src/tree_store/page_store/savepoint.rs:163:    fn parse(&self) -> Result<PersistentSavepoint> {
+src/tree_store/page_store/base.rs:416:    pub(crate) fn close(&self) -> Result<PageNumberHashSet> {
+src/tree_store/page_store/page_manager.rs:115:    pub(crate) fn get_page(&self, page_number: PageNumber, hint: PageHint) -> Result<PageImpl> {
+src/tree_store/page_store/page_manager.rs:119:    pub(crate) fn count_allocated_pages(&self) -> Result<u64> {
+src/tree_store/page_store/page_manager.rs:228:    pub(crate) fn allocate<'a>(&self, size: usize, allocated: &PageTracker) -> Result<PageMut<'a>> {
+src/tree_store/page_store/page_manager.rs:244:    ) -> Result<PageMut<'a>> {
+src/tree_store/page_store/page_manager.rs:281:    pub(crate) fn get_page(&self, page_number: PageNumber, hint: PageHint) -> Result<PageImpl> {
+src/tree_store/page_store/page_manager.rs:285:    pub(crate) fn get_page_mut<'a>(&self, page_number: PageNumber) -> Result<PageMut<'a>> {
+src/tree_store/page_store/page_manager.rs:636:) -> Result<Option<Arc<WriterLock>>> {
+src/tree_store/page_store/page_manager.rs:705:    ) -> Result<(), DatabaseError> {
+src/tree_store/page_store/header.rs:112:    pub(super) fn from_bytes(data: &[u8], expected_page_size: u32) -> Result<Self, DatabaseError> {
+src/tree_store/page_store/header.rs:226:    pub(super) fn finalize(mut self, file_len: u64) -> Result<(DatabaseHeader, bool)> {
+src/tree_store/page_store/header.rs:270:    fn layout_from_file_len(&self, file_len: u64) -> Result<DatabaseLayout> {
+src/tree_store/page_store/header.rs:307:    fn select_primary_slot(&mut self) -> Result<bool> {
+src/tree_store/page_store/header.rs:348:    pub(super) fn finalize_transaction_slots(self) -> Result<DatabaseHeader> {
+src/tree_store/page_store/header.rs:501:    pub(super) fn from_bytes(data: &[u8]) -> Result<(Self, bool), DatabaseError> {
+src/tree_store/page_store/header.rs:644:        fn read_header_directly(&self) -> Result<[u8; DB_HEADER_SIZE], std::io::Error> {
+src/tree_store/page_store/header.rs:653:        ) -> Result<(), std::io::Error> {
+src/tree_store/page_store/backends.rs:30:    fn try_lock_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<bool, BackendError> {
+src/tree_store/page_store/backends.rs:38:    ) -> Result<bool, BackendError> {
+src/tree_store/page_store/backends.rs:42:    fn lock_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<(), BackendError> {
+src/tree_store/page_store/backends.rs:46:    fn lock_shared_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<(), BackendError> {
+src/tree_store/page_store/backends.rs:50:    fn unlock_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<(), BackendError> {
+src/tree_store/page_store/backends.rs:54:    fn query_lock_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<bool, BackendError> {
+src/tree_store/page_store/backends.rs:58:    fn len(&self) -> Result<u64, Error> {
+src/tree_store/page_store/backends.rs:62:    fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), Error> {
+src/tree_store/page_store/active_transactions.rs:12:    query: impl Fn(Range<u64>) -> Result<bool, E>,
+src/tree_store/page_store/active_transactions.rs:15:) -> Result<Option<u64>, E> {
+src/tree_store/page_store/file_backend/range_lock.rs:20:    fn try_lock_range(&self, _range: impl RangeBounds<u64>) -> io::Result<bool> {
+src/tree_store/page_store/file_backend/range_lock.rs:24:    fn try_lock_shared_range(&self, _range: impl RangeBounds<u64>) -> io::Result<bool> {
+src/tree_store/page_store/file_backend/range_lock.rs:29:    fn lock_range(&self, _range: impl RangeBounds<u64>) -> io::Result<()> {
+src/tree_store/page_store/file_backend/range_lock.rs:33:    fn lock_shared_range(&self, _range: impl RangeBounds<u64>) -> io::Result<()> {
+src/tree_store/page_store/file_backend/range_lock.rs:37:    fn unlock_range(&self, _range: impl RangeBounds<u64>) -> io::Result<()> {
+src/tree_store/page_store/file_backend/range_lock.rs:44:    fn query_lock(&self, _range: impl RangeBounds<u64>) -> io::Result<bool> {
+src/tree_store/page_store/file_backend/range_lock.rs:60:fn checked_range(range: impl RangeBounds<u64>) -> io::Result<(u64, u64)> {
+src/tree_store/page_store/file_backend/range_lock.rs:161:    fn try_lock(file: &File, exclusive: bool, range: impl RangeBounds<u64>) -> io::Result<bool> {
+src/tree_store/page_store/file_backend/fallback.rs:20:    pub fn new(file: File) -> Result<Self, DatabaseError> {
+src/tree_store/page_store/file_backend/fallback.rs:27:    fn lock_whole_file(&self, shared: bool) -> Result<bool, io::Error> {
+src/tree_store/page_store/file_backend/fallback.rs:49:    fn try_lock_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<bool, BackendError> {
+src/tree_store/page_store/file_backend/fallback.rs:61:    ) -> Result<bool, BackendError> {
+src/tree_store/page_store/file_backend/fallback.rs:69:    fn unlock_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<(), BackendError> {
+src/tree_store/page_store/file_backend/fallback.rs:80:    fn lock_range(&self, _start: Bound<u64>, _end: Bound<u64>) -> Result<(), BackendError> {
+src/tree_store/page_store/file_backend/fallback.rs:84:    fn lock_shared_range(&self, _start: Bound<u64>, _end: Bound<u64>) -> Result<(), BackendError> {
+src/tree_store/page_store/file_backend/fallback.rs:88:    fn query_lock_range(&self, _start: Bound<u64>, _end: Bound<u64>) -> Result<bool, BackendError> {
+src/tree_store/page_store/file_backend/optimized.rs:45:) -> io::Result<()> {
+src/tree_store/page_store/file_backend/optimized.rs:79:    pub fn new(file: File) -> Result<Self, DatabaseError> {
+src/tree_store/page_store/file_backend/optimized.rs:90:    fn lock_legacy_file(&self, shared: bool) -> io::Result<bool> {
+src/tree_store/page_store/file_backend/optimized.rs:106:    fn try_lock(&self, range: (Bound<u64>, Bound<u64>), shared: bool) -> io::Result<bool> {
+src/tree_store/page_store/file_backend/optimized.rs:132:    fn try_lock_native(&self, range: (Bound<u64>, Bound<u64>), shared: bool) -> io::Result<bool> {
+src/tree_store/page_store/file_backend/optimized.rs:149:    ) -> io::Result<bool> {
+src/tree_store/page_store/file_backend/optimized.rs:170:    fn query_lock_with_mutex(&self, range: (Bound<u64>, Bound<u64>)) -> io::Result<bool> {
+src/tree_store/page_store/file_backend/optimized.rs:184:    fn unlock_native_range(&self, range: (Bound<u64>, Bound<u64>)) -> io::Result<()> {

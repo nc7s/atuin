@@ -1,0 +1,5 @@
+15:pub(crate) struct EntryGuard<K: Key, V: Value> {
+24:    pub(super) fn new(page: PageImpl, key_range: Range<usize>, value_range: Range<usize>) -> Self {
+34:    pub(super) fn key_bytes(&self) -> &[u8] {
+38:    pub(crate) fn key_data(&self) -> Vec<u8> {
+42:    pub(crate) fn key(&self) -> K::SelfType<'_> {

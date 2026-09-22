@@ -1,0 +1,82 @@
+crates/atuin-client/src/database.rs:93:    pub fn from_history(entry: &History) -> Self {
+crates/atuin-client/src/database.rs:253:    pub fn closest_db_mode(self) -> DbSearchMode {
+crates/atuin-client/src/database.rs:955:    pub fn all_paged(&self, page_size: usize, include_deleted: bool, unique: bool) -> Paged {
+crates/atuin-client/src/database.rs:1105:    pub fn new(database: Sqlite, page_size: usize, include_deleted: bool, unique: bool) -> Self {
+crates/atuin-client/src/database.rs:1205:    pub fn has_uppercase(&self) -> bool {
+crates/atuin-client/src/database.rs:1216:    pub fn is_inverse(&self) -> bool {
+crates/atuin-client/src/database.rs:1229:    pub fn new(query: &'a str) -> Self {
+crates/atuin-client/src/settings.rs:83:    pub fn effective_mode(self) -> SearchMode {
+crates/atuin-client/src/settings.rs:101:    pub fn as_str(self) -> &'static str {
+crates/atuin-client/src/settings.rs:111:    pub fn next(self, settings: &Settings) -> Self {
+crates/atuin-client/src/settings.rs:148:    pub fn as_str(&self) -> &'static str {
+crates/atuin-client/src/settings.rs:241:    pub fn as_str(&self) -> &'static str {
+crates/atuin-client/src/settings.rs:282:    pub fn as_str(&self) -> &'static str {
+crates/atuin-client/src/settings.rs:411:    pub fn into_auth_token(self) -> Result<crate::api_client::AuthToken> {
+crates/atuin-client/src/settings.rs:436:    pub fn standard_defaults() -> Self {
+crates/atuin-client/src/history.rs:37:pub fn is_known_agent(author: &str) -> bool {
+crates/atuin-client/src/history.rs:69:    pub fn probe_current() -> Option<Self> {
+crates/atuin-client/src/history.rs:112:pub fn all_user_author_filter() -> OrFilter<&'static [AuthorPattern]> {
+crates/atuin-client/src/history.rs:125:pub fn probe_author() -> Option<String> {
+crates/atuin-client/src/history.rs:143:    pub fn from_name(s: &str) -> Option<Self> {
+crates/atuin-client/src/history.rs:167:    pub fn min_fields(&self) -> u32 {
+crates/atuin-client/src/history.rs:176:    pub fn max_fields(&self) -> Option<u32> {
+crates/atuin-client/src/history.rs:264:    pub fn new(uuid: Uuid) -> Self {
+crates/atuin-client/src/api_client.rs:201:pub fn ensure_version(response: &Response) -> Result<bool> {
+crates/atuin-client/src/api_client.rs:272:pub fn caps_client(settings: &Settings) -> Result<Arc<CapClient>> {
+crates/atuin-client/src/api_client.rs:289:pub fn caps_client_anonymous(
+crates/atuin-client/src/api_client.rs:331:    pub fn stream(
+crates/atuin-client/src/api_client.rs:424:    pub fn new(
+crates/atuin-client/src/api_client.rs:463:    pub fn caps(&self) -> &Arc<CapClient> {
+crates/atuin-client/src/api_client.rs:603:    pub fn records(&self, series: &RecordSeriesKey) -> RecordsRequest {
+crates/atuin-client/src/theme.rs:76:    pub fn get_base(&self) -> ContentStyle {
+crates/atuin-client/src/theme.rs:81:    pub fn get_info(&self) -> ContentStyle {
+crates/atuin-client/src/theme.rs:86:    pub fn get_warning(&self) -> ContentStyle {
+crates/atuin-client/src/theme.rs:91:    pub fn get_error(&self) -> ContentStyle {
+crates/atuin-client/src/theme.rs:97:    pub fn get_alert(&self, severity: tracing::Level) -> ContentStyle {
+crates/atuin-client/src/theme.rs:102:    pub fn new(
+crates/atuin-client/src/theme.rs:114:    pub fn closest_meaning<'a>(&self, meaning: &'a Meaning) -> &'a Meaning {
+crates/atuin-client/src/theme.rs:126:    pub fn as_style(&self, meaning: Meaning) -> ContentStyle {
+crates/atuin-client/src/plugin.rs:12:    pub fn new(name: &str, description: &str, install_message: &str) -> Self {
+crates/atuin-client/src/plugin.rs:27:    pub fn new() -> Self {
+crates/atuin-client/src/plugin.rs:53:    pub fn get_plugin(&self, name: &str) -> Option<&OfficialPlugin> {
+crates/atuin-client/src/plugin.rs:58:    pub fn is_official_plugin(&self, name: &str) -> bool {
+crates/atuin-client/src/plugin.rs:63:    pub fn get_install_message(&self, name: &str) -> Option<&str> {
+crates/atuin-client/src/plugin.rs:81:    pub fn new(_subcommand: &str) -> Self {
+crates/atuin-client/src/plugin.rs:102:    pub fn new() -> Self {
+crates/atuin-client/src/ordering.rs:7:pub fn reorder_fuzzy(mode: DbSearchMode, query: &str, res: Vec<History>) -> Vec<History> {
+crates/atuin-client/src/distro.rs:7:pub fn detect_linux_distribution() -> String {
+crates/atuin-client/src/auth.rs:113:    pub fn new(
+crates/atuin-client/src/auth.rs:253:    pub fn new(address: &Url, hub_token: Option<String>) -> Self {
+crates/atuin-client/src/packfile/record.rs:118:    pub fn parse(record: &Record<EncryptedData>) -> Result<Self, ParsingError> {
+crates/atuin-client/src/packfile/record.rs:168:    pub fn record_count(&self) -> Result<u64, InvalidRangeError> {
+crates/atuin-client/src/packfile/record.rs:179:    pub fn encode(&self) -> Result<EncryptedData, Box<dyn std::error::Error + Send + Sync>> {
+crates/atuin-client/src/packfile/record.rs:277:    pub fn new(record: &'a Record<EncryptedData>) -> Result<Self, ParsingError> {
+crates/atuin-client/src/record/sync/mod.rs:151:    pub fn with_page_size(mut self, page_size: NonZeroU64) -> Self {
+crates/atuin-client/src/record/sync/mod.rs:174:    pub fn keyed<'k>(&'k self, key: &'k paseto_v4::Key) -> Keyed<'k> {
+crates/atuin-client/src/record/sync/mod.rs:258:    pub fn operations(diffs: Vec<Diff>) -> Result<Vec<Operation>, SyncError> {
+crates/atuin-client/src/record/sync/builder.rs:72:    pub fn builder<'a>() -> SyncEngineBuilder<'a, ((), ())> {
+crates/atuin-client/src/import/zsh_histdb.rs:100:    pub fn histpath_candidate() -> Result<PathBuf> {
+crates/atuin-client/src/import/zsh_histdb.rs:114:    pub fn histpath() -> Result<PathBuf> {
+crates/atuin-client/src/settings/output.rs:32:    pub fn effective_limits(&self) -> CaptureLimits {
+crates/atuin-client/src/import/zsh.rs:63:    pub fn parse(line: &str) -> Self {
+crates/atuin-client/src/settings/disk_usage_limit.rs:44:    pub fn resolve(self, disk_size: ByteSize) -> Option<ByteSize> {
+crates/atuin-client/src/settings/shells.rs:30:    pub fn to_filter(&self) -> ShellFilter<'_> {
+crates/atuin-client/src/settings/shells.rs:35:    pub fn to_filter_with<F>(&self, current_shell: F) -> ShellFilter<'_>
+crates/atuin-client/src/settings/shells.rs:69:    pub fn as_filter(&self) -> OrFilter<&[String]> {
+crates/atuin-client/src/settings/shells.rs:78:    pub fn to_vec_filter(&self) -> OrFilter<Vec<String>> {
+crates/atuin-client/src/settings/watcher.rs:43:pub fn global_settings_watcher() -> Result<&'static SettingsWatcher> {
+crates/atuin-client/src/settings/watcher.rs:68:    pub fn new() -> Result<Self> {
+crates/atuin-client/src/settings/watcher.rs:89:    pub fn subscribe(&self) -> watch::Receiver<Arc<Settings>> {
+crates/atuin-client/src/settings/watcher.rs:95:    pub fn current(&self) -> Arc<Settings> {
+crates/atuin-client/src/import/nu_histdb.rs:88:    pub fn histpath() -> Result<PathBuf> {
+crates/atuin-client/src/settings/daemon.rs:59:    pub fn socket_path(&self) -> SocketPath<'_> {
+crates/atuin-client/src/settings/daemon.rs:68:    pub fn existing_socket_path(&self) -> Cow<'_, Path> {
+crates/atuin-client/src/settings/daemon.rs:84:    pub fn potential_socket_paths(&self) -> impl Iterator<Item = Cow<'_, Path>> + use<'_> {
+crates/atuin-client/src/settings/daemon.rs:214:    pub fn create_default_dir_if_needed(&self) -> Result<(), SecureTempDirError> {
+crates/atuin-client/src/settings/daemon.rs:224:    pub fn as_path(&self) -> &Path {
+crates/atuin-client/src/settings/daemon.rs:232:    pub fn into_cow(self) -> Cow<'a, Path> {
+crates/atuin-client/src/settings/daemon.rs:240:    pub fn into_owned(self) -> PathBuf {
+crates/atuin-client/src/history/store.rs:56:    pub fn serialize(&self) -> Result<DecryptedData> {
+crates/atuin-client/src/history/store.rs:82:    pub fn deserialize(bytes: &DecryptedData, version: &str) -> Result<Self> {
+crates/atuin-client/src/history/store.rs:137:    pub fn new(store: SqliteStore, host_id: HostId, encryption_key: paseto_v4::Key) -> Self {
+crates/atuin-client/src/history/store.rs:324:    pub fn incremental_build<'a>(

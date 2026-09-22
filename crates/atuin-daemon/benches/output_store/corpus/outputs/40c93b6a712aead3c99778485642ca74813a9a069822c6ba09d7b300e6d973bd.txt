@@ -1,0 +1,8 @@
+13:pub struct SelectState {
+14:    pub cursor: usize,
+18:pub enum SelectMsg {
+23:impl SelectState {
+24:    pub fn handle(&mut self, msg: SelectMsg, len: usize) {
+34:    pub fn keymap() -> Keymap<SelectMsg> {
+40:pub fn select_view<'a>(
+41:    labels: impl IntoIterator<Item = &'a str>,

@@ -1,0 +1,80 @@
+3:use crate::error::{Error, ErrorCode, Result};
+17:pub struct Serializer<W, F = CompactFormatter> {
+28:    pub fn new(writer: W) -> Self {
+39:    pub fn pretty(writer: W) -> Self {
+52:    pub fn with_formatter(writer: W, formatter: F) -> Self {
+58:    pub fn into_inner(self) -> W {
+69:    type Error = Error;
+80:    fn serialize_bool(self, value: bool) -> Result<()> {
+83:            .map_err(Error::io)
+87:    fn serialize_i8(self, value: i8) -> Result<()> {
+90:            .map_err(Error::io)
+94:    fn serialize_i16(self, value: i16) -> Result<()> {
+97:            .map_err(Error::io)
+101:    fn serialize_i32(self, value: i32) -> Result<()> {
+104:            .map_err(Error::io)
+108:    fn serialize_i64(self, value: i64) -> Result<()> {
+111:            .map_err(Error::io)
+114:    fn serialize_i128(self, value: i128) -> Result<()> {
+117:            .map_err(Error::io)
+121:    fn serialize_u8(self, value: u8) -> Result<()> {
+124:            .map_err(Error::io)
+128:    fn serialize_u16(self, value: u16) -> Result<()> {
+131:            .map_err(Error::io)
+135:    fn serialize_u32(self, value: u32) -> Result<()> {
+138:            .map_err(Error::io)
+142:    fn serialize_u64(self, value: u64) -> Result<()> {
+145:            .map_err(Error::io)
+148:    fn serialize_u128(self, value: u128) -> Result<()> {
+151:            .map_err(Error::io)
+155:    fn serialize_f32(self, value: f32) -> Result<()> {
+160:                .map_err(Error::io),
+164:                .map_err(Error::io),
+169:    fn serialize_f64(self, value: f64) -> Result<()> {
+174:                .map_err(Error::io),
+178:                .map_err(Error::io),
+183:    fn serialize_char(self, value: char) -> Result<()> {
+190:    fn serialize_str(self, value: &str) -> Result<()> {
+191:        format_escaped_str(&mut self.writer, &mut self.formatter, value).map_err(Error::io)
+195:    fn serialize_bytes(self, value: &[u8]) -> Result<()> {
+198:            .map_err(Error::io)
+202:    fn serialize_unit(self) -> Result<()> {
+205:            .map_err(Error::io)
+209:    fn serialize_unit_struct(self, _name: &'static str) -> Result<()> {
+214:    fn serialize_unit_variant(
+225:    fn serialize_newtype_struct<T>(self, _name: &'static str, value: &T) -> Result<()>
+233:    fn serialize_newtype_variant<T>(
+246:            .map_err(Error::io));
+250:            .map_err(Error::io));
+255:            .map_err(Error::io));
+259:            .map_err(Error::io));
+264:            .map_err(Error::io));
+267:            .map_err(Error::io)
+271:    fn serialize_none(self) -> Result<()> {
+276:    fn serialize_some<T>(self, value: &T) -> Result<()>
+284:    fn serialize_seq(self, len: Option<usize>) -> Result<Self::SerializeSeq> {
+288:            .map_err(Error::io));
+293:                .map_err(Error::io));
+307:    fn serialize_tuple(self, len: usize) -> Result<Self::SerializeTuple> {
+312:    fn serialize_tuple_struct(
+321:    fn serialize_tuple_variant(
+331:            .map_err(Error::io));
+335:            .map_err(Error::io));
+340:            .map_err(Error::io));
+344:            .map_err(Error::io));
+349:    fn serialize_map(self, len: Option<usize>) -> Result<Self::SerializeMap> {
+353:            .map_err(Error::io));
+358:                .map_err(Error::io));
+372:    fn serialize_struct(self, name: &'static str, len: usize) -> Result<Self::SerializeStruct> {
+383:    fn serialize_struct_variant(
+393:            .map_err(Error::io));
+397:            .map_err(Error::io));
+402:            .map_err(Error::io));
+406:            .map_err(Error::io));
+410:    fn collect_str<T>(self, value: &T) -> Result<()>
+416:        struct Adapter<'ser, W: 'ser, F: 'ser> {
+419:            error: Option<io::Error>,
+427:            fn write_str(&mut self, s: &str) -> fmt::Result {
+428:                debug_assert!(self.error.is_none());
+433:                        Err(fmt::Error)
+442:            .map_err(Error::io));

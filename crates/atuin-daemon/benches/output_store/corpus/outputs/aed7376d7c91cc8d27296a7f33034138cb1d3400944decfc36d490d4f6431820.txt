@@ -1,0 +1,24 @@
+16:struct LazyClient(Option<SearchClient>);
+18:impl LazyClient {
+21:    pub async fn get(&mut self, settings: &Settings) -> Result<&mut SearchClient> {
+38:    async fn connect(&self, settings: &Settings) -> Result<SearchClient> {
+49:    async fn try_with_autostart<F, R>(&mut self, settings: &Settings, mut f: F) -> Result<R>
+75:pub struct Search {
+81:impl Search {
+82:    pub fn new(settings: &Settings) -> Self {
+91:    fn next_query_id(&mut self) -> u64 {
+98:    fn contains_regex_pattern(query: &str) -> bool {
+103:    async fn fallback_to_db_search(
+128:    async fn hydrate_from_db(&self, db: &Sqlite, ids: &[HistoryId]) -> Result<Vec<History>> {
+139:    pub async fn prepare_index(&mut self) -> Result<()> {
+149:impl SearchEngine for Search {
+151:    async fn full_query(&mut self, state: &SearchState, db: &mut Sqlite) -> Result<Vec<History>> {
+235:    fn get_highlight_indices(&self, command: &str, search_input: &str) -> Vec<usize> {
+291:    fn long_query_does_not_panic_highlighting() {
+295:        assert!(indices.is_empty());
+303:    fn accented_command_highlights_unaccented_query() {
+306:        assert_eq!(indices, vec![5, 6, 8, 9]);
+313:    fn multibyte_char_before_match_does_not_shift_highlight() {
+316:        assert_eq!(indices, vec![7, 8, 9, 10]);
+323:    fn cjk_prefix_highlights_at_correct_bytes() {
+326:        assert_eq!(indices, vec![7, 8, 9]);

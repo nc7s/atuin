@@ -1,0 +1,19 @@
+14:pub(crate) fn nth_bit(n: u64) -> u64 {
+16:    debug_assert!(n < bits, "nth_bit() overflow in shl.");
+23:pub(crate) fn lower_n_mask(n: u64) -> u64 {
+25:    debug_assert!(n <= bits, "lower_n_mask() overflow in shl.");
+36:pub(crate) fn lower_n_halfway(n: u64) -> u64 {
+38:    debug_assert!(n <= bits, "lower_n_halfway() overflow in shl.");
+49:pub(crate) fn internal_n_mask(bit: u64, n: u64) -> u64 {
+51:    debug_assert!(bit <= bits, "internal_n_halfway() overflow in shl.");
+52:    debug_assert!(n <= bits, "internal_n_halfway() overflow in shl.");
+53:    debug_assert!(bit >= n, "internal_n_halfway() overflow in sub.");
+64:pub(crate) fn round_nearest(fp: &mut ExtendedFloat, shift: i32) -> (bool, bool) {
+86:pub(crate) fn tie_even(fp: &mut ExtendedFloat, is_above: bool, is_halfway: bool) {
+104:pub(crate) fn round_nearest_tie_even(fp: &mut ExtendedFloat, shift: i32) {
+115:fn round_toward(fp: &mut ExtendedFloat, shift: i32) -> bool {
+127:fn downard(_: &mut ExtendedFloat, _: bool) {}
+134:pub(crate) fn round_downward(fp: &mut ExtendedFloat, shift: i32) {
+149:pub(crate) fn round_to_float<F, Algorithm>(fp: &mut ExtendedFloat, algorithm: Algorithm)
+189:pub(crate) fn avoid_overflow<F>(fp: &mut ExtendedFloat)
+218:pub(crate) fn round_to_native<F, Algorithm>(fp: &mut ExtendedFloat, algorithm: Algorithm)

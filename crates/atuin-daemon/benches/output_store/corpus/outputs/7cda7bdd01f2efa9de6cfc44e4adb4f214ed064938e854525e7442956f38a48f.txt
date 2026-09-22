@@ -1,0 +1,60 @@
+use atuin_client::settings::Settings;
+use eyre::{Context, Result};
+
+use crate::components::search::SearchGrpcService;
+use crate::daemon::DaemonHandle;
+use crate::grpc;
+use crate::grpc::history::pb::history_server::HistoryServer;
+use crate::search::search_server::SearchServer;
+
+/// How often to update the socket's modification time so it doesn't get automatically deleted by
+/// temporary file cleaners.
+#[cfg(unix)]
+const SOCKET_KEEPALIVE_INTERVAL: std::time::Duration = std::time::Duration::from_mins(1);
+
+/// Run the gRPC server with the given services.
+///
+/// This starts the gRPC server in the background and returns immediately.
+/// The server will shut down when a ShutdownRequested event is received.
+#[cfg(unix)]
+#[allow(clippy::unused_async, reason = "needs to match the cfg(not(unix)) version")]
+pub async fn run_grpc_server(
+    settings: Settings,
+    history_service: HistoryServer<grpc::HistoryService>,
+    search_service: SearchServer<SearchGrpcService>,
+    handle: DaemonHandle,
+) -> Result<()> {
+    use tokio::net::UnixListener;
+    use tokio_stream::wrappers::UnixListenerStream;
+
+    let socket_path = settings.daemon.socket_path();
+
+    let (uds, cleanup_path) = if cfg!(target_os = "linux") && settings.daemon.systemd_socket {
+        #[cfg(target_os = "linux")]
+        {
+            use std::os::unix::net::SocketAddr;
+            use std::path::PathBuf;
+
+            use eyre::{OptionExt, WrapErr};
+            tracing::info!("getting systemd socket");
+            let listener = listenfd::ListenFd::from_env()
+                .take_unix_listener(0)?
+                .ok_or_eyre("missing systemd socket")?;
+            listener.set_nonblocking(true)?;
+            let actual_path: Result<PathBuf, eyre::Report> = listener
+                .local_addr()
+                .context("getting systemd socket's path")
+                .and_then(|addr: SocketAddr| {
+                    addr.as_pathname()
+                        .ok_or_eyre("systemd socket missing path")
+                        .map(|path: &std::path::Path| path.to_owned())
+                });
+            match actual_path {
+                Ok(actual_path) => {
+                    tracing::info!("listening on systemd socket: {actual_path:?}");
+                    if actual_path != socket_path.as_path() {
+                        tracing::warn!(
+                            "systemd socket is not at configured client path: {:?}",
+                            socket_path.as_path(),
+                        );
+                    }

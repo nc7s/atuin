@@ -1,0 +1,20 @@
+/// The placeholder username [`CmdOrigin::parse_lenient`] assigns to a legacy value with no `:`.
+pub const UNKNOWN_USER: &str = "unknown-user";
+
+/// A hostname, generic over its backing storage so it can be an owned
+/// `CmdHost<String>` or a zero-copy `CmdHost<&str>` view into a [`CmdOrigin`].
+#[derive(
+    Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, derive_more::Display, derive_more::From,
+)]
+pub struct CmdHost<T = String>(T);
+
+impl<T: AsRef<str>> AsRef<str> for CmdHost<T> {
+    fn as_ref(&self) -> &str {
+        self.0.as_ref()
+    }
+}
+
+impl<T: Into<String>> CmdHost<T> {
+    pub fn into_owned(self) -> CmdHost<String> {
+        CmdHost(self.0.into())
+    }

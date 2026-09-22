@@ -1,0 +1,4 @@
+11:fn write_tmux_config<W: Write>(writer: &mut W, tmux: &Tmux) -> io::Result<()> {
+20:fn write_static_init<W: Write>(writer: &mut W, options: &StaticInitOptions<'_>) -> io::Result<()> {
+51:pub fn init_static(options: &StaticInitOptions<'_>) {
+60:pub async fn init(

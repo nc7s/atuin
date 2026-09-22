@@ -1,0 +1,44 @@
+crates/atuin-client/src/database.rs:229:pub enum DbSearchMode {
+crates/atuin-client/src/database.rs:1195:pub enum QueryToken<'a> {
+crates/atuin-client/src/settings.rs:57:pub enum SearchMode {
+crates/atuin-client/src/settings.rs:66:pub enum RequestedSearchMode {
+crates/atuin-client/src/settings.rs:126:pub enum FilterMode {
+crates/atuin-client/src/settings.rs:161:pub enum ExitMode {
+crates/atuin-client/src/settings.rs:169:// FIXME: Can use upstream Dialect enum if https://github.com/stevedonovan/chrono-english/pull/16 is merged
+crates/atuin-client/src/settings.rs:172:pub enum Dialect {
+crates/atuin-client/src/settings.rs:192:pub enum Style {
+crates/atuin-client/src/settings.rs:204:pub enum UpdateChannel {
+crates/atuin-client/src/history.rs:50:pub enum AuthorKind {
+crates/atuin-client/src/history.rs:80:pub enum AuthorPattern {
+crates/atuin-client/src/history.rs:132:pub enum Version {
+crates/atuin-client/src/api_client.rs:48:pub enum AuthToken {
+crates/atuin-client/src/theme.rs:24:pub enum Meaning {
+crates/atuin-client/src/hub.rs:41:pub enum HubAuthStatus {
+crates/atuin-client/src/hub.rs:57:pub enum HubError {
+crates/atuin-client/src/auth.rs:19:pub enum AuthResponse {
+crates/atuin-client/src/auth.rs:34:pub enum MutateResponse {
+crates/atuin-client/src/auth.rs:76:/// Static-dispatch enum over the two auth backends.
+crates/atuin-client/src/auth.rs:78:pub enum AnyAuthClient {
+crates/atuin-client/src/packfile/record.rs:98:pub enum ParsingError {
+crates/atuin-client/src/packfile/record.rs:111:pub enum PackManifestData {
+crates/atuin-client/src/packfile/record.rs:195:pub enum PackError {
+crates/atuin-client/src/packfile/record.rs:210:pub enum UnpackError {
+crates/atuin-client/src/packfile/record.rs:228:pub enum RecordLoadingError {
+crates/atuin-client/src/packfile/record.rs:236:pub enum PackingError {
+crates/atuin-client/src/packfile/packer.rs:12:pub enum PackingError {
+crates/atuin-client/src/record/sync/mod.rs:53:pub enum SyncError {
+crates/atuin-client/src/record/sync/mod.rs:87:pub(crate) enum PackfileDownloadError {
+crates/atuin-client/src/record/sync/mod.rs:113:pub enum Operation {
+crates/atuin-client/src/record/sync/mod.rs:707:    enum Expect {
+crates/atuin-client/src/record/sync/builder.rs:14:pub enum ClientSource<'a> {
+crates/atuin-client/src/import/bash.rs:103:enum LineType<'a> {
+crates/atuin-client/src/history/store.rs:38:pub enum HistoryRecord {
+crates/atuin-client/src/settings/output.rs:9:pub enum OutputCapture {
+crates/atuin-client/src/settings/disk_usage_limit.rs:21:pub enum DiskUsageLimit {
+crates/atuin-client/src/settings/disk_usage_limit.rs:54:pub enum DiskUsageLimitParseError {
+crates/atuin-client/src/settings/shells.rs:6:pub enum Shells {
+crates/atuin-client/src/settings/shells.rs:59:/// Helper type to hide enum variants from the public API.
+crates/atuin-client/src/settings/shells.rs:60:enum ShellFilterInner<'a> {
+crates/atuin-client/src/settings/shells.rs:90:        enum Keyword {
+crates/atuin-client/src/settings/shells.rs:97:        enum Repr {
+crates/atuin-client/src/settings/daemon.rs:201:pub enum SocketPath<'a> {

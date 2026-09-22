@@ -1,0 +1,20 @@
+10:fn lower_n_mask_test() {
+11:    assert_eq!(lower_n_mask(0u64), 0b0);
+12:    assert_eq!(lower_n_mask(1u64), 0b1);
+13:    assert_eq!(lower_n_mask(2u64), 0b11);
+14:    assert_eq!(lower_n_mask(10u64), 0b1111111111);
+15:    assert_eq!(lower_n_mask(32u64), 0b11111111111111111111111111111111);
+19:fn lower_n_halfway_test() {
+20:    assert_eq!(lower_n_halfway(0u64), 0b0);
+21:    assert_eq!(lower_n_halfway(1u64), 0b1);
+22:    assert_eq!(lower_n_halfway(2u64), 0b10);
+23:    assert_eq!(lower_n_halfway(10u64), 0b1000000000);
+24:    assert_eq!(lower_n_halfway(32u64), 0b10000000000000000000000000000000);
+28:fn nth_bit_test() {
+29:    assert_eq!(nth_bit(0u64), 0b1);
+30:    assert_eq!(nth_bit(1u64), 0b10);
+31:    assert_eq!(nth_bit(2u64), 0b100);
+32:    assert_eq!(nth_bit(10u64), 0b10000000000);
+33:    assert_eq!(nth_bit(31u64), 0b10000000000000000000000000000000);
+37:fn internal_n_mask_test() {
+38:    assert_eq!(internal_n_mask(1u64, 0u64), 0b0);

@@ -1,0 +1,4 @@
+src/lib.rs:299:pub enum Version {
+src/lib.rs:334:pub enum Variant {
+src/error.rs:8:pub(crate) enum ErrorKind {
+src/error.rs:51:pub(crate) enum RequestedUuid {

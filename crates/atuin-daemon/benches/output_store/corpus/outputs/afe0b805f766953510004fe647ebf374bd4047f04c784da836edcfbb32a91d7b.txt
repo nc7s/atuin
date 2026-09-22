@@ -1,0 +1,21 @@
+tests/regression/issue979.rs:13:    fn visit_enum<A>(self, data: A) -> Result<Self::Value, A::Error>
+tests/regression/issue845.rs:15:    <T as TryFrom<u64>>::Error: Display,
+tests/regression/issue845.rs:16:    <T as TryFrom<i64>>::Error: Display,
+tests/regression/issue845.rs:27:        E: serde::de::Error,
+tests/regression/issue845.rs:29:        T::try_from(v).map_err(serde::de::Error::custom)
+tests/regression/issue845.rs:34:        E: serde::de::Error,
+tests/regression/issue845.rs:36:        T::try_from(v).map_err(serde::de::Error::custom)
+tests/regression/issue845.rs:41:        E: serde::de::Error,
+tests/regression/issue845.rs:43:        v.parse().map_err(serde::de::Error::custom)
+tests/test.rs:1471:        fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+tests/test.rs:1499:            E: de::Error,
+tests/test.rs:1504:        fn visit_seq<V>(self, mut visitor: V) -> Result<MyVec<T>, V::Error>
+tests/test.rs:1522:        fn deserialize<D>(deserializer: D) -> Result<MyVec<T>, D::Error>
+tests/test.rs:1554:        fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+tests/test.rs:1583:            E: de::Error,
+tests/test.rs:1588:        fn visit_map<Visitor>(self, mut visitor: Visitor) -> Result<MyMap<K, V>, Visitor::Error>
+tests/test.rs:1607:        fn deserialize<D>(deserializer: D) -> Result<MyMap<K, V>, D::Error>
+tests/regression/issue795.rs:18:    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+tests/regression/issue795.rs:31:            fn visit_enum<A>(self, data: A) -> Result<Self::Value, A::Error>
+tests/regression/issue795.rs:39:            fn visit_map<A>(self, mut data: A) -> Result<Self::Value, A::Error>
+tests/debug.rs:54:    let expected = "Error(\"key must be a string\", line: 1, column: 2)";

@@ -1,0 +1,20 @@
+use std::collections::HashMap;
+use std::env;
+use std::ops::Range;
+use std::sync::Arc;
+use std::time::Duration;
+
+use async_stream::try_stream;
+use atuin_common::range::{Chunks, RangeExt};
+use atuin_common::url::UrlAppendExt;
+use atuin_domain::api::{
+    ATUIN_CARGO_VERSION, ATUIN_HEADER_VERSION, ATUIN_VERSION, ChangePasswordRequest, ErrorResponse,
+    LoginRequest, LoginResponse, MeResponse, PackfileDownloadResponse, PackfileResponse,
+    RegisterResponse,
+};
+use atuin_domain::caps::{AuthHeaderProvider, CapClient, CapMismatch, CapabilitiesExt};
+use atuin_domain::record::{
+    EncryptedData, Record, RecordId, RecordIdx, RecordSeriesKey, RecordStatus,
+};
+use easy_cast::Conv;
+use eyre::{Result, bail};

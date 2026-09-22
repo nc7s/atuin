@@ -1,0 +1,160 @@
+//! Streaming parser for OSC 133 (FinalTerm semantic prompt) escape sequences.
+//!
+//! OSC 133 marks four regions of a shell interaction:
+//!
+//! | Marker  | Meaning                               |
+//! |---------|---------------------------------------|
+//! | `A`     | Prompt is about to be printed         |
+//! | `B`     | Prompt ended — command input begins   |
+//! | `C`     | Command submitted — output begins     |
+//! | `D[;n]` | Command finished with exit code *n*   |
+//!
+//! The wire format is `ESC ] 133 ; <cmd> [; <params>] ST` where `ST` is `BEL`
+//! (0x07), `ESC \` (0x1B 0x5C), or `C1 ST` (0x9C).
+
+const ESC: u8 = 0x1B;
+const BEL: u8 = 0x07;
+const C1_ST: u8 = 0x9C;
+const BACKSLASH: u8 = b'\\';
+const RIGHT_BRACKET: u8 = b']';
+
+/// Maximum bytes we'll buffer for the OSC parameter string. This is large enough
+/// for Atuin metadata such as history/session IDs while still bounding malformed
+/// OSC sequences.
+const MAX_PARAMS_SIZE: usize = 512;
+
+/// Events emitted when an OSC 133 marker is detected.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Event {
+    /// `ESC ] 133 ; A ST` — the shell is about to display its prompt.
+    PromptStart,
+    /// `ESC ] 133 ; B ST` — the prompt has ended; the user may type a command.
+    CommandStart,
+    /// `ESC ] 133 ; C ST` — the command has been submitted for execution.
+    CommandExecuted,
+    /// `ESC ] 133 ; D [; <exit_code>] ST` — command output is complete.
+    CommandFinished {
+        /// The exit code reported after the `;`, if present and valid.
+        exit_code: Option<i32>,
+    },
+}
+
+/// The current semantic zone as determined by the most recent OSC 133 marker.
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
+pub enum Zone {
+    /// No marker seen yet, or after a `D` marker (between commands).
+    #[default]
+    Unknown,
+    /// Between `A` and `B` — the shell is rendering its prompt.
+    Prompt,
+    /// Between `B` and `C` — the user is editing a command line.
+    Input,
+    /// Between `C` and `D` — command output is being produced.
+    Output,
+}
+
+impl Event {
+    /// Get the zone corresponding to the data that comes after this event.
+    pub fn zone(self) -> Zone {
+        match self {
+            Self::PromptStart => Zone::Prompt,
+            Self::CommandStart => Zone::Input,
+            Self::CommandExecuted => Zone::Output,
+            Self::CommandFinished { .. } => Zone::Unknown,
+        }
+    }
+}
+
+/// An OSC 133 event with the slice of data up to the end of the OSC sequence.
+///
+/// Concatenating [`Self::data`] for every chunk, followed by [`EventChunks::trailing_data`],
+/// exactly reproduces the bytes passed to [`Parser::push`].
+#[derive(Debug, Clone, Copy)]
+pub struct EventChunk<'a> {
+    /// The OSC 133 event.
+    pub event: Event,
+
+    /// All the data between the last event and the end of this event's OSC 133 sequence.
+    ///
+    /// This includes the entire OSC 133 sequence itself.
+    pub data: &'a [u8],
+
+    /// The total length of the OSC 133 sequence corresponding to this event.
+    pub osc_len: usize,
+}
+
+/// A single OSC 133 marker parameter.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Param<'a> {
+    Value(&'a [u8]),
+    KeyValue {
+        key: &'a [u8],
+        value: &'a [u8],
+    },
+}
+
+/// An iterator of OSC 133 events, created by [`Parser::push`].
+///
+/// After exhausting the iterator, you will likely want to call [`Self::trailing_data`] to get the
+/// last chunk of data that was not yielded by the iterator. You may need to use
+/// [`Iterator::by_ref`] when iterating to ensure you still have access to the iterator afterward.
+pub struct EventChunks<'parser, 'data> {
+    parser: &'parser mut Parser,
+    data: &'data [u8],
+    /// Index within `parser.param_buf` where unhandled parameters start.
+    params_start: usize,
+    exhausted: bool,
+}
+
+impl<'data> Iterator for EventChunks<'_, 'data> {
+    type Item = EventChunk<'data>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.exhausted {
+            return None;
+        }
+        for (i, b) in self.data.iter().copied().enumerate() {
+            if let Some(item) = self.handle_byte(b, i) {
+                return Some(item);
+            }
+        }
+        self.exhausted = true;
+        None
+    }
+}
+
+impl std::iter::FusedIterator for EventChunks<'_, '_> {}
+
+impl<'data> EventChunks<'_, 'data> {
+    /// Get the OSC 133 params for the most recently yielded event.
+    pub fn params(&self) -> impl Iterator<Item = Param<'_>> {
+        let bytes = if self.exhausted {
+            b""
+        } else {
+            &self.parser.param_bytes()[self.params_start..]
+        };
+        // Make the split iterator conditional on `bytes` being non-empty; otherwise it will yield
+        // an empty param when `bytes` is empty.
+        let split = (!bytes.is_empty()).then(|| bytes.split(|b| *b == b';'));
+        split.into_iter().flatten().map(|bytes| {
+            let Some(sep) = bytes.iter().position(|b| *b == b'=') else {
+                return Param::Value(bytes);
+            };
+            Param::KeyValue {
+                key: &bytes[..sep],
+                value: &bytes[sep + 1..],
+            }
+        })
+    }
+
+    /// Get the last bit of data not yielded by this iterator.
+    ///
+    /// This method is intended to be called once the iterator has been exhausted.
+    pub fn trailing_data(&self) -> &'data [u8] {
+        self.data
+    }
+
+    fn handle_byte(&mut self, byte: u8, offset: usize) -> Option<EventChunk<'data>> {
+        match self.parser.state {
+            State::Ground => {
+                if byte == ESC {

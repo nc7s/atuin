@@ -1,0 +1,3 @@
+13:pub fn run(args: &[String]) -> Result<()> {
+25:            io::ErrorKind::NotFound => {
+56:fn render_not_found(subcommand: &str, bin: &str) -> StyledStr {

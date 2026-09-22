@@ -1,0 +1,85 @@
+crates/atuin-client/src/database.rs:27:pub struct Context {
+crates/atuin-client/src/database.rs:36:pub struct OptFilters<'a> {
+crates/atuin-client/src/database.rs:268:pub struct Sqlite {
+crates/atuin-client/src/database.rs:316:struct HistoryWithCount {
+crates/atuin-client/src/database.rs:1095:pub struct Paged {
+crates/atuin-client/src/database.rs:1190:pub struct QueryTokenizer<'a> {
+crates/atuin-client/src/settings.rs:296:pub struct Stats {
+crates/atuin-client/src/settings.rs:423:pub struct Keys {
+crates/atuin-client/src/settings.rs:462:pub struct KeyRuleConfig {
+crates/atuin-client/src/settings.rs:484:pub struct KeymapConfig {
+crates/atuin-client/src/settings.rs:510:pub struct Preview {
+crates/atuin-client/src/settings.rs:515:pub struct Theme {
+crates/atuin-client/src/settings.rs:527:pub struct PtyProxy {
+crates/atuin-client/src/settings.rs:537:pub struct Search {
+crates/atuin-client/src/history.rs:205:pub struct HistoryId(uuid::Uuid);
+crates/atuin-client/src/history.rs:273:    /// Reconstruct a [`HistoryId`] from the raw 16 bytes of its UUID.
+crates/atuin-client/src/history.rs:301:pub struct History {
+crates/atuin-client/src/history.rs:335:pub struct HistoryStats {
+crates/atuin-client/src/api_client.rs:66:pub struct Client {
+crates/atuin-client/src/api_client.rs:310:pub struct RecordsRequest {
+crates/atuin-client/src/theme.rs:43:pub struct ThemeConfig {
+crates/atuin-client/src/theme.rs:52:pub struct ThemeDefinitionConfigBlock {
+crates/atuin-client/src/theme.rs:64:pub struct Theme {
+crates/atuin-client/src/theme.rs:225:pub struct StyleFactory {}
+crates/atuin-client/src/theme.rs:360:pub struct ThemeManager {
+crates/atuin-client/src/plugin.rs:4:pub struct OfficialPlugin {
+crates/atuin-client/src/plugin.rs:21:pub struct OfficialPluginRegistry {
+crates/atuin-client/src/plugin.rs:74:pub struct PluginContext {
+crates/atuin-client/src/plugin.rs:94:struct UpdateOnWindowsContext {
+crates/atuin-client/src/meta.rs:29:pub struct MetaStore {
+crates/atuin-client/src/hub.rs:30:pub struct HubAuthSession {
+crates/atuin-client/src/auth.rs:103:pub struct LegacyAuthClient {
+crates/atuin-client/src/auth.rs:246:pub struct HubAuthClient {
+crates/atuin-client/src/auth.rs:264:struct HubErrorResponse {
+crates/atuin-client/src/packfile/record.rs:19:pub struct PackedPackfile {
+crates/atuin-client/src/packfile/record.rs:149:pub struct PackManifestDataV1 {
+crates/atuin-client/src/packfile/record.rs:160:pub struct InvalidRangeError {
+crates/atuin-client/src/packfile/record.rs:246:pub struct PackManifestRecordView<'a> {
+crates/atuin-client/src/packfile/record.rs:257:struct PackIA<'a> {
+crates/atuin-client/src/record/sqlite_store.rs:26:pub struct SqliteStore {
+crates/atuin-client/src/record/sqlite_store.rs:34:struct DbRecord(Record<paseto_v4::EncryptedData>);
+crates/atuin-client/src/record/sync/mod.rs:131:pub struct SyncEngine {
+crates/atuin-client/src/record/sync/mod.rs:141:pub struct Keyed<'k> {
+crates/atuin-client/src/record/sync/builder.rs:27:pub struct SyncEngineInit<'a> {
+crates/atuin-client/src/import/xonsh_sqlite.rs:24:struct HistDbEntry {
+crates/atuin-client/src/import/xonsh_sqlite.rs:90:pub struct XonshSqlite {
+crates/atuin-client/src/import/xonsh.rs:24:struct HistoryFile {
+crates/atuin-client/src/import/xonsh.rs:29:struct HistoryData {
+crates/atuin-client/src/import/xonsh.rs:35:struct HistoryCmd {
+crates/atuin-client/src/import/xonsh.rs:43:pub struct Xonsh {
+crates/atuin-client/src/import/resh.rs:20:pub struct ReshEntry {
+crates/atuin-client/src/import/resh.rs:75:pub struct Resh {
+crates/atuin-client/src/import/powershell.rs:14:pub struct PowerShell {
+crates/atuin-client/src/import/zsh_histdb.rs:53:pub struct HistDbEntryCount {
+crates/atuin-client/src/import/zsh_histdb.rs:58:pub struct HistDbEntry {
+crates/atuin-client/src/import/zsh_histdb.rs:70:pub struct ZshHistDb {
+crates/atuin-client/src/import/zsh.rs:18:pub struct Zsh {
+crates/atuin-client/src/import/zsh.rs:55:struct Entry {
+crates/atuin-client/src/import/replxx.rs:15:pub struct Replxx {
+crates/atuin-client/src/import/nu.rs:16:pub struct Nu {
+crates/atuin-client/src/import/nu_histdb.rs:21:pub struct HistDbEntry {
+crates/atuin-client/src/import/nu_histdb.rs:61:pub struct NuHistDb {
+crates/atuin-client/src/import/mod.rs:44:struct UnixByteLines<'a> {
+crates/atuin-client/src/import/mod.rs:123:    pub struct TestLoader {
+crates/atuin-client/src/import/fish.rs:16:pub struct Fish {
+crates/atuin-client/src/import/bash.rs:15:pub struct Bash {
+crates/atuin-client/src/history/builder.rs:11:pub struct HistoryImported {
+crates/atuin-client/src/history/builder.rs:66:pub struct HistoryCaptured {
+crates/atuin-client/src/history/builder.rs:122:pub struct HistoryFromDb {
+crates/atuin-client/src/history/builder.rs:166:pub struct HistoryDaemonCapture {
+crates/atuin-client/src/history/store.rs:25:pub struct HistoryStore {
+crates/atuin-client/src/history/capture.rs:7:pub struct CommandCapture {
+crates/atuin-client/src/settings/output.rs:39:pub struct CaptureLimits {
+crates/atuin-client/src/settings/output.rs:73:pub(crate) struct OutputCaptureConfig {
+crates/atuin-client/src/settings/scripts.rs:4:pub struct Settings {
+crates/atuin-client/src/settings/disk_usage_limit.rs:78:        struct DiskUsageLimitVisitor;
+crates/atuin-client/src/settings/meta.rs:4:pub struct Settings {
+crates/atuin-client/src/settings/watcher.rs:56:pub struct SettingsWatcher {
+crates/atuin-client/src/settings/dotfiles.rs:4:pub struct Settings {
+crates/atuin-client/src/settings/daemon.rs:15:pub struct Daemon {
+crates/atuin-client/src/settings/daemon.rs:196:struct DefaultSocketCtx;
+crates/atuin-client/src/settings/daemon.rs:276:    struct DefaultSocket {
+crates/atuin-client/src/settings/daemon.rs:316:    struct TestCtx<'a> {
+crates/atuin-client/src/settings/shells.rs:57:pub struct ShellFilter<'a>(ShellFilterInner<'a>);
+crates/atuin-client/src/settings/kv.rs:4:pub struct Settings {

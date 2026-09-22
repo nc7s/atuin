@@ -1,0 +1,5 @@
+16:pub struct StoredSession {
+17:    pub id: String,
+18:    pub head_id: Option<String>,
+19:    pub server_session_id: Option<String>,
+20:    pub directory: Option<String>,

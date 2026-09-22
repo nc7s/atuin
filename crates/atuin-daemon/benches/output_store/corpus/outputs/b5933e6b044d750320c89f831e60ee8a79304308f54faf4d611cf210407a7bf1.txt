@@ -1,0 +1,37 @@
+crates/atuin-common/src/rmp/decode.rs:247:        unsafe_code,
+crates/atuin-common/src/rmp/decode.rs:248:        reason = "Doing this without unsafe code is much less efficient. We would have to create \
+crates/atuin-common/src/rmp/decode.rs:256:    Ok(unsafe { array.assume_init() })
+crates/atuin-common/src/secrets.rs:427:    .expect("failed to build output-unsafe set")
+crates/atuin-common/src/secrets.rs:431:pub fn output_unsafe(command: &str) -> bool {
+crates/atuin-common/src/secrets.rs:534:        REDACTED, REGEXES, SECRET_GROUP, SECRET_PATTERNS, contains_secret, output_unsafe, redact,
+crates/atuin-common/src/secrets.rs:1255:        #[case] unsafe_: bool,
+crates/atuin-common/src/secrets.rs:1257:        assert_eq!(output_unsafe(command), unsafe_);
+crates/atuin-common/src/utils.rs:214:#[allow(unsafe_code)]
+crates/atuin-common/src/utils.rs:237:        unsafe { env::remove_var("HOME") };
+crates/atuin-common/src/utils.rs:239:        unsafe { env::set_var("XDG_CONFIG_HOME", "/home/user/custom_config") };
+crates/atuin-common/src/utils.rs:242:        unsafe { env::remove_var("XDG_CONFIG_HOME") };
+crates/atuin-common/src/utils.rs:249:        unsafe { env::set_var("HOME", "/home/user") };
+crates/atuin-common/src/utils.rs:251:        unsafe { env::set_var("XDG_CONFIG_HOME", "") };
+crates/atuin-common/src/utils.rs:254:        unsafe { env::remove_var("XDG_CONFIG_HOME") };
+crates/atuin-common/src/utils.rs:256:        unsafe { env::remove_var("HOME") };
+crates/atuin-common/src/lib.rs:1:#![deny(unsafe_code)]
+crates/atuin-common/src/string/bounded_buffer.rs:77:                unsafe_code,
+crates/atuin-common/src/string/bounded_buffer.rs:85:            let end = unsafe { String::from_utf8_unchecked(end) };
+crates/atuin-common/src/string/bounded_buffer.rs:100:                unsafe_code,
+crates/atuin-common/src/string/bounded_buffer.rs:110:            let start = unsafe { String::from_utf8_unchecked(start) };
+crates/atuin-common/src/db/sqlite/info.rs:130:        #[allow(unsafe_code, reason = "FFI call to read SQLITE_LIMIT_VARIABLE_NUMBER")]
+crates/atuin-common/src/db/sqlite/info.rs:131:        let limit = unsafe {
+crates/atuin-common/src/db/sqlite/info.rs:154:        #[allow(unsafe_code)]
+crates/atuin-common/src/db/sqlite/info.rs:155:        let db_filename = unsafe {
+crates/atuin-common/src/db/sqlite/info.rs:168:        #[allow(unsafe_code)]
+crates/atuin-common/src/db/sqlite/info.rs:169:        let wal_filename = unsafe { libsqlite3_sys::sqlite3_filename_wal(db_filename) };
+crates/atuin-common/src/db/sqlite/info.rs:177:        #[allow(unsafe_code)]
+crates/atuin-common/src/db/sqlite/info.rs:178:        let file_cstr = unsafe { CStr::from_ptr(wal_filename).to_bytes() };
+crates/atuin-common/src/os/windows/mod.rs:5:#![allow(unsafe_code, reason = "win32 API calls all require unsafe.")]
+crates/atuin-common/src/os/windows/mod.rs:16:    std::io::Error::from_raw_os_error(unsafe { GetLastError() } as i32)
+crates/atuin-common/src/os/windows/process.rs:1:#![allow(unsafe_code, reason = "win32 API calls all require unsafe.")]
+crates/atuin-common/src/os/windows/process.rs:23:        let inner = unsafe { OpenProcess(access, 0, pid) };
+crates/atuin-common/src/os/windows/process.rs:32:        fallible_do(|| unsafe { TerminateProcess(self.inner, 1) })
+crates/atuin-common/src/os/windows/process.rs:45:        fallible_do(|| unsafe { GenerateConsoleCtrlEvent(CTRL_BREAK_EVENT, self.pid) })
+crates/atuin-common/src/os/windows/process.rs:51:        let status = unsafe { WaitForSingleObject(self.inner, 0) };
+crates/atuin-common/src/os/windows/process.rs:85:        unsafe {

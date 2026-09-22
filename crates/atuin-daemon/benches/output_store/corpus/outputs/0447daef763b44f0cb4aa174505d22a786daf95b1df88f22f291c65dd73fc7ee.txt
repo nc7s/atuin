@@ -1,0 +1,60 @@
+9:fn check_normalize(mant: u64, exp: i32, shift: u32, r_mant: u64, r_exp: i32) {
+11:    assert_eq!(x.normalize(), shift);
+12:    assert_eq!(
+22:fn normalize_test() {
+86:fn check_round_to_f32(mant: u64, exp: i32, r_mant: u64, r_exp: i32) {
+89:    assert_eq!(
+99:fn round_to_f32_test() {
+127:fn check_round_to_f64(mant: u64, exp: i32, r_mant: u64, r_exp: i32) {
+130:    assert_eq!(
+140:fn round_to_f64_test() {
+187:fn assert_normalized_eq(mut x: ExtendedFloat, mut y: ExtendedFloat) {
+190:    assert_eq!(x, y);
+194:fn from_float() {
+200:        assert_normalized_eq(
+246:fn to_f32_test() {
+252:    assert_eq!(x.into_float::<f32>(), 0.0);
+259:    assert_eq!(x.into_float::<f32>(), 1e-45);
+266:    assert_eq!(x.into_float::<f32>(), 1e-40);
+273:    assert_eq!(x.into_float::<f32>(), 1e-20);
+280:    assert_eq!(x.into_float::<f32>(), 1.0);
+287:    assert_eq!(x.into_float::<f32>(), 1e20);
+294:    assert_eq!(x.into_float::<f32>(), 3.402823e38);
+301:    assert_eq!(x.into_float::<f32>(), 3.4028204e38);
+308:    assert_eq!(x.into_float::<f32>(), f32::INFINITY);
+315:    assert_eq!(x.into_float::<f32>(), f32::INFINITY);
+322:    assert_eq!(x.into_float::<f32>(), f32::INFINITY);
+327:        assert_eq!(fp.into_float::<f32>(), *int as f32, "{:?} as f32", *int);
+332:fn to_f64_test() {
+338:    assert_eq!(x.into_float::<f64>(), 0.0);
+345:    assert_eq!(x.into_float::<f64>(), 5e-324);
+352:    assert_eq!(x.into_float::<f64>(), 1e-250);
+359:    assert_eq!(x.into_float::<f64>(), 1e-150);
+366:    assert_eq!(x.into_float::<f64>(), 1e-45);
+373:    assert_eq!(x.into_float::<f64>(), 1e-40);
+380:    assert_eq!(x.into_float::<f64>(), 1e-20);
+387:    assert_eq!(x.into_float::<f64>(), 1.0);
+394:    assert_eq!(x.into_float::<f64>(), 1e20);
+401:    assert_eq!(x.into_float::<f64>(), 1e40);
+408:    assert_eq!(x.into_float::<f64>(), 1e150);
+415:    assert_eq!(x.into_float::<f64>(), 1e250);
+422:    assert_eq!(x.into_float::<f64>(), 1.7976931348623157e308);
+429:    assert_eq!(x.into_float::<f64>(), 1.7976931348623157e308);
+436:    assert_eq!(x.into_float::<f64>(), f64::INFINITY);
+443:    assert_eq!(x.into_float::<f64>(), f64::INFINITY);
+451:    assert_eq!(x.into_float::<f64>(), 0.0);
+457:    assert_eq!(x.into_float::<f64>(), 0.0);
+463:    assert_eq!(x.into_float::<f64>(), 5e-324);
+468:        assert_eq!(fp.into_float::<f64>(), *int as f64, "{:?} as f64", *int);
+474:fn check_mul(a: ExtendedFloat, b: ExtendedFloat, c: ExtendedFloat) {
+476:    assert_eq!(r, c);
+480:fn mul_test() {
+502:    assert_eq!(a.mul(&b).into_float::<f64>(), 100.0);
+513:    assert_eq!(a.mul(&b).into_float::<f64>(), 4.0);
+524:    assert_eq!(a.mul(&b).into_float::<f64>(), 100.0);
+527:fn check_imul(mut a: ExtendedFloat, b: ExtendedFloat, c: ExtendedFloat) {
+529:    assert_eq!(a, c);
+533:fn imul_test() {
+556:    assert_eq!(a.into_float::<f64>(), 100.0);
+568:    assert_eq!(a.into_float::<f64>(), 4.0);
+580:    assert_eq!(a.into_float::<f64>(), 100.0);

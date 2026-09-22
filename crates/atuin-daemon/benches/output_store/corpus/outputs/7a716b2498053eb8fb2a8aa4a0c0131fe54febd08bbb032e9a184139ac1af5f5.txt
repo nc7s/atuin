@@ -1,0 +1,20 @@
+use crate::sync::Mutex;
+use crate::tree_store::btree_cursor::RangeMut;
+use crate::tree_store::{BtreeHeader, PageAllocator, PageNumber, PageTracker};
+use crate::types::{Key, Value};
+use crate::{AccessGuard, Result, StorageError};
+use alloc::sync::Arc;
+use alloc::vec::Vec;
+use core::ops::Bound;
+
+type ExtractItem<'a, K, V> = (AccessGuard<'a, K>, AccessGuard<'a, V>);
+type AdvanceInner<T, R> = fn(&mut T) -> Result<Option<R>>;
+
+#[derive(Copy, Clone, Eq, PartialEq)]
+enum ExtractState {
+    Running,
+    // Exhausted or explicitly closed: iteration returns None.
+    Closed,
+    // An iteration error was returned: later calls re-raise instead of
+    // continuing, since the failure is not recoverable.
+    Errored,

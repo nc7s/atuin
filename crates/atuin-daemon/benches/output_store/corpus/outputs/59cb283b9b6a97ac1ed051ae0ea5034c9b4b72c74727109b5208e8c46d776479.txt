@@ -1,0 +1,170 @@
+src/transaction_tracker.rs:2:use crate::StorageError;
+src/transaction_tracker.rs:212:            if matches!(failure, StorageError::DatabaseClosed) {
+src/multimap_table.rs:21:use crate::{AccessGuard, MultimapTableHandle, Result, StorageError, WriteTransaction};
+src/multimap_table.rs:562:            return Err(StorageError::ValueTooLarge(value_bytes_ref.len()));
+src/multimap_table.rs:566:            return Err(StorageError::ValueTooLarge(key_len));
+src/multimap_table.rs:569:            return Err(StorageError::ValueTooLarge(value_bytes_ref.len() + key_len));
+src/sync.rs:6:    Condvar, Mutex, MutexGuard, PoisonError, RwLock, RwLockReadGuard, RwLockWriteGuard,
+src/sync.rs:11:    Condvar, Mutex, MutexGuard, PoisonError, RwLock, RwLockReadGuard, RwLockWriteGuard,
+src/sync.rs:41:    /// Mirrors [`std::sync::PoisonError`]. These locks never poison, so this is never returned.
+src/sync.rs:42:    pub(crate) struct PoisonError<T> {
+src/sync.rs:46:    impl<T> PoisonError<T> {
+src/sync.rs:53:    impl<T> Debug for PoisonError<T> {
+src/sync.rs:55:            f.write_str("PoisonError { .. }")
+src/sync.rs:59:    pub(crate) type LockResult<G> = Result<G, PoisonError<G>>;
+src/lib.rs:36://! use redb::{Database, Error, ReadableDatabase, ReadableTable, TableDefinition};
+src/lib.rs:40://! fn main() -> Result<(), Error> {
+src/lib.rs:83:    BackendError, CommitError, CompactionError, DatabaseError, Error, SavepointError,
+src/lib.rs:84:    SetDurabilityError, StorageError, TableError, TransactionError,
+src/lib.rs:106:pub type Result<T = (), E = StorageError> = core::result::Result<T, E>;
+src/transactions.rs:4:use crate::error::CommitError;
+src/transactions.rs:26:    Savepoint, SavepointError, SetDurabilityError, StorageError, Table, TableDefinition,
+src/transactions.rs:27:    TableError, TableHandle, TransactionError, TypeName, UntypedMultimapTableHandle,
+src/transactions.rs:472:            return Err(StorageError::ValueTooLarge(value_len));
+src/transactions.rs:476:            return Err(StorageError::ValueTooLarge(key_len));
+src/transactions.rs:479:            return Err(StorageError::ValueTooLarge(value_len + key_len));
+src/transactions.rs:502:            return Err(StorageError::ValueTooLarge(value_length));
+src/transactions.rs:506:            return Err(StorageError::ValueTooLarge(key_len));
+src/table.rs:18:use crate::{AccessGuard, AccessGuardMut, StorageError, WriteTransaction};
+src/table.rs:172:    /// [`crate::CommitError::TransactionPoisoned`].
+src/table.rs:192:    /// [`crate::CommitError::TransactionPoisoned`].
+src/table.rs:215:    /// [`crate::CommitError::TransactionPoisoned`].
+src/table.rs:254:    /// [`crate::CommitError::TransactionPoisoned`].
+src/table.rs:268:    /// [`crate::CommitError::TransactionPoisoned`].
+src/table.rs:285:    /// [`crate::CommitError::TransactionPoisoned`].
+src/table.rs:330:            return Err(StorageError::ValueTooLarge(value_len));
+src/io.rs:3://! On builds with std this is a re-export of [`std::io::Error`], so a backend written against this
+src/io.rs:7:pub use std::io::Error;
+src/io.rs:10:pub use no_std::Error;
+src/io.rs:12:// The kinds redb attaches to the errors it raises itself. std's `ErrorKind` carries them where it
+src/io.rs:16:pub(crate) fn invalid_data(message: &str) -> Error {
+src/io.rs:19:        Error::new(std::io::ErrorKind::InvalidData, message)
+src/io.rs:23:        Error::other(message)
+src/io.rs:27:pub(crate) fn invalid_input(message: &str) -> Error {
+src/db.rs:1:use crate::BackendError;
+src/db.rs:18:    CompactionError, DatabaseError, ReadOnlyTable, ReadableTable, StorageError, TableError,
+src/db.rs:35:use crate::error::TransactionError;
+src/db.rs:50:/// I/O failures are reported as [`io::Error`], which is [`std::io::Error`] whenever std is
+src/db.rs:51:/// available. Locking operations use [`BackendError`] to distinguish unsupported operations.
+src/db.rs:62:/// underlying locking API cannot represent with [`BackendError::Io`].
+src/db.rs:70:///    supported. Other ranges return [`BackendError::Unsupported`]. Only the `ExclusiveWriter`
+src/db.rs:72:/// 3) All inputs return [`BackendError::Unsupported`]. Only the `ExclusiveWriter` concurrency
+src/error.rs:2:use crate::sync::PoisonError;
+src/error.rs:11:/// Errors reported by a [`crate::StorageBackend`] locking operation.
+src/error.rs:14:pub enum BackendError {
+src/error.rs:16:    Io(io::Error),
+src/error.rs:21:impl From<io::Error> for BackendError {
+src/error.rs:23:    fn from(err: io::Error) -> Self {
+src/error.rs:25:        if err.kind() == std::io::ErrorKind::Unsupported {
+src/error.rs:32:impl From<BackendError> for io::Error {
+src/tree_store/table_tree_base.rs:7:use crate::{Key, Result, TableError, TypeName, Value};
+src/tree_store/table_tree_base.rs:129:    ) -> Result<(), TableError> {
+src/tree_store/table_tree_base.rs:132:                Err(TableError::TableIsMultimap(name.to_string()))
+src/tree_store/table_tree_base.rs:134:                Err(TableError::TableIsNotMultimap(name.to_string()))
+src/tree_store/table_tree_base.rs:138:            return Err(TableError::TypeDefinitionChanged {
+src/tree_store/table_tree_base.rs:145:            return Err(TableError::TypeDefinitionChanged {
+src/tree_store/table_tree_base.rs:159:    ) -> Result<(), TableError> {
+src/tree_store/table_tree_base.rs:172:            return Err(TableError::TableTypeMismatch {
+src/tree_store/btree_base.rs:6:use crate::{Result, StorageError};
+src/tree_store/btree_base.rs:58:) -> Result<Checksum, StorageError> {
+src/tree_store/btree_base.rs:61:        StorageError::Corrupted(format!(
+src/tree_store/btree_base.rs:67:        StorageError::Corrupted(format!(
+src/tree_store/btree_base.rs:74:        Err(StorageError::Corrupted(format!(
+src/tree_store/btree_base.rs:88:) -> Result<Checksum, StorageError> {
+src/tree_store/btree_base.rs:91:        StorageError::Corrupted(format!(
+src/tree_store/btree_base.rs:97:        StorageError::Corrupted(format!(
+src/tree_store/btree.rs:20:use crate::{AccessGuard, Result, StorageError};
+src/tree_store/btree.rs:121:            return Err(crate::StorageError::Corrupted(
+src/tree_store/btree.rs:137:                        return Err(crate::StorageError::Corrupted(
+src/tree_store/btree.rs:1116:        Err(StorageError::Corrupted(
+src/tree_store/btree.rs:1140:            return Err(StorageError::Corrupted(
+src/tree_store/btree.rs:1179:            return Err(StorageError::Corrupted(
+src/tree_store/table_tree.rs:2:use crate::error::TableError;
+src/tree_store/table_tree.rs:173:    ) -> Result<Option<InternalTableDefinition>, TableError> {
+src/tree_store/table_tree.rs:188:    ) -> Result<Option<InternalTableDefinition>, TableError> {
+src/tree_store/table_tree.rs:518:    ) -> Result<Option<InternalTableDefinition>, TableError> {
+src/tree_store/table_tree.rs:541:    ) -> Result<Option<InternalTableDefinition>, TableError> {
+src/tree_store/table_tree.rs:564:    ) -> Result<(), TableError> {
+src/tree_store/table_tree.rs:579:                return Err(TableError::TableExists(new_name.to_string()));
+src/tree_store/table_tree.rs:591:            return Err(TableError::TableDoesNotExist(name.to_string()));
+src/tree_store/extract_if.rs:5:use crate::{AccessGuard, Result, StorageError};
+src/tree_store/extract_if.rs:20:    Errored,
+src/tree_store/extract_if.rs:74:            return if self.close_failed || self.state == ExtractState::Errored {
+src/tree_store/extract_if.rs:75:                Err(StorageError::PreviousIo)
+src/tree_store/extract_if.rs:90:    // committed. Errors surfaced by the iterator can lose removals too, so
+src/tree_store/extract_if.rs:104:        self.state = ExtractState::Errored;
+src/tree_store/extract_if.rs:166:            ExtractState::Errored => return Some(Err(StorageError::PreviousIo)),
+src/tree_store/page_store/backends.rs:2:use crate::BackendError;
+src/tree_store/page_store/backends.rs:6:use crate::io::Error;
+src/tree_store/page_store/backends.rs:30:    fn try_lock_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<bool, BackendError> {
+src/tree_store/page_store/backends.rs:38:    ) -> Result<bool, BackendError> {
+src/tree_store/page_store/backends.rs:42:    fn lock_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<(), BackendError> {
+src/tree_store/page_store/backends.rs:46:    fn lock_shared_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<(), BackendError> {
+src/tree_store/page_store/backends.rs:50:    fn unlock_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<(), BackendError> {
+src/tree_store/page_store/backends.rs:54:    fn query_lock_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<bool, BackendError> {
+src/tree_store/btree_cursor_range.rs:6:use crate::{Result, StorageError};
+src/tree_store/btree_cursor_range.rs:210:            return Some(Err(StorageError::PreviousIo));
+src/tree_store/page_store/cached_file.rs:7:use crate::{CacheStats, Result, StorageError};
+src/tree_store/page_store/cached_file.rs:155:            .map_err(StorageError::from)
+src/tree_store/page_store/cached_file.rs:162:            .map_err(StorageError::from)
+src/tree_store/page_store/cached_file.rs:170:            .map_err(StorageError::from)
+src/tree_store/page_store/cached_file.rs:178:            .map_err(StorageError::from)
+src/tree_store/page_store/cached_file.rs:184:            return Err(StorageError::DatabaseClosed);
+src/tree_store/page_store/cached_file.rs:188:            .map_err(StorageError::from)
+src/tree_store/page_store/cached_file.rs:195:            .map_err(StorageError::from)
+src/tree_store/page_store/savepoint.rs:7:use crate::{Result, StorageError, TypeName, Value};
+src/tree_store/page_store/savepoint.rs:144:                StorageError::Corrupted("Unregistered persistent savepoint".to_string())
+src/tree_store/page_store/savepoint.rs:168:            return Err(StorageError::Corrupted(
+src/tree_store/page_store/savepoint.rs:175:            return Err(StorageError::Corrupted(format!(
+src/tree_store/page_store/savepoint.rs:197:            return Err(StorageError::Corrupted(
+src/tree_store/page_store/savepoint.rs:283:            Err(StorageError::Corrupted(_))
+src/tree_store/page_store/savepoint.rs:290:            Err(StorageError::Corrupted(_))
+src/tree_store/page_store/savepoint.rs:297:            Err(StorageError::Corrupted(_))
+src/tree_store/page_store/header.rs:8:use crate::{DatabaseError, Result, StorageError};
+src/tree_store/page_store/header.rs:112:    pub(super) fn from_bytes(data: &[u8], expected_page_size: u32) -> Result<Self, DatabaseError> {
+src/tree_store/page_store/header.rs:114:            return Err(StorageError::Corrupted("Invalid magic number".to_string()).into());
+src/tree_store/page_store/header.rs:131:            return Err(StorageError::Corrupted(format!(
+src/tree_store/page_store/header.rs:139:            return Err(StorageError::Corrupted(format!(
+src/tree_store/page_store/header.rs:146:            return Err(StorageError::Corrupted(format!(
+src/tree_store/page_store/header.rs:157:                return Err(StorageError::Corrupted(format!(
+src/tree_store/page_store/header.rs:167:                return Err(StorageError::Corrupted(format!(
+src/tree_store/btree_cursor.rs:12:use crate::{Result, StorageError};
+src/tree_store/btree_cursor.rs:171:            return Err(StorageError::Corrupted(
+src/tree_store/btree_cursor.rs:512:            return Err(StorageError::PreviousIo);
+src/tree_store/btree_cursor.rs:1229:            return Err(StorageError::PreviousIo);
+src/tree_store/btree_cursor.rs:2129:            return Err(StorageError::PreviousIo);
+src/tree_store/btree_cursor.rs:3013:        assert!(matches!(cursor.peek_next(), Err(StorageError::PreviousIo)));
+src/tree_store/btree_cursor.rs:3016:            Err(StorageError::PreviousIo)
+src/tree_store/btree_cursor.rs:3020:            Err(StorageError::PreviousIo)
+src/tree_store/page_store/page_manager.rs:25:use crate::{DatabaseError, Result, StorageBackend, StorageError};
+src/tree_store/page_store/page_manager.rs:705:    ) -> Result<(), DatabaseError> {
+src/tree_store/page_store/page_manager.rs:716:    fn lock_whole_storage(storage: &PagedCachedFile, read_only: bool) -> Result<(), DatabaseError> {
+src/tree_store/page_store/page_manager.rs:739:                Ok(false) => return Err(DatabaseError::DatabaseAlreadyOpen),
+src/tree_store/page_store/page_manager.rs:740:                Err(StorageError::Unsupported) => {
+src/tree_store/page_store/page_manager.rs:748:                        Ok(false) => Err(DatabaseError::DatabaseAlreadyOpen),
+src/tree_store/page_store/page_manager.rs:749:                        Err(StorageError::Unsupported) => {
+src/tree_store/page_store/page_manager.rs:766:            return Err(DatabaseError::DatabaseAlreadyOpen);
+src/tree_store/page_store/file_backend/range_lock.rs:49:fn unsupported() -> io::Error {
+src/tree_store/page_store/file_backend/range_lock.rs:50:    io::Error::new(
+src/tree_store/page_store/file_backend/range_lock.rs:51:        io::ErrorKind::Unsupported,
+src/tree_store/page_store/file_backend/range_lock.rs:62:        io::Error::new(
+src/tree_store/page_store/file_backend/range_lock.rs:63:            io::ErrorKind::InvalidInput,
+src/tree_store/page_store/file_backend/range_lock.rs:192:        let err = io::Error::last_os_error();
+src/tree_store/page_store/file_backend/range_lock.rs:215:                return Err(io::Error::last_os_error());
+src/tree_store/page_store/file_backend/range_lock.rs:236:                let err = io::Error::last_os_error();
+src/tree_store/page_store/file_backend/fallback.rs:1:use crate::BackendError;
+src/tree_store/page_store/file_backend/fallback.rs:3:use crate::{DatabaseError, Result, StorageBackend};
+src/tree_store/page_store/file_backend/fallback.rs:4:use std::fs::{File, TryLockError};
+src/tree_store/page_store/file_backend/fallback.rs:20:    pub fn new(file: File) -> Result<Self, DatabaseError> {
+src/tree_store/page_store/file_backend/fallback.rs:27:    fn lock_whole_file(&self, shared: bool) -> Result<bool, io::Error> {
+src/tree_store/page_store/file_backend/fallback.rs:40:            Err(TryLockError::WouldBlock) => Ok(false),
+src/tree_store/page_store/file_backend/fallback.rs:41:            Err(TryLockError::Error(err)) => Err(err),
+src/tree_store/page_store/file_backend/fallback.rs:49:    fn try_lock_range(&self, start: Bound<u64>, end: Bound<u64>) -> Result<bool, BackendError> {
+src/tree_store/page_store/file_backend/optimized.rs:1:use crate::BackendError;
+src/tree_store/page_store/file_backend/optimized.rs:8:use crate::{DatabaseError, Result, StorageBackend};
+src/tree_store/page_store/file_backend/optimized.rs:10:use std::fs::{File, TryLockError};
+src/tree_store/page_store/file_backend/optimized.rs:60:        return Err(io::Error::new(
+src/tree_store/page_store/file_backend/optimized.rs:61:            io::ErrorKind::InvalidInput,
+src/tree_store/page_store/file_backend/optimized.rs:79:    pub fn new(file: File) -> Result<Self, DatabaseError> {
+src/tree_store/page_store/file_backend/optimized.rs:125:            Err(err) if err.kind() == io::ErrorKind::Unsupported && is_whole_storage(range) => {
+src/tree_store/page_store/file_backend/optimized.rs:204:            Err(err) if err.kind() == io::ErrorKind::Unsupported && is_whole_storage(range) => {

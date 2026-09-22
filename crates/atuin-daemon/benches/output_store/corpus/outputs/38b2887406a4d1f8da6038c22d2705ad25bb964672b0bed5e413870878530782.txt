@@ -1,0 +1,24 @@
+redb v4.3.0 (/workspace/redb)
+└── libc v0.2.186
+[dev-dependencies]
+├── rand v0.10.2
+│   ├── chacha20 v0.10.1
+│   │   ├── cfg-if v1.0.4
+│   │   ├── cpufeatures v0.3.0
+│   │   └── rand_core v0.10.1
+│   ├── getrandom v0.4.3
+│   │   ├── cfg-if v1.0.4
+│   │   ├── libc v0.2.186
+│   │   └── rand_core v0.10.1
+│   └── rand_core v0.10.1
+├── redb v2.6.0
+│   └── libc v0.2.186
+├── tempfile v3.27.0
+│   ├── fastrand v2.4.1
+│   ├── getrandom v0.4.3 (*)
+│   ├── once_cell v1.21.4
+│   └── rustix v1.1.4
+│       ├── bitflags v2.13.1
+│       └── linux-raw-sys v0.12.1
+└── uuid v1.24.0
+    └── getrandom v0.4.3 (*)

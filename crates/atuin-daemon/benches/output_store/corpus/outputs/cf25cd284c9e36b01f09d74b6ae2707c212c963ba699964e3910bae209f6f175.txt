@@ -1,0 +1,80 @@
+16:use atuin_domain::record::{CmdOrigin, CmdOriginParseError};
+17:pub use codegen::*;
+19:pub use tail_history_reply::Event as TailHistoryEvent;
+20:use thiserror::Error;
+25:use crate::grpc::common::{CollectCappedError, TryCollectResultsCappedExt};
+27:    CmdCancelError, CmdDeleteError, CmdEvent, CmdFinishError, CmdRebuildError, GetCmdInFlightError,
+28:    RegisterOutputError,
+30:use crate::output_capture::{CaptureError, GetOutputError};
+32:impl From<DomainHistoryId> for HistoryId {
+33:    fn from(value: DomainHistoryId) -> Self {
+42:/// Errors thrown parsing the [`HistoryId`].
+43:#[derive(Debug, Error)]
+44:pub enum IdParseError {
+51:impl TryFrom<HistoryId> for DomainHistoryId {
+52:    type Error = IdParseError;
+54:    fn try_from(value: HistoryId) -> Result<Self, Self::Error> {
+55:        let uuid = value.uuid.ok_or(IdParseError::MissingUuid)?;
+57:        let bytes: [u8; 16] = uuid.value.try_into().map_err(|_| IdParseError::BadLength(len))?;
+62:impl From<Option<atuin_client::history::AuthorKind>> for AuthorKind {
+63:    fn from(kind: Option<atuin_client::history::AuthorKind>) -> Self {
+72:impl From<AuthorKind> for Option<atuin_client::history::AuthorKind> {
+73:    fn from(kind: AuthorKind) -> Self {
+82:impl From<History> for HistoryEntry {
+83:    fn from(history: History) -> Self {
+101:/// Errors thrown parsing the [`StartHistoryRequest`].
+102:#[derive(Debug, Error)]
+103:pub enum StartHistoryRequestParseError {
+105:    BadCmdOrigin(#[from] CmdOriginParseError),
+108:impl TryFrom<StartHistoryRequest> for History {
+109:    type Error = StartHistoryRequestParseError;
+111:    fn try_from(req: StartHistoryRequest) -> Result<Self, Self::Error> {
+129:/// Errors thrown parsing the [`EndHistoryRequest`].
+130:#[derive(Debug, Error)]
+131:pub enum EndHistoryRequestParseError {
+135:    InvalidId(#[from] IdParseError),
+137:    InvalidDuration(#[from] prost_types::DurationError),
+145:pub struct EndHistoryRequestView {
+147:    pub history_id: DomainHistoryId,
+149:    pub exit_code: i64,
+152:    pub duration: Option<Duration>,
+155:impl EndHistoryRequest {
+156:    pub fn view(&self) -> Result<EndHistoryRequestView, EndHistoryRequestParseError> {
+161:                .ok_or(EndHistoryRequestParseError::MissingHistory)?
+169:/// Errors thrown parsing the [`CancelHistoryRequest`].
+170:#[derive(Debug, Error)]
+171:pub enum CancelHistoryRequestParseError {
+175:    InvalidId(#[from] IdParseError),
+178:impl TryFrom<CancelHistoryRequest> for DomainHistoryId {
+179:    type Error = CancelHistoryRequestParseError;
+181:    fn try_from(value: CancelHistoryRequest) -> Result<Self, Self::Error> {
+182:        Ok(value.id.ok_or(CancelHistoryRequestParseError::MissingHistory)?.try_into()?)
+186:impl IntoIterator for DeleteHistoryRequest {
+187:    type Item = Result<DomainHistoryId, IdParseError>;
+190:    fn into_iter(self) -> Self::IntoIter {
+195:pub trait DeleteHistoryStreamExt {
+196:    fn collect_history_ids(
+198:    ) -> impl Future<Output = Result<Vec<DomainHistoryId>, CollectCappedError<IdParseError>>> + Send;
+201:impl DeleteHistoryStreamExt for tonic::Streaming<DeleteHistoryRequest> {
+202:    fn collect_history_ids(
+204:    ) -> impl Future<Output = Result<Vec<DomainHistoryId>, CollectCappedError<IdParseError>>> + Send
+212:impl From<CmdEvent> for TailHistoryEvent {
+213:    fn from(event: CmdEvent) -> Self {
+222:impl From<CmdFinishError> for Status {
+223:    fn from(value: CmdFinishError) -> Self {
+225:            CmdFinishError::NotFound(_) => Self::not_found(value.to_string()),
+226:            CmdFinishError::HistoryStoreFailed(_) => Self::internal(value.to_string()),
+227:            CmdFinishError::HistoryDbFailed(_) => Self::internal(value.to_string()),
+232:impl From<CmdCancelError> for Status {
+233:    fn from(value: CmdCancelError) -> Self {
+235:            CmdCancelError::NotFound(_) => Self::not_found(value.to_string()),
+240:impl From<CmdDeleteError> for Status {
+241:    fn from(value: CmdDeleteError) -> Self {
+243:            CmdDeleteError::HistoryStoreFailed(_) | CmdDeleteError::HistoryDbFailed(_) => {
+250:impl From<CmdRebuildError> for Status {
+251:    fn from(value: CmdRebuildError) -> Self {
+253:            CmdRebuildError::HistoryStoreFailed(_) => Self::internal(value.to_string()),
+258:impl From<GetCmdInFlightError> for Status {
+259:    fn from(value: GetCmdInFlightError) -> Self {
+261:            GetCmdInFlightError::NotFound(_) => Self::not_found(value.to_string()),
+266:impl From<CaptureError> for Status {

@@ -1,0 +1,60 @@
+//! Deterministic synthetic shell-history generator.
+//!
+//! Produces command lines with a realistic shape: a heavily-duplicated head of
+//! common commands, a body of templated commands with varying arguments, and a
+//! small long tail of pipelines, one-liners, and rare very long commands.
+//! Shaped after a real 168k-line history (~30% unique commands, short
+//! commands dominating, mean ~36 bytes — the synthetic mean lands somewhat
+//! below that, which affects absolute per-line cost but not engine
+//! comparisons). Same seed → same corpus, so results are comparable across
+//! runs and machines.
+
+use easy_cast::Conv;
+
+#[must_use]
+pub fn generate(n: usize, seed: u64) -> Vec<String> {
+    let mut rng = Rng::new(seed);
+    (0..n).map(|_| gen_one(&mut rng)).collect()
+}
+
+// xorshift64* — no external deps, deterministic across platforms
+struct Rng(u64);
+
+impl Rng {
+    fn new(seed: u64) -> Self {
+        Self(seed.max(1))
+    }
+
+    fn next(&mut self) -> u64 {
+        let mut x = self.0;
+        x ^= x >> 12;
+        x ^= x << 25;
+        x ^= x >> 27;
+        self.0 = x;
+        x.wrapping_mul(0x2545_F491_4F6C_DD1D)
+    }
+
+    fn below(&mut self, n: usize) -> usize {
+        usize::conv(self.next() % u64::conv(n))
+    }
+
+    fn pick(&mut self, xs: &[&'static str]) -> &'static str {
+        xs[self.below(xs.len())]
+    }
+
+    // min of two uniform draws biases toward the front of the list,
+    // approximating the zipf-like frequency of real command usage
+    fn pick_common(&mut self, xs: &[&'static str]) -> &'static str {
+        let i = self.below(xs.len()).min(self.below(xs.len()));
+        xs[i]
+    }
+
+    // high-cardinality argument, so templated commands mostly stay unique
+    // (matching the ~30% unique commands of real history after the
+    // heavily-repeated head)
+    fn arg(&mut self) -> u64 {
+        self.next() % 100_000
+    }
+}
+
+const COMMON: &[&str] = &[

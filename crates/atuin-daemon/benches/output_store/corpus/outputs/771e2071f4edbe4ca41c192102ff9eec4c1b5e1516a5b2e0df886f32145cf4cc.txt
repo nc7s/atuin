@@ -1,0 +1,5 @@
+36://! use redb::{Database, Error, ReadableDatabase, ReadableTable, TableDefinition};
+40://! fn main() -> Result<(), Error> {
+55://!     assert_eq!(table.get_owned("my_key")?.unwrap().value(), 123);
+74:pub use db::ConcurrencyMode;
+76:pub use db::ReadOnlyDatabase;

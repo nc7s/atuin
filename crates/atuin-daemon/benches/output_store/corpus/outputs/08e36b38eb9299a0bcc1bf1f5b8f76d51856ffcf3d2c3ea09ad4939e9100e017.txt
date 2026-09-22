@@ -1,0 +1,3 @@
+4:fn test() {
+6:    assert!(x1.is_err());
+8:    assert!(x2.is_err());

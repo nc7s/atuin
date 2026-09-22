@@ -1,0 +1,5 @@
+f98361cf chore(release): prepare for release 18.22.0 (#4095)
+09763aa5 fix: build error (#4094)
+4dbd306d feat: add [output_capture] settings (#4069)
+05467258 feat: rework inspector and add output view (#4090)
+d82701db chore: link to upstream rustix issue in atuin-pty-proxy (#4093)

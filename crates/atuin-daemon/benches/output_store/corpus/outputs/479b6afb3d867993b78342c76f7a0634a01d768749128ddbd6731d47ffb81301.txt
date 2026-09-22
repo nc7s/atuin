@@ -1,0 +1,20 @@
+// Adapted from https://github.com/Alexhuszagh/rust-lexical.
+
+use crate::lexical::float::ExtendedFloat;
+use crate::lexical::rounding::round_nearest_tie_even;
+use std::{f32, f64};
+
+// NORMALIZE
+
+fn check_normalize(mant: u64, exp: i32, shift: u32, r_mant: u64, r_exp: i32) {
+    let mut x = ExtendedFloat { mant, exp };
+    assert_eq!(x.normalize(), shift);
+    assert_eq!(
+        x,
+        ExtendedFloat {
+            mant: r_mant,
+            exp: r_exp
+        }
+    );
+}
+

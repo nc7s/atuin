@@ -1,0 +1,5 @@
+src/frame/header.rs:132:    pub content_size: Option<u64>,
+src/frame/header.rs:137:    pub(crate) dict_id: Option<u32>,
+src/frame/header.rs:158:    pub fn content_size(mut self, content_size: Option<u64>) -> Self {
+src/frame/decompress.rs:54:    current_frame_info: Option<FrameInfo>,
+src/frame/compress.rs:419:    encoder: Option<FrameEncoder<W>>,

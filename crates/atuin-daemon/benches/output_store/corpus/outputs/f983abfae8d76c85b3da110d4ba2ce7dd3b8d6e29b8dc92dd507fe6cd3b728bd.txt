@@ -1,0 +1,130 @@
+src/types.rs:49:pub struct TypeName {
+src/types.rs:1103:    struct WideMinimum;
+src/types.rs:1279:    struct FakeU32;
+src/multimap_table.rs:35:pub(crate) struct LeafKeyIter<'a, V: Key + 'static> {
+src/multimap_table.rs:120:pub struct MultimapValue<'a, V: Key + 'static> {
+src/multimap_table.rs:333:pub struct MultimapRange<'a, K: Key + 'static, V: Key + 'static> {
+src/multimap_table.rs:407:pub struct OwnedMultimapValue<V: Key + 'static> {
+src/multimap_table.rs:454:pub struct OwnedMultimapRange<K: Key + 'static, V: Key + 'static> {
+src/multimap_table.rs:499:pub struct MultimapTable<'txn, K: Key + 'static, V: Key + 'static> {
+src/multimap_table.rs:1105:pub struct ReadOnlyUntypedMultimapTable {
+src/multimap_table.rs:1180:pub struct ReadOnlyMultimapTable<K: Key + 'static, V: Key + 'static> {
+src/tuple_types.rs:71:struct ElementType {
+src/tuple_types.rs:766:    struct WideMinimum;
+src/io.rs:67:    pub struct Error {
+src/db.rs:222:pub struct UntypedTableHandle {
+src/db.rs:246:pub struct UntypedMultimapTableHandle {
+src/db.rs:270:pub struct TableDefinition<'a, K: Key + 'static, V: Value + 'static> {
+src/db.rs:277:    /// Construct a new table with given `name`
+src/db.rs:330:pub struct MultimapTableDefinition<'a, K: Key + 'static, V: Key + 'static> {
+src/db.rs:337:    /// Construct a new multimap table with given `name`
+src/db.rs:386:pub struct CacheStats {
+src/db.rs:431:pub(crate) struct WriteSlot {
+src/transaction_tracker.rs:23:pub(crate) struct TransactionId(u64);
+src/transaction_tracker.rs:46:pub(crate) struct SavepointId(pub u64);
+src/transaction_tracker.rs:50:pub(crate) struct LocalSavepointId(u64);
+src/transaction_tracker.rs:52:struct SavepointRegistration {
+src/transaction_tracker.rs:113:struct State {
+src/transaction_tracker.rs:266:pub(crate) struct TransactionTracker {
+src/table.rs:33:pub struct TableStats {
+src/table.rs:76:pub struct Table<'txn, K: Key + 'static, V: Value + 'static> {
+src/table.rs:88:struct RetainPanicGuard<'txn> {
+src/table.rs:809:pub struct ReadOnlyUntypedTable {
+src/table.rs:867:pub struct ReadOnlyTable<K: Key + 'static, V: Value + 'static> {
+src/table.rs:1043:pub struct ExtractIf<
+src/table.rs:1129:pub struct Range<'a, K: Key + 'static, V: Value + 'static> {
+src/table.rs:1179:pub struct OwnedAccessGuard<V: Value + 'static> {
+src/tree_store/table_tree.rs:29:pub(crate) struct PageListMut {
+src/tree_store/table_tree.rs:48:pub struct TableNameIter {
+src/tree_store/table_tree.rs:73:pub(crate) struct TableTree {
+src/tree_store/table_tree.rs:228:pub(crate) struct TableTreeMut {
+src/sync.rs:42:    pub(crate) struct PoisonError<T> {
+src/sync.rs:63:    pub(crate) struct WouldBlock;
+src/sync.rs:67:    pub(crate) struct Mutex<T: ?Sized> {
+src/sync.rs:130:    pub(crate) struct MutexGuard<'a, T: ?Sized> {
+src/sync.rs:175:    pub(crate) struct RwLock<T: ?Sized> {
+src/sync.rs:244:    pub(crate) struct RwLockReadGuard<'a, T: ?Sized> {
+src/sync.rs:263:    pub(crate) struct RwLockWriteGuard<'a, T: ?Sized> {
+src/sync.rs:291:    pub(crate) struct Condvar {
+src/tree_store/btree_iters.rs:15:pub(crate) struct EntryGuard<K: Key, V: Value> {
+src/tree_store/btree_iters.rs:55:pub(crate) struct AllPageNumbersBtreeIter {
+src/tree_store/btree_base.rs:116:pub(crate) struct BtreeHeader {
+src/tree_store/btree_base.rs:200:pub struct AccessGuard<'a, V: Value + 'static> {
+src/tree_store/btree_base.rs:300:pub struct AccessGuardMut<'a, V: Value + 'static> {
+src/tree_store/btree_base.rs:433:pub struct AccessGuardMutInPlace<'a, V: Value + 'static> {
+src/tree_store/btree_base.rs:465:pub struct EntryAccessor<'a> {
+src/tree_store/btree_base.rs:487:pub(crate) struct LeafAccessor<'a> {
+src/tree_store/btree_base.rs:684:pub(super) struct LeafBuilder<'a, 'b> {
+src/tree_store/btree_base.rs:700:pub(super) struct OwnedEntryBuffer {
+src/tree_store/btree.rs:33:pub(crate) struct BtreeStats {
+src/tree_store/btree.rs:43:pub(crate) struct PagePath {
+src/tree_store/btree.rs:79:pub(super) struct UntypedBtree {
+src/tree_store/btree.rs:152:pub(super) struct UntypedBtreeMut {
+src/tree_store/btree.rs:361:pub(crate) struct BtreeMut<K: Key + 'static, V: Value + 'static> {
+src/tree_store/btree.rs:905:pub(crate) struct RawBtree {
+src/tree_store/btree.rs:1008:pub(crate) struct Btree<K: Key + 'static, V: Value + 'static> {
+src/tree_store/btree.rs:1484:        // Construct the UntypedBtree and RawBtree
+src/tree_store/extract_if.rs:23:pub(crate) struct BtreeExtractIf<
+src/tree_store/btree_cursor.rs:26:struct Branch {
+src/tree_store/btree_cursor.rs:276:struct Leaf {
+src/tree_store/btree_cursor.rs:291:struct LeafRunRewrite {
+src/tree_store/btree_cursor.rs:379:struct InsertRun {
+src/tree_store/btree_cursor.rs:440:pub(super) struct EntryRef<'a, K: Key + 'static, V: Value + 'static> {
+src/tree_store/btree_cursor.rs:474:pub(super) struct Cursor<K: Key + 'static, V: Value + 'static> {
+src/tree_store/btree_cursor.rs:661:struct CursorPosition {
+src/tree_store/btree_cursor.rs:671:pub(super) struct CursorState {
+src/tree_store/btree_cursor_range.rs:48:pub(crate) struct BtreeCursorRange<K: Key + 'static, V: Value + 'static> {
+src/transactions.rs:79:pub(crate) struct PageList<'a> {
+src/transactions.rs:150:pub(crate) struct TransactionIdWithPagination {
+src/transactions.rs:275:pub struct SystemTableDefinition<'a, K: Key + 'static, V: Value + 'static> {
+src/transactions.rs:322:pub struct DatabaseStats {
+src/transactions.rs:402:pub struct SystemTable<'s, K: Key + 'static, V: Value + 'static> {
+src/transactions.rs:525:struct SystemNamespace {
+src/transactions.rs:611:struct TableNamespace {
+src/transactions.rs:831:struct SavepointTransactionState {
+src/tree_store/page_store/base.rs:34:pub(crate) struct PageNumber {
+src/tree_store/page_store/base.rs:180:pub struct PageImpl {
+src/tree_store/page_store/base.rs:244:pub(crate) struct PageMut<'txn> {
+src/tree_store/page_store/base.rs:359:pub(crate) struct PageTracker {
+src/tree_store/btree_mutator.rs:80:struct LeafDeletePlan {
+src/tree_store/btree_mutator.rs:85:struct InsertionResult<'a, V: Value + 'static> {
+src/tree_store/btree_mutator.rs:98:pub(crate) struct MutateHelper<'a, 'b, K: Key, V: Value> {
+src/tree_store/page_store/bitmap.rs:9:pub(super) struct BtreeBitmap {
+src/tree_store/page_store/bitmap.rs:232:pub(crate) struct U64GroupedBitmap {
+src/tree_store/page_store/fast_hash.rs:18:    pub(crate) struct FastHasher64 {
+src/tree_store/page_store/layout.rs:14:pub(super) struct RegionLayout {
+src/tree_store/page_store/layout.rs:75:pub(crate) struct DatabaseLayout {
+src/tree_store/page_store/buddy_allocator.rs:32:pub(crate) struct BuddyAllocator {
+src/tree_store/page_store/savepoint.rs:29:pub struct Savepoint {
+src/tree_store/page_store/savepoint.rs:104:struct PersistentSavepoint {
+src/tree_store/page_store/backends.rs:17:pub(crate) struct ReadOnlyBackend {
+src/tree_store/page_store/backends.rs:85:pub struct InMemoryBackend(RwLock<Vec<u8>>);
+src/tree_store/page_store/lru_cache.rs:6:pub struct LRUCache<T> {
+src/tree_store/page_store/page_manager.rs:101:/// Construct one from `PageAllocator::resolver()` (write-transaction context)
+src/tree_store/page_store/page_manager.rs:106:pub(crate) struct PageResolver {
+src/tree_store/page_store/page_manager.rs:130:struct UncommittedShard(Mutex<PageNumberHashSet>);
+src/tree_store/page_store/page_manager.rs:136:struct UncommittedPages {
+src/tree_store/page_store/page_manager.rs:180:pub(crate) struct PageAllocator {
+src/tree_store/page_store/page_manager.rs:325:struct InMemoryState {
+src/tree_store/page_store/page_manager.rs:388:struct UnpersistedState {
+src/tree_store/page_store/page_manager.rs:545:pub(crate) struct HeaderGuard<'a> {
+src/tree_store/page_store/cached_file.rs:25:pub(super) struct WritablePage {
+src/tree_store/page_store/cached_file.rs:65:struct LRUWriteCache {
+src/tree_store/page_store/cached_file.rs:126:struct CheckedBackend {
+src/tree_store/page_store/cached_file.rs:282:pub(super) struct PagedCachedFile {
+src/tree_store/page_store/cached_file.rs:975:    struct CountingBackend {
+src/tree_store/page_store/header.rs:91:pub(super) struct UnrepairedDatabaseHeader {
+src/tree_store/page_store/header.rs:98:pub(super) struct DatabaseHeader {
+src/tree_store/page_store/header.rs:478:pub(super) struct TransactionHeader {
+src/tree_store/page_store/header.rs:626:    struct FailingBackend {
+src/tree_store/page_store/header.rs:1162:    struct LenOverrideBackend {
+src/tree_store/multimap_btree.rs:363:pub(super) struct UntypedMultiBtree {
+src/tree_store/multimap_btree.rs:476:pub(crate) struct DynamicCollection<V: Key> {
+src/tree_store/multimap_btree.rs:591:struct UntypedDynamicCollection {
+src/tree_store/page_store/region.rs:13:pub(crate) struct RegionTracker {
+src/tree_store/page_store/region.rs:104:pub(super) struct Allocators {
+src/tree_store/page_store/file_backend/fallback.rs:13:pub struct FileBackend {
+src/tree_store/page_store/file_backend/optimized.rs:70:pub struct FileBackend {
+src/tree_store/page_store/file_backend/range_lock.rs:112:    struct Overlapped {
+src/tree_store/page_store/file_backend/range_lock.rs:168:        // Only the offset is carried, and the struct is left on the stack, as std's try_lock
+src/tree_store/page_store/file_backend/range_lock.rs:324:    // Zeroed rather than written field by field: struct flock's layout differs between Linux

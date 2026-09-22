@@ -1,0 +1,80 @@
+18:    Error, Uuid, Variant,
+24:impl std::fmt::Debug for Uuid {
+26:    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+31:impl fmt::Display for Uuid {
+32:    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+38:impl From<Uuid> for String {
+39:    fn from(uuid: Uuid) -> Self {
+44:impl fmt::Display for Variant {
+45:    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+55:impl fmt::LowerHex for Uuid {
+56:    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+61:impl fmt::UpperHex for Uuid {
+63:    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+82:pub struct Hyphenated(Uuid);
+98:pub struct Simple(Uuid);
+114:pub struct Urn(Uuid);
+130:pub struct Braced(Uuid);
+132:impl Uuid {
+135:    pub const fn hyphenated(self) -> Hyphenated {
+141:    pub fn as_hyphenated(&self) -> &Hyphenated {
+147:    pub const fn simple(self) -> Simple {
+153:    pub fn as_simple(&self) -> &Simple {
+159:    pub const fn urn(self) -> Urn {
+165:    pub fn as_urn(&self) -> &Urn {
+171:    pub const fn braced(self) -> Braced {
+177:    pub fn as_braced(&self) -> &Braced {
+185:const fn nibble_to_hex(nibble: u8, alpha_offset: u8) -> u8 {
+190:const fn format_simple(src: &[u8; 16], upper: bool) -> [u8; 32] {
+204:const fn format_hyphenated(src: &[u8; 16], upper: bool) -> [u8; 36] {
+237:fn encode_simple<'b>(src: &[u8; 16], buffer: &'b mut [u8], upper: bool) -> &'b mut str {
+244:fn encode_hyphenated<'b>(src: &[u8; 16], buffer: &'b mut [u8], upper: bool) -> &'b mut str {
+251:fn encode_braced<'b>(src: &[u8; 16], buffer: &'b mut [u8], upper: bool) -> &'b mut str {
+258:fn encode_urn<'b>(src: &[u8; 16], buffer: &'b mut [u8], upper: bool) -> &'b mut str {
+265:fn encode_simple_uninit<'b>(
+278:fn encode_hyphenated_uninit<'b>(
+291:fn encode_braced_uninit<'b>(
+300:    struct BracedBytes {
+320:fn encode_urn_uninit<'b>(
+336:fn write_bytes(dst: &mut [MaybeUninit<u8>], src: &[u8]) {
+337:    debug_assert_eq!(dst.len(), src.len());
+348:fn slice_as_uninit_mut(buffer: &mut [u8]) -> &mut [MaybeUninit<u8>] {
+354:unsafe fn assume_init_ascii_mut(buffer: &mut [MaybeUninit<u8>]) -> &mut str {
+362:impl Hyphenated {
+366:    pub const LENGTH: usize = 36;
+372:    pub const fn from_uuid(uuid: Uuid) -> Self {
+400:    /// fn main() -> Result<(), uuid::Error> {
+404:    ///     assert_eq!(
+413:    ///     assert_eq!(
+423:    pub fn encode_lower<'buf>(&self, buffer: &'buf mut [u8]) -> &'buf mut str {
+443:    pub fn encode_lower_uninit<'buf>(&self, buffer: &'buf mut [MaybeUninit<u8>]) -> &'buf mut str {
+471:    /// fn main() -> Result<(), uuid::Error> {
+475:    ///     assert_eq!(
+484:    ///     assert_eq!(
+494:    pub fn encode_upper<'buf>(&self, buffer: &'buf mut [u8]) -> &'buf mut str {
+514:    pub fn encode_upper_uninit<'buf>(&self, buffer: &'buf mut [MaybeUninit<u8>]) -> &'buf mut str {
+526:    /// assert_eq!(*hyphenated.as_uuid(), Uuid::nil());
+528:    pub const fn as_uuid(&self) -> &Uuid {
+540:    /// assert_eq!(hyphenated.into_uuid(), Uuid::nil());
+542:    pub const fn into_uuid(self) -> Uuid {
+547:impl Braced {
+551:    pub const LENGTH: usize = 38;
+557:    pub const fn from_uuid(uuid: Uuid) -> Self {
+585:    /// fn main() -> Result<(), uuid::Error> {
+589:    ///     assert_eq!(
+598:    ///     assert_eq!(
+608:    pub fn encode_lower<'buf>(&self, buffer: &'buf mut [u8]) -> &'buf mut str {
+628:    pub fn encode_lower_uninit<'buf>(&self, buffer: &'buf mut [MaybeUninit<u8>]) -> &'buf mut str {
+656:    /// fn main() -> Result<(), uuid::Error> {
+660:    ///     assert_eq!(
+669:    ///     assert_eq!(
+679:    pub fn encode_upper<'buf>(&self, buffer: &'buf mut [u8]) -> &'buf mut str {
+699:    pub fn encode_upper_uninit<'buf>(&self, buffer: &'buf mut [MaybeUninit<u8>]) -> &'buf mut str {
+711:    /// assert_eq!(*braced.as_uuid(), Uuid::nil());
+713:    pub const fn as_uuid(&self) -> &Uuid {
+725:    /// assert_eq!(braced.into_uuid(), Uuid::nil());
+727:    pub const fn into_uuid(self) -> Uuid {
+732:impl Simple {
+736:    pub const LENGTH: usize = 32;
+742:    pub const fn from_uuid(uuid: Uuid) -> Self {
+769:    /// fn main() -> Result<(), uuid::Error> {

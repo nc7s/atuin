@@ -1,0 +1,98 @@
+src/types.rs:72:    pub fn new(name: &str) -> Self {
+src/multimap_table.rs:49:    fn new(
+src/multimap_table.rs:132:    fn new_subtree(
+src/multimap_table.rs:149:    fn new_subtree_free_on_drop(
+src/multimap_table.rs:170:    fn new_inline(inner: LeafKeyIter<'a, V>, guard: Arc<TransactionGuard>) -> Self {
+src/multimap_table.rs:343:    fn new(
+src/multimap_table.rs:413:    fn new(inner: MultimapValue<'static, V>, guard: Arc<TransactionGuard>) -> Self {
+src/multimap_table.rs:460:    fn new(inner: MultimapRange<'static, K, V>, guard: Arc<TransactionGuard>) -> Self {
+src/multimap_table.rs:518:    pub(crate) fn new(
+src/db.rs:227:    pub(crate) fn new(name: String) -> Self {
+src/db.rs:251:    pub(crate) fn new(name: String) -> Self {
+src/db.rs:284:    pub const fn new(name: &'a str) -> Self {
+src/db.rs:344:    pub const fn new(name: &'a str) -> Self {
+src/db.rs:473:    pub(crate) fn new_read(
+src/db.rs:486:    pub(crate) fn new_read_unowned(
+src/db.rs:529:    pub(crate) fn new_write(
+src/db.rs:680:    fn new(
+src/tree_store/table_tree_base.rs:78:    pub(super) fn new<K: Key, V: Value>(
+src/tree_store/table_tree.rs:79:    pub(crate) fn new(
+src/tree_store/table_tree.rs:244:    pub(crate) fn new(
+src/tree_store/btree_cursor.rs:32:    fn new(page: PageImpl, child_index: usize) -> Self {
+src/tree_store/btree_cursor.rs:307:    fn new(parent_page: PageNumber, child_index: usize, direction: Direction) -> Self {
+src/tree_store/btree_cursor.rs:490:    pub(super) fn new(root: PageNumber, manager: PageResolver, hint: PageHint) -> Self {
+src/tree_store/btree_cursor.rs:753:    pub(super) fn new(
+src/tree_store/btree_cursor.rs:1652:    fn new(
+src/tree_store/btree_cursor.rs:1705:    pub(crate) fn new(root: Option<BtreeHeader>, resolver: PageResolver, hint: PageHint) -> Self {
+src/tree_store/btree_cursor.rs:1802:    pub(crate) fn new(
+src/tree_store/btree_cursor.rs:2056:    pub(super) fn new(
+src/tree_store/btree_base.rs:123:    pub(crate) fn new(root: PageNumber, checksum: Checksum, length: u64) -> Self {
+src/tree_store/btree_base.rs:315:    pub(crate) fn new(
+src/tree_store/btree_base.rs:441:    pub(crate) fn new(page: PageMut<'a>, offset: usize, len: usize) -> Self {
+src/tree_store/btree_base.rs:471:    fn new(key: &'a [u8], value: &'a [u8]) -> Self {
+src/tree_store/btree_base.rs:495:    pub(crate) fn new(
+src/tree_store/btree_base.rs:835:    pub(super) fn new(
+src/tree_store/btree_base.rs:1122:    pub(crate) fn new(
+src/tree_store/btree_base.rs:1267:    pub(super) fn new(
+src/tree_store/btree.rs:48:    pub(crate) fn new_root(page_number: PageNumber) -> Self {
+src/tree_store/btree.rs:88:    pub(super) fn new(
+src/tree_store/btree.rs:161:    pub(super) fn new(
+src/tree_store/btree.rs:376:    pub(crate) fn new(
+src/tree_store/btree.rs:914:    pub(crate) fn new(
+src/tree_store/btree.rs:1020:    pub(crate) fn new(
+src/tree_store/page_store/savepoint.rs:40:    pub(crate) fn new_ephemeral(
+src/tree_store/page_store/region.rs:18:    pub(crate) fn new(regions: u32, orders: u8) -> Self {
+src/tree_store/page_store/region.rs:110:    pub(super) fn new(layout: DatabaseLayout) -> Self {
+src/transactions.rs:282:    pub const fn new(name: &'a str) -> Self {
+src/transactions.rs:410:    fn new(
+src/transactions.rs:532:    fn new(
+src/transactions.rs:619:    fn new(
+src/transactions.rs:956:    pub(crate) fn new(
+src/transactions.rs:2782:    pub(crate) fn new(
+src/transaction_tracker.rs:26:    pub(crate) fn new(value: u64) -> TransactionId {
+src/transaction_tracker.rs:272:    pub(crate) fn new(next_transaction_id: TransactionId) -> Self {
+src/tree_store/page_store/page_manager.rs:111:    pub(crate) fn new(mem: Arc<TransactionalMemory>) -> Self {
+src/tree_store/page_store/page_manager.rs:141:    fn new() -> Self {
+src/tree_store/page_store/page_manager.rs:187:    pub(crate) fn new(mem: Arc<TransactionalMemory>, policy: AllocationPolicy) -> Self {
+src/tree_store/page_store/page_manager.rs:335:    fn new(header: DatabaseHeader) -> Self {
+src/tree_store/page_store/page_manager.rs:1078:    pub(crate) fn new(
+src/table.rs:94:    fn new(transaction: &'txn WriteTransaction) -> Self {
+src/table.rs:115:    pub(crate) fn new(
+src/table.rs:844:    pub(crate) fn new(
+src/table.rs:880:    pub(crate) fn new(
+src/table.rs:1060:    pub(crate) fn new(
+src/table.rs:1137:    pub(super) fn new(inner: BtreeCursorRange<K, V>, guard: Arc<TransactionGuard>) -> Self {
+src/table.rs:1187:    pub(crate) fn new(inner: AccessGuard<'static, V>, guard: Arc<TransactionGuard>) -> Self {
+src/table.rs:1211:    pub(super) fn new(inner: Range<'static, K, V>, guard: Arc<TransactionGuard>) -> Self {
+src/tree_store/page_store/lru_cache.rs:13:    pub(crate) fn new() -> Self {
+src/sync.rs:78:        pub(crate) const fn new(data: T) -> Self {
+src/sync.rs:186:        pub(crate) const fn new(data: T) -> Self {
+src/sync.rs:298:        pub(crate) const fn new() -> Self {
+src/tree_store/page_store/layout.rs:22:    pub(super) fn new(num_pages: u32, header_pages: u32, page_size: u32) -> Self {
+src/tree_store/page_store/layout.rs:82:    pub(super) fn new(
+src/tree_store/page_store/backends.rs:23:    pub fn new(inner: Box<dyn StorageBackend>) -> Self {
+src/tree_store/page_store/backends.rs:107:    pub fn new() -> Self {
+src/tree_store/page_store/header.rs:359:    pub(super) fn new(layout: DatabaseLayout, transaction_id: TransactionId) -> Self {
+src/tree_store/page_store/header.rs:490:    fn new(transaction_id: TransactionId) -> Self {
+src/tree_store/page_store/header.rs:636:        fn new(backend: FileBackend) -> Self {
+src/tree_store/multimap_btree.rs:372:    pub(super) fn new(
+src/tree_store/multimap_btree.rs:523:    pub(crate) fn new(data: &[u8]) -> &Self {
+src/tree_store/multimap_btree.rs:600:    fn new(data: &[u8]) -> &Self {
+src/tree_store/extract_if.rs:40:    pub(crate) fn new(
+src/tree_store/page_store/file_backend/optimized.rs:79:    pub fn new(file: File) -> Result<Self, DatabaseError> {
+src/tree_store/btree_mutator.rs:109:    pub(crate) fn new(
+src/tree_store/btree_iters.rs:24:    pub(super) fn new(page: PageImpl, key_range: Range<usize>, value_range: Range<usize>) -> Self {
+src/tree_store/btree_iters.rs:63:    pub(crate) fn new(
+src/tree_store/page_store/file_backend/fallback.rs:20:    pub fn new(file: File) -> Result<Self, DatabaseError> {
+src/tree_store/btree_cursor_range.rs:62:    pub(crate) fn new<'a, T: RangeBounds<KR>, KR: Borrow<K::SelfType<'a>>>(
+src/tree_store/page_store/bitmap.rs:121:    pub(crate) fn new(mut num_pages: u32, mut capacity: u32) -> Self {
+src/tree_store/page_store/bitmap.rs:142:    pub(crate) fn new_padded(num_pages: u32, capacity: u32, max_capacity: u32) -> Self {
+src/tree_store/page_store/bitmap.rs:243:    pub fn new_full(len: u32, capacity: u32) -> Self {
+src/tree_store/page_store/cached_file.rs:70:    fn new() -> Self {
+src/tree_store/page_store/cached_file.rs:143:    fn new(file: Box<dyn StorageBackend>) -> Self {
+src/tree_store/page_store/cached_file.rs:343:    pub(super) fn new(
+src/tree_store/page_store/cached_file.rs:981:        fn new(len: u64) -> (Self, Arc<AtomicU64>) {
+src/tree_store/page_store/base.rs:79:    pub(crate) fn new(region: u32, page_index: u32, page_order: u8) -> Self {
+src/tree_store/page_store/base.rs:290:    pub(crate) fn new_tracking() -> Self {
+src/tree_store/page_store/base.rs:365:    pub(crate) fn new_tracking() -> Self {
+src/tree_store/page_store/buddy_allocator.rs:39:    pub(crate) fn new(num_pages: u32, max_page_capacity: u32) -> Self {

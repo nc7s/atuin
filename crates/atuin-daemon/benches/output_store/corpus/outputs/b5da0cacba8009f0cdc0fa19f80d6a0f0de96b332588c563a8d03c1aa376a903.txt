@@ -1,0 +1,22 @@
+src/lib.rs:47://! enum Value {
+src/value/ser.rs:311:pub enum SerializeMap {
+src/ser.rs:463:pub enum State {
+src/ser.rs:471:pub enum Compound<'a, W: 'a, F: 'a> {
+src/ser.rs:1517:pub enum CharEscape {
+src/value/mod.rs:116:pub enum Value {
+src/value/mod.rs:940:/// Convert a `T` into `serde_json::Value` which is an enum that can represent
+src/value/de.rs:1331:enum KeyClass {
+src/read.rs:124:pub enum Reference<'b, 'c, T>
+src/raw.rs:527:        unit_struct tuple_struct tuple enum identifier
+src/number.rs:28:enum N {
+src/number.rs:622:        newtype_struct seq tuple tuple_struct map struct enum identifier
+src/number.rs:647:        newtype_struct seq tuple tuple_struct map struct enum identifier
+src/number.rs:696:        unit_struct tuple_struct tuple enum identifier
+src/map.rs:620:/// This enum is constructed from the [`entry`] method on [`Map`].
+src/map.rs:623:pub enum Entry<'a> {
+src/io/core.rs:8:pub enum ErrorKind {
+src/error.rs:166:pub enum Category {
+src/error.rs:198:    /// enum MyError {
+src/error.rs:236:pub(crate) enum ErrorCode {
+src/de.rs:109:pub(crate) enum ParserNumber {
+src/de.rs:1868:    /// Parses an enum as an object like `{"$KEY":$VALUE}`, where $VALUE is either a straight

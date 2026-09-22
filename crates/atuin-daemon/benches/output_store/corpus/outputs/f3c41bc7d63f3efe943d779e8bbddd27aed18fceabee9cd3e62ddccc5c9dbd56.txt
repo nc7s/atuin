@@ -1,0 +1,11 @@
+1:#![allow(clippy::assertions_on_result_states)]
+10:pub enum Enum {
+18:    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+22:        struct EnumVisitor;
+27:            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+28:                formatter.write_str("enum Enum")
+31:            fn visit_enum<A>(self, data: A) -> Result<Self::Value, A::Error>
+39:            fn visit_map<A>(self, mut data: A) -> Result<Self::Value, A::Error>
+56:fn test() {
+58:    assert!(serde_json::from_str::<Enum>(s).is_err());
+61:    assert!(serde_json::from_value::<Enum>(j).is_err());

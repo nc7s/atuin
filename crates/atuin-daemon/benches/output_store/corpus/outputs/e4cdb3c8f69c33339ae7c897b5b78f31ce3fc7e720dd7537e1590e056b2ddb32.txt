@@ -1,0 +1,20 @@
+52:pub trait AsPrimitive: Sized + Copy + PartialOrd {
+53:    fn as_u32(self) -> u32;
+54:    fn as_u64(self) -> u64;
+55:    fn as_u128(self) -> u128;
+56:    fn as_usize(self) -> usize;
+57:    fn as_f32(self) -> f32;
+58:    fn as_f64(self) -> f64;
+61:macro_rules! as_primitive_impl {
+64:            impl AsPrimitive for $ty {
+66:                fn as_u32(self) -> u32 {
+71:                fn as_u64(self) -> u64 {
+76:                fn as_u128(self) -> u128 {
+81:                fn as_usize(self) -> usize {
+86:                fn as_f32(self) -> f32 {
+91:                fn as_f64(self) -> f64 {
+102:pub trait AsCast: AsPrimitive {
+105:    fn as_cast<N: AsPrimitive>(n: N) -> Self;
+108:macro_rules! as_cast_impl {
+110:        impl AsCast for $ty {
+112:            fn as_cast<N: AsPrimitive>(n: N) -> Self {

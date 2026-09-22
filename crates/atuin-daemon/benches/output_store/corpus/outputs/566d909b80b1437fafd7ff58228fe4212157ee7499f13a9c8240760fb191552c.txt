@@ -1,0 +1,12 @@
+21:pub fn slice_copy(src: *const u8, dst: *mut u8, num_bytes: usize) {
+64:fn wild_copy_from_src<const SIZE: usize>(
+93:fn short_copy(src: *const u8, dst: *mut u8, len: usize) {
+106:fn double_copy_trick<const SIZE: usize>(src: *const u8, dst: *mut u8, len: usize) {
+123:        fn test_fast_short_slice_copy(left: Vec<u8>) {
+129:            prop_assert_eq!(&left, &right);
+134:    fn test_fast_short_slice_copy_edge_cases() {
+139:            assert_eq!(left, right);
+144:    fn test_fail2() {
+151:        assert_eq!(left, right);
+155:    fn test_fail() {
+163:        assert_eq!(left, right);

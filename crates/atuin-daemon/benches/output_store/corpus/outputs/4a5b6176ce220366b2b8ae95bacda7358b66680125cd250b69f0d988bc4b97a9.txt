@@ -1,0 +1,40 @@
+26:fn fit_middle(command: &str, cols: usize) -> String {
+34:pub struct CommandSpinner {
+40:pub fn command_spinner(
+42:    command: impl Into<String>,
+52:impl CommandSpinner {
+53:    fn spinner_at(&self, width: u16) -> Spinner {
+68:impl Element for CommandSpinner {
+69:    fn height(&self, width: u16) -> u16 {
+77:    fn render(&self, area: Rect, buf: &mut Buffer) {
+81:    fn animated(&self) -> Option<Duration> {
+89:pub struct TruncatedLine {
+96:pub fn truncated_line(
+97:    prefix: impl Into<String>,
+99:    value: impl Into<String>,
+110:impl Element for TruncatedLine {
+111:    fn height(&self, width: u16) -> u16 {
+119:    fn render(&self, area: Rect, buf: &mut Buffer) {
+146:    fn render_line(el: &impl Element, width: u16) -> String {
+157:    fn assert_middle_elided(rendered: &str, head: &str, tail: &str, max_width: usize) {
+158:        assert!(rendered.starts_with(head), "head survives: {rendered}");
+159:        assert!(rendered.ends_with(tail), "tail survives: {rendered}");
+160:        assert!(rendered.contains('…'), "elision marked: {rendered}");
+161:        assert!(rendered.width() <= max_width, "within width: {rendered}");
+171:    fn fit_middle_exact(#[case] input: &str, #[case] cols: usize, #[case] expected: &str) {
+172:        assert_eq!(fit_middle(input, cols), expected);
+176:    fn fit_middle_elides_the_middle() {
+178:        assert_middle_elided(&out, "cargo", "history", 20);
+182:    fn done_command_spinner_shows_both_ends() {
+185:        assert_middle_elided(&line, "Ran: git", "decorate", 24);
+189:    fn running_command_spinner_reserves_marker_columns() {
+194:        assert!(line.contains("Running: cargo"), "got: {line}");
+195:        assert!(line.contains('…'), "got: {line}");
+196:        assert!(line.ends_with("locked"), "got: {line}");
+197:        assert_eq!(line.width(), 24, "got: {line}");
+201:    fn command_spinner_fits_untruncated_when_room() {
+203:        assert_eq!(render_line(&el, 40), "Ran: ls -la");
+207:    fn truncated_line_elides_value_not_prefix() {
+215:        assert_middle_elided(&line, "would like to view: docker", "recreate", 40);
+219:    fn truncated_line_fits_untruncated_when_room() {
+221:        assert_eq!(render_line(&el, 40), "view: ls -la");

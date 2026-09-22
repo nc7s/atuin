@@ -1,0 +1,20 @@
+2:pub const UNKNOWN_USER: &str = "unknown-user";
+9:pub struct CmdHost<T = String>(T);
+12:    fn as_ref(&self) -> &str {
+18:    pub fn into_owned(self) -> CmdHost<String> {
+23:impl CmdHost<String> {
+24:    pub fn probe_current() -> Self {
+34:    pub fn into_inner(self) -> T {
+39:impl Default for CmdHost<String> {
+40:    fn default() -> Self {
+47:pub struct CmdUser<T = String>(T);
+50:    fn as_ref(&self) -> &str {
+56:    pub fn into_owned(self) -> CmdUser<String> {
+61:impl CmdUser<String> {
+62:    pub fn probe_current() -> Self {
+72:    pub fn into_inner(self) -> T {
+77:impl Default for CmdUser<String> {
+78:    fn default() -> Self {
+86:pub struct CmdOrigin {
+91:impl CmdOrigin {
+92:    pub fn new<H: AsRef<str>, U: AsRef<str>>(host: &CmdHost<H>, user: &CmdUser<U>) -> Self {

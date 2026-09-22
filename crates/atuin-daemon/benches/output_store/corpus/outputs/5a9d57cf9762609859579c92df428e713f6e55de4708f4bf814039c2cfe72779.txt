@@ -1,0 +1,60 @@
+use std::collections::VecDeque;
+use std::fmt;
+
+/// Controls how many bytes a [`BoundedBuffer`] can store.
+#[derive(Debug, Clone, Copy, Eq, PartialEq)]
+pub struct Limit {
+    /// How many bytes from the start of the buffer to keep.
+    pub start: usize,
+    /// How many bytes from the end of the buffer to keep.
+    pub end: usize,
+}
+
+impl Limit {
+    /// Split a total byte budget evenly across the start and end of the buffer.
+    ///
+    /// An odd byte goes to the end, so a budget of 1 keeps a single trailing byte.
+    #[must_use]
+    pub const fn split_evenly(total_bytes: usize) -> Self {
+        let start = total_bytes / 2;
+        Self {
+            start,
+            end: total_bytes - start,
+        }
+    }
+}
+
+/// A string buffer limited to a certain length.
+#[derive(Clone)]
+pub struct BoundedBuffer {
+    start: String,
+    /// Invariant: `end` is valid UTF-8.
+    end: VecDeque<u8>,
+    truncated: bool,
+    limit: Limit,
+}
+
+/// The finished contents of a [`BoundedBuffer`].
+///
+/// Returned by [`BoundedBuffer::take`].
+#[derive(Debug, Clone, Eq, PartialEq)]
+pub struct BufferContents {
+    /// The start portion of the buffer's contents.
+    ///
+    /// If `end` is [`None`], this contains the entire contents of the buffer.
+    pub start: String,
+
+    /// The end portion of the buffer's contents.
+    ///
+    /// If this is [`None`], the buffer didn't need any truncation, so the entire contents are in
+    /// `start`. If this is [`Some`], there is a middle portion that was discarded.
+    pub end: Option<String>,
+}
+
+impl BoundedBuffer {
+    /// Create a new [`BoundedBuffer`] with the given size limit.
+    #[must_use]
+    pub fn new(limit: Limit) -> Self {
+        Self {
+            start: String::new(),
+            end: VecDeque::new(),

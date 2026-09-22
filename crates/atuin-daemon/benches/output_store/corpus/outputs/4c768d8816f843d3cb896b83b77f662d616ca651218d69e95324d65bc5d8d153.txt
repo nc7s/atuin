@@ -1,0 +1,88 @@
+tests/multithreading_tests.rs:9:            tempfile::NamedTempFile::new_in("/tmp").unwrap()
+tests/multithreading_tests.rs:11:            tempfile::NamedTempFile::new().unwrap()
+tests/multithreading_tests.rs:19:        let db = Database::create(tmpfile.path()).unwrap();
+tests/multithreading_tests.rs:21:        let write_txn = db.begin_write().unwrap();
+tests/multithreading_tests.rs:23:            let mut table = write_txn.open_table(TABLE).unwrap();
+tests/multithreading_tests.rs:24:            table.insert("hello", "world").unwrap();
+tests/multithreading_tests.rs:25:            table.insert("hello2", "world2").unwrap();
+tests/multithreading_tests.rs:26:            table.insert("hi", "world").unwrap();
+tests/integration_tests.rs:36:        tempfile::NamedTempFile::new_in("/tmp").unwrap()
+tests/integration_tests.rs:38:        tempfile::NamedTempFile::new().unwrap()
+tests/integration_tests.rs:63:        *self.blocked.lock().unwrap() = false;
+tests/integration_tests.rs:64:        *self.release.lock().unwrap() = false;
+tests/integration_tests.rs:69:        let mut blocked = self.blocked.lock().unwrap();
+tests/integration_tests.rs:74:                .unwrap();
+tests/integration_tests.rs:81:        *self.release.lock().unwrap() = true;
+tests/integration_tests.rs:90:        *self.blocked.lock().unwrap() = true;
+tests/corrupted_btree_descent.rs:14:        tempfile::NamedTempFile::new_in("/tmp").unwrap()
+tests/corrupted_btree_descent.rs:16:        tempfile::NamedTempFile::new().unwrap()
+tests/corrupted_btree_descent.rs:22:    let region_header_pages = u64::from(u32::from_le_bytes(data[16..20].try_into().unwrap()));
+tests/corrupted_btree_descent.rs:23:    let region_max_data_pages = u64::from(u32::from_le_bytes(data[20..24].try_into().unwrap()));
+tests/corrupted_btree_descent.rs:94:        let db = redb::Database::create(tmpfile.path()).unwrap();
+tests/corrupted_btree_descent.rs:95:        let txn = db.begin_write().unwrap();
+tests/corrupted_btree_descent.rs:97:            let mut table = txn.open_table(T).unwrap();
+tests/corrupted_btree_descent.rs:100:                table.insert(&i, &i).unwrap();
+tests/multiprocess_tests.rs:23:        let db = shared().create(path).unwrap();
+tests/multiprocess_tests.rs:24:        let write = db.begin_write().unwrap();
+tests/multiprocess_tests.rs:26:            let mut table = write.open_table(TABLE).unwrap();
+tests/multiprocess_tests.rs:27:            table.insert(0, 0).unwrap();
+tests/multiprocess_tests.rs:29:        write.commit().unwrap();
+tests/multiprocess_tests.rs:34:        let read = db.begin_read().unwrap();
+tests/multiprocess_tests.rs:35:        let table = read.open_table(TABLE).unwrap();
+tests/multiprocess_tests.rs:36:        table.get(0).unwrap().unwrap().value()
+tests/cursor_tests.rs:14:        tempfile::NamedTempFile::new_in("/tmp").unwrap()
+tests/cursor_tests.rs:16:        tempfile::NamedTempFile::new().unwrap()
+tests/cursor_tests.rs:26:    let txn = db.begin_read().unwrap();
+tests/cursor_tests.rs:27:    let table = txn.open_table(U64_TABLE).unwrap();
+tests/cursor_tests.rs:28:    assert_eq!(table.len().unwrap(), expected.len() as u64);
+tests/cursor_tests.rs:31:        .unwrap()
+tests/cursor_tests.rs:33:            let (key, value) = entry.unwrap();
+tests/cursor_tests.rs:39:        assert_eq!(table.get(key).unwrap().unwrap().value(), *value);
+tests/check_integrity_nondurable.rs:26:        self.inner.read().unwrap().len()
+tests/check_integrity_nondurable.rs:29:        self.inner.write().unwrap().truncate(len);
+tests/check_integrity_nondurable.rs:32:        let mut guard = self.inner.write().unwrap();
+tests/check_integrity_nondurable.rs:38:        let mut guard = self.inner.write().unwrap();
+tests/check_integrity_nondurable.rs:55:        Ok(self.inner.read().unwrap().len() as u64)
+tests/check_integrity_nondurable.rs:58:        let offset = usize::try_from(offset).unwrap();
+tests/check_integrity_nondurable.rs:59:        let guard = self.inner.read().unwrap();
+tests/check_integrity_nondurable.rs:69:            .unwrap()
+tests/multimap_tests.rs:15:        tempfile::NamedTempFile::new_in("/tmp").unwrap()
+tests/multimap_tests.rs:17:        tempfile::NamedTempFile::new().unwrap()
+tests/multimap_tests.rs:26:    let mut iter = table.get(key).unwrap();
+tests/multimap_tests.rs:30:            result.push(item_value.unwrap().value().to_string());
+tests/multimap_tests.rs:40:    let db = Database::create(tmpfile.path()).unwrap();
+tests/multimap_tests.rs:41:    let write_txn = db.begin_write().unwrap();
+tests/multimap_tests.rs:43:        let mut table = write_txn.open_multimap_table(STR_TABLE).unwrap();
+tests/multimap_tests.rs:44:        table.insert("hello", "world").unwrap();
+tests/crash_consistency.rs:41:        self.state.lock().unwrap().syncs
+tests/crash_consistency.rs:45:        self.state.lock().unwrap().freeze_from = Some(sync);
+tests/crash_consistency.rs:51:        let state = self.state.lock().unwrap();
+tests/crash_consistency.rs:62:        Ok(self.state.lock().unwrap().live.len() as u64)
+tests/crash_consistency.rs:66:        let state = self.state.lock().unwrap();
+tests/crash_consistency.rs:67:        let offset = usize::try_from(offset).unwrap();
+tests/crash_consistency.rs:78:            .unwrap()
+tests/crash_consistency.rs:80:            .resize(usize::try_from(len).unwrap(), 0);
+tests/backward_compatibility.rs:26:        u32::from_le_bytes(data.try_into().unwrap())
+tests/backward_compatibility.rs:53:        u32::from_le_bytes(data.try_into().unwrap())
+tests/backward_compatibility.rs:328:        tempfile::NamedTempFile::new_in("/tmp").unwrap()
+tests/backward_compatibility.rs:330:        tempfile::NamedTempFile::new().unwrap()
+tests/backward_compatibility.rs:340:            .unwrap();
+tests/backward_compatibility.rs:342:        let write_txn = db.begin_write().unwrap();
+tests/backward_compatibility.rs:344:            let mut table = write_txn.open_table(table_def).unwrap();
+tests/backward_compatibility.rs:348:                    .unwrap();
+tests/check_integrity_failure.rs:21:        self.inner.read().unwrap()[9] & 2 != 0
+tests/check_integrity_failure.rs:26:        let mut guard = self.inner.write().unwrap();
+tests/check_integrity_failure.rs:43:        Ok(self.inner.read().unwrap().len() as u64)
+tests/check_integrity_failure.rs:46:        let offset = usize::try_from(offset).unwrap();
+tests/check_integrity_failure.rs:47:        let guard = self.inner.read().unwrap();
+tests/check_integrity_failure.rs:57:            .unwrap()
+tests/check_integrity_failure.rs:58:            .resize(len.try_into().unwrap(), 0);
+tests/check_integrity_failure.rs:65:        let offset = usize::try_from(offset).unwrap();
+tests/basic_tests.rs:47:        tempfile::NamedTempFile::new_in("/tmp").unwrap()
+tests/basic_tests.rs:49:        tempfile::NamedTempFile::new().unwrap()
+tests/basic_tests.rs:56:    let db = Database::create(tmpfile.path()).unwrap();
+tests/basic_tests.rs:57:    let write_txn = db.begin_write().unwrap();
+tests/basic_tests.rs:59:        let mut table = write_txn.open_table(STR_TABLE).unwrap();
+tests/basic_tests.rs:60:        table.insert("hello", "world").unwrap();
+tests/basic_tests.rs:61:        table.insert("hello2", "world2").unwrap();
+tests/basic_tests.rs:62:        table.insert("hi", "world").unwrap();

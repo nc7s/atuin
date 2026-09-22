@@ -1,0 +1,3 @@
+warning: profile package spec `librocksdb-sys` in profile `dev` did not match any packages
+   Compiling redb v4.3.0 (/workspace/redb)
+    Finished `dev` profile [unoptimized] target(s) in 0.31s

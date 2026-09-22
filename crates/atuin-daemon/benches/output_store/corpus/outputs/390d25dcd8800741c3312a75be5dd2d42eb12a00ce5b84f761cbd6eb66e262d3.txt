@@ -1,0 +1,86 @@
+src/value/ser.rs:13:    fn serialize<S>(&self, serializer: S) -> result::Result<S::Ok, S::Error>
+src/value/ser.rs:51:/// pub fn to_value<T>(input: T) -> Result<Value, Error>
+src/value/ser.rs:73:    fn serialize_bool(self, value: bool) -> Result<Value> {
+src/value/ser.rs:78:    fn serialize_i8(self, value: i8) -> Result<Value> {
+src/value/ser.rs:83:    fn serialize_i16(self, value: i16) -> Result<Value> {
+src/value/ser.rs:88:    fn serialize_i32(self, value: i32) -> Result<Value> {
+src/value/ser.rs:92:    fn serialize_i64(self, value: i64) -> Result<Value> {
+src/value/ser.rs:96:    fn serialize_i128(self, value: i128) -> Result<Value> {
+src/lib.rs:65://! fn untyped_example() -> Result<()> {
+src/lib.rs:131://! fn typed_example() -> Result<()> {
+src/lib.rs:252://! fn print_an_address() -> Result<()> {
+src/value/mod.rs:64://! fn untyped_example() -> Result<(), Error> {
+src/value/mod.rs:228:            fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
+src/value/mod.rs:236:            fn flush(&mut self) -> io::Result<()> {
+src/value/mod.rs:909:/// # fn try_main() -> Result<(), serde_json::Error> {
+src/value/mod.rs:956:/// fn compare_json_values() -> Result<(), Box<dyn Error>> {
+src/value/mod.rs:995:pub fn to_value<T>(value: T) -> Result<Value, Error>
+src/value/mod.rs:1037:pub fn from_value<T>(value: Value) -> Result<T, Error>
+src/ser.rs:80:    fn serialize_bool(self, value: bool) -> Result<()> {
+src/ser.rs:87:    fn serialize_i8(self, value: i8) -> Result<()> {
+src/ser.rs:94:    fn serialize_i16(self, value: i16) -> Result<()> {
+src/ser.rs:101:    fn serialize_i32(self, value: i32) -> Result<()> {
+src/ser.rs:108:    fn serialize_i64(self, value: i64) -> Result<()> {
+src/ser.rs:114:    fn serialize_i128(self, value: i128) -> Result<()> {
+src/ser.rs:121:    fn serialize_u8(self, value: u8) -> Result<()> {
+src/ser.rs:128:    fn serialize_u16(self, value: u16) -> Result<()> {
+src/value/de.rs:24:    fn deserialize<D>(deserializer: D) -> Result<Value, D::Error>
+src/value/de.rs:38:            fn visit_bool<E>(self, value: bool) -> Result<Value, E> {
+src/value/de.rs:43:            fn visit_i64<E>(self, value: i64) -> Result<Value, E> {
+src/value/de.rs:47:            fn visit_i128<E>(self, value: i128) -> Result<Value, E>
+src/value/de.rs:56:            fn visit_u64<E>(self, value: u64) -> Result<Value, E> {
+src/value/de.rs:60:            fn visit_u128<E>(self, value: u128) -> Result<Value, E>
+src/value/de.rs:69:            fn visit_f64<E>(self, value: f64) -> Result<Value, E> {
+src/value/de.rs:75:            fn visit_str<E>(self, value: &str) -> Result<Value, E>
+src/read.rs:30:    fn next(&mut self) -> Result<Option<u8>>;
+src/read.rs:32:    fn peek(&mut self) -> Result<Option<u8>>;
+src/read.rs:67:    fn parse_str<'s>(&'s mut self, scratch: &'s mut Vec<u8>) -> Result<Reference<'de, 's, str>>;
+src/read.rs:79:    ) -> Result<Reference<'de, 's, [u8]>>;
+src/read.rs:84:    fn ignore_str(&mut self) -> Result<()>;
+src/read.rs:89:    fn decode_hex_escape(&mut self) -> Result<u16>;
+src/read.rs:102:    fn end_raw_buffering<V>(&mut self, visitor: V) -> Result<V::Value>
+src/read.rs:223:    ) -> Result<T>
+src/raw.rs:60:/// fn rearrange(input: &str) -> Result<String> {
+src/raw.rs:70:/// fn main() -> Result<()> {
+src/raw.rs:186:    pub fn from_string(json: String) -> Result<Box<Self>, Error> {
+src/raw.rs:252:    /// fn process(input: &str) -> Result<()> {
+src/raw.rs:265:    /// fn main() -> Result<()> {
+src/raw.rs:334:pub fn to_raw_value<T>(value: &T) -> Result<Box<RawValue>, Error>
+src/raw.rs:345:    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+src/raw.rs:356:    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+src/number.rs:374:    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+src/number.rs:386:    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+src/number.rs:400:    fn deserialize<D>(deserializer: D) -> Result<Number, D::Error>
+src/number.rs:413:            fn visit_i64<E>(self, value: i64) -> Result<Number, E> {
+src/number.rs:417:            fn visit_i128<E>(self, value: i128) -> Result<Number, E>
+src/number.rs:425:            fn visit_u64<E>(self, value: u64) -> Result<Number, E> {
+src/number.rs:429:            fn visit_u128<E>(self, value: u128) -> Result<Number, E>
+src/number.rs:437:            fn visit_f64<E>(self, value: f64) -> Result<Number, E>
+src/iter.rs:24:    I: Iterator<Item = io::Result<u8>>,
+src/iter.rs:50:    I: Iterator<Item = io::Result<u8>>,
+src/iter.rs:52:    type Item = io::Result<u8>;
+src/iter.rs:54:    fn next(&mut self) -> Option<io::Result<u8>> {
+src/map.rs:485:    fn fmt(&self, formatter: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+src/map.rs:493:    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+src/map.rs:508:    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+src/map.rs:522:            fn visit_unit<E>(self) -> Result<Self::Value, E>
+src/map.rs:531:            fn visit_map<V>(self, mut visitor: V) -> Result<Self::Value, V::Error>
+src/io/core.rs:28:pub type Result<T> = result::Result<T, Error>;
+src/io/core.rs:31:    fn write(&mut self, buf: &[u8]) -> Result<usize>;
+src/io/core.rs:33:    fn write_all(&mut self, buf: &[u8]) -> Result<()> {
+src/io/core.rs:42:    fn flush(&mut self) -> Result<()>;
+src/io/core.rs:47:    fn write(&mut self, buf: &[u8]) -> Result<usize> {
+src/io/core.rs:52:    fn write_all(&mut self, buf: &[u8]) -> Result<()> {
+src/io/core.rs:57:    fn flush(&mut self) -> Result<()> {
+src/io/core.rs:64:    fn write(&mut self, buf: &[u8]) -> Result<usize> {
+src/error.rs:20:    /// that pass around `Result<T, Error>`.
+src/error.rs:25:pub type Result<T> = result::Result<T, Error>;
+src/error.rs:127:    ///     fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
+src/de.rs:118:    fn visit<'de, V>(self, visitor: V) -> Result<V::Value>
+src/de.rs:146:    pub fn end(&mut self) -> Result<()> {
+src/de.rs:219:    pub(crate) fn peek(&mut self) -> Result<Option<u8>> {
+src/de.rs:223:    fn peek_or_null(&mut self) -> Result<u8> {
+src/de.rs:231:    fn next_char(&mut self) -> Result<Option<u8>> {
+src/de.rs:235:    fn next_char_or_null(&mut self) -> Result<u8> {
+src/de.rs:255:    fn parse_whitespace(&mut self) -> Result<Option<u8>> {
+src/de.rs:319:    pub(crate) fn deserialize_number<'any, V>(&mut self, visitor: V) -> Result<V::Value>

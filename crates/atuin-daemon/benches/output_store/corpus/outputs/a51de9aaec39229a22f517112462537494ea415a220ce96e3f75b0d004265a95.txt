@@ -1,0 +1,2 @@
+4:pub struct Settings {
+6:    pub enabled: bool,

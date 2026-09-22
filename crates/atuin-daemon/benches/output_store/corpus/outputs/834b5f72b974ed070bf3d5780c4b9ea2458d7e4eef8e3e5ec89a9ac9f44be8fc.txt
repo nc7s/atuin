@@ -1,0 +1,20 @@
+22:pub struct CachedUsageSnapshot {
+23:    pub snapshot: UsageSnapshot,
+24:    pub written_at: i64,
+28:pub trait SessionService: Send + Sync {
+29:    async fn create_session(
+36:    async fn find_resumable(
+43:    async fn load_events(&self, session_id: &str) -> Result<Vec<StoredEvent>>;
+45:    async fn append_event(
+55:    async fn update_server_session_id(
+61:    async fn archive(&self, session_id: &str) -> Result<()>;
+63:    async fn get_metadata(&self, session_id: &str, key: &str) -> Result<Option<String>>;
+64:    async fn set_metadata(&self, session_id: &str, key: &str, value: &str) -> Result<()>;
+68:    async fn get_cached_usage(&self, user_key: &str) -> Result<Option<CachedUsageSnapshot>>;
+69:    async fn set_cached_usage(&self, user_key: &str, snapshot: &UsageSnapshot) -> Result<()>;
+76:pub struct LocalSessionService {
+80:impl LocalSessionService {
+81:    pub async fn open(path: impl AsRef<std::ffi::OsStr>, timeout: Duration) -> Result<Self> {
+87:    pub async fn in_memory(timeout: Duration) -> Result<Self> {
+94:impl SessionService for LocalSessionService {
+95:    async fn create_session(

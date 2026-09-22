@@ -1,0 +1,11 @@
+   Compiling regex-automata v0.4.14
+    Checking atuin-common v18.22.0 (/workspace/atuin/crates/atuin-common)
+   Compiling regex v1.12.4
+    Checking atuin-domain v18.22.0 (/workspace/atuin/crates/atuin-domain)
+   Compiling prost-build v0.14.3
+    Checking atuin-client v18.22.0 (/workspace/atuin/crates/atuin-client)
+   Compiling tonic-prost-build v0.14.6
+   Compiling atuin-daemon v18.22.0 (/workspace/atuin/crates/atuin-daemon)
+    Checking atuin-history v18.22.0 (/workspace/atuin/crates/atuin-history)
+    Checking atuin-dotfiles v18.22.0 (/workspace/atuin/crates/atuin-dotfiles)
+    Finished `dev` profile [unoptimized] target(s) in 2.01s

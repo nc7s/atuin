@@ -1,0 +1,13 @@
+14:pub struct PowerShell {
+19:fn get_history_path() -> Result<PathBuf> {
+54:impl Importer for PowerShell {
+57:    async fn new() -> Result<Self> {
+65:    async fn entries(&mut self) -> Result<usize> {
+75:    async fn load(mut self, h: &mut impl Loader) -> Result<()> {
+120:fn read_line(s: &[u8]) -> Result<&str> {
+131:    use itertools::assert_equal;
+162:    async fn imports_commands(#[case] input: String) {
+168:        assert_equal(actual, expected);
+173:    async fn test_timestamps() {
+178:            assert!(current > prev);
+183:    async fn import(input: &str) -> TestLoader {

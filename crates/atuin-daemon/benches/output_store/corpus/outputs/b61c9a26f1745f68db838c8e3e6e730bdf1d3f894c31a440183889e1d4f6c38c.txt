@@ -1,0 +1,19 @@
+7:    fn create_tempfile() -> tempfile::NamedTempFile {
+17:    fn len() {
+34:            assert_eq!(table.len().unwrap(), 3);
+40:        assert_eq!(table.len().unwrap(), 3);
+44:    fn multithreaded_insert() {
+69:        assert_eq!(table.len().unwrap(), 2);
+71:        assert_eq!(table.len().unwrap(), 2);
+78:    fn multithreaded_insert_and_remove() {
+120:                                assert_eq!(table.remove(i).unwrap().unwrap().value(), i);
+134:            assert_eq!(table.len().unwrap(), ELEMENTS);
+137:                    assert!(table.get(i).unwrap().is_none());
+139:                    assert_eq!(table.get(i).unwrap().unwrap().value(), i);
+140:                    assert_eq!(table.get(ELEMENTS + i).unwrap().unwrap().value(), i);
+147:    fn multithreaded_re_read() {
+174:            assert_eq!(table2.get("hello2").unwrap().unwrap().value(), "world");
+175:            assert_eq!(table3.get("hello2").unwrap().unwrap().value(), "world");
+181:        assert_eq!(table.len().unwrap(), 1);
+183:        assert_eq!(table.len().unwrap(), 1);
+185:        assert_eq!(table.len().unwrap(), 1);

@@ -1,0 +1,4 @@
+18:pub(crate) fn fast_path<F>(mantissa: u64, exponent: i32) -> Option<F>
+80:fn multiply_exponent_extended<F>(fp: &mut ExtendedFloat, exponent: i32, truncated: bool) -> bool
+147:pub(crate) fn moderate_path<F>(
+170:pub(crate) fn fallback_path<F>(

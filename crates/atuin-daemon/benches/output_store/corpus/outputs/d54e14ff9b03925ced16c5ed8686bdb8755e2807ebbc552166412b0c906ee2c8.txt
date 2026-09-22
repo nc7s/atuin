@@ -1,0 +1,30 @@
+src/value/ser.rs:7:use core::fmt::Display;
+src/value/ser.rs:296:        T: ?Sized + Display,
+src/value/ser.rs:644:        T: ?Sized + Display,
+src/value/ser.rs:1059:        T: ?Sized + Display,
+src/number.rs:9:use core::fmt::{self, Debug, Display};
+src/number.rs:350:impl Display for Number {
+src/number.rs:362:        Display::fmt(&self.n, formatter)
+src/value/mod.rs:97:use core::fmt::{self, Debug, Display};
+src/value/mod.rs:197:impl Display for Value {
+src/value/mod.rs:198:    /// Display a JSON value as a string.
+src/value/mod.rs:242:            // Error value does not matter because Display impl just maps it
+src/value/index.rs:5:use core::fmt::{self, Display};
+src/value/index.rs:146:impl<'a> Display for Type<'a> {
+src/io/core.rs:5:use core::fmt::{self, Display};
+src/io/core.rs:16:impl Display for Error {
+src/ser.rs:9:use core::fmt::{self, Display};
+src/ser.rs:412:        T: ?Sized + Display,
+src/ser.rs:1149:        T: ?Sized + Display,
+src/ser.rs:1510:        T: ?Sized + Display,
+src/error.rs:6:use core::fmt::{self, Debug, Display};
+src/error.rs:349:impl Display for ErrorCode {
+src/error.rs:353:            ErrorCode::Io(err) => Display::fmt(err, f),
+src/error.rs:399:impl Display for Error {
+src/error.rs:401:        Display::fmt(&*self.err, f)
+src/error.rs:405:impl Display for ErrorImpl {
+src/error.rs:408:            Display::fmt(&self.code, f)
+src/error.rs:435:    fn custom<T: Display>(msg: T) -> Error {
+src/raw.rs:5:use core::fmt::{self, Debug, Display};
+src/raw.rs:164:impl Display for RawValue {
+src/de.rs:178:    /// completed, including, but not limited to, Display and Debug and Drop

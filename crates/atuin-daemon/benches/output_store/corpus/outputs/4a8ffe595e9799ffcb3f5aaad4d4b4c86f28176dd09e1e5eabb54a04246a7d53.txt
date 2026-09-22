@@ -1,0 +1,19 @@
+13:use std::io::ErrorKind;
+19:struct CrashState {
+32:// A backend that can reconstruct the file image left by a crash in which the header write reached
+35:struct CrashBackend {
+39:impl CrashBackend {
+40:    fn syncs(&self) -> u64 {
+44:    fn freeze_at(&self, sync: u64) {
+50:    fn crash_image(&self) -> Vec<u8> {
+60:impl StorageBackend for CrashBackend {
+61:    fn len(&self) -> Result<u64, std::io::Error> {
+65:    fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), std::io::Error> {
+69:            return Err(std::io::Error::from(ErrorKind::UnexpectedEof));
+75:    fn set_len(&self, len: u64) -> Result<(), std::io::Error> {
+84:    fn sync_data(&self) -> Result<(), std::io::Error> {
+93:    fn write(&self, offset: u64, data: &[u8]) -> Result<(), std::io::Error> {
+109:fn workload(db: &Database) {
+129:fn crash_during_growing_commit_is_recoverable() {
+164:        assert_eq!(table.get(&0).unwrap().unwrap().value(), [0u8; 100]);
+166:    assert!(db.check_integrity().unwrap());

@@ -1,0 +1,20 @@
+12:// would have been nicer to to use one builder with `fn new()`, and then add
+35:use crate::error::Error;
+44:struct Builder {
+50:impl Default for Builder {
+51:    fn default() -> Builder {
+59:impl Builder {
+60:    fn new<I, S>(patterns: I) -> Builder
+70:    fn build_one_string(&self) -> Result<crate::Regex, Error> {
+71:        assert_eq!(1, self.pats.len());
+84:            .map_err(Error::from_meta_build_error)
+87:    fn build_one_bytes(&self) -> Result<crate::bytes::Regex, Error> {
+88:        assert_eq!(1, self.pats.len());
+101:            .map_err(Error::from_meta_build_error)
+104:    fn build_many_string(&self) -> Result<crate::RegexSet, Error> {
+118:            .map_err(Error::from_meta_build_error)
+121:    fn build_many_bytes(&self) -> Result<crate::bytes::RegexSet, Error> {
+135:            .map_err(Error::from_meta_build_error)
+138:    fn case_insensitive(&mut self, yes: bool) -> &mut Builder {
+143:    fn multi_line(&mut self, yes: bool) -> &mut Builder {
+148:    fn dot_matches_new_line(&mut self, yes: bool) -> &mut Builder {

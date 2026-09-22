@@ -1,0 +1,113 @@
+crates/atuin-daemon/src/client.rs:71:    pub async fn new(path: PathBuf) -> Result<Self> {
+crates/atuin-daemon/src/client.rs:98:    pub async fn new(port: u64) -> Result<Self> {
+crates/atuin-daemon/src/client.rs:120:    pub async fn from_settings(settings: &Settings) -> Result<Self> {
+crates/atuin-daemon/src/client.rs:125:    pub async fn from_settings(settings: &Settings) -> Result<Self> {
+crates/atuin-daemon/src/client.rs:129:    pub async fn start_history(&mut self, h: History) -> Result<StartHistoryReply> {
+crates/atuin-daemon/src/client.rs:150:    ) -> Result<EndHistoryReply> {
+crates/atuin-daemon/src/client.rs:163:    pub async fn cancel_history(&mut self, id: HistoryId) -> Result<CancelHistoryReply> {
+crates/atuin-daemon/src/client.rs:176:    ) -> Result<DeleteHistoryReply> {
+crates/atuin-daemon/src/server.rs:26:) -> Result<()> {
+crates/atuin-daemon/src/server.rs:44:            let actual_path: Result<PathBuf, eyre::Report> = listener
+crates/atuin-daemon/src/server.rs:154:) -> Result<()> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:35:    pub fn open(engine: Engine, path: &Path) -> Result<Self> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:47:    ) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:54:    pub async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:61:    pub async fn remove(&self, ids: Vec<HistoryId>) -> Result<(), DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:69:    pub async fn reclaim(&self, bytes: u64) -> Result<u64, DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:77:    pub fn persist(&self) -> Result<()> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:85:    pub fn materialize(&self) -> Result<()> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:93:    pub fn compact(&mut self) -> Result<()> {
+crates/atuin-daemon/src/daemon.rs:201:///     async fn start(&mut self, handle: DaemonHandle) -> Result<()> {
+crates/atuin-daemon/src/daemon.rs:206:///     async fn handle_event(&mut self, event: &DaemonEvent) -> Result<()> {
+crates/atuin-daemon/src/daemon.rs:219:///     async fn stop(&mut self) -> Result<()> {
+crates/atuin-daemon/src/daemon.rs:235:    async fn start(&mut self, handle: DaemonHandle) -> Result<()>;
+crates/atuin-daemon/src/daemon.rs:242:    async fn handle_event(&mut self, event: &DaemonEvent) -> Result<()>;
+crates/atuin-daemon/src/daemon.rs:247:    async fn stop(&mut self) -> Result<()>;
+crates/atuin-daemon/src/daemon.rs:301:    pub async fn start_components(&mut self) -> Result<()> {
+crates/atuin-daemon/src/daemon.rs:316:    pub async fn run_event_loop(&mut self) -> Result<()> {
+crates/atuin-daemon/src/output_capture/mod.rs:65:    ) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/mod.rs:69:    pub async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/mod.rs:80:    ) -> Result<(), DeleteOutputError> {
+crates/atuin-daemon/src/grpc/history/pb.rs:54:    fn try_from(value: HistoryId) -> Result<Self, Self::Error> {
+crates/atuin-daemon/src/grpc/history/pb.rs:111:    fn try_from(req: StartHistoryRequest) -> Result<Self, Self::Error> {
+crates/atuin-daemon/src/grpc/history/pb.rs:156:    pub fn view(&self) -> Result<EndHistoryRequestView, EndHistoryRequestParseError> {
+crates/atuin-daemon/src/grpc/history/pb.rs:181:    fn try_from(value: CancelHistoryRequest) -> Result<Self, Self::Error> {
+crates/atuin-daemon/src/grpc/history/pb.rs:187:    type Item = Result<DomainHistoryId, IdParseError>;
+crates/atuin-daemon/src/grpc/history/pb.rs:198:    ) -> impl Future<Output = Result<Vec<DomainHistoryId>, CollectCappedError<IdParseError>>> + Send;
+crates/atuin-daemon/src/grpc/history/pb.rs:204:    ) -> impl Future<Output = Result<Vec<DomainHistoryId>, CollectCappedError<IdParseError>>> + Send
+crates/atuin-daemon/src/grpc/history/pb.rs:301:    pub fn history_id(&self) -> Result<DomainHistoryId, RegisterCommandOutputRequestParseError> {
+crates/atuin-daemon/src/grpc/history/mod.rs:259:    type TailHistoryStream = Pin<Box<dyn Stream<Item = Result<TailHistoryReply, Status>> + Send>>;
+crates/atuin-daemon/src/grpc/history/mod.rs:265:    ) -> Result<Response<StartHistoryReply>, Status> {
+crates/atuin-daemon/src/grpc/history/mod.rs:282:    ) -> Result<Response<EndHistoryReply>, Status> {
+crates/atuin-daemon/src/grpc/history/mod.rs:308:    ) -> Result<Response<CancelHistoryReply>, Status> {
+crates/atuin-daemon/src/grpc/history/mod.rs:328:    ) -> Result<Response<DeleteHistoryReply>, Status> {
+crates/atuin-daemon/src/grpc/history/mod.rs:352:    ) -> Result<Response<RebuildHistoryReply>, Status> {
+crates/atuin-daemon/src/grpc/history/mod.rs:366:    ) -> Result<Response<Self::TailHistoryStream>, Status> {
+crates/atuin-daemon/src/grpc/history/mod.rs:390:    ) -> Result<Response<StatusReply>, Status> {
+crates/atuin-daemon/src/lib.rs:47:) -> Result<()> {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:25:    pub(in crate::output_capture) fn open(path: &Path) -> Result<Self> {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:34:    pub(in crate::output_capture) fn persist(&self) -> Result<()> {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:40:    pub(in crate::output_capture) fn compact(&mut self) -> Result<()> {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:47:    pub(in crate::output_capture) fn entries(&self) -> Result<Vec<(HistoryId, u64)>> {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:64:    ) -> Result<u64, DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:92:    async fn capture(&self, id: HistoryId, capture: CommandCapture) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:114:    async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:129:    async fn remove(&self, ids: Vec<HistoryId>) -> Result<(), DeleteOutputError> {
+crates/atuin-daemon/src/history_journal.rs:33://! which returns a new [`futures::Stream`] of [`Result<CmdEvent, _>`] events.
+crates/atuin-daemon/src/history_journal.rs:329:    pub fn get(&self, history_id: HistoryId) -> Result<History, GetCmdInFlightError> {
+crates/atuin-daemon/src/history_journal.rs:345:    ) -> Result<FinishedCmd, CmdFinishError> {
+crates/atuin-daemon/src/history_journal.rs:414:    pub async fn cancel(&self, history_id: HistoryId) -> Result<(), CmdCancelError> {
+crates/atuin-daemon/src/history_journal.rs:461:    ) -> Result<usize, CmdDeleteError> {
+crates/atuin-daemon/src/history_journal.rs:542:    pub async fn rebuild(&self, search_settings: &Search) -> Result<(), CmdRebuildError> {
+crates/atuin-daemon/src/history_journal.rs:606:    ) -> Result<(), RegisterOutputError> {
+crates/atuin-daemon/src/history_journal.rs:643:    ) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/backend/mod.rs:43:    async fn capture(&self, id: HistoryId, capture: CommandCapture) -> Result<(), CaptureError>;
+crates/atuin-daemon/src/output_capture/backend/mod.rs:45:    async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError>;
+crates/atuin-daemon/src/output_capture/backend/mod.rs:48:    async fn remove(&self, ids: Vec<HistoryId>) -> Result<(), DeleteOutputError>;
+crates/atuin-daemon/src/search/index.rs:384:    ) -> Result<Self, LoadFromDbError> {
+crates/atuin-daemon/src/search/index.rs:395:    pub async fn load_from_db(&self, db: &Sqlite) -> Result<(), LoadFromDbError> {
+crates/atuin-daemon/src/search/index.rs:404:    pub fn history_pages(db: &Sqlite) -> impl Stream<Item = Result<Vec<History>, LoadFromDbError>> {
+crates/atuin-daemon/src/grpc/common/mod.rs:46:pub trait TryCollectResultsCappedExt<C, T, E>: Stream<Item = Result<C, Status>> + Sized
+crates/atuin-daemon/src/grpc/common/mod.rs:48:    C: IntoIterator<Item = Result<T, E>>,
+crates/atuin-daemon/src/grpc/common/mod.rs:55:    ) -> impl Future<Output = Result<Vec<T>, CollectCappedError<E>>> + Send
+crates/atuin-daemon/src/grpc/common/mod.rs:81:    S: Stream<Item = Result<C, Status>>,
+crates/atuin-daemon/src/grpc/common/mod.rs:82:    C: IntoIterator<Item = Result<T, E>>,
+crates/atuin-daemon/src/grpc/common/mod.rs:98:    /// A chunk is any `IntoIterator<Item = Result<T, E>>` -- a plain `Vec` is the simplest one.
+crates/atuin-daemon/src/grpc/common/mod.rs:99:    fn chunk(items: Vec<Result<i32, BadItem>>) -> Vec<Result<i32, BadItem>> {
+crates/atuin-daemon/src/output_capture/backend/nop.rs:10:    async fn capture(&self, _id: HistoryId, _capture: CommandCapture) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/backend/nop.rs:14:    async fn get(&self, _id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/backend/nop.rs:18:    async fn remove(&self, _ids: Vec<HistoryId>) -> Result<(), DeleteOutputError> {
+crates/atuin-daemon/src/components/sync.rs:73:    async fn start(&mut self, handle: DaemonHandle) -> Result<()> {
+crates/atuin-daemon/src/components/sync.rs:84:    async fn handle_event(&mut self, _event: &DaemonEvent) -> Result<()> {
+crates/atuin-daemon/src/components/sync.rs:88:    async fn stop(&mut self) -> Result<()> {
+crates/atuin-daemon/src/output_capture/backend/failing.rs:18:    async fn capture(&self, _id: HistoryId, _capture: CommandCapture) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/backend/failing.rs:22:    async fn get(&self, _id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/backend/failing.rs:26:    async fn remove(&self, _ids: Vec<HistoryId>) -> Result<(), DeleteOutputError> {
+crates/atuin-daemon/src/components/search.rs:84:    ) -> Result<(), eyre::Error> {
+crates/atuin-daemon/src/components/search.rs:118:    async fn start(&mut self, handle: DaemonHandle) -> Result<()> {
+crates/atuin-daemon/src/components/search.rs:159:    async fn handle_event(&mut self, event: &DaemonEvent) -> Result<()> {
+crates/atuin-daemon/src/components/search.rs:185:    async fn stop(&mut self) -> Result<()> {
+crates/atuin-daemon/src/components/search.rs:222:    ) -> Result<Option<SearchIndex>, ()> {
+crates/atuin-daemon/src/components/search.rs:241:    type SearchStream = Pin<Box<dyn Stream<Item = Result<SearchResponse, Status>> + Send>>;
+crates/atuin-daemon/src/components/search.rs:247:    ) -> Result<Response<Self::SearchStream>, Status> {
+crates/atuin-daemon/src/components/search.rs:252:        let (tx, rx) = tokio::sync::mpsc::channel::<Result<SearchResponse, Status>>(128);
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:48:    fn new(db: OptimisticTxDatabase) -> fjall::Result<Self> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:64:    async fn capture(&self, id: HistoryId, capture: CommandCapture) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:95:    async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:113:    async fn remove(&self, ids: Vec<HistoryId>) -> Result<(), DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:149:    async fn reclaim(&self, reclaim_bytes: u64) -> Result<u64, DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:286:    pub fn open(path: impl AsRef<Path>, max_disk_usage: DiskUsageLimit) -> fjall::Result<Self> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:292:    pub fn new(db: OptimisticTxDatabase, budget: Option<ByteSize>) -> fjall::Result<Self> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:328:    async fn capture(&self, id: HistoryId, capture: CommandCapture) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/benchmark.rs:14:    pub(in crate::output_capture) fn open_for_benchmark(path: &Path) -> Result<Self> {
+crates/atuin-daemon/src/output_capture/backend/fjall/benchmark.rs:23:    pub(in crate::output_capture) fn persist_for_benchmark(&self) -> Result<()> {
+crates/atuin-daemon/src/output_capture/backend/fjall/benchmark.rs:28:    pub(in crate::output_capture) fn materialize_for_benchmark(&self) -> Result<()> {
+crates/atuin-daemon/src/output_capture/backend/fjall/benchmark.rs:33:    pub(in crate::output_capture) fn compact_for_benchmark(&self) -> Result<()> {
+crates/atuin-daemon/src/output_capture/backend/fjall/benchmark.rs:42:    ) -> Result<u64, DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/benchmark.rs:46:    pub(in crate::output_capture) fn entries_for_benchmark(&self) -> Result<Vec<(HistoryId, u64)>> {
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:25:    fn serialize_key(key: Self::Key) -> Result<Self::KeySerialized, Self::KeySerializationError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:31:    ) -> Result<Self::ValueSerialized, Self::ValueSerializationError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/v2.rs:44:    ) -> Result<Self::Value, Self::ValueDeserializationError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/mod.rs:47:    fn serialize_key(key: Self::Key) -> Result<Self::KeySerialized, Self::KeySerializationError>;
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/mod.rs:52:    ) -> Result<Self::ValueSerialized, Self::ValueSerializationError>;
+crates/atuin-daemon/src/output_capture/backend/fjall/schema/mod.rs:57:    ) -> Result<Self::Value, Self::ValueDeserializationError>;

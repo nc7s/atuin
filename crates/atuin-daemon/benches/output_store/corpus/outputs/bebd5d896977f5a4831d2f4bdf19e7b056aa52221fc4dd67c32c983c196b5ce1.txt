@@ -1,0 +1,6 @@
+8:pub struct Cmd {
+10:    pub current_password: Option<String>,
+13:    pub new_password: Option<String>,
+17:    pub totp_code: Option<String>,
+20:impl Cmd {
+21:    pub async fn run(&self, settings: &Settings) -> Result<()> {

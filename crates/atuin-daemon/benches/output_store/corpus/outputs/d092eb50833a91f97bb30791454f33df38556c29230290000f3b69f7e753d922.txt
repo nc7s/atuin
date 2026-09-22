@@ -1,0 +1,1 @@
+src/pattern.rs:30:unsafe impl<'r, 't> Searcher<'t> for RegexSearcher<'r, 't> {

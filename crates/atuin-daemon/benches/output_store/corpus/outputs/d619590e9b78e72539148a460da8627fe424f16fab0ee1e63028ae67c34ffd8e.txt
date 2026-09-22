@@ -1,0 +1,4 @@
+   Compiling serde_core v1.0.229
+   Compiling memchr v2.8.3
+   Compiling serde_json v1.0.151 (/workspace/serde-json)
+    Finished `dev` profile [unoptimized] target(s) in 3.37s

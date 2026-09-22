@@ -1,0 +1,60 @@
+#![cfg(feature = "experimental-multiprocess")]
+
+use redb::backends::InMemoryBackend;
+use redb::{ConcurrencyMode, Database, DatabaseError, StorageError};
+
+#[cfg(any(target_os = "linux", target_vendor = "apple", windows))]
+mod shared_reader {
+    use super::*;
+    use redb::{ReadableDatabase, ReadableTable, TableDefinition};
+    use std::path::Path;
+    use std::sync::Arc;
+    use std::sync::atomic::{AtomicBool, Ordering};
+
+    const TABLE: TableDefinition<u64, u64> = TableDefinition::new("x");
+
+    fn shared() -> redb::Builder {
+        let mut builder = Database::builder();
+        builder.set_concurrency_mode(ConcurrencyMode::MultiWriter);
+        builder
+    }
+
+    fn create(path: &Path) -> Database {
+        let db = shared().create(path).unwrap();
+        let write = db.begin_write().unwrap();
+        {
+            let mut table = write.open_table(TABLE).unwrap();
+            table.insert(0, 0).unwrap();
+        }
+        write.commit().unwrap();
+        db
+    }
+
+    fn value(db: &impl ReadableDatabase) -> u64 {
+        let read = db.begin_read().unwrap();
+        let table = read.open_table(TABLE).unwrap();
+        table.get(0).unwrap().unwrap().value()
+    }
+
+    /// Following a peer's commits means seeing its data, not only its newer id
+    #[test]
+    fn a_shared_reader_sees_a_peers_writes() {
+        let tmpfile = tempfile::NamedTempFile::new().unwrap();
+        let writer = create(tmpfile.path());
+        let reader = shared().open_read_only(tmpfile.path()).unwrap();
+
+        // Caches the page the value lives on
+        assert_eq!(value(&reader), 0);
+
+        // Staleness needs the allocator to recycle the cached page, so churn until it does
+        for expected in 1..60u64 {
+            let write = writer.begin_write().unwrap();
+            {
+                let mut table = write.open_table(TABLE).unwrap();
+                table.insert(0, expected).unwrap();
+            }
+            write.commit().unwrap();
+
+            assert_eq!(
+                value(&reader),
+                expected,

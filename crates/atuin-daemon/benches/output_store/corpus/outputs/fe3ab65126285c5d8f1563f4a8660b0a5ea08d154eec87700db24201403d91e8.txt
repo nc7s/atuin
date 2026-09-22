@@ -1,0 +1,81 @@
+tests/multithreading_tests.rs:34:            assert_eq!(table.len().unwrap(), 3);
+tests/multithreading_tests.rs:40:        assert_eq!(table.len().unwrap(), 3);
+tests/multithreading_tests.rs:69:        assert_eq!(table.len().unwrap(), 2);
+tests/multithreading_tests.rs:71:        assert_eq!(table.len().unwrap(), 2);
+tests/multithreading_tests.rs:120:                                assert_eq!(table.remove(i).unwrap().unwrap().value(), i);
+tests/multithreading_tests.rs:134:            assert_eq!(table.len().unwrap(), ELEMENTS);
+tests/multithreading_tests.rs:137:                    assert!(table.get(i).unwrap().is_none());
+tests/multithreading_tests.rs:139:                    assert_eq!(table.get(i).unwrap().unwrap().value(), i);
+tests/corrupted_btree_descent.rs:69:    assert!(child <= num_keys);
+tests/corrupted_btree_descent.rs:87:// Opened read-only, because a debug-assertions build of the writable open walks every page while
+tests/corrupted_btree_descent.rs:88:// seeding its allocator assertions, and rejects the cycle there. This test is about the descent
+tests/corrupted_btree_descent.rs:108:    assert!(
+tests/corrupted_btree_descent.rs:123:    assert!(
+tests/corrupted_btree_descent.rs:140:    assert!(matches!(table.get(&0u64), Err(StorageError::Corrupted(_))));
+tests/corrupted_btree_descent.rs:141:    assert!(matches!(table.first(), Err(StorageError::Corrupted(_))));
+tests/corrupted_btree_descent.rs:142:    assert!(matches!(table.last(), Err(StorageError::Corrupted(_))));
+tests/multiprocess_tests.rs:47:        assert_eq!(value(&reader), 0);
+tests/multiprocess_tests.rs:58:            assert_eq!(
+tests/multiprocess_tests.rs:91:        assert_eq!(value(&reader), 7);
+tests/multiprocess_tests.rs:176:        assert_eq!(
+tests/multiprocess_tests.rs:183:        assert_eq!(value(&reader), 9);
+tests/multiprocess_tests.rs:221:        assert!(
+tests/multiprocess_tests.rs:259:        assert!(matches!(
+tests/multiprocess_tests.rs:279:    assert!(matches!(
+tests/integration_tests.rs:76:            assert!(!timeout.timed_out(), "timed out waiting for sync_data()");
+tests/integration_tests.rs:282:    assert!(txn.commit().is_err());
+tests/integration_tests.rs:284:    assert!(matches!(
+tests/integration_tests.rs:302:    assert_eq!(
+tests/integration_tests.rs:308:    assert_eq!(
+tests/integration_tests.rs:333:            assert!(acquired.unwrap());
+tests/integration_tests.rs:335:                assert!(
+tests/integration_tests.rs:339:                assert!(
+tests/check_integrity_nondurable.rs:137:    assert!(
+tests/check_integrity_nondurable.rs:142:    assert!(
+tests/check_integrity_nondurable.rs:150:    assert!(reopened.check_integrity().unwrap());
+tests/check_integrity_nondurable.rs:153:    assert_eq!(table.len().unwrap(), 5);
+tests/check_integrity_nondurable.rs:154:    assert!(table.get(&999u64).unwrap().is_none());
+tests/check_integrity_nondurable.rs:176:    assert!(
+tests/check_integrity_nondurable.rs:181:    assert!(db.check_integrity().unwrap());
+tests/check_integrity_nondurable.rs:188:    assert_eq!(table.len().unwrap(), 2001);
+tests/multimap_tests.rs:52:    assert_eq!(table.len().unwrap(), 3);
+tests/multimap_tests.rs:54:    assert_eq!(untyped_table.len().unwrap(), 3);
+tests/multimap_tests.rs:71:    assert!(!table.is_empty().unwrap());
+tests/multimap_tests.rs:81:        assert!(!table.insert("hello", "world").unwrap());
+tests/multimap_tests.rs:82:        assert!(!table.insert("hello", "world2").unwrap());
+tests/multimap_tests.rs:83:        assert!(table.insert("hello", "world2").unwrap());
+tests/multimap_tests.rs:89:    assert_eq!(
+tests/multimap_tests.rs:93:    assert_eq!(table.len().unwrap(), 2);
+tests/basic_tests.rs:68:    assert_eq!(table.len().unwrap(), 3);
+tests/basic_tests.rs:70:    assert_eq!(untyped_table.len().unwrap(), 3);
+tests/basic_tests.rs:88:        assert!(matches!(
+tests/basic_tests.rs:98:    assert_eq!(table.len().unwrap(), 3);
+tests/basic_tests.rs:103:    assert_eq!(table2.len().unwrap(), 3);
+tests/basic_tests.rs:106:    assert!(matches!(
+tests/basic_tests.rs:128:    assert!(matches!(
+tests/basic_tests.rs:143:    assert_eq!(table.get("hello").unwrap().unwrap().value(), "world");
+tests/check_integrity_failure.rs:92:    assert!(
+tests/check_integrity_failure.rs:100:    assert!(matches!(
+tests/check_integrity_failure.rs:105:    assert!(matches!(
+tests/check_integrity_failure.rs:111:    assert!(matches!(
+tests/check_integrity_failure.rs:117:    assert_eq!(db.begin_read().unwrap().list_tables().unwrap().count(), 1);
+tests/check_integrity_failure.rs:122:    // Clearing the flag would assert that this process left the file consistent, which it cannot
+tests/check_integrity_failure.rs:124:    assert!(backend.recovery_required());
+tests/crash_consistency.rs:164:        assert_eq!(table.get(&0).unwrap().unwrap().value(), [0u8; 100]);
+tests/crash_consistency.rs:166:    assert!(db.check_integrity().unwrap());
+tests/cursor_tests.rs:25:fn assert_u64_table_contents(db: &Database, expected: &[(u64, u64)]) {
+tests/cursor_tests.rs:28:    assert_eq!(table.len().unwrap(), expected.len() as u64);
+tests/cursor_tests.rs:37:    assert_eq!(actual, expected);
+tests/cursor_tests.rs:39:        assert_eq!(table.get(key).unwrap().unwrap().value(), *value);
+tests/cursor_tests.rs:56:        assert_eq!(table.len().unwrap(), 10_000);
+tests/cursor_tests.rs:57:        assert_eq!(table.get(&5432).unwrap().unwrap().value(), 5432 * 7);
+tests/cursor_tests.rs:62:    assert_u64_table_contents(&db, &expected);
+tests/cursor_tests.rs:67:    assert_u64_table_contents(&db, &expected);
+tests/backward_compatibility.rs:358:        assert_eq!(table.len().unwrap(), ELEMENTS as u64);
+tests/backward_compatibility.rs:365:            assert_eq!(bytes.as_ref(), expected_bytes.as_ref());
+tests/backward_compatibility.rs:456:    assert_eq!(ids, vec![savepoint_id]);
+tests/backward_compatibility.rs:465:    assert!(txn.delete_persistent_savepoint(savepoint_id).unwrap());
+tests/backward_compatibility.rs:469:    assert!(db.check_integrity().unwrap());
+tests/backward_compatibility.rs:473:    assert_eq!(table.len().unwrap(), 100);
+tests/backward_compatibility.rs:475:        assert_eq!(
+tests/backward_compatibility.rs:509:    assert_eq!(table.len().unwrap(), 2);

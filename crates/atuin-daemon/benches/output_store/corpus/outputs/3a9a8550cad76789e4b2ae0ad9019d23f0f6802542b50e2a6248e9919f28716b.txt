@@ -1,0 +1,20 @@
+5:use crate::{bytes::RegexSetBuilder, Error};
+80:/// assert_eq!(vec![&b"foo"[..], &b"bar"[..]], matches);
+109:/// assert!(set.is_match(b"foo@example.com"));
+113:/// assert_eq!(vec![0, 1], matches);
+117:/// assert_eq!(vec![1], matches);
+121:/// assert!(matches.is_empty());
+136:pub struct RegexSet {
+141:impl RegexSet {
+156:    /// assert!(set.is_match(b"foo"));
+158:    pub fn new<I, S>(exprs: I) -> Result<RegexSet, Error>
+179:    /// assert!(set.is_empty());
+181:    /// assert!(!set.is_match(b""));
+183:    pub fn empty() -> RegexSet {
+210:    /// assert!(set.is_match(b"foo"));
+211:    /// assert!(!set.is_match("☃".as_bytes()));
+214:    pub fn is_match(&self, haystack: &[u8]) -> bool {
+234:    /// assertions won't work correctly. Instead, you can use this method to
+243:    /// assert!(set.is_match(&hay[3..]));
+244:    /// // No match because the  assertions take the context into account.
+245:    /// assert!(!set.is_match_at(hay, 3));

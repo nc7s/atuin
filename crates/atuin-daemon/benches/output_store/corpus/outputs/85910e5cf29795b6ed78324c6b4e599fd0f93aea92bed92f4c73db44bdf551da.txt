@@ -1,0 +1,1 @@
+5 tests/ui/parse_key.rs

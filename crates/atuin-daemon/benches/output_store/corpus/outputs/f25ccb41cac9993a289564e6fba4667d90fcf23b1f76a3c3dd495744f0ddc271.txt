@@ -1,0 +1,5 @@
+9:use crate::error::Error;
+29:pub struct Map<K, V> {
+38:impl Map<String, Value> {
+41:    pub fn new() -> Self {
+49:    pub fn with_capacity(capacity: usize) -> Self {

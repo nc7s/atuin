@@ -1,0 +1,5 @@
+18:fn fuzz1() {
+26:fn empty_any_errors_no_panic() {
+27:    assert!(Regex::new(r"\P{any}").is_ok());
+37:fn big_regex_fails_to_compile() {
+39:    assert!(Regex::new(pat).is_err());

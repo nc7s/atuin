@@ -1,0 +1,9 @@
+13:pub struct Handle {
+18:impl Handle {
+22:    pub fn open(pid: u32, access: u32) -> Result<Self, std::io::Error> {
+31:    pub fn terminate(&self) -> Result<(), std::io::Error> {
+44:    pub fn send_ctrl_break(&self) -> Result<(), std::io::Error> {
+50:    pub fn is_alive(&self) -> bool {
+59:    pub async fn force_stop(&self, timeout: Duration) -> Result<(), std::io::Error> {
+83:impl Drop for Handle {
+84:    fn drop(&mut self) {

@@ -1,0 +1,36 @@
+tests/multiprocess_tests.rs:104:        fn len(&self) -> Result<u64, std::io::Error> {
+tests/multiprocess_tests.rs:107:        fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), std::io::Error> {
+tests/multiprocess_tests.rs:110:        fn set_len(&self, len: u64) -> Result<(), std::io::Error> {
+tests/multiprocess_tests.rs:116:        fn sync_data(&self) -> Result<(), std::io::Error> {
+tests/multiprocess_tests.rs:122:        fn write(&self, offset: u64, data: &[u8]) -> Result<(), std::io::Error> {
+tests/multiprocess_tests.rs:199:    fn create(path: &Path, mode: ConcurrencyMode) -> Result<Database, DatabaseError> {
+tests/multiprocess_tests.rs:269:    fn create(path: &std::path::Path, mode: ConcurrencyMode) -> Result<Database, DatabaseError> {
+tests/multimap_tests.rs:329:        let values: Vec<_> = iter.collect::<Result<Vec<_>, _>>().unwrap();
+tests/integration_tests.rs:107:    fn len(&self) -> Result<u64, std::io::Error> {
+tests/integration_tests.rs:111:    fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), std::io::Error> {
+tests/integration_tests.rs:115:    fn set_len(&self, len: u64) -> Result<(), std::io::Error> {
+tests/integration_tests.rs:119:    fn sync_data(&self) -> Result<(), std::io::Error> {
+tests/integration_tests.rs:124:    fn write(&self, offset: u64, data: &[u8]) -> Result<(), std::io::Error> {
+tests/integration_tests.rs:128:    fn close(&self) -> Result<(), std::io::Error> {
+tests/integration_tests.rs:139:    fn len(&self) -> Result<u64, std::io::Error> {
+tests/integration_tests.rs:143:    fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), std::io::Error> {
+tests/crash_consistency.rs:61:    fn len(&self) -> Result<u64, std::io::Error> {
+tests/crash_consistency.rs:65:    fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), std::io::Error> {
+tests/crash_consistency.rs:75:    fn set_len(&self, len: u64) -> Result<(), std::io::Error> {
+tests/crash_consistency.rs:84:    fn sync_data(&self) -> Result<(), std::io::Error> {
+tests/crash_consistency.rs:93:    fn write(&self, offset: u64, data: &[u8]) -> Result<(), std::io::Error> {
+tests/check_integrity_nondurable.rs:54:    fn len(&self) -> Result<u64, std::io::Error> {
+tests/check_integrity_nondurable.rs:57:    fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), std::io::Error> {
+tests/check_integrity_nondurable.rs:66:    fn set_len(&self, len: u64) -> Result<(), std::io::Error> {
+tests/check_integrity_nondurable.rs:73:    fn sync_data(&self) -> Result<(), std::io::Error> {
+tests/check_integrity_nondurable.rs:76:    fn write(&self, offset: u64, data: &[u8]) -> Result<(), std::io::Error> {
+tests/check_integrity_failure.rs:42:    fn len(&self) -> Result<u64, std::io::Error> {
+tests/check_integrity_failure.rs:45:    fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), std::io::Error> {
+tests/check_integrity_failure.rs:54:    fn set_len(&self, len: u64) -> Result<(), std::io::Error> {
+tests/check_integrity_failure.rs:61:    fn sync_data(&self) -> Result<(), std::io::Error> {
+tests/check_integrity_failure.rs:64:    fn write(&self, offset: u64, data: &[u8]) -> Result<(), std::io::Error> {
+tests/basic_tests.rs:4164:        fn len(&self) -> Result<u64, std::io::Error> {
+tests/basic_tests.rs:4168:        fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), std::io::Error> {
+tests/basic_tests.rs:4172:        fn set_len(&self, len: u64) -> Result<(), std::io::Error> {
+tests/basic_tests.rs:4177:        fn sync_data(&self) -> Result<(), std::io::Error> {
+tests/basic_tests.rs:4182:        fn write(&self, offset: u64, data: &[u8]) -> Result<(), std::io::Error> {

@@ -1,0 +1,213 @@
+src/multimap_table.rs:651:                        assert_eq!(existed, found);
+src/types.rs:125:        debug_assert!(matches!(
+src/types.rs:236:        debug_assert!(Self::compare(left, right).is_lt());
+src/types.rs:474:        debug_assert!(left < right);
+src/types.rs:753:        debug_assert!(left < right);
+src/types.rs:940:            assert_eq!(
+src/types.rs:963:            assert_eq!(separator, expected);
+src/types.rs:964:            assert!(<&[u8] as Key>::compare(left, &separator).is_le());
+src/types.rs:965:            assert!(<&[u8] as Key>::compare(&separator, right).is_lt());
+src/transaction_tracker.rs:151:        assert!(self.valid_savepoints.insert(id, registration).is_none());
+src/transaction_tracker.rs:311:        assert_eq!(state.write_slot, WriteSlotState::Initializing);
+src/transaction_tracker.rs:325:        assert!(matches!(state.write_slot, WriteSlotState::Live(_)));
+src/transaction_tracker.rs:350:        assert!(matches!(
+src/transaction_tracker.rs:355:        assert_ne!(state.write_slot, WriteSlotState::Free);
+src/transaction_tracker.rs:430:        assert!(
+src/transaction_tracker.rs:451:        assert_eq!(
+src/transaction_tracker.rs:455:        assert_eq!(id, state.next_transaction_id.next());
+src/lib.rs:55://!     assert_eq!(table.get_owned("my_key")?.unwrap().value(), 123);
+src/types/uuid.rs:58:        assert_eq!(
+src/types/uuid.rs:80:            assert_eq!(value.value(), uuid2);
+src/io.rs:96:            assert_eq!(format!("{error}"), "Index out-of-range.");
+src/io.rs:102:            assert_eq!(format!("{error}"), "page 7 is out of range");
+src/table.rs:416:    ///     assert_eq!(table.len()?, 1000);
+src/table.rs:659:    /// assert_eq!("a", key.value());
+src/table.rs:660:    /// assert_eq!(0, value.value());
+src/table.rs:697:    /// assert_eq!("a", key.value());
+src/table.rs:698:    /// assert_eq!(0, value.value());
+src/table.rs:760:    ///     assert_eq!(entry_at_or_after(&table, 5)?, Some(5));
+src/table.rs:766:    /// assert_eq!(entry_at_or_after(&table, 5)?, Some(5));
+src/table.rs:767:    /// assert_eq!(entry_at_or_after(&table, 100)?, None);
+src/types/chrono_v0_4.rs:37:        assert_eq!(
+src/types/chrono_v0_4.rs:88:        assert!(
+src/types/chrono_v0_4.rs:145:        assert_eq!(
+src/types/chrono_v0_4.rs:215:        assert_eq!(
+src/types/chrono_v0_4.rs:293:        assert_eq!(
+src/types/chrono_v0_4.rs:359:        assert_eq!(
+src/types/chrono_v0_4.rs:364:        assert_eq!(
+src/types/chrono_v0_4.rs:370:        assert_eq!(date, date_from_bytes);
+src/sync.rs:330:        // direction cannot be asserted here, and is held by the explicit impl on `MutexGuard`.
+src/sync.rs:332:            const fn assert_sync<T: Sync>() {}
+src/sync.rs:333:            assert_sync::<MutexGuard<'_, u64>>();
+src/sync.rs:334:            assert_sync::<RwLockReadGuard<'_, u64>>();
+src/sync.rs:335:            assert_sync::<RwLockWriteGuard<'_, u64>>();
+src/sync.rs:351:            assert_eq!(*counter.lock().unwrap(), 40000);
+src/sync.rs:358:            assert!(mutex.try_lock().is_err());
+src/sync.rs:360:            assert_eq!(*mutex.try_lock().unwrap(), 7);
+src/db.rs:285:        assert!(!name.is_empty());
+src/db.rs:345:        assert!(!name.is_empty());
+src/db.rs:1310:    #[cfg_attr(not(debug_assertions), expect(dead_code))]
+src/db.rs:1342:                    assert!(mem.is_allocated(pages.value().get(i)));
+src/db.rs:1407:    #[cfg(debug_assertions)]
+src/db.rs:1570:        #[cfg(debug_assertions)]
+src/db.rs:1591:            #[cfg(debug_assertions)]
+src/db.rs:1647:            #[cfg(debug_assertions)]
+src/tree_store/btree_cursor_range.rs:115:        assert!(matches!(self.slot(side), Slot::Uninitialized));
+src/tuple_types.rs:31:    debug_assert!(output.len() <= total_len + worst_case_len_overhead);
+src/tuple_types.rs:146:    debug_assert!(types.iter().zip(elements).all(|(element_type, element)| {
+src/tuple_types.rs:625:        assert!(<(&str, u8)>::fixed_width().is_none());
+src/tuple_types.rs:626:        assert!(<(u16, u8, &str, u128)>::fixed_width().is_none());
+src/tuple_types.rs:627:        assert_eq!(<(u16,)>::fixed_width().unwrap(), 2);
+src/tuple_types.rs:628:        assert_eq!(<(u16, u8)>::fixed_width().unwrap(), 3);
+src/tuple_types.rs:629:        assert_eq!(<(u16, u8, u128)>::fixed_width().unwrap(), 19);
+src/tuple_types.rs:630:        assert_eq!(<(u16, u8, i8, u128)>::fixed_width().unwrap(), 20);
+src/tree_store/table_tree_base.rs:366:        debug_assert!(data.len() > 22);
+src/tree_store/table_tree_base.rs:369:        assert!(!legacy);
+src/complex_types.rs:67:        assert_eq!(offset, data.len());
+src/tree_store/btree_cursor.rs:328:        debug_assert!(removed_indexes.windows(2).all(|pair| pair[0] < pair[1]));
+src/tree_store/btree_cursor.rs:329:        // Hard asserts: a violation would splice the wrong children out of
+src/tree_store/btree_cursor.rs:333:                assert_eq!(child_index, self.replaced_children.end);
+src/tree_store/btree_cursor.rs:337:                assert_eq!(child_index + 1, self.replaced_children.start);
+src/tree_store/btree_cursor.rs:650:        assert_eq!(self.path.len(), other.path.len());
+src/tree_store/btree_cursor.rs:793:        assert!(self.state.leaf_run_rewrite.is_none());
+src/tree_store/btree_cursor.rs:794:        assert!(self.state.removed_indexes.is_empty());
+src/tree_store/btree_cursor.rs:796:        assert!(self.state.insert_run.is_none());
+src/tree_store/btree.rs:203:        assert!(self.page_allocator.uncommitted(page_number));
+src/tree_store/btree.rs:265:        assert!(self.page_allocator.uncommitted(page_number));
+src/tree_store/btree.rs:495:        assert!(fake_freed_pages.is_empty());
+src/tree_store/btree.rs:1389:        assert!(!(path.parents().contains(&p2) || path.page_number() == p2));
+src/tree_store/btree.rs:1392:        assert!(!(path.parents().contains(&p3) || path.page_number() == p3));
+src/tree_store/btree.rs:1395:        assert!(path.parents().contains(&p2) || path.page_number() == p2);
+src/tree_store/btree.rs:1398:        assert!(path.parents().contains(&p1) || path.page_number() == p1);
+src/tree_store/btree.rs:1417:        assert!(visited.contains(&p1));
+src/tree_store/extract_if.rs:115:                assert!(!self.predicate_running);
+src/tree_store/extract_if.rs:140:                assert!(!self.predicate_running);
+src/transactions.rs:14:#[cfg(all(debug_assertions, not(redb_no_std)))]
+src/transactions.rs:139:        assert!(data.len() >= 8);
+src/transactions.rs:283:        assert!(!name.is_empty());
+src/transactions.rs:653:        assert!(self.open_tables.is_empty());
+src/transactions.rs:1049:    #[cfg(all(debug_assertions, not(redb_no_std)))]
+src/transactions.rs:1067:            assert!(all_allocated.remove(&p));
+src/transactions.rs:1083:            assert!(all_allocated.remove(&p));
+src/transactions.rs:1096:                    assert!(all_allocated.remove(&p));
+src/tree_store/btree_base.rs:36:    debug_assert!(K::compare(left, right).is_lt());
+src/tree_store/btree_base.rs:43:    debug_assert!(
+src/tree_store/btree_base.rs:47:    debug_assert!(
+src/tree_store/btree_base.rs:326:        assert!(page_allocator.uncommitted(page.get_page_number()));
+src/tree_store/btree_base.rs:328:            assert!(page_allocator.uncommitted(parent_page.get_page_number()));
+src/tree_store/btree_base.rs:409:            assert!(
+src/tree_store/btree_base.rs:500:        debug_assert_eq!(page[0], LEAF);
+src/tree_store/btree_base.rs:542:        debug_assert_eq!(min_entry, max_entry);
+src/tree_store/table_tree.rs:277:    #[cfg_attr(any(not(debug_assertions), redb_no_std), expect(dead_code))]
+src/tree_store/table_tree.rs:419:        assert!(self.pending_table_updates.is_empty());
+src/tree_store/table_tree.rs:467:        assert!(self.pending_table_updates.is_empty());
+src/tree_store/table_tree.rs:468:        assert!(self.tree.get(&name)?.is_none());
+src/tree_store/table_tree.rs:581:            assert!(self.tree.remove(&name)?.is_some());
+src/tree_store/table_tree.rs:584:            assert!(self.tree.insert(&new_name, &definition)?.is_none());
+src/tree_store/table_tree.rs:813:        assert!(self.allocated_pages.is_empty());
+src/tree_store/table_tree.rs:836:        assert_eq!(x, y);
+src/tree_store/multimap_btree.rs:329:    assert!(freed_pages.lock().unwrap().is_empty());
+src/tree_store/multimap_btree.rs:532:        debug_assert!(matches!(self.collection_type(), Inline));
+src/tree_store/multimap_btree.rs:545:        assert!(matches!(self.collection_type(), SubtreeV2));
+src/tree_store/multimap_btree.rs:619:        debug_assert!(matches!(self.collection_type(), Inline));
+src/tree_store/multimap_btree.rs:624:        assert!(matches!(self.collection_type(), SubtreeV2));
+src/tree_store/btree_mutator.rs:181:                assert_eq!(
+src/tree_store/btree_mutator.rs:269:        assert!(!replaced_children.is_empty());
+src/tree_store/btree_mutator.rs:278:            assert!(replaced_children.end <= old_children);
+src/tree_store/btree_mutator.rs:362:                debug_assert_eq!(pushed, new_children);
+src/tree_store/btree_mutator.rs:493:        assert!(entries.num_pairs() > 0);
+src/tree_store/btree_mutator.rs:494:        assert_eq!(replaced.is_some(), self.root.is_some());
+src/tree_store/btree_mutator.rs:573:        assert!(child_index < count);
+src/tree_store/btree_mutator.rs:612:        assert!(children.len() >= 2);
+src/tree_store/page_store/xxh3.rs:210:        assert!(secret.len() >= STRIPE_LENGTH);
+src/tree_store/page_store/xxh3.rs:332:        assert!(data.len() >= STRIPE_LENGTH);
+src/tree_store/page_store/xxh3.rs:333:        assert!(secret.len() >= STRIPE_LENGTH);
+src/tree_store/page_store/xxh3.rs:366:        assert!(data.len() >= STRIPE_LENGTH);
+src/tree_store/page_store/xxh3.rs:367:        assert!(secret.len() >= STRIPE_LENGTH);
+src/tree_store/page_store/xxh3.rs:823:        assert_eq!(actual, 3244421341483603138);
+src/tree_store/page_store/region.rs:87:        assert!(order < self.order_trackers.len());
+src/tree_store/page_store/region.rs:183:                    assert!(new_region.num_pages() >= allocator.len());
+src/tree_store/page_store/savepoint.rs:113:        assert_eq!(savepoint.version, FILE_FORMAT_VERSION3);
+src/tree_store/page_store/savepoint.rs:212:        debug_assert_eq!(offset, data.len());
+src/tree_store/page_store/savepoint.rs:274:        assert!(
+src/tree_store/page_store/savepoint.rs:281:        assert!(matches!(
+src/tree_store/page_store/savepoint.rs:288:        assert!(matches!(
+src/tree_store/page_store/savepoint.rs:295:        assert!(matches!(
+src/tree_store/page_store/layout.rs:23:        assert!(num_pages > 0);
+src/tree_store/page_store/layout.rs:37:        assert!(desired_usable_bytes <= u64::from(page_capacity) * u64::from(page_size));
+src/tree_store/page_store/layout.rs:96:            assert!(pages <= trailing.num_pages);
+src/tree_store/page_store/layout.rs:132:            assert!(data_pages < region_max_data_pages_u32);
+src/tree_store/page_store/layout.rs:179:            assert!(full_regions > 0);
+src/tree_store/page_store/layout.rs:192:                assert_eq!(region.header_pages, full_region_layout.header_pages);
+src/tree_store/page_store/layout.rs:237:        assert!(region < self.num_regions());
+src/tree_store/page_store/layout.rs:243:        assert!(region < self.num_regions());
+src/tree_store/page_store/page_manager.rs:154:        assert!(self.shard(page).lock().unwrap().insert(page));
+src/tree_store/page_store/page_manager.rs:213:            assert!(self.mem.claim_unpersisted(page));
+src/tree_store/page_store/page_manager.rs:221:        self.mem.debug_assert_no_dirty_pages();
+src/tree_store/page_store/page_manager.rs:440:            debug_assert!(removed);
+src/tree_store/page_store/page_manager.rs:457:                debug_assert!(prev.is_none(), "page {page:?} already tracked");
+src/tree_store/page_store/page_manager.rs:661:    #[cfg(debug_assertions)]
+src/tree_store/page_store/page_manager.rs:664:    #[cfg(debug_assertions)]
+src/tree_store/page_store/page_manager.rs:666:    // Set of all allocated pages for debugging assertions
+src/tree_store/page_store/buddy_allocator.rs:69:        assert_eq!(accounted_pages, num_pages);
+src/tree_store/page_store/buddy_allocator.rs:196:    #[cfg_attr(not(debug_assertions), expect(dead_code))]
+src/tree_store/page_store/buddy_allocator.rs:214:            assert_eq!(free_check, check_result);
+src/tree_store/page_store/buddy_allocator.rs:236:                debug_assert_eq!(processed_pages % order_size, 0);
+src/tree_store/page_store/buddy_allocator.rs:252:            assert_eq!(processed_pages, new_size);
+src/tree_store/page_store/buddy_allocator.rs:263:                debug_assert_eq!(processed_pages % order_size, 0);
+src/tree_store/page_store/buddy_allocator.rs:267:                assert!(self.record_alloc_inner(page, order));
+src/tree_store/page_store/buddy_allocator.rs:275:                    assert!(self.record_alloc_inner(page, order));
+src/tree_store/page_store/fast_hash.rs:37:            debug_assert_eq!(self.hash, 0);
+src/tree_store/page_store/backends.rs:182:            assert!(matches!(err, crate::BackendError::Unsupported));
+src/tree_store/page_store/backends.rs:187:        assert_eq!(backend.len().unwrap(), 1024);
+src/tree_store/page_store/backends.rs:194:        assert_eq!(format!("{backend:?}"), "InMemoryBackend { len: 1024 }");
+src/tree_store/page_store/backends.rs:210:        assert!(result.is_err());
+src/tree_store/page_store/backends.rs:211:        assert_eq!(format!("{backend:?}"), "InMemoryBackend { len: 512 }");
+src/tree_store/page_store/bitmap.rs:57:        assert!(i < self.get_height());
+src/tree_store/page_store/bitmap.rs:87:        assert_eq!(end_metadata, result.len());
+src/tree_store/page_store/bitmap.rs:171:        assert!(self.get_level(0).len() <= 64);
+src/tree_store/page_store/bitmap.rs:192:        assert!(i < self.get_height());
+src/tree_store/page_store/bitmap.rs:224:    debug_assert!(lo < hi && hi <= 64);
+src/tree_store/page_store/bitmap.rs:282:        assert_eq!(0, (serialized.len() - size_of::<u32>()) % size_of::<u64>());
+src/tree_store/page_store/bitmap.rs:316:        assert_eq!(end_bit, (start_bit - start_bit % 64) + 64);
+src/tree_store/page_store/bitmap.rs:366:        assert!(bit < self.len);
+src/tree_store/page_store/header.rs:128:        // layout math below divides by / asserts on it; the page_size check also bounds every later
+src/tree_store/page_store/header.rs:297:        // Reject it rather than letting the `layout.len() == file_len` assertion in
+src/tree_store/page_store/header.rs:360:        #[allow(clippy::assertions_on_constants)]
+src/tree_store/page_store/header.rs:362:            assert!(TRANSACTION_LAST_FIELD <= SLOT_CHECKSUM_OFFSET);
+src/tree_store/page_store/header.rs:405:        assert_eq!(
+src/tree_store/page_store/header.rs:410:            assert_eq!(trailing.get_header_pages(), self.region_header_pages);
+src/tree_store/page_store/header.rs:411:            assert_eq!(trailing.page_size(), self.page_size);
+src/tree_store/page_store/header.rs:562:        assert_eq!(self.version, FILE_FORMAT_VERSION3);
+src/tree_store/page_store/active_transactions.rs:62:        assert!(
+src/tree_store/page_store/active_transactions.rs:79:        assert_eq!(scan(0), None);
+src/tree_store/page_store/active_transactions.rs:84:        assert_eq!(scan(0), Some(1234));
+src/tree_store/page_store/active_transactions.rs:85:        assert_eq!(scan(1234), Some(1234));
+src/tree_store/page_store/active_transactions.rs:87:        assert_eq!(scan(1235), Some(77777));
+src/tree_store/page_store/active_transactions.rs:88:        assert_eq!(scan(77778), None);
+src/tree_store/page_store/active_transactions.rs:92:        assert_eq!(scan(0), Some(77777));
+src/tree_store/page_store/active_transactions.rs:94:        assert_eq!(scan(0), None);
+src/tree_store/page_store/file_backend/optimized.rs:523:            assert!(byte_is_free(&observer, offset, false), "offset {offset}");
+src/tree_store/page_store/file_backend/optimized.rs:525:        assert!(observer.try_lock().is_ok());
+src/tree_store/page_store/file_backend/optimized.rs:554:            assert!(backend.try_lock_range(start, end).unwrap());
+src/tree_store/page_store/file_backend/optimized.rs:558:            assert!(
+src/tree_store/page_store/file_backend/optimized.rs:564:        assert!(peer.try_lock_range(Included(99), Included(99)).unwrap());
+src/tree_store/page_store/file_backend/optimized.rs:569:        assert!(peer.try_lock_range(Included(4095), Included(4095)).unwrap());
+src/tree_store/page_store/file_backend/optimized.rs:634:            assert!(
+src/tree_store/page_store/file_backend/optimized.rs:638:            assert!(
+src/tree_store/page_store/cached_file.rs:77:        assert!(self.cache.insert(key, Some(value)).is_none());
+src/tree_store/page_store/cached_file.rs:86:            assert!(value.is_some());
+src/tree_store/page_store/cached_file.rs:93:        assert!(self.cache.get_mut(key).unwrap().replace(value).is_none());
+src/tree_store/page_store/cached_file.rs:636:        debug_assert_eq!(0, offset % self.page_size);
+src/tree_store/page_store/cached_file.rs:646:                debug_assert_eq!(cached.len(), len);
+src/tree_store/page_store/cached_file.rs:657:                debug_assert_eq!(cached.len(), len);
+src/tree_store/page_store/cached_file.rs:673:                debug_assert_eq!(cached.len(), len);
+src/tree_store/page_store/cached_file.rs:753:        assert_eq!(0, offset % self.page_size);
+src/tree_store/page_store/base.rs:4:#[cfg(debug_assertions)]
+src/tree_store/page_store/base.rs:57:                assert!(
+src/tree_store/page_store/base.rs:80:        debug_assert!(region <= 0x000F_FFFF);
+src/tree_store/page_store/base.rs:81:        debug_assert!(page_index <= MAX_PAGE_INDEX);
+src/tree_store/page_store/base.rs:82:        debug_assert!(page_order <= MAX_MAX_PAGE_ORDER);
+src/tree_store/page_store/base.rs:151:        debug_assert!(regional_start < region_size);
+src/tree_store/page_store/base.rs:183:    #[cfg(debug_assertions)]
+src/tree_store/page_store/base.rs:199:#[cfg(debug_assertions)]

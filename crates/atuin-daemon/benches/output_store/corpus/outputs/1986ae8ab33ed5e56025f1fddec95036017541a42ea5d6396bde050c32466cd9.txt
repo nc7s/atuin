@@ -1,0 +1,93 @@
+crates/atuin-daemon/src/client.rs:71:    pub async fn new(path: PathBuf) -> Result<Self> {
+crates/atuin-daemon/src/client.rs:98:    pub async fn new(port: u64) -> Result<Self> {
+crates/atuin-daemon/src/client.rs:120:    pub async fn from_settings(settings: &Settings) -> Result<Self> {
+crates/atuin-daemon/src/client.rs:125:    pub async fn from_settings(settings: &Settings) -> Result<Self> {
+crates/atuin-daemon/src/client.rs:129:    pub async fn start_history(&mut self, h: History) -> Result<StartHistoryReply> {
+crates/atuin-daemon/src/client.rs:145:    pub async fn end_history(
+crates/atuin-daemon/src/client.rs:163:    pub async fn cancel_history(&mut self, id: HistoryId) -> Result<CancelHistoryReply> {
+crates/atuin-daemon/src/client.rs:173:    pub async fn delete_history(
+crates/atuin-daemon/src/server.rs:21:pub async fn run_grpc_server(
+crates/atuin-daemon/src/server.rs:149:pub async fn run_grpc_server(
+crates/atuin-daemon/src/search/index.rs:380:    pub async fn from_db(
+crates/atuin-daemon/src/search/index.rs:395:    pub async fn load_from_db(&self, db: &Sqlite) -> Result<(), LoadFromDbError> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:43:    pub async fn capture(
+crates/atuin-daemon/src/output_capture/benchmark.rs:54:    pub async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:61:    pub async fn remove(&self, ids: Vec<HistoryId>) -> Result<(), DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:69:    pub async fn reclaim(&self, bytes: u64) -> Result<u64, DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/mod.rs:61:    pub async fn capture(
+crates/atuin-daemon/src/output_capture/mod.rs:69:    pub async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/mod.rs:77:    pub async fn remove(
+crates/atuin-daemon/src/output_capture/mod.rs:109:    async fn open_uses_the_fjall_backend_when_the_path_is_usable() {
+crates/atuin-daemon/src/output_capture/mod.rs:119:    async fn open_falls_back_to_nop_when_fjall_cannot_open() {
+crates/atuin-daemon/src/output_capture/mod.rs:132:    async fn nop_constructor_discards_everything() {
+crates/atuin-daemon/src/output_capture/mod.rs:142:    async fn remove_forgets_captured_output() {
+crates/atuin-daemon/src/output_capture/mod.rs:152:    async fn remove_on_the_nop_backend_is_ok() {
+crates/atuin-daemon/src/components/sync.rs:73:    async fn start(&mut self, handle: DaemonHandle) -> Result<()> {
+crates/atuin-daemon/src/components/sync.rs:84:    async fn handle_event(&mut self, _event: &DaemonEvent) -> Result<()> {
+crates/atuin-daemon/src/components/sync.rs:88:    async fn stop(&mut self) -> Result<()> {
+crates/atuin-daemon/src/components/sync.rs:104:async fn sync_loop(handle: DaemonHandle, mut cmd_rx: mpsc::Receiver<SyncCommand>) {
+crates/atuin-daemon/src/components/sync.rs:172:async fn do_sync_tick(
+crates/atuin-daemon/src/history_journal.rs:340:    pub async fn finish(
+crates/atuin-daemon/src/history_journal.rs:414:    pub async fn cancel(&self, history_id: HistoryId) -> Result<(), CmdCancelError> {
+crates/atuin-daemon/src/history_journal.rs:457:    pub async fn delete(
+crates/atuin-daemon/src/history_journal.rs:542:    pub async fn rebuild(&self, search_settings: &Search) -> Result<(), CmdRebuildError> {
+crates/atuin-daemon/src/history_journal.rs:554:    async fn reload_search_index(&self, search_settings: &Search) {
+crates/atuin-daemon/src/history_journal.rs:582:    async fn guard_deleting<'i>(&self, ids: &'i [HistoryId]) -> DeletingGuard<'_, 'i> {
+crates/atuin-daemon/src/history_journal.rs:602:    pub async fn register_command_output(
+crates/atuin-daemon/src/history_journal.rs:640:    pub async fn get_command_output(
+crates/atuin-daemon/src/output_capture/backend/redb.rs:61:    pub(in crate::output_capture) async fn reclaim(
+crates/atuin-daemon/src/output_capture/backend/redb.rs:92:    async fn capture(&self, id: HistoryId, capture: CommandCapture) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:114:    async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/backend/redb.rs:129:    async fn remove(&self, ids: Vec<HistoryId>) -> Result<(), DeleteOutputError> {
+crates/atuin-daemon/src/lib.rs:43:pub async fn boot(
+crates/atuin-daemon/src/lib.rs:135:async fn shutdown_signal() {
+crates/atuin-daemon/src/lib.rs:149:async fn shutdown_signal() {
+crates/atuin-daemon/src/output_capture/backend/mod.rs:43:    async fn capture(&self, id: HistoryId, capture: CommandCapture) -> Result<(), CaptureError>;
+crates/atuin-daemon/src/output_capture/backend/mod.rs:45:    async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError>;
+crates/atuin-daemon/src/output_capture/backend/mod.rs:48:    async fn remove(&self, ids: Vec<HistoryId>) -> Result<(), DeleteOutputError>;
+crates/atuin-daemon/src/components/search.rs:71:    async fn rebuild_frecency(handle: &DaemonHandle, index: &RwLock<SearchIndex>) {
+crates/atuin-daemon/src/components/search.rs:81:    async fn rebuild_index(
+crates/atuin-daemon/src/components/search.rs:118:    async fn start(&mut self, handle: DaemonHandle) -> Result<()> {
+crates/atuin-daemon/src/components/search.rs:159:    async fn handle_event(&mut self, event: &DaemonEvent) -> Result<()> {
+crates/atuin-daemon/src/components/search.rs:185:    async fn stop(&mut self) -> Result<()> {
+crates/atuin-daemon/src/components/search.rs:219:    async fn maybe_rebuild_index(
+crates/atuin-daemon/src/components/search.rs:244:    async fn search(
+crates/atuin-daemon/src/components/search.rs:328:    async fn prepare_index(
+crates/atuin-daemon/src/grpc/history/pb.rs:527:    async fn delete_stream_collects_ids_across_chunks_in_order() {
+crates/atuin-daemon/src/grpc/history/pb.rs:542:    async fn delete_stream_maps_a_malformed_id_to_invalid_argument() {
+crates/atuin-daemon/src/grpc/history/pb.rs:552:    async fn delete_stream_maps_over_cap_to_invalid_argument() {
+crates/atuin-daemon/src/output_capture/backend/failing.rs:18:    async fn capture(&self, _id: HistoryId, _capture: CommandCapture) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/backend/failing.rs:22:    async fn get(&self, _id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/backend/failing.rs:26:    async fn remove(&self, _ids: Vec<HistoryId>) -> Result<(), DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/backend/nop.rs:10:    async fn capture(&self, _id: HistoryId, _capture: CommandCapture) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/backend/nop.rs:14:    async fn get(&self, _id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/backend/nop.rs:18:    async fn remove(&self, _ids: Vec<HistoryId>) -> Result<(), DeleteOutputError> {
+crates/atuin-daemon/src/grpc/history/mod.rs:262:    async fn start_history(
+crates/atuin-daemon/src/grpc/history/mod.rs:279:    async fn end_history(
+crates/atuin-daemon/src/grpc/history/mod.rs:305:    async fn cancel_history(
+crates/atuin-daemon/src/grpc/history/mod.rs:325:    async fn delete_history(
+crates/atuin-daemon/src/grpc/history/mod.rs:349:    async fn rebuild_history(
+crates/atuin-daemon/src/grpc/history/mod.rs:363:    async fn tail_history(
+crates/atuin-daemon/src/grpc/history/mod.rs:387:    async fn status(
+crates/atuin-daemon/src/grpc/history/mod.rs:408:    async fn shutdown(
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:64:    async fn capture(&self, id: HistoryId, capture: CommandCapture) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:95:    async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:113:    async fn remove(&self, ids: Vec<HistoryId>) -> Result<(), DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:149:    async fn reclaim(&self, reclaim_bytes: u64) -> Result<u64, DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:328:    async fn capture(&self, id: HistoryId, capture: CommandCapture) -> Result<(), CaptureError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:332:    async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:336:    async fn remove(&self, ids: Vec<HistoryId>) -> Result<(), DeleteOutputError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:371:    async fn round_trips_output_by_history_id() {
+crates/atuin-daemon/src/daemon.rs:121:    pub async fn settings(&self) -> tokio::sync::RwLockReadGuard<'_, Settings> {
+crates/atuin-daemon/src/daemon.rs:129:    pub async fn apply_settings(&self, settings: Settings) {
+crates/atuin-daemon/src/daemon.rs:201:///     async fn start(&mut self, handle: DaemonHandle) -> Result<()> {
+crates/atuin-daemon/src/daemon.rs:206:///     async fn handle_event(&mut self, event: &DaemonEvent) -> Result<()> {
+crates/atuin-daemon/src/daemon.rs:219:///     async fn stop(&mut self) -> Result<()> {
+crates/atuin-daemon/src/daemon.rs:235:    async fn start(&mut self, handle: DaemonHandle) -> Result<()>;
+crates/atuin-daemon/src/daemon.rs:242:    async fn handle_event(&mut self, event: &DaemonEvent) -> Result<()>;
+crates/atuin-daemon/src/daemon.rs:247:    async fn stop(&mut self) -> Result<()>;
+crates/atuin-daemon/src/output_capture/backend/fjall/benchmark.rs:39:    pub(in crate::output_capture) async fn reclaim_for_benchmark(
+crates/atuin-daemon/src/grpc/common/mod.rs:105:    async fn collects_every_chunk_in_stream_order() {
+crates/atuin-daemon/src/grpc/common/mod.rs:114:    async fn rejects_more_than_max() {
+crates/atuin-daemon/src/grpc/common/mod.rs:126:    async fn propagates_an_item_error() {
+crates/atuin-daemon/src/grpc/common/mod.rs:134:    async fn propagates_a_stream_error_verbatim() {

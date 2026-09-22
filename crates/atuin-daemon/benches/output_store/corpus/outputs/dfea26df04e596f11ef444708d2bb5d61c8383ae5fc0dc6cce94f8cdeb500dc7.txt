@@ -1,0 +1,20 @@
+7:pub struct CapabilitiesCap {
+9:    pub version: u32,
+12:impl Capability for CapabilitiesCap {
+13:    fn static_name() -> &'static str {
+17:    fn name(&self) -> &'static str {
+21:    fn json(&self) -> Result<serde_json::Value, serde_json::Error> {
+31:pub struct PackfileCap {
+33:    pub version: u32,
+36:    pub record_count: u64,
+39:impl Capability for PackfileCap {
+40:    fn static_name() -> &'static str {
+44:    fn name(&self) -> &'static str {
+48:    fn json(&self) -> Result<serde_json::Value, serde_json::Error> {
+54:pub struct PageSizeCap {
+55:    pub version: u32,
+56:    pub page_size: u64,
+59:impl Capability for PageSizeCap {
+60:    fn static_name() -> &'static str {
+64:    fn name(&self) -> &'static str {
+68:    fn json(&self) -> Result<serde_json::Value, serde_json::Error> {

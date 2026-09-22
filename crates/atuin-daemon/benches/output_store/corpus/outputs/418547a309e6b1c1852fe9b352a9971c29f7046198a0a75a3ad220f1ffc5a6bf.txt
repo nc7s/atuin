@@ -1,0 +1,1 @@
+204:pub(crate) fn get_powers() -> &'static ModeratePathPowers {

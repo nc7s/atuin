@@ -1,0 +1,5 @@
+17:enum TypeClassification {
+27:impl TypeClassification {
+28:    fn to_byte(&self) -> u8 {
+37:    fn from_byte(value: u8) -> Self {
+49:pub struct TypeName {

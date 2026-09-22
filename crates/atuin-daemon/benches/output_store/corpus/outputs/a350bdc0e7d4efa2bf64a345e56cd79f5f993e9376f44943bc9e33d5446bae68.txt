@@ -1,0 +1,160 @@
+use std::time::Duration;
+
+use atuin_client::database::Sqlite;
+use atuin_client::history::{History, HistoryId};
+use atuin_client::settings::Settings;
+use atuin_common::string::EscapeNonPrintablePosixExt as _;
+use atuin_common::time::DurationExt as _;
+use ratatui::Frame;
+use ratatui::backend::FromCrossterm as _;
+use ratatui::layout::{Constraint, Layout, Rect};
+use ratatui::style::{Modifier, Style};
+use ratatui::text::{Line, Span, Text};
+use ratatui::widgets::{
+    Block, BorderType, Borders, Cell, Padding, Paragraph, Row, Table, TableState, Tabs, Wrap,
+};
+use time::macros::format_description;
+use unicode_width::UnicodeWidthStr as _;
+
+use super::bindings::Bindings;
+use super::output::Capture;
+use crate::command::client::search::keybindings::Action;
+use crate::command::client::search::syntax;
+use crate::command::client::theme::{Meaning, Theme};
+
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum View {
+    #[default]
+    Runs,
+    Session,
+    Stats,
+    Output,
+}
+
+/// Display strings prepared when a database window is loaded, not on each frame.
+struct Run {
+    id: HistoryId,
+    timestamp: String,
+    exit: String,
+    duration: String,
+    origin: String,
+    context: String,
+    failed: bool,
+}
+
+impl Run {
+    fn new(entry: &History, session: bool, settings: &Settings) -> Self {
+        Self {
+            id: entry.id,
+            timestamp: timestamp(entry, settings),
+            exit: exit_label(entry.exit),
+            duration: Duration::saturating_from_nanos_i64(entry.duration)
+                .display()
+                .largest_unit()
+                .to_string(),
+            origin: origin(entry),
+            context: if session {
+                &entry.command
+            } else {
+                &entry.cwd
+            }
+            .escape_non_printable()
+            .into_owned(),
+            failed: entry.exit > 0,
+        }
+    }
+}
+
+/// Switching views pivots on the selected occurrence, not the original search result.
+#[derive(Default)]
+pub struct Browser {
+    pub view: View,
+    entries: Vec<Run>,
+    scope: Option<(View, String)>,
+    window_for: Option<HistoryId>,
+    table: TableState,
+
+    selected_for: Option<HistoryId>,
+    command: Paragraph<'static>,
+    command_size: (usize, usize),
+    details: Paragraph<'static>,
+    output_heading: Paragraph<'static>,
+
+    output: Capture,
+    output_scroll: usize,
+    output_max_scroll: usize,
+    output_page_size: usize,
+    output_return: View,
+}
+
+impl Browser {
+    /// Settings and theme are fixed for a search session. Only a new occurrence
+    /// needs its command highlighted and its metadata formatted again.
+    pub fn prepare(&mut self, selected: &History, settings: &Settings, theme: &Theme) {
+        if self.selected_for == Some(selected.id) {
+            return;
+        }
+        let styles = Styles::new(theme);
+        let command = command_text(selected, settings.ui.syntax_highlight, theme);
+        self.command_size = (command.width(), command.lines.len());
+
+        let mut heading = command.lines.first().cloned().unwrap_or_default();
+        heading.spans.insert(0, Span::styled("cmd: ", styles.muted));
+        self.output_heading = Paragraph::new(vec![
+            heading,
+            Line::styled(
+                format!(
+                    " {}  ·  {}  ·  exit {}",
+                    timestamp(selected, settings),
+                    origin(selected),
+                    exit_label(selected.exit)
+                ),
+                styles.muted,
+            ),
+        ]);
+
+        self.command = Paragraph::new(command).wrap(Wrap { trim: false });
+        self.details = details(selected, settings, styles);
+        self.selected_for = Some(selected.id);
+    }
+
+    /// Keep command context visible without spending a panel's borders and padding on it.
+    pub fn draw_command(&self, f: &mut Frame<'_>, area: Rect, theme: &Theme) -> Rect {
+        let width = usize::from(area.width.saturating_sub(5).max(1));
+        let wraps = self.command_size.1 > 1 || self.command_size.0 > width;
+        let height = if area.height >= 12 && wraps {
+            2
+        } else {
+            1
+        };
+        let areas = Layout::vertical([Constraint::Length(height), Constraint::Min(0)]).split(area);
+        let columns =
+            Layout::horizontal([Constraint::Length(5), Constraint::Min(0)]).split(areas[0]);
+
+        f.render_widget(Paragraph::new("cmd: ").style(Styles::new(theme).muted), columns[0]);
+        f.render_widget(&self.command, columns[1]);
+        areas[1]
+    }
+
+    pub fn select_view(&mut self, view: View) {
+        if self.view != view {
+            if view == View::Output {
+                self.output_return = self.view;
+                self.output.reopen();
+            }
+            self.view = view;
+        }
+    }
+
+    pub fn back_from_output(&mut self) {
+        self.view = self.output_return;
+    }
+
+    /// The window is re-centered before the next input event, so its edges describe
+    /// real navigation boundaries, not an arbitrary database page boundary.
+    pub fn list_position(&self) -> (usize, usize) {
+        match self.view {
+            View::Runs | View::Session => (self.table.selected().unwrap_or(0), self.entries.len()),
+            View::Stats => (0, 1),
+            View::Output => (self.output_scroll, self.output_max_scroll + 1),
+        }

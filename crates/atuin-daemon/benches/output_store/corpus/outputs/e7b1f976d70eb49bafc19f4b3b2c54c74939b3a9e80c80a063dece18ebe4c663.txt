@@ -1,0 +1,6 @@
+3:pub struct LineColIterator<I> {
+26:    pub fn new(iter: I) -> LineColIterator<I> {
+35:    pub fn line(&self) -> usize {
+39:    pub fn col(&self) -> usize {
+43:    pub fn byte_offset(&self) -> usize {
+54:    fn next(&mut self) -> Option<io::Result<u8>> {

@@ -1,0 +1,19 @@
+12:pub(crate) struct ExtendedFloatArray {
+14:    pub mant: &'static [u64],
+16:    pub exp: &'static [i32],
+20:impl ExtendedFloatArray {
+22:    pub fn get_extended_float(&self, index: usize) -> ExtendedFloat {
+29:    pub fn len(&self) -> usize {
+38:pub(crate) struct ModeratePathPowers {
+40:    pub small: ExtendedFloatArray,
+42:    pub large: ExtendedFloatArray,
+44:    pub small_int: &'static [u64],
+46:    pub step: i32,
+48:    pub bias: i32,
+52:impl ModeratePathPowers {
+54:    pub fn get_small(&self, index: usize) -> ExtendedFloat {
+59:    pub fn get_large(&self, index: usize) -> ExtendedFloat {
+64:    pub fn get_small_int(&self, index: usize) -> u64 {
+74:    fn get_powers() -> &'static ModeratePathPowers;
+77:impl ModeratePathCache for ExtendedFloat {
+79:    fn get_powers() -> &'static ModeratePathPowers {

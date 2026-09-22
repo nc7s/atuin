@@ -1,0 +1,20 @@
+4:fn eq_i64(value: &Value, other: i64) -> bool {
+8:fn eq_u64(value: &Value, other: u64) -> bool {
+12:fn eq_f32(value: &Value, other: f32) -> bool {
+19:fn eq_f64(value: &Value, other: f64) -> bool {
+23:fn eq_bool(value: &Value, other: bool) -> bool {
+27:fn eq_str(value: &Value, other: &str) -> bool {
+31:impl PartialEq<str> for Value {
+32:    fn eq(&self, other: &str) -> bool {
+37:impl PartialEq<&str> for Value {
+38:    fn eq(&self, other: &&str) -> bool {
+43:impl PartialEq<Value> for str {
+44:    fn eq(&self, other: &Value) -> bool {
+49:impl PartialEq<Value> for &str {
+50:    fn eq(&self, other: &Value) -> bool {
+55:impl PartialEq<String> for Value {
+56:    fn eq(&self, other: &String) -> bool {
+61:impl PartialEq<Value> for String {
+62:    fn eq(&self, other: &Value) -> bool {
+70:            impl PartialEq<$ty> for Value {
+71:                fn eq(&self, other: &$ty) -> bool {

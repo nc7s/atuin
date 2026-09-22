@@ -1,0 +1,20 @@
+13:use std::io::ErrorKind;
+17:pub struct Error {
+18:    /// This `Box` allows us to keep the size of `Error` as small as possible. A
+19:    /// larger `Error` type was substantially slower due to all the functions
+20:    /// that pass around `Result<T, Error>`.
+21:    err: Box<ErrorImpl>,
+24:/// Alias for a `Result` with the error type `serde_json::Error`.
+25:pub type Result<T> = result::Result<T, Error>;
+27:impl Error {
+32:    pub fn line(&self) -> usize {
+44:    pub fn column(&self) -> usize {
+54:    pub fn classify(&self) -> Category {
+56:            ErrorCode::Message(_) => Category::Data,
+57:            ErrorCode::Io(_) => Category::Io,
+58:            ErrorCode::EofWhileParsingList
+59:            | ErrorCode::EofWhileParsingObject
+60:            | ErrorCode::EofWhileParsingString
+61:            | ErrorCode::EofWhileParsingValue => Category::Eof,
+62:            ErrorCode::ExpectedColon
+63:            | ErrorCode::ExpectedListCommaOrEnd

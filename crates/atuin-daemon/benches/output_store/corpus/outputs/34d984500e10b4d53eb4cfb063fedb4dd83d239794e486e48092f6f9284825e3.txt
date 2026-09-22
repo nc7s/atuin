@@ -1,0 +1,20 @@
+19:pub enum AuthResponse {
+34:pub enum MutateResponse {
+48:pub trait AuthClient: Send + Sync {
+50:    async fn login(
+58:    async fn register(&self, username: &str, email: &str, password: &str) -> Result<AuthResponse>;
+61:    async fn change_password(
+69:    async fn delete_account(
+76:/// Static-dispatch enum over the two auth backends.
+78:pub enum AnyAuthClient {
+84:pub async fn auth_client(settings: &Settings) -> AnyAuthClient {
+103:pub struct LegacyAuthClient {
+111:impl LegacyAuthClient {
+113:    pub fn new(
+129:    fn authenticated_client(&self) -> Result<reqwest::Client> {
+145:impl AuthClient for LegacyAuthClient {
+146:    async fn login(
+169:    async fn register(&self, username: &str, email: &str, password: &str) -> Result<AuthResponse> {
+184:    async fn change_password(
+216:    async fn delete_account(
+246:pub struct HubAuthClient {

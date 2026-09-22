@@ -1,0 +1,60 @@
+// import old shell history from zsh-histdb!
+// automatically hoover up all that we can find
+
+// As far as i can tell there are no version numbers in the histdb sqlite DB, so we're going based
+// on the schema from 2022-05-01
+//
+// I have run into some histories that will not import b/c of non UTF-8 characters.
+//
+
+//
+// An Example sqlite query for hsitdb data:
+//
+//id|session|command_id|place_id|exit_status|start_time|duration|id|argv|id|host|dir
+//
+//
+//  select
+//    history.id,
+//    history.start_time,
+//    places.host,
+//    places.dir,
+//    commands.argv
+//  from history
+//    left join commands on history.command_id = commands.id
+//    left join places on history.place_id = places.id ;
+//
+// CREATE TABLE history  (id integer primary key autoincrement,
+//                       session int,
+//                       command_id int references commands (id),
+//                       place_id int references places (id),
+//                       exit_status int,
+//                       start_time int,
+//                       duration int);
+//
+
+use std::collections::HashMap;
+use std::path::PathBuf;
+
+use async_trait::async_trait;
+use atuin_common::db;
+use atuin_common::utils::uuid_v7;
+use atuin_domain::record::{CmdHost, CmdOrigin, CmdUser};
+use directories::UserDirs;
+use eyre::{Result, eyre};
+use sqlx::Pool;
+use sqlx::sqlite::SqlitePool;
+use time::PrimitiveDateTime;
+
+use super::Importer;
+use crate::history::History;
+use crate::import::Loader;
+
+#[derive(sqlx::FromRow, Debug)]
+pub struct HistDbEntryCount {
+    pub count: usize,
+}
+
+#[derive(sqlx::FromRow, Debug)]
+pub struct HistDbEntry {
+    pub id: i64,
+    pub start_time: PrimitiveDateTime,

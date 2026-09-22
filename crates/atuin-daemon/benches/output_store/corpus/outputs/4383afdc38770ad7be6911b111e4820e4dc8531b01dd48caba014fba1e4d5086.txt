@@ -1,0 +1,20 @@
+3:use crate::error::{Error, ErrorCode, Result};
+22:pub use crate::read::{Read, SliceRead, StrRead};
+26:pub use crate::read::IoRead;
+31:pub struct Deserializer<R> {
+59:    pub fn new(read: R) -> Self {
+82:    pub fn from_reader(reader: R) -> Self {
+89:    pub fn from_slice(bytes: &'a [u8]) -> Self {
+96:    pub fn from_str(s: &'a str) -> Self {
+109:pub(crate) enum ParserNumber {
+117:impl ParserNumber {
+118:    fn visit<'de, V>(self, visitor: V) -> Result<V::Value>
+131:    fn invalid_type(self, exp: &dyn Expected) -> Error {
+133:            ParserNumber::F64(x) => de::Error::invalid_type(Unexpected::Float(x), exp),
+134:            ParserNumber::U64(x) => de::Error::invalid_type(Unexpected::Unsigned(x), exp),
+135:            ParserNumber::I64(x) => de::Error::invalid_type(Unexpected::Signed(x), exp),
+137:            ParserNumber::String(_) => de::Error::invalid_type(Unexpected::Other("number"), exp),
+146:    pub fn end(&mut self) -> Result<()> {
+148:            Some(_) => Err(self.peek_error(ErrorCode::TrailingCharacters)),
+154:    pub fn into_iter<T>(self) -> StreamDeserializer<'de, R, T>
+190:    /// fn main() {

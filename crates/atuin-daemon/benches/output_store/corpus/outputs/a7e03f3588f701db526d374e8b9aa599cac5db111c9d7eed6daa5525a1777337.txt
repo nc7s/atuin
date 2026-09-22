@@ -1,0 +1,18 @@
+src/macros.rs:53:macro_rules! unsafe_transmute_ref(
+src/macros.rs:54:    ($e:expr) => { unsafe { core::mem::transmute::<&_, &_>($e) } }
+src/macros.rs:59:macro_rules! unsafe_transmute_ref(
+src/macros.rs:65:macro_rules! unsafe_transmute(
+src/macros.rs:66:    ($e:expr) => { unsafe { core::mem::transmute::<_, _>($e) } }
+src/macros.rs:71:macro_rules! unsafe_transmute(
+src/non_nil.rs:88:    pub const unsafe fn new_unchecked(uuid: Uuid) -> Self {
+src/non_nil.rs:89:        NonNilUuid(unsafe { NonZeroU128::new_unchecked(uuid.as_u128()) })
+src/non_nil.rs:152:        assert_eq!(unsafe { NonNilUuid::new_unchecked(uuid) }, uuid);
+src/fmt.rs:142:        unsafe_transmute_ref!(self)
+src/fmt.rs:154:        unsafe_transmute_ref!(self)
+src/fmt.rs:166:        unsafe_transmute_ref!(self)
+src/fmt.rs:178:        unsafe_transmute_ref!(self)
+src/fmt.rs:274:    unsafe { assume_init_ascii_mut(buf) }
+src/fmt.rs:287:    unsafe { assume_init_ascii_mut(buf) }
+src/fmt.rs:311:    let braced: [u8; Hyphenated::LENGTH + 2] = unsafe_transmute!(braced);
+src/fmt.rs:316:    unsafe { assume_init_ascii_mut(buf) }
+src/builder.rs:435:        unsafe_transmute_ref!(bytes)

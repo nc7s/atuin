@@ -1,0 +1,28 @@
+src/tree_store/page_store/xxh3.rs:66:                unsafe {
+src/tree_store/page_store/xxh3.rs:73:            unsafe { hash64_large_neon(data, seed) }
+src/tree_store/page_store/xxh3.rs:92:            unsafe {
+src/tree_store/page_store/xxh3.rs:97:        unsafe {
+src/tree_store/page_store/xxh3.rs:162:unsafe fn scramble_accumulators_avx2(
+src/tree_store/page_store/xxh3.rs:166:    unsafe {
+src/tree_store/page_store/xxh3.rs:196:unsafe fn scramble_accumulators_neon(
+src/tree_store/page_store/xxh3.rs:205:    unsafe {
+src/sync.rs:74:    unsafe impl<T: ?Sized + Send> Send for Mutex<T> {}
+src/sync.rs:75:    unsafe impl<T: ?Sized + Send> Sync for Mutex<T> {}
+src/sync.rs:142:    unsafe impl<T: ?Sized + Sync> Sync for MutexGuard<'_, T> {}
+src/sync.rs:149:            unsafe { &*self.mutex.data.get() }
+src/sync.rs:156:            unsafe { &mut *self.mutex.data.get() }
+src/sync.rs:182:    unsafe impl<T: ?Sized + Send> Send for RwLock<T> {}
+src/sync.rs:183:    unsafe impl<T: ?Sized + Send + Sync> Sync for RwLock<T> {}
+src/sync.rs:253:            unsafe { &*self.lock.data.get() }
+src/transactions.rs:145:        unsafe { &mut *(core::ptr::from_mut::<[u8]>(data) as *mut PageListMut) }
+src/tree_store/multimap_btree.rs:524:        unsafe { &*(core::ptr::from_ref::<[u8]>(data) as *const DynamicCollection<V>) }
+src/tree_store/multimap_btree.rs:601:        unsafe { &*(core::ptr::from_ref::<[u8]>(data) as *const UntypedDynamicCollection) }
+src/tree_store/page_store/file_backend/range_lock.rs:121:    unsafe extern "system" {
+src/tree_store/page_store/file_backend/range_lock.rs:178:        let ok = unsafe {
+src/tree_store/page_store/file_backend/range_lock.rs:212:        unsafe {
+src/tree_store/page_store/file_backend/range_lock.rs:279:            let ok = unsafe {
+src/tree_store/page_store/file_backend/range_lock.rs:326:    let mut lock: Flock = unsafe { std::mem::zeroed() };
+src/tree_store/page_store/file_backend/range_lock.rs:352:    unsafe { libc::syscall(SYSCALL, file.as_raw_fd(), command, &raw mut *lock) }
+src/tree_store/page_store/file_backend/range_lock.rs:360:    unsafe { libc::fcntl(file.as_raw_fd(), command, &raw mut *lock) }
+src/tree_store/page_store/file_backend/optimized.rs:391:        let nbytes = unsafe {
+src/tree_store/page_store/file_backend/optimized.rs:427:        let nbytes = unsafe {

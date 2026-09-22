@@ -1,0 +1,5 @@
+53:pub struct HistDbEntryCount {
+54:    pub count: usize,
+58:pub struct HistDbEntry {
+59:    pub id: i64,
+60:    pub start_time: PrimitiveDateTime,

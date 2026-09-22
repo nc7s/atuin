@@ -1,0 +1,1 @@
+978 crates/atuin-common/src/string/normalize.rs

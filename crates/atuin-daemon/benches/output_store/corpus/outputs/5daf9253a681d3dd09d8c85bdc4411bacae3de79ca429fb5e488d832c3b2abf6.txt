@@ -1,0 +1,20 @@
+11://! fn main() {
+40://! # fn random_phone() -> u16 { 0 }
+62://! use serde_json::{json, Value, Error};
+64://! fn untyped_example() -> Result<(), Error> {
+93:use crate::error::Error;
+103:pub use self::index::Index;
+104:pub use self::ser::Serializer;
+105:pub use crate::map::Map;
+106:pub use crate::number::Number;
+110:pub use crate::raw::{to_raw_value, RawValue};
+116:pub enum Value {
+178:impl Debug for Value {
+179:    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+197:impl Display for Value {
+209:    /// assert_eq!(compact,
+219:    /// assert_eq!(pretty,
+222:    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+223:        struct WriterFormatter<'a, 'b: 'a> {
+228:            fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
+236:            fn flush(&mut self) -> io::Result<()> {

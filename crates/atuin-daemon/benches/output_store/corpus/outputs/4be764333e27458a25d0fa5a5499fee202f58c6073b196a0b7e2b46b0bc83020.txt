@@ -1,0 +1,20 @@
+//! The compression algorithm.
+//!
+//! We make use of hash tables to find duplicates. This gives a reasonable compression ratio with a
+//! high performance. It has fixed memory usage, which contrary to other approaches, makes it less
+//! memory hungry.
+
+use crate::block::hashtable::HashTable;
+use crate::block::END_OFFSET;
+use crate::block::LZ4_MIN_LENGTH;
+use crate::block::MAX_DISTANCE;
+use crate::block::MFLIMIT;
+use crate::block::MINMATCH;
+#[cfg(not(feature = "safe-encode"))]
+use crate::sink::PtrSink;
+use crate::sink::Sink;
+use crate::sink::SliceSink;
+#[allow(unused_imports)]
+use alloc::vec;
+
+#[allow(unused_imports)]

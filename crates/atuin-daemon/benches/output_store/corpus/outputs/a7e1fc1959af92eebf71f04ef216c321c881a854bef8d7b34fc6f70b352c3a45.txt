@@ -1,0 +1,160 @@
+#[cfg(feature = "experimental-api-5")]
+use crate::KeyRange;
+use crate::db::TransactionGuard;
+use crate::sealed::Sealed;
+use crate::sync::Mutex;
+#[cfg(feature = "experimental-api-5")]
+use crate::tree_store::BtreeCursor;
+#[cfg(feature = "experimental_cursor")]
+use crate::tree_store::BtreeCursorMut;
+#[cfg(not(feature = "experimental-api-5"))]
+use crate::tree_store::encode_bounds;
+use crate::tree_store::{
+    AccessGuardMutInPlace, Btree, BtreeCursorRange, BtreeExtractIf, BtreeHeader, BtreeMut,
+    MAX_PAIR_LENGTH, MAX_VALUE_LENGTH, PageAllocator, PageHint, PageNumber, PageResolver,
+    PageTracker, RawBtree,
+};
+use crate::types::{Key, MutInPlaceValue, Value};
+use crate::{AccessGuard, AccessGuardMut, StorageError, WriteTransaction};
+use crate::{Result, TableHandle};
+use alloc::string::String;
+use alloc::string::ToString;
+use alloc::sync::Arc;
+use alloc::vec::Vec;
+use core::borrow::Borrow;
+use core::fmt::{Debug, Formatter};
+use core::marker::PhantomData;
+use core::ops::Bound;
+#[cfg(not(feature = "experimental-api-5"))]
+use core::ops::RangeBounds;
+
+/// Informational storage stats about a table
+#[derive(Debug)]
+pub struct TableStats {
+    pub(crate) tree_height: u32,
+    pub(crate) leaf_pages: u64,
+    pub(crate) branch_pages: u64,
+    pub(crate) stored_leaf_bytes: u64,
+    pub(crate) metadata_bytes: u64,
+    pub(crate) fragmented_bytes: u64,
+}
+
+impl TableStats {
+    /// Maximum traversal distance to reach the deepest (key, value) pair in the table
+    pub fn tree_height(&self) -> u32 {
+        self.tree_height
+    }
+
+    /// Number of leaf pages that store user data
+    pub fn leaf_pages(&self) -> u64 {
+        self.leaf_pages
+    }
+
+    /// Number of branch pages in the btree that store user data
+    pub fn branch_pages(&self) -> u64 {
+        self.branch_pages
+    }
+
+    /// Number of bytes consumed by keys and values that have been inserted.
+    /// Does not include indexing overhead
+    pub fn stored_bytes(&self) -> u64 {
+        self.stored_leaf_bytes
+    }
+
+    /// Number of bytes consumed by keys in internal branch pages, plus other metadata
+    pub fn metadata_bytes(&self) -> u64 {
+        self.metadata_bytes
+    }
+
+    /// Number of bytes consumed by fragmentation, both in data pages and internal metadata tables
+    pub fn fragmented_bytes(&self) -> u64 {
+        self.fragmented_bytes
+    }
+}
+
+/// A table containing key-value mappings
+pub struct Table<'txn, K: Key + 'static, V: Value + 'static> {
+    name: String,
+    transaction: &'txn WriteTransaction,
+    tree: BtreeMut<K, V>,
+}
+
+impl<K: Key + 'static, V: Value + 'static> TableHandle for Table<'_, K, V> {
+    fn name(&self) -> &str {
+        &self.name
+    }
+}
+
+struct RetainPanicGuard<'txn> {
+    transaction: &'txn WriteTransaction,
+    disarmed: bool,
+}
+
+impl<'txn> RetainPanicGuard<'txn> {
+    fn new(transaction: &'txn WriteTransaction) -> Self {
+        Self {
+            transaction,
+            disarmed: false,
+        }
+    }
+
+    fn disarm(&mut self) {
+        self.disarmed = true;
+    }
+}
+
+impl Drop for RetainPanicGuard<'_> {
+    fn drop(&mut self) {
+        if !self.disarmed && crate::panicking() {
+            self.transaction.poison();
+        }
+    }
+}
+
+impl<'txn, K: Key + 'static, V: Value + 'static> Table<'txn, K, V> {
+    pub(crate) fn new(
+        name: &str,
+        table_root: Option<BtreeHeader>,
+        freed_pages: Arc<Mutex<Vec<PageNumber>>>,
+        allocated_pages: Arc<PageTracker>,
+        page_allocator: PageAllocator,
+        transaction: &'txn WriteTransaction,
+    ) -> Table<'txn, K, V> {
+        Table {
+            name: name.to_string(),
+            transaction,
+            tree: BtreeMut::new(
+                table_root,
+                transaction.transaction_guard(),
+                page_allocator,
+                freed_pages,
+                allocated_pages,
+            ),
+        }
+    }
+
+    #[allow(dead_code)]
+    #[cfg(not(redb_no_std))]
+    pub(crate) fn print_debug(&self, include_values: bool) -> Result {
+        self.tree.print_debug(include_values)
+    }
+
+    /// Returns an accessor, which allows mutation, to the value corresponding to the given key
+    pub fn get_mut<'k>(
+        &mut self,
+        key: impl Borrow<K::SelfType<'k>>,
+    ) -> Result<Option<AccessGuardMut<'_, V>>> {
+        self.tree.get_mut(key.borrow())
+    }
+
+    /// Removes and returns the first key-value pair in the table
+    pub fn pop_first(&mut self) -> Result<Option<(AccessGuard<'_, K>, AccessGuard<'_, V>)>> {
+        self.tree.pop_first()
+    }
+
+    /// Removes and returns the last key-value pair in the table
+    pub fn pop_last(&mut self) -> Result<Option<(AccessGuard<'_, K>, AccessGuard<'_, V>)>> {
+        self.tree.pop_last()
+    }
+
+    /// Applies `predicate` to all key-value pairs. All entries for which

@@ -1,0 +1,80 @@
+12:use crate::{Result, StorageError};
+26:struct Branch {
+31:impl Branch {
+32:    fn new(page: PageImpl, child_index: usize) -> Self {
+36:    fn into_parts(self) -> (PageImpl, usize) {
+43:    fn adjacent_child(
+61:pub(super) enum Position<'a> {
+74:    pub(super) fn from_lower_bound(bound: Bound<&'a [u8]>) -> Self {
+83:    pub(super) fn from_upper_bound(bound: Bound<&'a [u8]>) -> Self {
+93:enum Direction {
+98:impl Direction {
+99:    fn is_next(self) -> bool {
+103:    fn opposite(self) -> Self {
+111:fn lower_bound_entry<K: Key>(accessor: &LeafAccessor<'_>, position: Position<'_>) -> usize {
+125:fn child_to_visit<K: Key>(
+136:fn descend_to_position<K: Key + 'static, V: Value + 'static, F>(
+171:            return Err(StorageError::Corrupted(
+180:fn move_to_adjacent_leaf<K: Key + 'static, V: Value + 'static, F>(
+207:fn prepare_leaf<K: Key + 'static, V: Value + 'static, F>(
+231:fn entry<K: Key + 'static, V: Value + 'static>(leaf: &Leaf, position: usize) -> EntryGuard<K, V> {
+238:fn entry_ref<K: Key + 'static, V: Value + 'static>(
+255:fn key_data<K: Key + 'static, V: Value + 'static>(leaf: &Leaf, position: usize) -> Vec<u8> {
+265:fn scan_boundary_key<K: Key + 'static, V: Value + 'static>(
+276:struct Leaf {
+291:struct LeafRunRewrite {
+306:impl LeafRunRewrite {
+307:    fn new(parent_page: PageNumber, child_index: usize, direction: Direction) -> Self {
+322:    fn append_entries_from<K: Key, V: Value>(
+328:        debug_assert!(removed_indexes.windows(2).all(|pair| pair[0] < pair[1]));
+329:        // Hard asserts: a violation would splice the wrong children out of
+333:                assert_eq!(child_index, self.replaced_children.end);
+337:                assert_eq!(child_index + 1, self.replaced_children.start);
+363:enum RunDirection {
+379:struct InsertRun {
+395:impl InsertRun {
+399:    fn buffered_previous(&self) -> Option<(&[u8], &[u8])> {
+409:    fn buffered_next(&self) -> Option<(&[u8], &[u8])> {
+418:    fn next_key(&self) -> Option<&[u8]> {
+425:    fn rejects<K: Key>(&self, key: &[u8]) -> bool {
+440:pub(super) struct EntryRef<'a, K: Key + 'static, V: Value + 'static> {
+449:    pub(super) fn key_bytes(&self) -> &[u8] {
+457:    pub(super) fn to_guards<'g>(&self) -> (AccessGuard<'g, K>, AccessGuard<'g, V>) {
+464:    pub(super) fn key(&self) -> K::SelfType<'_> {
+468:    pub(super) fn value(&self) -> V::SelfType<'_> {
+474:pub(super) struct Cursor<K: Key + 'static, V: Value + 'static> {
+490:    pub(super) fn new(root: PageNumber, manager: PageResolver, hint: PageHint) -> Self {
+503:    fn latch_errors<T>(&mut self, result: Result<T>) -> Result<T> {
+510:    fn check_not_errored(&self) -> Result {
+512:            return Err(StorageError::PreviousIo);
+517:    pub(super) fn seek_to(&mut self, position: Position<'_>) -> Result {
+542:    fn ensure_has_entry(&mut self, direction: Direction) -> Result<bool> {
+558:    pub(super) fn normalize_forward_gap(&mut self) -> Result {
+584:    pub(super) fn next(&mut self) -> Result<Option<EntryGuard<K, V>>> {
+595:    pub(super) fn prev(&mut self) -> Result<Option<EntryGuard<K, V>>> {
+608:    pub(super) fn peek_next(&mut self) -> Result<Option<EntryGuard<K, V>>> {
+619:    pub(super) fn peek_prev(&mut self) -> Result<Option<EntryGuard<K, V>>> {
+628:    fn page_number(&self) -> PageNumber {
+636:    fn position(&self) -> usize {
+643:    pub(super) fn compare_position(&self, other: &Self) -> Ordering {
+650:        assert_eq!(self.path.len(), other.path.len());
+661:struct CursorPosition {
+671:pub(super) struct CursorState {
+698:enum LeafCloseOutcome {
+710:pub(super) struct CursorMut<'a, 'b, K: Key + 'static, V: Value + 'static> {
+722:impl CursorPosition {
+723:    fn into_parts(self) -> (Vec<(PageImpl, usize)>, Leaf) {
+730:    fn has_entry(&self, direction: Direction) -> bool {
+737:    fn entry_index(&self, direction: Direction) -> usize {
+744:    fn move_once(&mut self, direction: Direction) {
+753:    pub(super) fn new(
+768:    pub(super) fn with_state(
+787:    pub(super) fn into_state(self) -> CursorState {
+791:    pub(super) fn seek_to(&mut self, target: Position<'_>) -> Result {
+793:        assert!(self.state.leaf_run_rewrite.is_none());
+794:        assert!(self.state.removed_indexes.is_empty());
+796:        assert!(self.state.insert_run.is_none());
+812:    fn check_pending_removals(&self, direction: Direction) {
+829:        assert!(valid, "pending removals must match the scan direction");
+836:    fn ensure_has_entry(&mut self, direction: Direction) -> Result<bool> {
+841:        assert!(self.state.insert_run.is_none());

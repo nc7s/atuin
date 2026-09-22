@@ -1,0 +1,20 @@
+/*!
+Search for regex matches in `&[u8]` haystacks.
+
+This module provides a nearly identical API via [`Regex`] to the one found in
+the top-level of this crate. There are two important differences:
+
+1. Matching is done on `&[u8]` instead of `&str`. Additionally, `Vec<u8>`
+is used where `String` would have been used in the top-level API.
+2. Unicode support can be disabled even when disabling it would result in
+matching invalid UTF-8 bytes.
+
+# Example: match null terminated string
+
+This shows how to find all null-terminated strings in a slice of bytes. This
+works even if a C string contains invalid UTF-8.
+
+```rust
+use regex::bytes::Regex;
+
+let re = Regex::new(r"(?-u)(?<cstr>[^\x00]+)\x00").unwrap();

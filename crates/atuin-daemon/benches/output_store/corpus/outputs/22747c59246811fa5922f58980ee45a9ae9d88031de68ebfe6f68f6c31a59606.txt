@@ -1,0 +1,8 @@
+3:impl Uuid {
+22:    /// assert_eq!(Some(Version::Custom), uuid.get_version());
+28:    pub const fn new_v8(buf: [u8; 16]) -> Uuid {
+47:    fn test_new() {
+52:        assert_eq!(uuid.get_version(), Some(Version::Custom));
+53:        assert_eq!(uuid.get_variant(), Variant::RFC4122);
+54:        assert_eq!(uuid.get_version_num(), 8);
+55:        assert_eq!(

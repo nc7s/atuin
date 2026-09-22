@@ -1,0 +1,5 @@
+2:    clippy::assertions_on_result_states,
+67:enum Animal {
+75:struct Inner {
+82:struct Outer {
+86:fn test_encode_ok<T>(errors: &[(T, &str)])

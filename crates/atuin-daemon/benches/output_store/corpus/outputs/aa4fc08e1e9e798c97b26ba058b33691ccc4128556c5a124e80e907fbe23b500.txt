@@ -1,0 +1,20 @@
+3://! On builds with std this is a re-export of [`std::io::Error`], so a backend written against this
+7:pub use std::io::Error;
+10:pub use no_std::Error;
+12:// The kinds redb attaches to the errors it raises itself. std's `ErrorKind` carries them where it
+16:pub(crate) fn invalid_data(message: &str) -> Error {
+19:        Error::new(std::io::ErrorKind::InvalidData, message)
+23:        Error::other(message)
+27:pub(crate) fn invalid_input(message: &str) -> Error {
+30:        Error::new(std::io::ErrorKind::InvalidInput, message)
+34:        Error::other(message)
+38:pub(crate) fn unsupported(message: &str) -> Error {
+41:        Error::new(std::io::ErrorKind::Unsupported, message)
+45:        Error::other(message)
+57:    /// A stand-in for [`std::io::Error`], for targets without std.
+60:    /// cannot say for it. std's classifying `ErrorKind` has no counterpart here: redb never reads
+63:    /// [`other`](Self::other) -- named after [`std::io::Error::other`] -- so that a kind, or
+67:    pub struct Error {
+71:    impl Error {
+73:        pub fn other(message: impl Into<String>) -> Self {
+80:    impl Display for Error {

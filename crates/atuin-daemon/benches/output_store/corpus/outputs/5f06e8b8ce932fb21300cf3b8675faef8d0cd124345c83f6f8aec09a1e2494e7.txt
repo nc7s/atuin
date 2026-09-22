@@ -1,0 +1,80 @@
+3:    ReadableTableMetadata, TableError, TransactionError,
+13:fn create_tempfile() -> tempfile::NamedTempFile {
+21:fn get_vec(
+22:    table: &impl ReadableMultimapTable<&'static str, &'static str>,
+38:fn len() {
+52:    assert_eq!(table.len().unwrap(), 3);
+54:    assert_eq!(untyped_table.len().unwrap(), 3);
+58:fn is_empty() {
+71:    assert!(!table.is_empty().unwrap());
+75:fn insert() {
+81:        assert!(!table.insert("hello", "world").unwrap());
+82:        assert!(!table.insert("hello", "world2").unwrap());
+83:        assert!(table.insert("hello", "world2").unwrap());
+89:    assert_eq!(
+93:    assert_eq!(table.len().unwrap(), 2);
+97:fn range_query() {
+124:            assert_eq!(b"0", key.value());
+126:            assert_eq!(i, value.value());
+132:            assert_eq!(b"1", key.value());
+134:            assert_eq!(i, value.value());
+137:    assert!(iter.next().is_none());
+144:    assert_eq!(total, 45);
+148:fn range_lifetime() {
+168:    assert_eq!(
+179:    assert!(iter.next().is_none());
+183:fn range_arc_lifetime() {
+208:    assert_eq!(
+219:    assert!(iter.next().is_none());
+223:fn get_arc_lifetime() {
+248:    assert_eq!(iter.next().unwrap().unwrap().value(), "world");
+249:    assert!(iter.next().is_none());
+253:fn delete() {
+267:    assert_eq!(3, table.get("hello").unwrap().len());
+268:    assert_eq!(
+276:    assert_eq!(table.len().unwrap(), 3);
+287:    assert_eq!(
+291:    assert_eq!(table.len().unwrap(), 2);
+297:        assert_eq!("world", iter.next().unwrap().unwrap().value());
+298:        assert_eq!("world3", iter.next().unwrap().unwrap().value());
+299:        assert!(iter.next().is_none());
+305:    assert!(table.is_empty().unwrap());
+307:    assert_eq!(empty, get_vec(&table, "hello"));
+315:// the read_page_ref_counts debug assertion.
+317:fn remove_all_uncommitted_subtree_collect() {
+330:        assert_eq!(values.len(), 2000);
+332:            assert_eq!(guard.value(), i as u64);
+339:fn wrong_types() {
+351:    assert!(matches!(
+353:        Err(TableError::TableTypeMismatch { .. })
+359:    assert!(matches!(
+361:        Err(TableError::TableTypeMismatch { .. })
+366:fn efficient_storage() {
+382:    assert!(write_txn.stats().unwrap().stored_bytes() <= expected_max_size);
+387:    assert_eq!(table.len().unwrap(), entries as u64);
+391:fn reopen_table() {
+407:fn iter() {
+426:        assert_eq!(k.value(), i);
+428:            assert_eq!(values.next().unwrap().unwrap().value(), j);
+434:fn multimap_signature_lifetimes() {
+466:fn multimap_value_next_back_subtree() {
+482:    assert_eq!(iter.len(), 1000);
+485:        assert_eq!(guard.value(), expected);
+487:    assert!(iter.next_back().is_none());
+488:    assert!(iter.is_empty());
+492:fn multimap_remove_subtree_backed_key() {
+514:        assert_eq!(table.len().unwrap(), 1002);
+517:        assert!(!table.remove(&99u64, &0u64).unwrap());
+520:        assert!(!table.remove(&1u64, &999u64).unwrap());
+523:        assert!(table.remove(&0u64, &500u64).unwrap());
+524:        assert_eq!(table.len().unwrap(), 1001);
+527:        assert!(!table.remove(&0u64, &500u64).unwrap());
+528:        assert_eq!(table.len().unwrap(), 1001);
+535:    assert_eq!(table.len().unwrap(), 1001);
+536:    assert_eq!(table.get(&0u64).unwrap().len(), 999);
+549:        assert_eq!(table.get(&0u64).unwrap().len(), 1);
+550:        assert_eq!(table.len().unwrap(), 3);
+557:    assert_eq!(iter.next().unwrap().unwrap().value(), 999);
+558:    assert!(iter.next().is_none());
+562:fn multimap_remove_collapses_committed_subtree_to_inline() {
+589:        assert!(table.remove(&0u64, large.as_slice()).unwrap());

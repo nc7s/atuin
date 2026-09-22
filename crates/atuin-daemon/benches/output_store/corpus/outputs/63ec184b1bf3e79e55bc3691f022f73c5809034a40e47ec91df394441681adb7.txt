@@ -1,0 +1,20 @@
+#![allow(clippy::assertions_on_result_states)]
+
+use serde_json::{json, Deserializer, Value};
+
+// Rustfmt issue https://github.com/rust-lang-nursery/rustfmt/issues/2740
+#[rustfmt::skip]
+macro_rules! test_stream {
+    ($data:expr, $ty:ty, |$stream:ident| $test:block) => {
+        {
+            let de = Deserializer::from_str($data);
+            let mut $stream = de.into_iter::<$ty>();
+            assert_eq!($stream.byte_offset(), 0);
+            $test
+        }
+        {
+            let de = Deserializer::from_slice($data.as_bytes());
+            let mut $stream = de.into_iter::<$ty>();
+            assert_eq!($stream.byte_offset(), 0);
+            $test
+        }

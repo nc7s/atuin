@@ -1,0 +1,20 @@
+7:    AccessGuard, Builder, CommitError, CompactionError, Database, Durability, Key, MultimapRange,
+9:    ReadableTableMetadata, SetDurabilityError, StorageBackend, TableDefinition, TableStats,
+10:    TransactionError, Value, WriteTransaction,
+12:use redb::{DatabaseError, ReadableMultimapTable, SavepointError, StorageError, TableError};
+15:use std::io::{ErrorKind, Write};
+34:fn create_tempfile() -> tempfile::NamedTempFile {
+43:struct BlockingSyncState {
+51:impl BlockingSyncState {
+52:    fn new() -> Self {
+62:    fn block_next_sync(&self) {
+68:    fn wait_until_blocked(&self) {
+76:            assert!(!timeout.timed_out(), "timed out waiting for sync_data()");
+80:    fn release(&self) {
+85:    fn maybe_block(&self) {
+101:struct BlockingSyncBackend {
+106:impl StorageBackend for BlockingSyncBackend {
+107:    fn len(&self) -> Result<u64, std::io::Error> {
+111:    fn read(&self, offset: u64, out: &mut [u8]) -> Result<(), std::io::Error> {
+115:    fn set_len(&self, len: u64) -> Result<(), std::io::Error> {
+119:    fn sync_data(&self) -> Result<(), std::io::Error> {

@@ -1,0 +1,4 @@
+tests/test.rs:2470:    let unchecked = unsafe { RawValue::from_string_unchecked(json) };
+tests/test.rs:2487:    let raw = unsafe { RawValue::from_string_unchecked(spare) };
+tests/test.rs:2498:    let _ = unsafe { RawValue::from_string_unchecked(" 42".to_owned()) };
+tests/test.rs:2505:    let _ = unsafe { RawValue::from_string_unchecked("[1,".to_owned()) };

@@ -1,0 +1,5 @@
+19:fn hash(sequence: u32) -> u32 {
+27:fn hash5(sequence: usize) -> u32 {
+36:pub trait HashTable {
+37:    fn get_at(&self, pos: usize) -> usize;
+38:    fn put_at(&mut self, pos: usize, val: usize);

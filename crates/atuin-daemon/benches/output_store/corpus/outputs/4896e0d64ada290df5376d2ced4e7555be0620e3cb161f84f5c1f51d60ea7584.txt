@@ -1,0 +1,41 @@
+src/regexset/string.rs:154:    pub fn new<I, S>(exprs: I) -> Result<RegexSet, Error>
+src/regexset/string.rs:179:    pub fn empty() -> RegexSet {
+src/regexset/string.rs:210:    pub fn is_match(&self, haystack: &str) -> bool {
+src/regexset/string.rs:244:    pub fn is_match_at(&self, haystack: &str, start: usize) -> bool {
+src/regexset/string.rs:287:    pub fn matches(&self, haystack: &str) -> SetMatches {
+src/regexset/string.rs:325:    pub fn matches_at(&self, haystack: &str, start: usize) -> SetMatches {
+src/regexset/string.rs:346:    pub fn matches_read_at(
+src/regexset/string.rs:375:    pub fn read_matches_at(
+src/lib.rs:1378:pub fn escape(pattern: &str) -> alloc::string::String {
+src/regexset/bytes.rs:158:    pub fn new<I, S>(exprs: I) -> Result<RegexSet, Error>
+src/regexset/bytes.rs:183:    pub fn empty() -> RegexSet {
+src/regexset/bytes.rs:214:    pub fn is_match(&self, haystack: &[u8]) -> bool {
+src/regexset/bytes.rs:248:    pub fn is_match_at(&self, haystack: &[u8], start: usize) -> bool {
+src/regexset/bytes.rs:291:    pub fn matches(&self, haystack: &[u8]) -> SetMatches {
+src/regexset/bytes.rs:329:    pub fn matches_at(&self, haystack: &[u8], start: usize) -> SetMatches {
+src/regexset/bytes.rs:350:    pub fn matches_read_at(
+src/regexset/bytes.rs:379:    pub fn read_matches_at(
+src/builders.rs:223:        pub fn new(pattern: &str) -> RegexBuilder {
+src/builders.rs:232:        pub fn build(&self) -> Result<Regex, Error> {
+src/builders.rs:293:        pub fn unicode(&mut self, yes: bool) -> &mut RegexBuilder {
+src/builders.rs:322:        pub fn case_insensitive(&mut self, yes: bool) -> &mut RegexBuilder {
+src/builders.rs:361:        pub fn multi_line(&mut self, yes: bool) -> &mut RegexBuilder {
+src/builders.rs:392:        pub fn dot_matches_new_line(
+src/builders.rs:450:        pub fn crlf(&mut self, yes: bool) -> &mut RegexBuilder {
+src/builders.rs:521:        pub fn line_terminator(&mut self, byte: u8) -> &mut RegexBuilder {
+src/regex/string.rs:229:    pub fn new(re: &str) -> Result<Regex, Error> {
+src/regex/string.rs:253:    pub fn is_match(&self, haystack: &str) -> bool {
+src/regex/string.rs:281:    pub fn find<'h>(&self, haystack: &'h str) -> Option<Match<'h>> {
+src/regex/string.rs:313:    pub fn find_iter<'r, 'h>(&'r self, haystack: &'h str) -> Matches<'r, 'h> {
+src/regex/string.rs:404:    pub fn captures<'h>(&self, haystack: &'h str) -> Option<Captures<'h>> {
+src/regex/string.rs:469:    pub fn captures_iter<'r, 'h>(
+src/regex/string.rs:602:    pub fn split<'r, 'h>(&'r self, haystack: &'h str) -> Split<'r, 'h> {
+src/regex/string.rs:677:    pub fn splitn<'r, 'h>(
+src/regex/bytes.rs:231:    pub fn new(re: &str) -> Result<Regex, Error> {
+src/regex/bytes.rs:255:    pub fn is_match(&self, haystack: &[u8]) -> bool {
+src/regex/bytes.rs:283:    pub fn find<'h>(&self, haystack: &'h [u8]) -> Option<Match<'h>> {
+src/regex/bytes.rs:315:    pub fn find_iter<'r, 'h>(&'r self, haystack: &'h [u8]) -> Matches<'r, 'h> {
+src/regex/bytes.rs:406:    pub fn captures<'h>(&self, haystack: &'h [u8]) -> Option<Captures<'h>> {
+src/regex/bytes.rs:473:    pub fn captures_iter<'r, 'h>(
+src/regex/bytes.rs:615:    pub fn split<'r, 'h>(&'r self, haystack: &'h [u8]) -> Split<'r, 'h> {
+src/regex/bytes.rs:690:    pub fn splitn<'r, 'h>(

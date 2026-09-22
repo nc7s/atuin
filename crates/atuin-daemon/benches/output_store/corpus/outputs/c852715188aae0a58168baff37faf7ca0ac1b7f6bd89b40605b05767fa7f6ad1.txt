@@ -1,0 +1,5 @@
+11:fn invalid_regexes_no_crash() {
+12:    assert!(Regex::new("(*)").is_err());
+13:    assert!(Regex::new("(?:?)").is_err());
+14:    assert!(Regex::new("(?)").is_err());
+15:    assert!(Regex::new("*").is_err());

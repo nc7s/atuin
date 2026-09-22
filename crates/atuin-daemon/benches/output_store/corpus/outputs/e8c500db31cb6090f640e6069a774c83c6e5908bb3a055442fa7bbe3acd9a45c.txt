@@ -1,0 +1,5 @@
+29:assert_eq!(cstrs, vec![&b"foo"[..], &b"qu\xFFux"[..], &b"baz"[..]]);
+50:assert_eq!(title, b"\xE2\x98\x83");
+55:assert_eq!(title, "☃");
+91:pub use crate::{builders::bytes::*, regex::bytes::*, regexset::bytes::*};
+95:pub use crate::__bytes_regex as regex;

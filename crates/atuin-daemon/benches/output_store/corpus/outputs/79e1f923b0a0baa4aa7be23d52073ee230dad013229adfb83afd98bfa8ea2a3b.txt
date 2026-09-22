@@ -1,0 +1,7 @@
+src/regex/bytes.rs:2697:    #[test]
+src/regex/bytes.rs:2709:    #[test]
+src/regex/bytes.rs:2718:    #[test]
+src/regex/bytes.rs:2730:    #[test]
+src/regex/bytes.rs:2742:    #[test]
+src/regex/bytes.rs:2755:    #[test]
+src/regex/bytes.rs:2767:    #[test]

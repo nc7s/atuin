@@ -1,0 +1,60 @@
+// Copyright 2013-2014 The Rust Project Developers.
+// Copyright 2018 The Uuid Project Developers.
+//
+// See the COPYRIGHT file at the top-level directory of this distribution.
+//
+// Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
+// http://www.apache.org/licenses/LICENSE-2.0> or the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
+use core::marker::PhantomData;
+
+use crate::{
+    error::*,
+    fmt::{Braced, Hyphenated, Simple, Urn},
+    non_nil::NonNilUuid,
+    std::fmt,
+    Bytes, Uuid,
+};
+use serde_core::{
+    de::{self, Error as _},
+    Deserialize, Deserializer, Serialize, Serializer,
+};
+
+impl Serialize for Uuid {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+        if serializer.is_human_readable() {
+            serializer.serialize_str(self.hyphenated().encode_lower(&mut Uuid::encode_buffer()))
+        } else {
+            serializer.serialize_bytes(self.as_bytes())
+        }
+    }
+}
+
+impl Serialize for NonNilUuid {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde_core::Serializer,
+    {
+        Uuid::from(*self).serialize(serializer)
+    }
+}
+
+impl Serialize for Hyphenated {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+        serializer.serialize_str(self.encode_lower(&mut Uuid::encode_buffer()))
+    }
+}
+
+impl Serialize for Simple {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+        serializer.serialize_str(self.encode_lower(&mut Uuid::encode_buffer()))
+    }
+}
+
+impl Serialize for Urn {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+        serializer.serialize_str(self.encode_lower(&mut Uuid::encode_buffer()))
+    }

@@ -1,0 +1,2 @@
+4:fn test() {
+11:    assert_eq!(json, "5.55");

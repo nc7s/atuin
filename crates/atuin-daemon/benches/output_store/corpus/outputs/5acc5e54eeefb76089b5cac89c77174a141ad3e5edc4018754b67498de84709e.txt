@@ -1,0 +1,14 @@
+25:enum SyncCommand {
+32:enum SyncState {
+46:pub struct SyncComponent {
+51:impl SyncComponent {
+54:    pub fn new() -> Self {
+62:impl Default for SyncComponent {
+63:    fn default() -> Self {
+68:impl Component for SyncComponent {
+69:    fn name(&self) -> &'static str {
+73:    async fn start(&mut self, handle: DaemonHandle) -> Result<()> {
+84:    async fn handle_event(&mut self, _event: &DaemonEvent) -> Result<()> {
+88:    async fn stop(&mut self) -> Result<()> {
+104:async fn sync_loop(handle: DaemonHandle, mut cmd_rx: mpsc::Receiver<SyncCommand>) {
+172:async fn do_sync_tick(

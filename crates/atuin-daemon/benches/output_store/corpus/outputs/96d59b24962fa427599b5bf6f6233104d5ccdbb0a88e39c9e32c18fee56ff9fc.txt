@@ -1,0 +1,20 @@
+28:pub enum Event {
+44:pub enum Zone {
+56:impl Event {
+58:    pub fn zone(self) -> Zone {
+73:pub struct EventChunk<'a> {
+75:    pub event: Event,
+80:    pub data: &'a [u8],
+83:    pub osc_len: usize,
+88:pub enum Param<'a> {
+101:pub struct EventChunks<'parser, 'data> {
+112:    fn next(&mut self) -> Option<Self::Item> {
+126:impl std::iter::FusedIterator for EventChunks<'_, '_> {}
+130:    pub fn params(&self) -> impl Iterator<Item = Param<'_>> {
+153:    pub fn trailing_data(&self) -> &'data [u8] {
+157:    fn handle_byte(&mut self, byte: u8, offset: usize) -> Option<EventChunk<'data>> {
+192:    fn handle_esc(&mut self, byte: u8) {
+214:    fn end_osc(&mut self, offset: usize, terminator_len: usize) -> Option<EventChunk<'data>> {
+260:enum State {
+277:pub struct Parser {
+283:impl Default for Parser {

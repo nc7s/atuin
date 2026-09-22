@@ -1,0 +1,11 @@
+18:    pub(crate) struct FastHasher64 {
+22:    impl Hasher for FastHasher64 {
+23:        fn finish(&self) -> u64 {
+32:        fn write(&mut self, _bytes: &[u8]) {
+36:        fn write_u64(&mut self, x: u64) {
+37:            debug_assert_eq!(self.hash, 0);
+58:    fn shrink(&mut self);
+68:        fn shrink(&mut self) {
+74:        fn shrink(&mut self) {
+86:        fn shrink(&mut self) {}
+90:        fn shrink(&mut self) {}

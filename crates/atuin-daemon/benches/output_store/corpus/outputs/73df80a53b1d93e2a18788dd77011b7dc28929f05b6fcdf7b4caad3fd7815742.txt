@@ -1,0 +1,1 @@
+414 crates/atuin/src/command/client/search.rs

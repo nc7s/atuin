@@ -1,0 +1,60 @@
+#![cfg(feature = "experimental_cursor")]
+
+use redb::{
+    Database, ReadableDatabase, ReadableTable, ReadableTableMetadata, StorageError,
+    TableDefinition, TransactionError,
+};
+use std::ops::Bound;
+
+const U64_TABLE: TableDefinition<u64, u64> = TableDefinition::new("x");
+const STR_TABLE: TableDefinition<&str, &[u8]> = TableDefinition::new("x");
+
+fn create_tempfile() -> tempfile::NamedTempFile {
+    if cfg!(target_os = "wasi") {
+        tempfile::NamedTempFile::new_in("/tmp").unwrap()
+    } else {
+        tempfile::NamedTempFile::new().unwrap()
+    }
+}
+
+// Zero padded so that lexicographic order matches numeric order
+fn key(i: u64) -> String {
+    format!("{i:016}")
+}
+
+fn assert_u64_table_contents(db: &Database, expected: &[(u64, u64)]) {
+    let txn = db.begin_read().unwrap();
+    let table = txn.open_table(U64_TABLE).unwrap();
+    assert_eq!(table.len().unwrap(), expected.len() as u64);
+    let actual: Vec<(u64, u64)> = table
+        .iter()
+        .unwrap()
+        .map(|entry| {
+            let (key, value) = entry.unwrap();
+            (key.value(), value.value())
+        })
+        .collect();
+    assert_eq!(actual, expected);
+    for (key, value) in expected {
+        assert_eq!(table.get(key).unwrap().unwrap().value(), *value);
+    }
+}
+
+#[test]
+fn bulk_load_into_empty_table() {
+    let tmpfile = create_tempfile();
+    let db = Database::create(tmpfile.path()).unwrap();
+
+    let txn = db.begin_write().unwrap();
+    {
+        let mut table = txn.open_table(U64_TABLE).unwrap();
+        let mut cursor = table.upper_bound_mut(Bound::<u64>::Unbounded).unwrap();
+        for i in 0..10_000 {
+            cursor.insert_before(i, &(i * 7)).unwrap();
+        }
+        cursor.close().unwrap();
+        assert_eq!(table.len().unwrap(), 10_000);
+        assert_eq!(table.get(&5432).unwrap().unwrap().value(), 5432 * 7);
+    }
+    txn.commit().unwrap();
+

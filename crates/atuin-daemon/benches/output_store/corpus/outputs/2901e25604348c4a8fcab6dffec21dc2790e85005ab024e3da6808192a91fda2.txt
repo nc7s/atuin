@@ -1,0 +1,20 @@
+#[cfg(not(target_os = "wasi"))]
+mod multithreading_test {
+    use redb::{Database, ReadableDatabase, ReadableTable, ReadableTableMetadata, TableDefinition};
+    use std::sync::Arc;
+    use std::thread;
+
+    fn create_tempfile() -> tempfile::NamedTempFile {
+        if cfg!(target_os = "wasi") {
+            tempfile::NamedTempFile::new_in("/tmp").unwrap()
+        } else {
+            tempfile::NamedTempFile::new().unwrap()
+        }
+    }
+
+    const TABLE: TableDefinition<&str, &str> = TableDefinition::new("x");
+    #[test]
+    fn len() {
+        let tmpfile = create_tempfile();
+        let db = Database::create(tmpfile.path()).unwrap();
+        let db = Arc::new(db);

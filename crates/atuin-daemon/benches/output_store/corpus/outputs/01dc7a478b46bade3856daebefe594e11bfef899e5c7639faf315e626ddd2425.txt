@@ -1,0 +1,20 @@
+//! A map of String to serde_json::Value.
+//!
+//! By default the map is backed by a [`BTreeMap`]. Enable the `preserve_order`
+//! feature of serde_json to use [`IndexMap`] instead.
+//!
+//! [`BTreeMap`]: std::collections::BTreeMap
+//! [`IndexMap`]: indexmap::IndexMap
+
+use crate::error::Error;
+use crate::value::Value;
+use alloc::string::String;
+#[cfg(feature = "preserve_order")]
+use alloc::vec::Vec;
+use core::borrow::Borrow;
+use core::fmt::{self, Debug};
+use core::hash::{Hash, Hasher};
+use core::iter::FusedIterator;
+#[cfg(feature = "preserve_order")]
+use core::mem;
+use core::ops;

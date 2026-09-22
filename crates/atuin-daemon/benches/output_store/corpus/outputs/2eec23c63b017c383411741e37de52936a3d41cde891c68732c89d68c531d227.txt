@@ -1,0 +1,4 @@
+9:fn default() -> Result<()> {
+15:        .assert();
+19:fn run_test(re: &RegexSet, test: &RegexTest) -> TestResult {
+38:fn compiler(

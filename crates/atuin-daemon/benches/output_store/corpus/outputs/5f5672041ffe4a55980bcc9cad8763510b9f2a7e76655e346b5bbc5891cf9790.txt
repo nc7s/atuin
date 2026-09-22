@@ -1,0 +1,160 @@
+use std::fs::File;
+use std::io;
+#[cfg(any(target_os = "linux", target_vendor = "apple", windows))]
+use std::ops::Bound;
+use std::ops::RangeBounds;
+#[cfg(any(target_os = "linux", target_vendor = "apple"))]
+use std::os::unix::io::AsRawFd;
+
+#[cfg(any(
+    all(target_os = "linux", not(target_env = "gnu")),
+    target_vendor = "apple"
+))]
+use libc::flock as Flock;
+#[cfg(all(target_os = "linux", target_env = "gnu"))]
+use libc::flock64 as Flock;
+
+pub(crate) trait RangeLock {
+    /// `Ok(false)` means a conflicting lock is held elsewhere. An unbounded end covers the
+    /// file however it grows, past the last offset fcntl's signed arguments can express.
+    fn try_lock_range(&self, _range: impl RangeBounds<u64>) -> io::Result<bool> {
+        Err(unsupported())
+    }
+
+    fn try_lock_shared_range(&self, _range: impl RangeBounds<u64>) -> io::Result<bool> {
+        Err(unsupported())
+    }
+
+    /// Waits for the range. No deadlock detection, like the whole-file locks.
+    fn lock_range(&self, _range: impl RangeBounds<u64>) -> io::Result<()> {
+        Err(unsupported())
+    }
+
+    fn lock_shared_range(&self, _range: impl RangeBounds<u64>) -> io::Result<()> {
+        Err(unsupported())
+    }
+
+    fn unlock_range(&self, _range: impl RangeBounds<u64>) -> io::Result<()> {
+        Err(unsupported())
+    }
+
+    /// Whether an exclusive lock over the range would conflict with one already held.
+    /// [`File::lock`] is included wherever it would in fact block a range lock
+    #[cfg(any(not(windows), test))]
+    fn query_lock(&self, _range: impl RangeBounds<u64>) -> io::Result<bool> {
+        Err(unsupported())
+    }
+}
+
+fn unsupported() -> io::Error {
+    io::Error::new(
+        io::ErrorKind::Unsupported,
+        "byte-range locks are not supported on this platform",
+    )
+}
+
+#[cfg(not(any(target_os = "linux", target_vendor = "apple", windows)))]
+impl RangeLock for File {}
+
+#[cfg(any(target_os = "linux", target_vendor = "apple", windows))]
+fn checked_range(range: impl RangeBounds<u64>) -> io::Result<(u64, u64)> {
+    let invalid = || {
+        io::Error::new(
+            io::ErrorKind::InvalidInput,
+            "empty or unrepresentable lock range",
+        )
+    };
+    let start = match range.start_bound() {
+        Bound::Unbounded => 0,
+        Bound::Included(start) => *start,
+        Bound::Excluded(start) => start.checked_add(1).ok_or_else(invalid)?,
+    };
+    let end = match range.end_bound() {
+        Bound::Unbounded => None,
+        Bound::Included(end) => Some(end.checked_add(1).ok_or_else(invalid)?),
+        Bound::Excluded(end) => Some(*end),
+    };
+    // Unix uses a zero length for an unbounded end; Windows needs an explicit length.
+    #[cfg(windows)]
+    let end = Some(end.unwrap_or(u64::MAX));
+    if end.is_some_and(|end| start >= end) {
+        return Err(invalid());
+    }
+    #[cfg(any(target_os = "linux", target_vendor = "apple"))]
+    if end.is_some_and(|end| end - 1 > i64::MAX as u64) {
+        return Err(invalid());
+    }
+    Ok((start, end.map_or(0, |end| end - start)))
+}
+
+// LockFileEx region locks: per-handle, so they carry the same ownership model as open file
+// description locks, and mandatory rather than advisory. Unlike fcntl's, they do not split or
+// merge -- a lock is released only by an unlock over the range it was taken over, and a range
+// this handle already holds cannot be locked again -- so each range is taken and released whole.
+// The calls are the ones std's own whole-file locks use, made over a range rather than the file.
+#[cfg(windows)]
+mod windows_imp {
+    use super::{File, RangeLock, checked_range};
+    use std::io;
+    use std::ops::RangeBounds;
+    use std::os::windows::io::AsRawHandle;
+
+    type Handle = *mut core::ffi::c_void;
+    type Dword = u32;
+    type Bool = i32;
+
+    const LOCKFILE_FAIL_IMMEDIATELY: Dword = 0x0000_0001;
+    const LOCKFILE_EXCLUSIVE_LOCK: Dword = 0x0000_0002;
+    const ERROR_LOCK_VIOLATION: i32 = 33;
+    const ERROR_IO_PENDING: i32 = 997;
+
+    #[repr(C)]
+    struct Overlapped {
+        internal: usize,
+        internal_high: usize,
+        offset: Dword,
+        offset_high: Dword,
+        event: Handle,
+    }
+
+    #[link(name = "kernel32")]
+    unsafe extern "system" {
+        fn LockFileEx(
+            file: Handle,
+            flags: Dword,
+            reserved: Dword,
+            bytes_low: Dword,
+            bytes_high: Dword,
+            overlapped: *mut Overlapped,
+        ) -> Bool;
+        fn UnlockFile(
+            file: Handle,
+            offset_low: Dword,
+            offset_high: Dword,
+            bytes_low: Dword,
+            bytes_high: Dword,
+        ) -> Bool;
+        fn CreateEventW(
+            attributes: *mut core::ffi::c_void,
+            manual_reset: Bool,
+            initial_state: Bool,
+            name: *const u16,
+        ) -> Handle;
+        fn GetOverlappedResult(
+            file: Handle,
+            overlapped: *mut Overlapped,
+            transferred: *mut Dword,
+            wait: Bool,
+        ) -> Bool;
+        fn CloseHandle(handle: Handle) -> Bool;
+    }
+
+    // The Win32 calls take 64-bit offsets and lengths as dword halves
+    fn low_dword(value: u64) -> Dword {
+        Dword::try_from(value & u64::from(Dword::MAX)).unwrap()
+    }
+
+    fn high_dword(value: u64) -> Dword {
+        Dword::try_from(value >> 32).unwrap()
+    }
+

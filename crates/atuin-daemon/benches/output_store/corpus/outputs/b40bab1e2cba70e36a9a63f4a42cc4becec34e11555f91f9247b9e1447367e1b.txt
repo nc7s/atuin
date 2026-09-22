@@ -1,0 +1,3 @@
+12:pub enum Cmd {
+22:impl Cmd {
+24:    pub async fn run(self, settings: &Settings, store: SqliteStore) -> Result<()> {

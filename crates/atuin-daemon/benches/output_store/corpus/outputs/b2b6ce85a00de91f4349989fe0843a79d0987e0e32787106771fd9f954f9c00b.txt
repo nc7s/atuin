@@ -1,0 +1,6 @@
+13:pub struct Pull {
+16:    pub tag: Option<RecordTag>,
+22:    pub force: bool,
+28:    pub page: NonZeroU64,
+31:impl Pull {
+32:    pub async fn run(&self, settings: &Settings, store: SqliteStore, db: &Sqlite) -> Result<()> {

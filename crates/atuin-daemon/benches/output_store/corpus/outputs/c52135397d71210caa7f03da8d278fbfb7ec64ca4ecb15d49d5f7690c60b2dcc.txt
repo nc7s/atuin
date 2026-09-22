@@ -1,0 +1,5 @@
+25:use super::{CompressError, WINDOW_SIZE};
+35:pub(super) fn get_batch(input: &[u8], n: usize) -> u32 {
+41:pub(super) fn get_batch(input: &[u8], n: usize) -> u32 {
+51:pub(super) fn get_batch_arch(input: &[u8], n: usize) -> usize {
+58:pub(super) fn get_batch_arch(input: &[u8], n: usize) -> usize {

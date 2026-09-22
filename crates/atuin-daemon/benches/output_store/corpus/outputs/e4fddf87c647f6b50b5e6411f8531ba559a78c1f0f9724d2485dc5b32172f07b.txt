@@ -1,0 +1,8 @@
+16:pub struct Rebuild {
+17:    pub tag: String,
+20:impl Rebuild {
+21:    pub async fn run(
+27:        // keep it as a string and not an enum atm
+53:    async fn rebuild_history(
+76:    async fn rebuild_dotfiles(&self, settings: &Settings, store: SqliteStore) -> Result<()> {
+91:    async fn rebuild_scripts(&self, settings: &Settings, store: SqliteStore) -> Result<()> {

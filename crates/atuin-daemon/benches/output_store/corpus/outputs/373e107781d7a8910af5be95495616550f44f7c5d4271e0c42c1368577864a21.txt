@@ -1,0 +1,56 @@
+20:    fn try_lock_range(&self, _range: impl RangeBounds<u64>) -> io::Result<bool> {
+24:    fn try_lock_shared_range(&self, _range: impl RangeBounds<u64>) -> io::Result<bool> {
+29:    fn lock_range(&self, _range: impl RangeBounds<u64>) -> io::Result<()> {
+33:    fn lock_shared_range(&self, _range: impl RangeBounds<u64>) -> io::Result<()> {
+37:    fn unlock_range(&self, _range: impl RangeBounds<u64>) -> io::Result<()> {
+44:    fn query_lock(&self, _range: impl RangeBounds<u64>) -> io::Result<bool> {
+49:fn unsupported() -> io::Error {
+50:    io::Error::new(
+51:        io::ErrorKind::Unsupported,
+57:impl RangeLock for File {}
+60:fn checked_range(range: impl RangeBounds<u64>) -> io::Result<(u64, u64)> {
+62:        io::Error::new(
+63:            io::ErrorKind::InvalidInput,
+112:    struct Overlapped {
+122:        fn LockFileEx(
+130:        fn UnlockFile(
+137:        fn CreateEventW(
+143:        fn GetOverlappedResult(
+149:        fn CloseHandle(handle: Handle) -> Bool;
+153:    fn low_dword(value: u64) -> Dword {
+157:    fn high_dword(value: u64) -> Dword {
+161:    fn try_lock(file: &File, exclusive: bool, range: impl RangeBounds<u64>) -> io::Result<bool> {
+168:        // Only the offset is carried, and the struct is left on the stack, as std's try_lock
+192:        let err = io::Error::last_os_error();
+204:    fn lock_blocking(file: &File, exclusive: bool, range: impl RangeBounds<u64>) -> io::Result<()> {
+215:                return Err(io::Error::last_os_error());
+236:                let err = io::Error::last_os_error();
+244:                        Err(io::Error::last_os_error())
+256:    impl RangeLock for File {
+257:        fn try_lock_range(&self, range: impl RangeBounds<u64>) -> io::Result<bool> {
+261:        fn try_lock_shared_range(&self, range: impl RangeBounds<u64>) -> io::Result<bool> {
+265:        fn lock_range(&self, range: impl RangeBounds<u64>) -> io::Result<()> {
+269:        fn lock_shared_range(&self, range: impl RangeBounds<u64>) -> io::Result<()> {
+277:        fn unlock_range(&self, range: impl RangeBounds<u64>) -> io::Result<()> {
+291:                Err(io::Error::last_os_error())
+297:        fn query_lock(&self, range: impl RangeBounds<u64>) -> io::Result<bool> {
+311:fn lock_type(kind: libc::c_int) -> libc::c_short {
+316:fn lock_type(kind: libc::c_short) -> libc::c_short {
+321:fn flock_struct(kind: libc::c_short, range: impl RangeBounds<u64>) -> io::Result<Flock> {
+323:    let invalid = || io::Error::new(io::ErrorKind::InvalidInput, "unrepresentable lock range");
+324:    // Zeroed rather than written field by field: struct flock's layout differs between Linux
+335:fn fcntl_lock(file: &File, command: libc::c_int, lock: &mut Flock) -> libc::c_long {
+359:fn fcntl_lock(file: &File, command: libc::c_int, lock: &mut Flock) -> libc::c_int {
+365:fn lock_error() -> io::Error {
+366:    let err = io::Error::last_os_error();
+371:        io::Error::new(io::ErrorKind::Unsupported, err)
+378:fn set_lock(file: &File, exclusive: bool, range: impl RangeBounds<u64>) -> io::Result<bool> {
+398:fn set_lock_blocking(file: &File, exclusive: bool, range: impl RangeBounds<u64>) -> io::Result<()> {
+411:        if err.kind() != io::ErrorKind::Interrupted {
+418:impl RangeLock for File {
+419:    fn try_lock_range(&self, range: impl RangeBounds<u64>) -> io::Result<bool> {
+423:    fn try_lock_shared_range(&self, range: impl RangeBounds<u64>) -> io::Result<bool> {
+427:    fn lock_range(&self, range: impl RangeBounds<u64>) -> io::Result<()> {
+431:    fn lock_shared_range(&self, range: impl RangeBounds<u64>) -> io::Result<()> {
+435:    fn unlock_range(&self, range: impl RangeBounds<u64>) -> io::Result<()> {
+441:    fn query_lock(&self, range: impl RangeBounds<u64>) -> io::Result<bool> {

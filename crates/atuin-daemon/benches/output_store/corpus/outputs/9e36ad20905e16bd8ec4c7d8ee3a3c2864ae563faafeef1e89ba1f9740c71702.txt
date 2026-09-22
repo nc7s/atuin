@@ -1,0 +1,20 @@
+use crate::{Key, TypeName, Value};
+use core::cmp::Ordering;
+use uuid::Uuid;
+
+impl Value for Uuid {
+    type SelfType<'a>
+        = Uuid
+    where
+        Self: 'a;
+    type AsBytes<'a>
+        = &'a uuid::Bytes
+    where
+        Self: 'a;
+
+    fn fixed_width() -> Option<usize> {
+        Some(16)
+    }
+
+    fn from_bytes<'a>(data: &'a [u8]) -> Self::SelfType<'a>
+    where

@@ -1,0 +1,5 @@
+11:    ATUIN_CARGO_VERSION, ATUIN_HEADER_VERSION, ATUIN_VERSION, ChangePasswordRequest, ErrorResponse,
+48:pub enum AuthToken {
+55:impl AuthToken {
+57:    fn to_header_value(&self) -> String {
+66:pub struct Client {

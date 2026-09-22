@@ -1,0 +1,34 @@
+21:use super::{ErrorResponse, ErrorResponseStatus, RespExt};
+22:use crate::db::DbError;
+26:pub fn verify_str(hash: &str, password: &str) -> bool {
+36:async fn send_register_hook(url: &url::Url, username: String, registered: String) {
+59:pub async fn get(
+62:) -> Result<Json<UserResponse>, ErrorResponseStatus<'static>> {
+66:        Err(DbError::NotFound) => {
+68:            return Err(ErrorResponse::reply("user not found").with_status(StatusCode::NOT_FOUND));
+70:        Err(DbError::Other(err)) => {
+72:            return Err(ErrorResponse::reply("database error")
+83:pub async fn register(
+86:) -> Result<Json<RegisterResponse>, ErrorResponseStatus<'static>> {
+88:        return Err(ErrorResponse::reply("this server is not open for registrations")
+96:                return Err(ErrorResponse::reply(
+122:            return Err(ErrorResponse::reply("failed to register user")
+148:pub async fn delete(
+151:) -> Result<Json<DeleteUserResponse>, ErrorResponseStatus<'static>> {
+158:        return Err(ErrorResponse::reply("failed to delete user")
+170:pub async fn change_password(
+174:) -> Result<Json<ChangePasswordResponse>, ErrorResponseStatus<'static>> {
+180:            ErrorResponse::reply("password is not correct").with_status(StatusCode::UNAUTHORIZED)
+190:        return Err(ErrorResponse::reply("failed to change user password")
+200:pub async fn login(
+204:) -> Result<Json<LoginResponse>, ErrorResponseStatus<'static>> {
+208:        Err(DbError::NotFound) => {
+209:            return Err(ErrorResponse::reply("user not found").with_status(StatusCode::NOT_FOUND));
+211:        Err(DbError::Other(e)) => {
+214:            return Err(ErrorResponse::reply("database error")
+221:        Err(DbError::NotFound) => {
+223:            return Err(ErrorResponse::reply("user not found").with_status(StatusCode::NOT_FOUND));
+225:        Err(DbError::Other(err)) => {
+227:            return Err(ErrorResponse::reply("database error")
+237:            ErrorResponse::reply("password is not correct").with_status(StatusCode::UNAUTHORIZED)
+249:fn hash_secret(password: &str) -> String {

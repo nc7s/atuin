@@ -1,0 +1,3 @@
+24:fn encrypt(bencher: divan::Bencher, n: usize) {
+35:fn decrypt(bencher: divan::Bencher, n: usize) {
+51:fn decrypted_records(n: usize) -> Vec<Record<DecryptedData>> {

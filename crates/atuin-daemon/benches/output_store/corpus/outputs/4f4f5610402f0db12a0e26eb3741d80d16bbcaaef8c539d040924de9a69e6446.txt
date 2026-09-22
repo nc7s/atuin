@@ -1,0 +1,20 @@
+20:use crate::{AccessGuard, Result, StorageError};
+33:pub(crate) struct BtreeStats {
+43:pub(crate) struct PagePath {
+47:impl PagePath {
+48:    pub(crate) fn new_root(page_number: PageNumber) -> Self {
+54:    pub(crate) fn with_child(&self, page_number: PageNumber) -> Self {
+60:    pub(crate) fn with_subpath(&self, other: &Self) -> Self {
+66:    pub(crate) fn parents(&self) -> &[PageNumber] {
+70:    pub(crate) fn depth(&self) -> usize {
+74:    pub(crate) fn page_number(&self) -> PageNumber {
+79:pub(super) struct UntypedBtree {
+87:impl UntypedBtree {
+88:    pub(super) fn new(
+105:    pub(super) fn visit_all_pages<F>(&self, mut visitor: F) -> Result
+116:    fn visit_pages_helper<F>(&self, path: PagePath, visitor: &mut F) -> Result
+121:            return Err(crate::StorageError::Corrupted(
+137:                        return Err(crate::StorageError::Corrupted(
+152:pub(super) struct UntypedBtreeMut {
+160:impl UntypedBtreeMut {
+161:    pub(super) fn new(

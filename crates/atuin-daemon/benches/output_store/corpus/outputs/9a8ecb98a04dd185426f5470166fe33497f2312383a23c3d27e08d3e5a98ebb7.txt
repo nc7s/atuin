@@ -1,0 +1,13 @@
+tests/test.rs:75:struct Inner {
+tests/test.rs:82:struct Outer {
+tests/test.rs:578:    struct Newtype(BTreeMap<String, i32>);
+tests/test.rs:1010:    struct S {
+tests/test.rs:1224:            "invalid type: integer `5`, expected struct Outer at line 1 column 1",
+tests/test.rs:1228:            "invalid type: string \"hello\", expected struct Outer at line 1 column 7",
+tests/test.rs:1297:    struct Foo {
+tests/test.rs:1327:            ("{\"Cat\":[]}", "invalid length 0, expected struct variant Animal::Cat with 2 elements at line 1 column 9"),
+tests/lexical/math.rs:7:struct Bigint {
+tests/regression/issue845.rs:8:pub struct NumberVisitor<T> {
+tests/regression/issue845.rs:61:pub struct Struct {
+tests/regression/issue979.rs:4:struct EnumVisitor;
+tests/regression/issue795.rs:22:        struct EnumVisitor;

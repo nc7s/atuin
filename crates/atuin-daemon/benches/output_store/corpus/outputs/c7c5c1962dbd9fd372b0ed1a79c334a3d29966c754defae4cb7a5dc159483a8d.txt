@@ -1,0 +1,50 @@
+src/v7.rs:17:    pub fn now_v7() -> Self {
+src/v7.rs:72:    pub fn new_v7(ts: Timestamp) -> Self {
+src/v6.rs:19:    pub fn now_v6(node_id: &[u8; 6]) -> Self {
+src/v6.rs:92:    pub fn new_v6(ts: Timestamp, node_id: &[u8; 6]) -> Self {
+src/v5.rs:36:    pub fn new_v5(namespace: &Uuid, name: &[u8]) -> Uuid {
+src/v4.rs:33:    pub fn new_v4() -> Uuid {
+src/v3.rs:37:    pub fn new_v3(namespace: &Uuid, name: &[u8]) -> Uuid {
+src/v1.rs:23:    pub fn now_v1(node_id: &[u8; 6]) -> Self {
+src/v1.rs:92:    pub fn new_v1(ts: Timestamp, node_id: &[u8; 6]) -> Self {
+src/timestamp.rs:55:    pub fn now(context: impl ClockSequence<Output = impl Into<u128>>) -> Self {
+src/timestamp.rs:106:    pub fn from_unix(
+src/timestamp.rs:541:            pub fn new_random() -> Self {
+src/timestamp.rs:795:            pub fn with_adjust_by_millis(mut self, millis: u32) -> Self {
+src/timestamp.rs:806:            pub fn with_additional_precision(self) -> Self {
+src/timestamp.rs:819:            pub fn with_additional_precision_bits(mut self, bits: usize) -> Self {
+src/lib.rs:640:    pub fn as_fields(&self) -> (u32, u16, u16, &[u8; 8]) {
+src/lib.rs:683:    pub fn to_fields_le(&self) -> (u32, u16, u16, &[u8; 8]) {
+src/lib.rs:1025:    pub fn some_uuid_nil() -> Uuid {
+src/lib.rs:1029:    pub fn some_uuid_v1() -> Uuid {
+src/lib.rs:1033:    pub fn some_uuid_v3() -> Uuid {
+src/lib.rs:1037:    pub fn some_uuid_v4() -> Uuid {
+src/lib.rs:1041:    pub fn some_uuid_v4_2() -> Uuid {
+src/lib.rs:1045:    pub fn some_uuid_v5() -> Uuid {
+src/rng.rs:255:        pub fn fill(dest: &mut [u8]) -> bool {
+src/rng.rs:266:        pub fn fill(dest: &mut [u8]) -> bool {
+src/fmt.rs:141:    pub fn as_hyphenated(&self) -> &Hyphenated {
+src/fmt.rs:153:    pub fn as_simple(&self) -> &Simple {
+src/fmt.rs:165:    pub fn as_urn(&self) -> &Urn {
+src/fmt.rs:177:    pub fn as_braced(&self) -> &Braced {
+src/fmt.rs:423:    pub fn encode_lower<'buf>(&self, buffer: &'buf mut [u8]) -> &'buf mut str {
+src/fmt.rs:443:    pub fn encode_lower_uninit<'buf>(&self, buffer: &'buf mut [MaybeUninit<u8>]) -> &'buf mut str {
+src/fmt.rs:494:    pub fn encode_upper<'buf>(&self, buffer: &'buf mut [u8]) -> &'buf mut str {
+src/fmt.rs:514:    pub fn encode_upper_uninit<'buf>(&self, buffer: &'buf mut [MaybeUninit<u8>]) -> &'buf mut str {
+src/parser.rs:76:    pub fn parse_str(input: &str) -> Result<Uuid, Error> {
+src/error.rs:61:    pub fn into_err(self) -> Error {
+src/external/serde_support.rs:291:    pub fn serialize<S>(u: &crate::Uuid, serializer: S) -> Result<S::Ok, S::Error>
+src/external/serde_support.rs:301:    pub fn deserialize<'de, D>(deserializer: D) -> Result<crate::Uuid, D::Error>
+src/external/serde_support.rs:391:    pub fn serialize<S>(u: &crate::Uuid, serializer: S) -> Result<S::Ok, S::Error>
+src/external/serde_support.rs:401:    pub fn deserialize<'de, D>(deserializer: D) -> Result<crate::Uuid, D::Error>
+src/external/serde_support.rs:486:    pub fn serialize<S>(u: &crate::Uuid, serializer: S) -> Result<S::Ok, S::Error>
+src/external/serde_support.rs:496:    pub fn deserialize<'de, D>(deserializer: D) -> Result<Uuid, D::Error>
+src/external/serde_support.rs:613:    pub fn serialize<S>(u: &crate::Uuid, serializer: S) -> Result<S::Ok, S::Error>
+src/external/serde_support.rs:623:    pub fn deserialize<'de, D>(deserializer: D) -> Result<crate::Uuid, D::Error>
+src/builder.rs:287:    pub fn from_slice(b: &[u8]) -> Result<Uuid, Error> {
+src/builder.rs:328:    pub fn from_slice_le(b: &[u8]) -> Result<Uuid, Error> {
+src/builder.rs:434:    pub fn from_bytes_ref(bytes: &Bytes) -> &Uuid {
+src/builder.rs:637:    pub fn from_slice(b: &[u8]) -> Result<Self, Error> {
+src/builder.rs:672:    pub fn from_slice_le(b: &[u8]) -> Result<Self, Error> {
+src/builder.rs:786:    pub fn set_variant(&mut self, v: Variant) -> &mut Self {
+src/builder.rs:806:    pub fn set_version(&mut self, v: Version) -> &mut Self {

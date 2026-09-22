@@ -1,0 +1,160 @@
+use crate::tree_store::btree_cursor::{Cursor, Position};
+use crate::tree_store::btree_iters::{EntryGuard, bounds_are_empty, encode_bounds};
+use crate::tree_store::page_store::PageHint;
+use crate::tree_store::{PageNumber, PageResolver};
+use crate::types::{Key, Value};
+use crate::{Result, StorageError};
+use Bound::{Excluded, Included, Unbounded};
+use alloc::vec::Vec;
+use core::borrow::Borrow;
+use core::cmp::Ordering;
+use core::ops::Bound;
+use core::ops::RangeBounds;
+
+#[derive(Clone)]
+enum Slot<C> {
+    Uninitialized,
+    Active(C),
+    Exhausted,
+}
+
+impl<C> Slot<C> {
+    fn active(&self) -> Option<&C> {
+        match self {
+            Slot::Active(cursor) => Some(cursor),
+            Slot::Uninitialized | Slot::Exhausted => None,
+        }
+    }
+
+    fn active_mut(&mut self) -> Option<&mut C> {
+        match self {
+            Slot::Active(cursor) => Some(cursor),
+            Slot::Uninitialized | Slot::Exhausted => None,
+        }
+    }
+
+    fn is_uninitialized(&self) -> bool {
+        matches!(self, Slot::Uninitialized)
+    }
+}
+
+#[derive(Copy, Clone)]
+enum Side {
+    Front,
+    Back,
+}
+
+#[derive(Clone)]
+pub(crate) struct BtreeCursorRange<K: Key + 'static, V: Value + 'static> {
+    root: Option<PageNumber>,
+    lower_bound: Bound<Vec<u8>>,
+    upper_bound: Bound<Vec<u8>>,
+    manager: PageResolver,
+    hint: PageHint,
+    front: Slot<Cursor<K, V>>,
+    back: Slot<Cursor<K, V>>,
+    // The ends run on independent cursors and share the termination logic, so the first error
+    // latches the whole range. See Cursor::errored.
+    errored: bool,
+}
+
+impl<K: Key + 'static, V: Value + 'static> BtreeCursorRange<K, V> {
+    pub(crate) fn new<'a, T: RangeBounds<KR>, KR: Borrow<K::SelfType<'a>>>(
+        query_range: &'_ T,
+        table_root: Option<PageNumber>,
+        manager: PageResolver,
+        hint: PageHint,
+    ) -> Result<Self> {
+        let (lower_bound, upper_bound) = encode_bounds::<K, KR, T>(query_range);
+        Self::from_bounds(lower_bound, upper_bound, table_root, manager, hint)
+    }
+
+    pub(crate) fn from_bounds(
+        lower_bound: Bound<Vec<u8>>,
+        upper_bound: Bound<Vec<u8>>,
+        table_root: Option<PageNumber>,
+        manager: PageResolver,
+        hint: PageHint,
+    ) -> Result<Self> {
+        if table_root.is_none() || bounds_are_empty::<K>(&lower_bound, &upper_bound) {
+            return Ok(Self::empty(manager, hint));
+        }
+
+        Ok(Self {
+            root: table_root,
+            lower_bound,
+            upper_bound,
+            manager,
+            hint,
+            front: Slot::Uninitialized,
+            back: Slot::Uninitialized,
+            errored: false,
+        })
+    }
+
+    fn empty(manager: PageResolver, hint: PageHint) -> Self {
+        Self {
+            root: None,
+            lower_bound: Unbounded,
+            upper_bound: Unbounded,
+            manager,
+            hint,
+            front: Slot::Exhausted,
+            back: Slot::Exhausted,
+            errored: false,
+        }
+    }
+
+    fn close(&mut self) {
+        self.root = None;
+        self.front = Slot::Exhausted;
+        self.back = Slot::Exhausted;
+    }
+
+    fn initialize_side(&mut self, side: Side) -> Result {
+        assert!(matches!(self.slot(side), Slot::Uninitialized));
+        let root = self.root.expect("range cursor must have a root");
+        let mut cursor = Cursor::new(root, self.manager.clone(), self.hint);
+        match side {
+            Side::Front => match self.lower_bound.as_ref().map(Vec::as_slice) {
+                Included(key) => cursor.seek_to(Position::Before(key))?,
+                Excluded(key) => cursor.seek_to(Position::After(key))?,
+                Unbounded => cursor.seek_to(Position::Start)?,
+            },
+            Side::Back => match self.upper_bound.as_ref().map(Vec::as_slice) {
+                Included(key) => cursor.seek_to(Position::After(key))?,
+                Excluded(key) => cursor.seek_to(Position::Before(key))?,
+                Unbounded => cursor.seek_to(Position::End)?,
+            },
+        }
+        *self.slot_mut(side) = Slot::Active(cursor);
+        Ok(())
+    }
+
+    fn prepare(&mut self, side: Side) -> Result<bool> {
+        if matches!(self.slot(side), Slot::Uninitialized) {
+            self.initialize_side(side)?;
+        }
+        Ok(self.slot(side).active().is_some())
+    }
+
+    fn slot(&self, side: Side) -> &Slot<Cursor<K, V>> {
+        match side {
+            Side::Front => &self.front,
+            Side::Back => &self.back,
+        }
+    }
+
+    fn slot_mut(&mut self, side: Side) -> &mut Slot<Cursor<K, V>> {
+        match side {
+            Side::Front => &mut self.front,
+            Side::Back => &mut self.back,
+        }
+    }
+
+    fn opposite_slot(&self, side: Side) -> &Slot<Cursor<K, V>> {
+        match side {
+            Side::Front => &self.back,
+            Side::Back => &self.front,
+        }
+    }

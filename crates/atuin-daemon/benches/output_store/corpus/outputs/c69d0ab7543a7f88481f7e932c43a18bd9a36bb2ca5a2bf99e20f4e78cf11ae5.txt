@@ -1,0 +1,5 @@
+15:pub struct Bash {
+19:fn default_histpath() -> Result<PathBuf> {
+27:impl Importer for Bash {
+30:    async fn new() -> Result<Self> {
+35:    async fn entries(&mut self) -> Result<usize> {

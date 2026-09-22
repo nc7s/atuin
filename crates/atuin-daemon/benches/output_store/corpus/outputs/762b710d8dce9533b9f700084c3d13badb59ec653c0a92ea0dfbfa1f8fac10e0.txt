@@ -1,0 +1,160 @@
+use rand::random;
+#[cfg(not(target_os = "wasi"))]
+use redb::CommitError;
+#[cfg(any(target_os = "linux", target_os = "macos", target_os = "windows"))]
+use redb::DatabaseError;
+use redb::backends::InMemoryBackend;
+use redb::{
+    Database, Key, MultimapTableDefinition, MultimapTableHandle, OwnedRange, ReadOnlyDatabase,
+    ReadableDatabase, ReadableTable, ReadableTableMetadata, StorageError, TableDefinition,
+    TableError, TableHandle, TypeName, Value, WriteTransaction,
+};
+use std::cmp::Ordering;
+#[cfg(feature = "experimental-api-5")]
+use std::ops::Bound;
+#[cfg(not(target_os = "wasi"))]
+use std::sync;
+
+const SLICE_TABLE: TableDefinition<&[u8], &[u8]> = TableDefinition::new("slice");
+const STR_TABLE: TableDefinition<&str, &str> = TableDefinition::new("x");
+const U64_TABLE: TableDefinition<u64, u64> = TableDefinition::new("u64");
+
+// Bridges the range signature change made by the experimental-api-5 feature, so that these tests
+// cover both configurations. The 5.0 signature infers the key type from the range itself, and an
+// unbounded range has none to infer, so today's signature needs it named.
+macro_rules! range_all {
+    ($table:expr, $key:ty) => {{
+        #[cfg(feature = "experimental-api-5")]
+        let range = $table.range(..);
+        #[cfg(not(feature = "experimental-api-5"))]
+        let range = $table.range::<$key>(..);
+        range
+    }};
+}
+
+macro_rules! range_owned_all {
+    ($table:expr, $key:ty) => {{
+        #[cfg(feature = "experimental-api-5")]
+        let range = $table.range_owned(..);
+        #[cfg(not(feature = "experimental-api-5"))]
+        let range = $table.range_owned::<$key>(..);
+        range
+    }};
+}
+
+fn create_tempfile() -> tempfile::NamedTempFile {
+    if cfg!(target_os = "wasi") {
+        tempfile::NamedTempFile::new_in("/tmp").unwrap()
+    } else {
+        tempfile::NamedTempFile::new().unwrap()
+    }
+}
+
+#[test]
+fn len() {
+    let tmpfile = create_tempfile();
+    let db = Database::create(tmpfile.path()).unwrap();
+    let write_txn = db.begin_write().unwrap();
+    {
+        let mut table = write_txn.open_table(STR_TABLE).unwrap();
+        table.insert("hello", "world").unwrap();
+        table.insert("hello2", "world2").unwrap();
+        table.insert("hi", "world").unwrap();
+    }
+    write_txn.commit().unwrap();
+
+    let read_txn = db.begin_read().unwrap();
+    let table = read_txn.open_table(STR_TABLE).unwrap();
+    assert_eq!(table.len().unwrap(), 3);
+    let untyped_table = read_txn.open_untyped_table(STR_TABLE).unwrap();
+    assert_eq!(untyped_table.len().unwrap(), 3);
+}
+
+#[test]
+fn read_only() {
+    let tmpfile = create_tempfile();
+    {
+        let db = Database::create(tmpfile.path()).unwrap();
+        let write_txn = db.begin_write().unwrap();
+        {
+            let mut table = write_txn.open_table(STR_TABLE).unwrap();
+            table.insert("hello", "world").unwrap();
+            table.insert("hello2", "world2").unwrap();
+            table.insert("hi", "world").unwrap();
+        }
+        write_txn.commit().unwrap();
+
+        #[cfg(any(target_os = "linux", target_os = "macos", target_os = "windows"))]
+        assert!(matches!(
+            ReadOnlyDatabase::open(tmpfile.path()),
+            Err(DatabaseError::DatabaseAlreadyOpen)
+        ));
+        drop(db);
+    }
+
+    let db = ReadOnlyDatabase::open(tmpfile.path()).unwrap();
+    let read_txn = db.begin_read().unwrap();
+    let table = read_txn.open_table(STR_TABLE).unwrap();
+    assert_eq!(table.len().unwrap(), 3);
+
+    let db2 = ReadOnlyDatabase::open(tmpfile.path()).unwrap();
+    let read_txn2 = db.begin_read().unwrap();
+    let table2 = read_txn2.open_table(STR_TABLE).unwrap();
+    assert_eq!(table2.len().unwrap(), 3);
+
+    #[cfg(any(target_os = "linux", target_os = "macos", target_os = "windows"))]
+    assert!(matches!(
+        Database::open(tmpfile.path()),
+        Err(DatabaseError::DatabaseAlreadyOpen)
+    ));
+    drop(db);
+    drop(db2);
+}
+
+#[test]
+fn write_transaction_keeps_database_open() {
+    let tmpfile = create_tempfile();
+    let db = Database::create(tmpfile.path()).unwrap();
+    let write_txn = db.begin_write().unwrap();
+    // The live write transaction keeps the database open and remains usable
+    drop(db);
+    {
+        let mut table = write_txn.open_table(STR_TABLE).unwrap();
+        table.insert("hello", "world").unwrap();
+    }
+
+    // The file stays locked until the transaction completes
+    #[cfg(any(target_os = "linux", target_os = "macos", target_os = "windows"))]
+    assert!(matches!(
+        Database::open(tmpfile.path()),
+        Err(DatabaseError::DatabaseAlreadyOpen)
+    ));
+
+    write_txn.commit().unwrap();
+
+    // The deferred close ran when the transaction completed, so re-opening succeeds and
+    // does not require a repair
+    let db = Database::builder()
+        .set_repair_callback(|session| session.abort())
+        .open(tmpfile.path())
+        .unwrap();
+    let read_txn = db.begin_read().unwrap();
+    let table = read_txn.open_table(STR_TABLE).unwrap();
+    assert_eq!(table.get("hello").unwrap().unwrap().value(), "world");
+}
+
+#[test]
+fn drop_database_then_drop_write_transaction() {
+    let tmpfile = create_tempfile();
+    let db = Database::create(tmpfile.path()).unwrap();
+    let write_txn = db.begin_write().unwrap();
+    drop(db);
+    {
+        let mut table = write_txn.open_table(STR_TABLE).unwrap();
+        table.insert("hello", "world").unwrap();
+    }
+    // Dropping the transaction aborts it and performs the deferred close
+    drop(write_txn);
+
+    let db = Database::builder()
+        .set_repair_callback(|session| session.abort())

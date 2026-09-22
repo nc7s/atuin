@@ -1,0 +1,10 @@
+crates/atuin-common/src/shell.rs:67:        // TODO: handle all shells
+crates/atuin-common/src/shell.rs:85:        // TODO: Support Linux
+crates/atuin-common/src/slice.rs:3:// TODO: Replace this with the standard library implementation when it's stabilized.
+crates/atuin-common/src/docs.rs:6://! TODO(markovejnovic): This file is debt and slop. Probably doesn't belong in atuin-common even.
+crates/atuin-common/src/utils.rs:105:// TODO: more reliable, more tested
+crates/atuin-common/src/path/display_rich.rs:77:        // TODO(markovejnovic): Do not call BaseDirs here. It does a lot of work. This is a massive
+crates/atuin-common/src/db/sqlite/mod.rs:54:    // TODO(markovejnovic): Modify this to accept the `SqliteDbUrl` type. The change is large at
+crates/atuin-common/src/encryption/paseto_v4.rs:236:        // TODO(markovejnovic): Whether we should use fs_err or not is up for debate, but it was
+crates/atuin-common/src/encryption/paseto_v4.rs:321:        // TODO(taylordotfish): This has a race condition where another process can observe a
+crates/atuin-common/src/os/unix.rs:38:    // TODO: We should perhaps use `std::env::temp_dir()` instead, but that would be a breaking

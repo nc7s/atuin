@@ -1,0 +1,20 @@
+7:struct Bigint {
+11:impl Math for Bigint {
+12:    fn data(&self) -> &Vec<Limb> {
+16:    fn data_mut(&mut self) -> &mut Vec<Limb> {
+22:pub(crate) fn from_u32(x: &[u32]) -> Vec<Limb> {
+27:pub(crate) fn from_u32(x: &[u32]) -> Vec<Limb> {
+41:fn compare_test() {
+49:    assert_eq!(x.compare(&y), cmp::Ordering::Less);
+50:    assert_eq!(x.compare(&x), cmp::Ordering::Equal);
+51:    assert_eq!(y.compare(&x), cmp::Ordering::Greater);
+60:    assert_eq!(x.compare(&y), cmp::Ordering::Greater);
+61:    assert_eq!(x.compare(&x), cmp::Ordering::Equal);
+62:    assert_eq!(y.compare(&x), cmp::Ordering::Less);
+71:    assert_eq!(x.compare(&y), cmp::Ordering::Greater);
+72:    assert_eq!(x.compare(&x), cmp::Ordering::Equal);
+73:    assert_eq!(y.compare(&x), cmp::Ordering::Less);
+82:    assert_eq!(x.compare(&y), cmp::Ordering::Greater);
+83:    assert_eq!(x.compare(&x), cmp::Ordering::Equal);
+84:    assert_eq!(y.compare(&x), cmp::Ordering::Less);
+88:fn hi64_test() {

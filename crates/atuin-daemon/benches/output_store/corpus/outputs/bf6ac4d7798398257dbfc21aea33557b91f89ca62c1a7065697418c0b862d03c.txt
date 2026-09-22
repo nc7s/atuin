@@ -1,0 +1,20 @@
+31://! pub struct MsSqlDbUrl<T: Borrow<str> = String>(pub T);
+35://! pub struct MsSql;
+37://! struct MsSqlDialect;
+39://! impl Dialect for MsSqlDialect {
+45://! impl Database for MsSql {
+57:pub mod models;
+59:pub use postgres::Postgres;
+66:pub use sqlite::Sqlite;
+69:pub use mysql::MySql;
+77:#[derive(Debug, derive_more::Display, derive_more::Error, derive_more::From)]
+79:pub enum DbError {
+82:    #[from(time::error::ComponentRange, time::error::Error)]
+86:impl From<sqlx::Error> for DbError {
+87:    fn from(error: sqlx::Error) -> Self {
+89:            sqlx::Error::RowNotFound => Self::NotFound,
+95:pub type DbResult<T> = Result<T, DbError>;
+98:pub struct DbSettings {
+99:    pub db_uri: OwnedDbUrl,
+105:pub trait Dialect {
+124:pub struct OrdinalBindingDialect;

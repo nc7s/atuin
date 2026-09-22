@@ -1,0 +1,1 @@
+e0dd2b92 d/changelog: 18.19.0+ds-1, amend note about pregenerated protobuf

@@ -1,0 +1,160 @@
+//! Deserialize JSON data to a Rust data structure.
+
+use crate::error::{Error, ErrorCode, Result};
+#[cfg(feature = "float_roundtrip")]
+use crate::lexical;
+use crate::number::Number;
+use crate::read::{self, Fused, Reference};
+use alloc::string::String;
+use alloc::vec::Vec;
+#[cfg(feature = "float_roundtrip")]
+use core::iter;
+use core::iter::FusedIterator;
+use core::marker::PhantomData;
+use core::result;
+use core::str::FromStr;
+use serde::de::{self, Expected, Unexpected};
+use serde::forward_to_deserialize_any;
+
+#[cfg(feature = "arbitrary_precision")]
+use crate::number::NumberDeserializer;
+
+pub use crate::read::{Read, SliceRead, StrRead};
+
+#[cfg(feature = "std")]
+#[cfg_attr(docsrs, doc(cfg(feature = "std")))]
+pub use crate::read::IoRead;
+
+//////////////////////////////////////////////////////////////////////////////
+
+/// A structure that deserializes JSON into Rust values.
+pub struct Deserializer<R> {
+    read: R,
+    scratch: Vec<u8>,
+    remaining_depth: u8,
+    #[cfg(feature = "float_roundtrip")]
+    single_precision: bool,
+    #[cfg(feature = "unbounded_depth")]
+    disable_recursion_limit: bool,
+}
+
+impl<'de, R> Deserializer<R>
+where
+    R: read::Read<'de>,
+{
+    /// Create a JSON deserializer from one of the possible serde_json input
+    /// sources.
+    ///
+    /// When reading from a source against which short reads are not efficient, such
+    /// as a [`File`], you will want to apply your own buffering because serde_json
+    /// will not buffer the input. See [`std::io::BufReader`].
+    ///
+    /// Typically it is more convenient to use one of these methods instead:
+    ///
+    ///   - Deserializer::from_str
+    ///   - Deserializer::from_slice
+    ///   - Deserializer::from_reader
+    ///
+    /// [`File`]: std::fs::File
+    pub fn new(read: R) -> Self {
+        Deserializer {
+            read,
+            scratch: Vec::new(),
+            remaining_depth: 128,
+            #[cfg(feature = "float_roundtrip")]
+            single_precision: false,
+            #[cfg(feature = "unbounded_depth")]
+            disable_recursion_limit: false,
+        }
+    }
+}
+
+#[cfg(feature = "std")]
+impl<R> Deserializer<read::IoRead<R>>
+where
+    R: crate::io::Read,
+{
+    /// Creates a JSON deserializer from an `io::Read`.
+    ///
+    /// Reader-based deserializers do not support deserializing borrowed types
+    /// like `&str`, since the `std::io::Read` trait has no non-copying methods
+    /// -- everything it does involves copying bytes out of the data source.
+    pub fn from_reader(reader: R) -> Self {
+        Deserializer::new(read::IoRead::new(reader))
+    }
+}
+
+impl<'a> Deserializer<read::SliceRead<'a>> {
+    /// Creates a JSON deserializer from a `&[u8]`.
+    pub fn from_slice(bytes: &'a [u8]) -> Self {
+        Deserializer::new(read::SliceRead::new(bytes))
+    }
+}
+
+impl<'a> Deserializer<read::StrRead<'a>> {
+    /// Creates a JSON deserializer from a `&str`.
+    pub fn from_str(s: &'a str) -> Self {
+        Deserializer::new(read::StrRead::new(s))
+    }
+}
+
+macro_rules! overflow {
+    ($a:ident * 10 + $b:ident, $c:expr) => {
+        match $c {
+            c => $a >= c / 10 && ($a > c / 10 || $b > c % 10),
+        }
+    };
+}
+
+pub(crate) enum ParserNumber {
+    F64(f64),
+    U64(u64),
+    I64(i64),
+    #[cfg(feature = "arbitrary_precision")]
+    String(String),
+}
+
+impl ParserNumber {
+    fn visit<'de, V>(self, visitor: V) -> Result<V::Value>
+    where
+        V: de::Visitor<'de>,
+    {
+        match self {
+            ParserNumber::F64(x) => visitor.visit_f64(x),
+            ParserNumber::U64(x) => visitor.visit_u64(x),
+            ParserNumber::I64(x) => visitor.visit_i64(x),
+            #[cfg(feature = "arbitrary_precision")]
+            ParserNumber::String(x) => visitor.visit_map(NumberDeserializer { number: x.into() }),
+        }
+    }
+
+    fn invalid_type(self, exp: &dyn Expected) -> Error {
+        match self {
+            ParserNumber::F64(x) => de::Error::invalid_type(Unexpected::Float(x), exp),
+            ParserNumber::U64(x) => de::Error::invalid_type(Unexpected::Unsigned(x), exp),
+            ParserNumber::I64(x) => de::Error::invalid_type(Unexpected::Signed(x), exp),
+            #[cfg(feature = "arbitrary_precision")]
+            ParserNumber::String(_) => de::Error::invalid_type(Unexpected::Other("number"), exp),
+        }
+    }
+}
+
+impl<'de, R: Read<'de>> Deserializer<R> {
+    /// The `Deserializer::end` method should be called after a value has been fully deserialized.
+    /// This allows the `Deserializer` to validate that the input stream is at the end or that it
+    /// only has trailing whitespace.
+    pub fn end(&mut self) -> Result<()> {
+        match tri!(self.parse_whitespace()) {
+            Some(_) => Err(self.peek_error(ErrorCode::TrailingCharacters)),
+            None => Ok(()),
+        }
+    }
+
+    /// Turn a JSON deserializer into an iterator over values of type T.
+    pub fn into_iter<T>(self) -> StreamDeserializer<'de, R, T>
+    where
+        T: de::Deserialize<'de>,
+    {
+        // This cannot be an implementation of std::iter::IntoIterator because
+        // we need the caller to choose what T is.
+        let offset = self.read.byte_offset();

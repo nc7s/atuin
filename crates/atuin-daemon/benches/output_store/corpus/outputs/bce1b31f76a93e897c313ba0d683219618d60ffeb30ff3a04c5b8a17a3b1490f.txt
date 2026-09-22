@@ -1,0 +1,60 @@
+use alloc::borrow::Cow;
+use alloc::format;
+use alloc::string::String;
+use alloc::string::ToString;
+use alloc::vec;
+use alloc::vec::Vec;
+use core::cmp::Ordering;
+use core::convert::TryInto;
+use core::fmt::Debug;
+use core::mem::size_of;
+#[cfg(feature = "chrono_v0_4")]
+mod chrono_v0_4;
+#[cfg(feature = "uuid")]
+mod uuid;
+
+#[derive(Eq, PartialEq, Clone, Debug)]
+enum TypeClassification {
+    Internal,
+    UserDefined,
+    // Used by variable width tuple encoding in version 3.0 and newer. This differentiates the encoding
+    // from the old encoding used previously
+    Internal2,
+    // Used by composite types written by version 4.2 and newer
+    Internal3,
+}
+
+impl TypeClassification {
+    fn to_byte(&self) -> u8 {
+        match self {
+            TypeClassification::Internal => 1,
+            TypeClassification::UserDefined => 2,
+            TypeClassification::Internal2 => 3,
+            TypeClassification::Internal3 => 4,
+        }
+    }
+
+    fn from_byte(value: u8) -> Self {
+        match value {
+            1 => TypeClassification::Internal,
+            2 => TypeClassification::UserDefined,
+            3 => TypeClassification::Internal2,
+            4 => TypeClassification::Internal3,
+            _ => unreachable!(),
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct TypeName {
+    classification: TypeClassification,
+    name: String,
+    // In-memory only; never serialized. For a composite (`Option`, `Vec`, tuple, array), this
+    // records the classification that older redb versions stored, so that their tables still
+    // match on open. That old spelling is ambiguous for colliding user and built-in composites.
+    // `None` for leaf types, flat user-defined types, and deserialized names.
+    legacy_classification: Option<TypeClassification>,
+}
+
+// Equality is on-disk identity: the auxiliary `legacy_classification` never participates, so a
+// freshly built name compares equal to the same name after a serialize/deserialize round trip.

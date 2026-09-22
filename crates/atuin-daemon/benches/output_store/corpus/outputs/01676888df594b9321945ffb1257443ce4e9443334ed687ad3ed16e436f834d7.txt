@@ -1,0 +1,5 @@
+13:pub struct Bash<'a> {
+14:    pub include_guard: &'a str,
+15:    pub main: &'a str,
+16:    pub preexec: &'a str,
+19:pub const BASH: Bash<'_> = Bash {

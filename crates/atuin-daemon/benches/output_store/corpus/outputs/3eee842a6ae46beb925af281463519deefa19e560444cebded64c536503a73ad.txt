@@ -1,0 +1,5 @@
+19:pub enum AtuinCmd {
+41:impl AtuinCmd {
+42:    pub fn run(self) -> Result<()> {
+87:fn run_pty_proxy(proxy: atuin_pty_proxy::PtyProxy, prev_umask: Mode) {
+101:fn semantic_command_capture_config() -> Option<atuin_pty_proxy::CaptureConfig> {

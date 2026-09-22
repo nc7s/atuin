@@ -1,0 +1,25 @@
+5:use atuin_client::record::sync::{ClientSource, SyncEngine, SyncError};
+13:pub struct Cmd {
+15:    pub username: Option<String>,
+18:    pub password: Option<String>,
+22:    pub key: Option<String>,
+26:    pub totp_code: Option<String>,
+29:    pub from_registration: bool,
+35:fn get_input() -> Result<Option<String>> {
+43:impl Cmd {
+44:    pub async fn run(&self, settings: &Settings, store: &SqliteStore) -> Result<()> {
+79:    fn interactive(&self) -> bool {
+84:    async fn run_hub_login(&self, settings: &Settings, store: &SqliteStore) -> Result<()> {
+145:    async fn run_legacy_login(&self, settings: &Settings, store: &SqliteStore) -> Result<()> {
+168:    async fn ensure_hub_session(&self, _settings: &Settings, hub_address: &url::Url) -> Result<()> {
+189:    async fn prompt_and_store_key(&self, settings: &Settings, store: &SqliteStore) -> Result<()> {
+245:async fn store_key(settings: &Settings, store: &SqliteStore, key: &paseto_v4::Key) -> Result<()> {
+267:async fn verify_key_against_remote(
+292:            Some(SyncError::WrongKey) => {
+330:async fn logout_wrong_key() -> ! {
+345:pub(super) fn or_user_input(value: Option<String>, name: &'static str) -> String {
+350:pub(super) fn read_user_password() -> String {
+356:fn read_user_input(name: &'static str) -> Option<String> {
+367:    fn mnemonic_round_trip() {
+376:        assert_eq!(mnemonic.entropy(), key.as_bytes().as_slice());
+377:        assert_eq!(

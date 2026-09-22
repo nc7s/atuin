@@ -1,0 +1,1 @@
+671 crates/atuin-common/src/string/ellipsis.rs

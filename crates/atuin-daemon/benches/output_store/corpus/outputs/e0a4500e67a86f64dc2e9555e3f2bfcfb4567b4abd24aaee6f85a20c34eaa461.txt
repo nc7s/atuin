@@ -1,0 +1,4 @@
+2:pub struct KvEntry {
+3:    pub namespace: String,
+4:    pub key: String,
+5:    pub value: String,

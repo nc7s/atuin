@@ -1,0 +1,5 @@
+24:/// The `Builder` type also always exposes APIs to construct [`Uuid`]s for any
+42:/// assert_eq!(Some(Version::Random), uuid.get_version());
+43:/// assert_eq!(Variant::RFC4122, uuid.get_variant());
+47:pub struct Builder(Uuid);
+49:impl Uuid {

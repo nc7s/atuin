@@ -1,0 +1,20 @@
+//! The Value enum, a loosely typed way of representing any valid JSON value.
+//!
+//! # Constructing JSON
+//!
+//! Serde JSON provides a [`json!` macro][macro] to build `serde_json::Value`
+//! objects with very natural JSON syntax.
+//!
+//! ```
+//! use serde_json::json;
+//!
+//! fn main() {
+//!     // The type of `john` is `serde_json::Value`
+//!     let john = json!({
+//!         "name": "John Doe",
+//!         "age": 43,
+//!         "phones": [
+//!             "+44 1234567",
+//!             "+44 2345678"
+//!         ]
+//!     });

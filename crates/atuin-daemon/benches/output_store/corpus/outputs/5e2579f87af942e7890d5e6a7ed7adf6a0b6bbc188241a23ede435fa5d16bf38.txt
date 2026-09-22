@@ -1,0 +1,60 @@
+use crate::db::TransactionGuard;
+use crate::sync::Mutex;
+use crate::tree_store::btree_base::{
+    AccessGuardMut, BRANCH, BranchAccessor, BranchMutator, BtreeHeader, Checksum, DEFERRED, LEAF,
+    LeafAccessor, LeafPageMut, MAX_BTREE_DEPTH, branch_checksum, leaf_checksum,
+};
+#[cfg(feature = "experimental-api-5")]
+use crate::tree_store::btree_cursor::BtreeCursor;
+#[cfg(feature = "experimental_cursor")]
+use crate::tree_store::btree_cursor::BtreeCursorMut;
+use crate::tree_store::btree_cursor::{CursorMut, Position};
+use crate::tree_store::btree_iters::{bounds_are_empty, encode_bounds};
+use crate::tree_store::btree_mutator::MutateHelper;
+use crate::tree_store::page_store::{Page, PageImpl, PageMut};
+use crate::tree_store::{
+    AccessGuardMutInPlace, AllPageNumbersBtreeIter, BtreeCursorRange, BtreeExtractIf,
+    PageAllocator, PageHint, PageNumber, PageNumberHashMap, PageResolver, PageTracker,
+};
+use crate::types::{Key, MutInPlaceValue, Value};
+use crate::{AccessGuard, Result, StorageError};
+use alloc::string::ToString;
+use alloc::sync::Arc;
+use alloc::vec;
+use alloc::vec::Vec;
+use core::borrow::Borrow;
+use core::cmp::max;
+use core::marker::PhantomData;
+use core::ops::Bound;
+use core::ops::RangeBounds;
+#[cfg(feature = "logging")]
+use log::trace;
+
+pub(crate) struct BtreeStats {
+    pub(crate) tree_height: u32,
+    pub(crate) leaf_pages: u64,
+    pub(crate) branch_pages: u64,
+    pub(crate) stored_leaf_bytes: u64,
+    pub(crate) metadata_bytes: u64,
+    pub(crate) fragmented_bytes: u64,
+}
+
+#[derive(Clone)]
+pub(crate) struct PagePath {
+    path: Vec<PageNumber>,
+}
+
+impl PagePath {
+    pub(crate) fn new_root(page_number: PageNumber) -> Self {
+        Self {
+            path: vec![page_number],
+        }
+    }
+
+    pub(crate) fn with_child(&self, page_number: PageNumber) -> Self {
+        let mut path = self.path.clone();
+        path.push(page_number);
+        Self { path }
+    }
+
+    pub(crate) fn with_subpath(&self, other: &Self) -> Self {

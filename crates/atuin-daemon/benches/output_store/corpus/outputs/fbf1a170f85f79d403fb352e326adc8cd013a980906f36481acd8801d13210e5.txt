@@ -1,0 +1,26 @@
+6:use crate::{Result, StorageError};
+15:enum Slot<C> {
+22:    fn active(&self) -> Option<&C> {
+29:    fn active_mut(&mut self) -> Option<&mut C> {
+36:    fn is_uninitialized(&self) -> bool {
+42:enum Side {
+48:pub(crate) struct BtreeCursorRange<K: Key + 'static, V: Value + 'static> {
+62:    pub(crate) fn new<'a, T: RangeBounds<KR>, KR: Borrow<K::SelfType<'a>>>(
+72:    pub(crate) fn from_bounds(
+95:    fn empty(manager: PageResolver, hint: PageHint) -> Self {
+108:    fn close(&mut self) {
+114:    fn initialize_side(&mut self, side: Side) -> Result {
+115:        assert!(matches!(self.slot(side), Slot::Uninitialized));
+134:    fn prepare(&mut self, side: Side) -> Result<bool> {
+141:    fn slot(&self, side: Side) -> &Slot<Cursor<K, V>> {
+148:    fn slot_mut(&mut self, side: Side) -> &mut Slot<Cursor<K, V>> {
+155:    fn opposite_slot(&self, side: Side) -> &Slot<Cursor<K, V>> {
+162:    fn active_cursor_mut(&mut self, side: Side) -> &mut Cursor<K, V> {
+168:    fn cursors_have_remaining(&mut self) -> Result<bool> {
+185:    fn advance_cursor(&mut self, side: Side) -> Result<Option<EntryGuard<K, V>>> {
+192:    fn entry_within_open_bound(&self, entry: &EntryGuard<K, V>, side: Side) -> bool {
+208:    fn next_from(&mut self, side: Side) -> Option<Result<EntryGuard<K, V>>> {
+210:            return Some(Err(StorageError::PreviousIo));
+219:    fn next_from_inner(&mut self, side: Side) -> Option<Result<EntryGuard<K, V>>> {
+255:    fn next(&mut self) -> Option<Self::Item> {
+261:    fn next_back(&mut self) -> Option<Self::Item> {

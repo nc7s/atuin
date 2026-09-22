@@ -1,0 +1,1 @@
+28K	crates/atuin/src/command/client/store

@@ -1,0 +1,38 @@
+crates/atuin-daemon/src/client.rs:148:        duration: Option<std::time::Duration>,
+crates/atuin-daemon/src/client.rs:217:        output_end: Option<String>,
+crates/atuin-daemon/src/client.rs:246:    ) -> Result<Option<GetCommandOutputResponse>> {
+crates/atuin-daemon/src/client.rs:264:    pub context: Option<Context>,
+crates/atuin-daemon/src/history_journal.rs:643:    ) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/benchmark.rs:54:    pub async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/mod.rs:69:    pub async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/daemon.rs:195:///     handle: Option<DaemonHandle>,
+crates/atuin-daemon/src/daemon.rs:403:    store: Option<SqliteStore>,
+crates/atuin-daemon/src/daemon.rs:404:    history_db: Option<HistoryDatabase>,
+crates/atuin-daemon/src/grpc/history/pb.rs:62:impl From<Option<atuin_client::history::AuthorKind>> for AuthorKind {
+crates/atuin-daemon/src/grpc/history/pb.rs:63:    fn from(kind: Option<atuin_client::history::AuthorKind>) -> Self {
+crates/atuin-daemon/src/grpc/history/pb.rs:72:impl From<AuthorKind> for Option<atuin_client::history::AuthorKind> {
+crates/atuin-daemon/src/grpc/history/pb.rs:152:    pub duration: Option<Duration>,
+crates/atuin-daemon/src/grpc/history/pb.rs:387:        let lines_end: Option<Vec<&str>> =
+crates/atuin-daemon/src/grpc/history/pb.rs:591:    fn register_req(capture: Option<CommandCapture>) -> RegisterCommandOutputRequest {
+crates/atuin-daemon/src/grpc/history/pb.rs:615:        #[case] capture: Option<CommandCapture>,
+crates/atuin-daemon/src/grpc/history/pb.rs:860:        id: Option<HistoryId>,
+crates/atuin-daemon/src/output_capture/backend/redb.rs:114:    async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/search/index.rs:134:    pub fn new(history: &History, haystack_index: usize, interner: &ThreadedRodeo) -> Option<Self> {
+crates/atuin-daemon/src/search/index.rs:322:    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+crates/atuin-daemon/src/search/index.rs:357:    frecency_map: RwLock<Option<FrecencyMap>>,
+crates/atuin-daemon/src/components/sync.rs:47:    task_handle: Option<tokio::task::JoinHandle<()>>,
+crates/atuin-daemon/src/components/sync.rs:48:    command_tx: Option<mpsc::Sender<SyncCommand>>,
+crates/atuin-daemon/src/output_capture/backend/failing.rs:22:    async fn get(&self, _id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/backend/nop.rs:14:    async fn get(&self, _id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/backend/mod.rs:45:    async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError>;
+crates/atuin-daemon/src/components/search.rs:39:    handle: Option<DaemonHandle>,
+crates/atuin-daemon/src/components/search.rs:40:    loader_handle: Option<tokio::task::JoinHandle<()>>,
+crates/atuin-daemon/src/components/search.rs:41:    frecency_handle: Option<tokio::task::JoinHandle<()>>,
+crates/atuin-daemon/src/components/search.rs:222:    ) -> Result<Option<SearchIndex>, ()> {
+crates/atuin-daemon/src/components/search.rs:351:    context: Option<&crate::search::SearchContext>,
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:95:    async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:277:    _flusher: Option<Arc<Flusher>>,
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:279:    _gc: Option<Arc<Gc>>,
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:292:    pub fn new(db: OptimisticTxDatabase, budget: Option<ByteSize>) -> fjall::Result<Self> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:311:fn resolve_budget(path: &Path, limit: DiskUsageLimit) -> Option<ByteSize> {
+crates/atuin-daemon/src/output_capture/backend/fjall/mod.rs:332:    async fn get(&self, id: HistoryId) -> Result<Option<CommandCapture>, GetOutputError> {

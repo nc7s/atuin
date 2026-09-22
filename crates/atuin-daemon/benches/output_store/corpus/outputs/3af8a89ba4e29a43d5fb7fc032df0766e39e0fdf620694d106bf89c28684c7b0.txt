@@ -1,0 +1,207 @@
+crates/atuin-common/src/units/percent.rs:188:        assert_eq!(input.parse::<Percent>().unwrap(), Percent::new(expected));
+crates/atuin-common/src/units/percent.rs:202:        assert_eq!(input.parse::<Percent>(), Err(expected));
+crates/atuin-common/src/units/percent.rs:220:        assert_eq!(Percent::new(pct) * value, expected);
+crates/atuin-common/src/units/percent.rs:221:        assert_eq!(value * Percent::new(pct), expected);
+crates/atuin-common/src/units/percent.rs:226:        assert_eq!(Percent::new(50.0) * 200_u8, 100);
+crates/atuin-common/src/units/percent.rs:227:        assert_eq!(Percent::new(200.0) * 200_u8, u8::MAX);
+crates/atuin-common/src/units/percent.rs:228:        assert_eq!(Percent::new(50.0) * -100_i8, -50);
+crates/atuin-common/src/units/percent.rs:229:        assert_eq!(Percent::new(200.0) * -100_i8, i8::MIN);
+crates/atuin-common/src/os/unix.rs:148:        assert_eq!(fs_err::symlink_metadata(path).unwrap().mtime(), 0);
+crates/atuin-common/src/os/unix.rs:158:        assert!(fs_err::symlink_metadata(&path).unwrap().mtime() > 0);
+crates/atuin-common/src/os/unix.rs:170:        assert!(fs_err::symlink_metadata(&link).unwrap().mtime() > 0);
+crates/atuin-common/src/os/unix.rs:171:        assert_eq!(fs_err::symlink_metadata(&target).unwrap().mtime(), 0);
+crates/atuin-common/src/string.rs:131:        assert_eq!(input.normalize_diacritics(), expected);
+crates/atuin-common/src/string.rs:139:        assert!(matches!(input.normalize_diacritics(), std::borrow::Cow::Borrowed(_)));
+crates/atuin-common/src/string.rs:152:        assert_eq!(out, expected);
+crates/atuin-common/src/string.rs:153:        assert!(out.chars().count() <= max);
+crates/atuin-common/src/string.rs:159:        assert!(std::ptr::eq(s.truncate_chars(100), s));
+crates/atuin-common/src/string.rs:185:        assert_eq!(safe(url), expected);
+crates/atuin-common/src/secrets.rs:516:    #[allow(clippy::manual_assert)]
+crates/atuin-common/src/secrets.rs:571:        assert!(
+crates/atuin-common/src/secrets.rs:660:        assert_eq!(contains_secret(s), OLD.is_match(s), "{s:?}");
+crates/atuin-common/src/secrets.rs:668:            assert!(
+crates/atuin-common/src/secrets.rs:680:                assert!(
+crates/atuin-common/src/secrets.rs:705:                assert_eq!(
+crates/atuin-common/src/secrets.rs:727:        assert_eq!(contains_secret(input), expected);
+crates/atuin-common/src/secrets.rs:772:        assert_eq!(&*redact(input), expected);
+crates/atuin-common/src/os/unix/process.rs:146:        assert_eq!(found.as_deref(), Some(expected.as_path()));
+crates/atuin-common/src/os/unix/process.rs:162:        assert_eq!(found.as_deref(), Some(expected.as_path()));
+crates/atuin-common/src/os/unix/process.rs:172:        assert_eq!(cwd(pid), None);
+crates/atuin-common/src/futures/stream.rs:24:/// assert_eq!(chunks, vec![(1, vec![1, 1, 1]), (2, vec![2, 2]), (3, vec![3])]);
+crates/atuin-common/src/futures/stream.rs:30:/// assert_eq!(chunks, vec![(1, vec![1, 1]), (1, vec![1, 1])]);
+crates/atuin-common/src/futures/stream.rs:73:    /// per-chunk key so the assertions read as plain chunk shapes.
+crates/atuin-common/src/futures/stream.rs:94:        assert_eq!(chunks_of(items, max), expected);
+crates/atuin-common/src/futures/stream.rs:108:        assert_eq!(chunks, vec![(0, vec![2, 4]), (1, vec![3]), (0, vec![6]), (1, vec![5])]);
+crates/atuin-common/src/futures/stream.rs:120:            prop_assert_eq!(&flat, &items);
+crates/atuin-common/src/futures/stream.rs:124:                prop_assert!(!chunk.is_empty());
+crates/atuin-common/src/futures/stream.rs:125:                prop_assert!(chunk.len() <= max);
+crates/atuin-common/src/ansi.rs:90:    fn assert_no_terminal_controls(text: &str) {
+crates/atuin-common/src/ansi.rs:91:        assert!(
+crates/atuin-common/src/ansi.rs:113:        assert_eq!(to_plain_text(input.as_bytes(), nz(80)), expected);
+crates/atuin-common/src/ansi.rs:114:        assert_no_terminal_controls(&to_plain_text(input.as_bytes(), nz(80)));
+crates/atuin-common/src/ansi.rs:121:        assert_eq!(to_plain_text(b"", cols), "");
+crates/atuin-common/src/ansi.rs:129:        assert_eq!(to_plain_text("⺀".as_bytes(), nz(1)), "");
+crates/atuin-common/src/ansi.rs:134:        assert_eq!(to_plain_text(b"hi\r\n\r\n\r\n", nz(80)), "hi");
+crates/atuin-common/src/ansi.rs:140:        assert_eq!(wrapped, "abcdefghij");
+crates/atuin-common/src/os/unix/tty.rs:86:            assert_eq!(id.dev as u64, meta.dev());
+crates/atuin-common/src/os/unix/tty.rs:87:            assert_eq!(id.rdev as u64, meta.rdev());
+crates/atuin-common/src/os/unix/tty.rs:121:        assert_eq!(found, Some(expected));
+crates/atuin-common/src/os/unix/tty.rs:129:        assert_eq!(TtyId::from_fd(&devnull), None);
+crates/atuin-common/src/utils.rs:217:    use pretty_assertions::assert_ne;
+crates/atuin-common/src/utils.rs:240:        assert_eq!(config_dir(), PathBuf::from("/home/user/custom_config/atuin"));
+crates/atuin-common/src/utils.rs:252:        assert_eq!(config_dir(), PathBuf::from("/home/user/.config/atuin"));
+crates/atuin-common/src/utils.rs:266:        assert_eq!(config_dir(), PathBuf::from("/home/user/.config/atuin"));
+crates/atuin-common/src/utils.rs:278:        assert_eq!(data_dir(), PathBuf::from("/home/user/custom_data/atuin"));
+crates/atuin-common/src/utils.rs:290:        assert_eq!(data_dir(), PathBuf::from("/home/user/.local/share/atuin"));
+crates/atuin-common/src/utils.rs:303:        assert_eq!(data_dir(), PathBuf::from("/home/user/.local/share/atuin"));
+crates/atuin-common/src/utils.rs:319:        assert_eq!(result, Some(tmp.clone()));
+crates/atuin-common/src/docs.rs:63:        assert_eq!(version_segment(version), expected);
+crates/atuin-common/src/docs.rs:69:        assert!(!VERSION.is_empty());
+crates/atuin-common/src/docs.rs:70:        assert!(VERSION == "main" || VERSION.split('.').count() == 2);
+crates/atuin-common/src/docs.rs:71:        assert!(!VERSION.contains('-'));
+crates/atuin-common/src/docs.rs:76:        assert_eq!(
+crates/atuin-common/src/slice.rs:50:        debug_assert!(sorted.is_sorted_by_key(|s| s.borrow()), "`sorted` must be sorted");
+crates/atuin-common/src/slice.rs:51:        debug_assert!(
+crates/atuin-common/src/slice.rs:119:        assert_eq!(dedup, expected_dedup);
+crates/atuin-common/src/slice.rs:123:        assert_eq!(rest, expected_rest);
+crates/atuin-common/src/slice.rs:158:        assert_eq!(SortedDedupedSliceComparer::new(sorted, iter).eq::<STACK_SIZE>(), expected,);
+crates/atuin-common/src/slice.rs:176:            prop_assert_eq!(dedup.to_vec(), expected);
+crates/atuin-common/src/slice.rs:185:            prop_assert!(dedup.windows(2).all(|w| w[0] != w[1]));
+crates/atuin-common/src/slice.rs:194:                prop_assert_eq!(dedup.len() + rest.len(), input.len());
+crates/atuin-common/src/encryption/paseto_v4.rs:577:///     - The given implicit assertion is optionally added.
+crates/atuin-common/src/encryption/paseto_v4.rs:648:    implicit_assertion: IA,
+crates/atuin-common/src/encryption/paseto_v4.rs:667:    if let Some(assertion) = implicit_assertion.into() {
+crates/atuin-common/src/encryption/paseto_v4.rs:668:        enc_builder.set_implicit_assertion(assertion);
+crates/atuin-common/src/encryption/paseto_v4.rs:688:    implicit_assertion: IA,
+crates/atuin-common/src/encryption/paseto_v4.rs:700:        implicit_assertion.into(),
+crates/atuin-common/src/encryption/paseto_v4.rs:740:        assert_eq!(
+crates/atuin-common/src/encryption/paseto_v4.rs:762:        assert_eq!(Key::decode(encoded).expect(encoded), key);
+crates/atuin-common/src/filter.rs:41:        debug_assert!(!sorted_deduped.as_ref().is_empty(), "`sorted` cannot be empty");
+crates/atuin-common/src/filter.rs:42:        debug_assert!(sorted_deduped.as_ref().is_sorted(), "`sorted` must be sorted");
+crates/atuin-common/src/filter.rs:43:        debug_assert!(
+crates/atuin-common/src/filter.rs:326:        assert!(all.is_all());
+crates/atuin-common/src/filter.rs:327:        assert_eq!(all.items(), Items::All);
+crates/atuin-common/src/filter.rs:328:        assert_eq!(all.into_list(), Items::All);
+crates/atuin-common/src/filter.rs:334:        assert!(all.contains("bash"));
+crates/atuin-common/src/filter.rs:335:        assert!(all.contains(""));
+crates/atuin-common/src/db/mod.rs:52:    if cfg!(debug_assertions)
+crates/atuin-common/src/db/mod.rs:302:        assert_eq!(format!("{url:?}"), expected_debug);
+crates/atuin-common/src/db/mod.rs:303:        assert!(!format!("{url:?}").contains("hunter2"), "password leaked into Debug");
+crates/atuin-common/src/db/mod.rs:312:        assert_eq!(owned.as_str(), owned.as_view().as_str());
+crates/atuin-common/src/db/mod.rs:320:        assert_eq!(url.as_str(), uri);
+crates/atuin-common/src/db/mod.rs:327:        assert!(matches!(uri.parse::<OwnedDbUrl>(), Err(DbUrlParseError::UnknownScheme)));
+crates/atuin-common/src/db/mod.rs:335:        assert_eq!(json, r#""postgres://user:hunter2@host/atuin""#);
+crates/atuin-common/src/db/mod.rs:336:        assert_eq!(serde_json::from_str::<OwnedDbUrl>(&json).unwrap(), owned);
+crates/atuin-common/src/sync/sharded_mutex.rs:95:        assert!(
+crates/atuin-common/src/sync/sharded_mutex.rs:119:        assert_eq!(*mutex.lock(&3).await, 2);
+crates/atuin-common/src/sync/sharded_mutex.rs:127:        assert_eq!(*mutex.lock(&"a".to_string()).await, vec![7]);
+crates/atuin-common/src/sync/sharded_mutex.rs:135:        assert_eq!(mutex.shards(), 64);
+crates/atuin-common/src/sync/sharded_mutex.rs:136:        assert!(
+crates/atuin-common/src/sync/sharded_mutex.rs:154:        assert!(
+crates/atuin-common/src/sync/sharded_mutex.rs:173:        assert!(tokio::time::timeout(Duration::from_millis(50), mutex.lock(&other)).await.is_ok());
+crates/atuin-common/src/sync/sharded_mutex.rs:183:        assert!(mutex.shard(&"key").try_lock().is_none());
+crates/atuin-common/src/url.rs:30:    /// assert_eq!(base.append(["foo/bar"])?.as_str(), "https://host.example/atuin/foo%2Fbar");
+crates/atuin-common/src/url.rs:31:    /// assert_eq!(base.append(["foo", "bar"])?.as_str(), "https://host.example/atuin/foo/bar");
+crates/atuin-common/src/url.rs:34:    /// assert_eq!(base.join("foo/bar").unwrap().as_str(), "https://host.example/foo/bar");
+crates/atuin-common/src/url.rs:55:    /// assert_eq!(
+crates/atuin-common/src/url.rs:127:        assert_eq!(parse(base).append([segment]).unwrap().as_str(), expected);
+crates/atuin-common/src/url.rs:134:        assert_eq!(
+crates/atuin-common/src/url.rs:138:        assert_eq!(
+crates/atuin-common/src/url.rs:146:        assert_eq!(
+crates/atuin-common/src/time/offset_date_time.rs:127:const _: () = assert!(
+crates/atuin-common/src/time/offset_date_time.rs:148:            .expect("the full i64 nanosecond range is representable; asserted at compile time")
+crates/atuin-common/src/time/offset_date_time.rs:153:            .expect("the full u64 nanosecond range is representable; asserted at compile time")
+crates/atuin-common/src/time/offset_date_time.rs:222:        assert_eq!(t.unix_timestamp_nanos(), expected);
+crates/atuin-common/src/time/offset_date_time.rs:238:        assert_eq!(OffsetDateTime::from_timespec(secs, nsecs).is_ok(), representable);
+crates/atuin-common/src/time/offset_date_time.rs:248:        assert_eq!(
+crates/atuin-common/src/time/offset_date_time.rs:259:        assert_eq!(
+crates/atuin-common/src/time/offset_date_time.rs:278:        assert_eq!(now.saturating_duration_since(earlier).as_secs(), expected_secs);
+crates/atuin-common/src/range/chunks.rs:56:/// assert_eq!(chunks, vec![0..4, 4..8, 8..10]);
+crates/atuin-common/src/range/chunks.rs:128:        assert_eq!(range.chunks(size).collect::<Vec<_>>(), expected);
+crates/atuin-common/src/range/chunks.rs:134:        assert_eq!(plan.start(), 3);
+crates/atuin-common/src/range/chunks.rs:135:        assert_eq!(plan.end(), 9);
+crates/atuin-common/src/range/chunks.rs:136:        assert_eq!(plan.size(), NonZero::new(4u64).unwrap());
+crates/atuin-common/src/range/chunks.rs:142:        assert_eq!(chunks, vec![0..2, 2..4, 4..5]);
+crates/atuin-common/src/range/py_style.rs:162:        assert_eq!(resolved, expected);
+crates/atuin-common/src/range/py_style.rs:213:        assert_eq!(split(range), (expected, truncated));
+crates/atuin-common/src/range/py_style.rs:240:                assert_eq!(ranges.start, range.resolve_for(&START), "{start}..={end}");
+crates/atuin-common/src/range/py_style.rs:241:                assert!(ranges.end.is_empty(), "{start}..={end}");
+crates/atuin-common/src/range/py_style.rs:261:            prop_assert!(ranges.start.end <= start_len);
+crates/atuin-common/src/range/py_style.rs:262:            prop_assert!(ranges.end.end <= end_len);
+crates/atuin-common/src/range/py_style.rs:279:                prop_assert_eq!(ranges.truncated, end_bound + 1 > 3);
+crates/atuin-common/src/range/py_style.rs:283:                prop_assert_eq!(ranges.truncated, start_bound < -3);
+crates/atuin-common/src/sync/eager_future_cell.rs:173:        assert_eq!(cell.get().await, value);
+crates/atuin-common/src/sync/eager_future_cell.rs:174:        assert_eq!(cell.get().await, value);
+crates/atuin-common/src/sync/eager_future_cell.rs:175:        assert_eq!(calls.load(Ordering::SeqCst), 1);
+crates/atuin-common/src/sync/eager_future_cell.rs:193:        assert_eq!(rt.block_on(cell.get()), 7);
+crates/atuin-common/src/sync/eager_future_cell.rs:194:        assert_eq!(calls.load(Ordering::SeqCst), 1);
+crates/atuin-common/src/sync/eager_future_cell.rs:215:        assert_eq!(cell.get().await, 2);
+crates/atuin-common/src/sync/eager_future_cell.rs:216:        assert_eq!(ran.load(Ordering::SeqCst), 0);
+crates/atuin-common/src/sync/eager_future_cell.rs:226:        assert_eq!(cell.get().await, 1);
+crates/atuin-common/src/rmp/encode.rs:162:    assert_eq!(len, count, "programming error: incorrect implementation of ExactSizeIterator");
+crates/atuin-common/src/time/duration.rs:216:        assert_eq!(std::time::Duration::saturating_from_nanos_i64(nanos).as_nanos(), expected);
+crates/atuin-common/src/time/duration.rs:217:        assert_eq!(
+crates/atuin-common/src/time/duration.rs:229:        assert_eq!(std::time::Duration::try_new(secs, nsecs).unwrap().as_nanos(), expected);
+crates/atuin-common/src/time/duration.rs:230:        assert_eq!(
+crates/atuin-common/src/time/duration.rs:241:        assert_eq!(std::time::Duration::try_new(secs, nsecs).is_ok(), representable);
+crates/atuin-common/src/time/duration.rs:251:        assert_eq!(<time::Duration as DurationExt<_>>::try_new(secs, nsecs).is_ok(), representable);
+crates/atuin-common/src/time/duration.rs:262:        assert_eq!(
+crates/atuin-common/src/time/duration.rs:280:        assert_eq!(
+crates/atuin-common/src/string/trim.rs:119:        assert_eq!(trimmed(input, 'x'), expected);
+crates/atuin-common/src/string/trim.rs:127:        assert_eq!(trimmed(input, ['\n', ' ']), expected);
+crates/atuin-common/src/string/trim.rs:128:        assert_eq!(trimmed(input, &['\n', ' ']), expected);
+crates/atuin-common/src/string/trim.rs:130:        assert_eq!(trimmed(input, &['\n', ' '][..]), expected);
+crates/atuin-common/src/string/trim.rs:138:        assert_eq!(trimmed(input, pattern), expected);
+crates/atuin-common/src/string/trim.rs:139:        assert_eq!(trimmed(input, &pattern), expected);
+crates/atuin-common/src/string/trim.rs:148:        assert_eq!(trimmed(input, |c: char| c.is_ascii_digit()), expected);
+crates/atuin-common/src/string/trim.rs:160:        assert_eq!(trimmed(input, pattern), expected);
+crates/atuin-common/src/time/utc_offset.rs:106:        assert!(UtcOffset::resolve_spec(spec).is_err());
+crates/atuin-common/src/time/utc_offset.rs:107:        assert!(UtcOffsetSpec::from_str(spec).is_err());
+crates/atuin-common/src/time/utc_offset.rs:113:        assert_eq!(spec.0.as_hms(), (9, 30, 0));
+crates/atuin-common/src/time/utc_offset.rs:116:        assert_eq!(UtcOffsetSpec::from(offset), spec);
+crates/atuin-common/src/time/utc_offset.rs:133:        assert_eq!(UtcOffset::resolve_spec(spec).unwrap().as_hms(), (h, m, s));
+crates/atuin-common/src/time/utc_offset.rs:139:        assert!(UtcOffset::resolve_spec("utc").is_ok());
+crates/atuin-common/src/time/utc_offset.rs:140:        assert!(UtcOffset::resolve_spec(String::from("utc")).is_ok());
+crates/atuin-common/src/time/utc_offset.rs:145:        // cannot assert the value -- it depends on the machine -- but it must resolve
+crates/atuin-common/src/path/display_rich.rs:149:        assert_eq!(path.display_rich().to_string(), path.display().to_string());
+crates/atuin-common/src/path/display_rich.rs:168:        assert_eq!(input.display_rich().trailing_slash(enabled).to_string(), expected);
+crates/atuin-common/src/path/display_rich.rs:175:        assert_eq!("bar".display_rich().trailing_slash(true).to_string(), expected);
+crates/atuin-common/src/path/display_rich.rs:176:        assert_eq!(String::from("bar").display_rich().trailing_slash(true).to_string(), expected);
+crates/atuin-common/src/path/display_rich.rs:177:        assert_eq!(Path::new("bar").display_rich().trailing_slash(true).to_string(), expected);
+crates/atuin-common/src/path/display_rich.rs:178:        assert_eq!(PathBuf::from("bar").display_rich().trailing_slash(true).to_string(), expected);
+crates/atuin-common/src/path/display_rich.rs:204:        assert_eq!(path.display_rich().relative_to(&base).to_string(), expected);
+crates/atuin-common/src/path/display_rich.rs:226:        assert_eq!(path.display_rich().tilde(&home).to_string(), expected);
+crates/atuin-common/src/string/normalize.rs:904:    /// Helper function for test assertions.
+crates/atuin-common/src/string/normalize.rs:907:            assert_eq!(normalize(*original), *normalized);
+crates/atuin-common/src/string/non_nul_str.rs:84:        assert_eq!(NonNulStr::new(input).unwrap().as_str(), input);
+crates/atuin-common/src/string/non_nul_str.rs:93:        assert_eq!(NonNulStr::new(input), Err(ContainsNul { index }));
+crates/atuin-common/src/string/non_nul_str.rs:99:        assert_eq!(json, r#""echo hi""#);
+crates/atuin-common/src/string/non_nul_str.rs:105:        assert_eq!(c.as_str(), "echo hi");
+crates/atuin-common/src/string/non_nul_str.rs:115:        assert!(err.is_data());
+crates/atuin-common/src/string/non_nul_str.rs:126:                    prop_assert_eq!(command.as_str(), s.as_str());
+crates/atuin-common/src/string/non_nul_str.rs:128:                Some(index) => prop_assert_eq!(result.unwrap_err().index, index),
+crates/atuin-common/src/string/non_nul_str.rs:138:            prop_assert_eq!(back, original);
+crates/atuin-common/src/string/align.rs:50:    use pretty_assertions::assert_eq;
+crates/atuin-common/src/string/align.rs:77:        assert_eq!(input.pad_to(budget, align).as_ref(), expected);
+crates/atuin-common/src/string/align.rs:91:        assert_eq!(matches!(result, std::borrow::Cow::Borrowed(_)), expected_borrowed);
+crates/atuin-common/src/string/escape_non_printable_posix_ext.rs:78:        assert_eq!(input.escape_non_printable(), expected);
+crates/atuin-common/src/string/escape_non_printable_posix_ext.rs:87:            assert_eq!(input.escape_non_printable(), expected, "byte {byte:#04x}");
+crates/atuin-common/src/string/escape_non_printable_posix_ext.rs:97:            prop_assert!(!escaped.chars().any(char::is_control));
+crates/atuin-common/src/string/escape_non_printable_posix_ext.rs:104:            prop_assert!(matches!(s.escape_non_printable(), Cow::Borrowed(_)));
+crates/atuin-common/src/string/escape_non_printable_posix_ext.rs:113:            prop_assert_eq!(once, twice);
+crates/atuin-common/src/string/bounded_buffer.rs:72:            if cfg!(debug_assertions) {
+crates/atuin-common/src/string/bounded_buffer.rs:95:            if cfg!(debug_assertions) {
+crates/atuin-common/src/string/bounded_buffer.rs:234:        assert_eq!(
+crates/atuin-common/src/string/bounded_buffer.rs:257:        assert_eq!(parts(&contents), (start, Some(end)));
+crates/atuin-common/src/string/bounded_buffer.rs:276:        assert_eq!(at_once, in_pieces);
+crates/atuin-common/src/string/bounded_buffer.rs:277:        assert_eq!(at_once.start.len(), START);
+crates/atuin-common/src/string/bounded_buffer.rs:278:        assert_eq!(at_once.end.as_deref().map(str::len), Some(END));
+crates/atuin-common/src/string/bounded_buffer.rs:295:            assert_eq!(parts(&contents), expected, "after writing {write:?}");
+crates/atuin-common/src/string/ellipsis.rs:275:    use pretty_assertions::assert_eq;
+crates/atuin-common/src/string/ellipsis.rs:452:        assert_eq!(input.ellipsize(budget, side, ellipsis), *expected);
+crates/atuin-common/src/string/ellipsis.rs:523:        assert_eq!(input.pad_ellipsize(budget, side, Indicator::UNICODE, align).as_ref(), expected);
+crates/atuin-common/src/string/ellipsis.rs:529:        assert!(matches!(
+crates/atuin-common/src/string/ellipsis.rs:539:        assert!(matches!(
+crates/atuin-common/src/string/ellipsis.rs:568:            prop_assert!(cost(budget, out.as_ref()) <= amount(budget));
+crates/atuin-common/src/string/ellipsis.rs:580:                prop_assert!(matches!(
+crates/atuin-common/src/string/ellipsis.rs:584:                prop_assert!(result == s.as_str());

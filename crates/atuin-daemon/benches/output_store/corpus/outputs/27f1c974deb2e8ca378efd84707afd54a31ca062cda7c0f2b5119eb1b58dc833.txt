@@ -1,0 +1,60 @@
+// Adapted from https://github.com/Alexhuszagh/rust-lexical.
+
+//! Defines rounding schemes for floating-point numbers.
+
+use super::float::ExtendedFloat;
+use super::num::*;
+use super::shift::*;
+use core::mem;
+
+// MASKS
+
+/// Calculate a scalar factor of 2 above the halfway point.
+#[inline]
+pub(crate) fn nth_bit(n: u64) -> u64 {
+    let bits: u64 = mem::size_of::<u64>() as u64 * 8;
+    debug_assert!(n < bits, "nth_bit() overflow in shl.");
+
+    1 << n
+}
+
+/// Generate a bitwise mask for the lower `n` bits.
+#[inline]
+pub(crate) fn lower_n_mask(n: u64) -> u64 {
+    let bits: u64 = mem::size_of::<u64>() as u64 * 8;
+    debug_assert!(n <= bits, "lower_n_mask() overflow in shl.");
+
+    if n == bits {
+        u64::MAX
+    } else {
+        (1 << n) - 1
+    }
+}
+
+/// Calculate the halfway point for the lower `n` bits.
+#[inline]
+pub(crate) fn lower_n_halfway(n: u64) -> u64 {
+    let bits: u64 = mem::size_of::<u64>() as u64 * 8;
+    debug_assert!(n <= bits, "lower_n_halfway() overflow in shl.");
+
+    if n == 0 {
+        0
+    } else {
+        nth_bit(n - 1)
+    }
+}
+
+/// Calculate a bitwise mask with `n` 1 bits starting at the `bit` position.
+#[inline]
+pub(crate) fn internal_n_mask(bit: u64, n: u64) -> u64 {
+    let bits: u64 = mem::size_of::<u64>() as u64 * 8;
+    debug_assert!(bit <= bits, "internal_n_halfway() overflow in shl.");
+    debug_assert!(n <= bits, "internal_n_halfway() overflow in shl.");
+    debug_assert!(bit >= n, "internal_n_halfway() overflow in sub.");
+
+    lower_n_mask(bit) ^ lower_n_mask(bit - n)
+}
+
+// NEAREST ROUNDING
+
+// Shift right N-bytes and round to the nearest.

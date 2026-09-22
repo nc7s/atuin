@@ -1,0 +1,84 @@
+src/value/ser.rs:233:    fn serialize_seq(self, len: Option<usize>) -> Result<Self::SerializeSeq> {
+src/value/ser.rs:264:    fn serialize_map(self, len: Option<usize>) -> Result<Self::SerializeMap> {
+src/value/ser.rs:314:        next_key: Option<String>,
+src/value/ser.rs:317:    Number { out_value: Option<Value> },
+src/value/ser.rs:319:    RawValue { out_value: Option<Value> },
+src/value/ser.rs:598:    fn serialize_seq(self, _len: Option<usize>) -> Result<Self::SerializeSeq> {
+src/value/ser.rs:624:    fn serialize_map(self, _len: Option<usize>) -> Result<Self::SerializeMap> {
+src/value/ser.rs:843:    fn serialize_seq(self, _len: Option<usize>) -> Result<Self::SerializeSeq> {
+src/number.rs:132:    pub fn as_i64(&self) -> Option<i64> {
+src/number.rs:151:    pub fn as_u64(&self) -> Option<u64> {
+src/number.rs:162:    pub fn as_f64(&self) -> Option<f64> {
+src/number.rs:183:    pub fn from_f64(f: f64) -> Option<Number> {
+src/number.rs:203:    pub fn as_i128(&self) -> Option<i128> {
+src/number.rs:216:    pub fn as_u128(&self) -> Option<u128> {
+src/number.rs:235:    pub fn from_i128(i: i128) -> Option<Number> {
+src/number.rs:264:    pub fn from_u128(i: u128) -> Option<Number> {
+src/map.rs:73:    pub fn get<Q>(&self, key: &Q) -> Option<&Value>
+src/map.rs:99:    pub fn get_mut<Q>(&mut self, key: &Q) -> Option<&mut Value>
+src/map.rs:112:    pub fn get_key_value<Q>(&self, key: &Q) -> Option<(&String, &Value)>
+src/map.rs:127:    pub fn insert(&mut self, k: String, v: Value) -> Option<Value> {
+src/map.rs:140:    pub fn shift_insert(&mut self, index: usize, k: String, v: Value) -> Option<Value> {
+src/map.rs:156:    pub fn remove<Q>(&mut self, key: &Q) -> Option<Value>
+src/map.rs:179:    pub fn remove_entry<Q>(&mut self, key: &Q) -> Option<(String, Value)>
+src/map.rs:200:    pub fn swap_remove<Q>(&mut self, key: &Q) -> Option<Value>
+src/value/de.rs:516:    value: Option<Value>,
+src/value/de.rs:550:    value: Option<Value>,
+src/value/de.rs:636:    fn next_element_seed<T>(&mut self, seed: T) -> Result<Option<T::Value>, Error>
+src/value/de.rs:646:    fn size_hint(&self) -> Option<usize> {
+src/value/de.rs:656:    value: Option<Value>,
+src/value/de.rs:671:    fn next_key_seed<T>(&mut self, seed: T) -> Result<Option<T::Value>, Error>
+src/value/de.rs:697:    fn size_hint(&self) -> Option<usize> {
+src/value/de.rs:1042:    value: Option<&'de Value>,
+src/value/mod.rs:259:fn parse_index(s: &str) -> Option<usize> {
+src/value/mod.rs:305:    pub fn get<I: Index>(&self, index: I) -> Option<&Value> {
+src/value/mod.rs:327:    pub fn get_mut<I: Index>(&mut self, index: I) -> Option<&mut Value> {
+src/value/mod.rs:366:    pub fn as_object(&self) -> Option<&Map<String, Value>> {
+src/value/mod.rs:384:    pub fn as_object_mut(&mut self) -> Option<&mut Map<String, Value>> {
+src/value/mod.rs:425:    pub fn as_array(&self) -> Option<&Vec<Value>> {
+src/value/mod.rs:443:    pub fn as_array_mut(&mut self) -> Option<&mut Vec<Value>> {
+src/value/mod.rs:492:    pub fn as_str(&self) -> Option<&str> {
+src/value/from.rs:274:impl<T> From<Option<T>> for Value
+src/value/from.rs:278:    fn from(opt: Option<T>) -> Self {
+src/value/index.rs:40:    fn index_into<'v>(&self, v: &'v Value) -> Option<&'v Value>;
+src/value/index.rs:44:    fn index_into_mut<'v>(&self, v: &'v mut Value) -> Option<&'v mut Value>;
+src/value/index.rs:55:    fn index_into<'v>(&self, v: &'v Value) -> Option<&'v Value> {
+src/value/index.rs:61:    fn index_into_mut<'v>(&self, v: &'v mut Value) -> Option<&'v mut Value> {
+src/value/index.rs:84:    fn index_into<'v>(&self, v: &'v Value) -> Option<&'v Value> {
+src/value/index.rs:90:    fn index_into_mut<'v>(&self, v: &'v mut Value) -> Option<&'v mut Value> {
+src/value/index.rs:108:    fn index_into<'v>(&self, v: &'v Value) -> Option<&'v Value> {
+src/value/index.rs:111:    fn index_into_mut<'v>(&self, v: &'v mut Value) -> Option<&'v mut Value> {
+src/ser.rs:284:    fn serialize_seq(self, len: Option<usize>) -> Result<Self::SerializeSeq> {
+src/ser.rs:349:    fn serialize_map(self, len: Option<usize>) -> Result<Self::SerializeMap> {
+src/ser.rs:419:            error: Option<io::Error>,
+src/ser.rs:1103:    fn serialize_seq(self, _len: Option<usize>) -> Result<Self::SerializeSeq> {
+src/ser.rs:1129:    fn serialize_map(self, _len: Option<usize>) -> Result<Self::SerializeMap> {
+src/ser.rs:1287:    fn serialize_seq(self, _len: Option<usize>) -> Result<Self::SerializeSeq> {
+src/ser.rs:1313:    fn serialize_map(self, _len: Option<usize>) -> Result<Self::SerializeMap> {
+src/ser.rs:1464:    fn serialize_seq(self, _len: Option<usize>) -> Result<Self::SerializeSeq> {
+src/error.rs:155:    pub fn io_error_kind(&self) -> Option<ErrorKind> {
+src/error.rs:391:    fn source(&self) -> Option<&(dyn error::Error + 'static)> {
+src/error.rs:494:fn parse_line_col(msg: &mut String) -> Option<(usize, usize)> {
+src/de.rs:219:    pub(crate) fn peek(&mut self) -> Result<Option<u8>> {
+src/de.rs:231:    fn next_char(&mut self) -> Result<Option<u8>> {
+src/de.rs:255:    fn parse_whitespace(&mut self) -> Result<Option<u8>> {
+src/de.rs:1933:    fn next_element_seed<T>(&mut self, seed: T) -> Result<Option<T::Value>>
+src/de.rs:1986:    fn next_key_seed<K>(&mut self, seed: K) -> Result<Option<K::Value>>
+src/de.rs:2451:    fn next(&mut self) -> Option<Result<T>> {
+src/read.rs:30:    fn next(&mut self) -> Result<Option<u8>>;
+src/read.rs:32:    fn peek(&mut self) -> Result<Option<u8>>;
+src/read.rs:155:    ch: Option<u8>,
+src/read.rs:157:    raw_buffer: Option<Vec<u8>>,
+src/read.rs:258:    fn next(&mut self) -> Result<Option<u8>> {
+src/read.rs:286:    fn peek(&mut self) -> Result<Option<u8>> {
+src/read.rs:545:    fn next(&mut self) -> Result<Option<u8>> {
+src/read.rs:558:    fn peek(&mut self) -> Result<Option<u8>> {
+src/iter.rs:54:    fn next(&mut self) -> Option<io::Result<u8>> {
+src/lexical/algorithm.rs:18:pub(crate) fn fast_path<F>(mantissa: u64, exponent: i32) -> Option<F>
+src/raw.rs:290:///     bar: Option<String>,
+src/raw.rs:532:    pub raw_value: Option<String>,
+src/raw.rs:538:    fn next_key_seed<K>(&mut self, seed: K) -> Result<Option<K::Value>, Error>
+src/raw.rs:557:    pub raw_value: Option<&'de str>,
+src/raw.rs:563:    fn next_key_seed<K>(&mut self, seed: K) -> Result<Option<K::Value>, Error>
+src/lexical/digit.rs:7:pub(crate) fn to_digit(c: u8) -> Option<u32> {
+src/lexical/digit.rs:13:pub(crate) fn add_digit(value: u64, digit: u32) -> Option<u64> {

@@ -1,0 +1,18 @@
+8:impl Uuid {
+19:    pub fn now_v6(node_id: &[u8; 6]) -> Self {
+57:    /// # fn random_seed() -> u16 { 42 }
+63:    /// assert_eq!(
+73:    /// # fn random_seed() -> u16 { 42 }
+79:    /// assert_eq!(
+92:    pub fn new_v6(ts: Timestamp, node_id: &[u8; 6]) -> Self {
+114:    fn test_new() {
+122:        assert_eq!(uuid.get_version(), Some(Version::SortMac));
+123:        assert_eq!(uuid.get_variant(), Variant::RFC4122);
+124:        assert_eq!(
+131:        assert_eq!(ts.0 - 0x01B2_1DD2_1381_4000, 14_968_545_358_129_460);
+133:        assert_eq!(Some(node), uuid.get_node_id());
+138:        assert_eq!(
+143:        assert_eq!(uuid.get_node_id().unwrap(), parsed.get_node_id().unwrap());
+152:    fn test_now() {
+157:        assert_eq!(uuid.get_version(), Some(Version::SortMac));
+158:        assert_eq!(uuid.get_variant(), Variant::RFC4122);

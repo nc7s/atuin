@@ -1,0 +1,1 @@
+59e4ba96 d/tests: allow-stderr

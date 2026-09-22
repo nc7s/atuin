@@ -1,0 +1,60 @@
+use crate::tree_store::PageNumber;
+use crate::tree_store::page_store::bitmap::BtreeBitmap;
+#[cfg(test)]
+use crate::tree_store::page_store::fast_hash::PageNumberHashSet;
+use crate::tree_store::page_store::page_manager::MAX_MAX_PAGE_ORDER;
+use alloc::vec;
+use alloc::vec::Vec;
+use core::cmp::min;
+use core::mem::size_of;
+
+const MAX_ORDER_OFFSET: usize = 0;
+const PADDING: usize = 3;
+const NUM_PAGES_OFFSET: usize = MAX_ORDER_OFFSET + size_of::<u8>() + PADDING;
+const FREE_END_OFFSETS: usize = NUM_PAGES_OFFSET + size_of::<u32>();
+
+fn calculate_usable_order(pages: u32) -> u8 {
+    let max_order = (32 - pages.leading_zeros() - 1).try_into().unwrap();
+    min(MAX_MAX_PAGE_ORDER, max_order)
+}
+
+fn next_higher_order(page_number: u32) -> u32 {
+    page_number / 2
+}
+
+fn buddy_page(page_number: u32) -> u32 {
+    page_number ^ 1
+}
+
+// Handles allocation of dynamically sized pages, supports pages of up to page_size * 2^max_order bytes
+//
+// Pages are marked free at only a single order, and it must always be the largest order
+pub(crate) struct BuddyAllocator {
+    free: Vec<BtreeBitmap>,
+    len: u32,
+    max_order: u8,
+}
+
+impl BuddyAllocator {
+    pub(crate) fn new(num_pages: u32, max_page_capacity: u32) -> Self {
+        let max_order = calculate_usable_order(max_page_capacity);
+
+        let mut capacity_for_order = max_page_capacity;
+        let mut pages_for_order = num_pages;
+        let mut free = vec![];
+        for _ in 0..=max_order {
+            // Lazily size each bitmap for the actual current pages, but pad the tree
+            // height so resize() can grow to the full region capacity without needing
+            // to insert new tree levels.
+            free.push(BtreeBitmap::new_padded(
+                pages_for_order,
+                pages_for_order,
+                capacity_for_order,
+            ));
+
+            pages_for_order = next_higher_order(pages_for_order);
+            capacity_for_order = next_higher_order(capacity_for_order);
+        }
+
+        // Mark the available pages, starting with the highest order
+        let mut accounted_pages = 0;

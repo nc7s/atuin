@@ -1,0 +1,20 @@
+//! The implementation for Version 1 UUIDs.
+//!
+//! This module is soft-deprecated. Instead of using the `Context` type re-exported here,
+//! use the one from the crate root.
+
+use crate::{Builder, Uuid};
+
+#[deprecated(note = "use types from the crate root instead")]
+#[allow(deprecated)]
+pub use crate::{timestamp::context::Context, Timestamp};
+
+impl Uuid {
+    /// Create a new version 1 UUID using the current system time and node ID.
+    ///
+    /// This method is only available if both the `std` and `rng` features are enabled.
+    ///
+    /// This method is a convenient alternative to [`Uuid::new_v1`] that uses the current system time
+    /// as the source timestamp.
+    ///
+    /// Note that usage of this method requires the `v1`, `std`, and `rng` features of this crate

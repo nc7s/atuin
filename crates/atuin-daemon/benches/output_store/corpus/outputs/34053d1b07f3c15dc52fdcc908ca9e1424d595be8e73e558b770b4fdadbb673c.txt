@@ -1,0 +1,11 @@
+src/lib.rs:450:    derive(borsh_derive::BorshDeserialize, borsh_derive::BorshSerialize)
+src/external/slog_support.rs:19:        serializer: &mut dyn slog::Serializer,
+src/external/slog_support.rs:30:        serializer: &mut dyn slog::Serializer,
+src/external/serde_support.rs:23:    Deserialize, Deserializer, Serialize, Serializer,
+src/external/serde_support.rs:26:impl Serialize for Uuid {
+src/external/serde_support.rs:27:    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+src/external/serde_support.rs:36:impl Serialize for NonNilUuid {
+src/external/serde_support.rs:39:        S: serde_core::Serializer,
+src/external/serde_support.rs:45:impl Serialize for Hyphenated {
+src/external/serde_support.rs:46:    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+src/external/serde_support.rs:51:impl Serialize for Simple {

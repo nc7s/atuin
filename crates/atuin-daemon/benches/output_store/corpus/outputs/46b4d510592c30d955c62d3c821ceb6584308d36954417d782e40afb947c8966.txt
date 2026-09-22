@@ -1,0 +1,20 @@
+//! Feature tips surfaced under the turn spinner and the "Responded in"
+//! line. One tip is pulled per turn and rides through both.
+
+use atuin_client::settings::Settings;
+use easy_cast::Conv;
+
+/// Facts a tip's relevance predicate may consult. Assembled fresh at each
+/// pull so predicates see current session state, not startup state.
+pub struct TipContext<'a> {
+    pub settings: &'a Settings,
+    /// A model is pinned — via `ai.model` or /model this session.
+    pub model_set: bool,
+    /// Whether context files (`TERMINAL.md`) were gathered for this
+    /// invocation. `None` = not gathered yet (first request still in flight).
+    pub has_context_files: Option<bool>,
+}
+
+pub struct Tip {
+    /// Stable key — the hook for cross-session "already seen" persistence.
+    #[cfg_attr(not(test), allow(dead_code))]

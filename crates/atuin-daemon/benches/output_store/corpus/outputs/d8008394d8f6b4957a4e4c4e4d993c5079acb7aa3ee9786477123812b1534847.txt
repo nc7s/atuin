@@ -1,0 +1,25 @@
+tests/multiprocess_tests.rs:160:        let during: Arc<std::sync::Mutex<Option<String>>> = Arc::new(std::sync::Mutex::new(None));
+tests/basic_tests.rs:1476:    let table_def2: TableDefinition<[(u8, &str); 2], [Option<&str>; 2]> =
+tests/basic_tests.rs:2493:    let definition: TableDefinition<Option<u8>, Option<u32>> = TableDefinition::new("x");
+tests/basic_tests.rs:3272:        fn fixed_width() -> Option<usize> {
+tests/basic_tests.rs:3398:    const TABLE: TableDefinition<Option<&str>, u64> = TableDefinition::new("option");
+tests/basic_tests.rs:3458:    const EARLY: TableDefinition<Option<&str>, u64> = TableDefinition::new("early");
+tests/basic_tests.rs:3459:    const LATE: TableDefinition<Option<&str>, u64> = TableDefinition::new("late");
+tests/basic_tests.rs:3602:    const OPTION: TableDefinition<(&str, Option<&str>), u64> = TableDefinition::new("option");
+tests/basic_tests.rs:3775:    check::<Option<&str>>(&Some("abc0suffix"), &Some("abc1suffix"));
+tests/crash_consistency.rs:29:    freeze_from: Option<u64>,
+tests/integration_tests.rs:4266:    ) -> redb::Result<Option<AccessGuard<'_, V>>> {
+tests/integration_tests.rs:4283:    fn first(&self) -> redb::Result<Option<(AccessGuard<'_, K>, AccessGuard<'_, V>)>> {
+tests/integration_tests.rs:4287:    fn last(&self) -> redb::Result<Option<(AccessGuard<'_, K>, AccessGuard<'_, V>)>> {
+tests/cursor_tests.rs:463:fn peeked_key(entry: Option<(redb::AccessGuard<u64>, redb::AccessGuard<u64>)>) -> Option<u64> {
+tests/cursor_tests.rs:478:    let cases: &[(Bound<u64>, bool, Option<u64>, Option<u64>)] = &[
+tests/cursor_tests.rs:683:    fn nearest_at_or_above<T: ReadableTable<u64, u64>>(table: &T, key: u64) -> Option<u64> {
+tests/cursor_tests.rs:688:    fn nearest_below<T: ReadableTable<u64, u64>>(table: &T, key: u64) -> Option<u64> {
+tests/backward_compatibility.rs:18:    fn fixed_width() -> Option<usize> {
+tests/backward_compatibility.rs:45:    fn fixed_width() -> Option<usize> {
+tests/backward_compatibility.rs:296:impl TestData for Option<u64> {
+tests/backward_compatibility.rs:392:    test_helper::<u64, Option<u64>>();
+tests/backward_compatibility.rs:482:// A composite (`Option<T>`) of a user-defined type written by redb 2.6 stored its type name with
+tests/backward_compatibility.rs:493:        let def: redb2_6::TableDefinition<u64, Option<CollidingUserType>> =
+tests/backward_compatibility.rs:505:    let def: redb::TableDefinition<u64, Option<CollidingUserType>> =
+tests/backward_compatibility.rs:514:// redb 2.6 wrote `Option<u32>` and `Option<user "u32">` with the same stored type name:

@@ -1,0 +1,4 @@
+crates/atuin-daemon/src/server.rs:75:        use atuin_common::path::DisplayRichExt;
+crates/atuin-daemon/src/output_capture/benchmark.rs:17:#[derive(Clone, Copy, Debug, PartialEq, Eq, derive_more::Display)]
+crates/atuin-daemon/src/search/index.rs:20:use atuin_common::path::DisplayRichExt;
+crates/atuin-daemon/src/components/search.rs:10:use atuin_common::path::DisplayRichExt;

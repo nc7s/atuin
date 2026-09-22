@@ -1,0 +1,80 @@
+12:struct CollidingUserType;
+14:impl redb::Value for CollidingUserType {
+18:    fn fixed_width() -> Option<usize> {
+22:    fn from_bytes<'a>(data: &'a [u8]) -> u32
+29:    fn as_bytes<'a, 'b: 'a>(value: &'a u32) -> [u8; 4]
+36:    fn type_name() -> redb::TypeName {
+41:impl redb2_6::Value for CollidingUserType {
+45:    fn fixed_width() -> Option<usize> {
+49:    fn from_bytes<'a>(data: &'a [u8]) -> u32
+56:    fn as_bytes<'a, 'b: 'a>(value: &'a u32) -> [u8; 4]
+63:    fn type_name() -> redb2_6::TypeName {
+69:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS]
+73:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS]
+78:impl TestData for u8 {
+79:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+83:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+88:impl TestData for u16 {
+89:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+93:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+98:impl TestData for u32 {
+99:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+103:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+108:impl TestData for u64 {
+109:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+113:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+118:impl TestData for u128 {
+119:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+123:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+128:impl TestData for i8 {
+129:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+133:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+138:impl TestData for i16 {
+139:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+143:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+148:impl TestData for i32 {
+149:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+153:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+158:impl TestData for i64 {
+159:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+163:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+168:impl TestData for i128 {
+169:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+173:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+178:impl TestData for f32 {
+179:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+183:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+188:impl TestData for f64 {
+189:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+193:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+198:impl TestData for () {
+199:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+203:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+208:impl TestData for &'static str {
+209:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+213:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+218:impl TestData for &'static [u8] {
+219:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+223:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+228:impl TestData for &'static [u8; 5] {
+229:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+233:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+238:impl TestData for [&str; 3] {
+239:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS]
+250:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS]
+262:impl TestData for [u128; 3] {
+263:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+267:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+272:impl TestData for Vec<&str> {
+273:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS]
+284:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS]
+296:impl TestData for Option<u64> {
+297:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+301:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+306:impl TestData for (u64, &'static str) {
+307:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+311:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+316:impl TestData for (u64, u32) {
+317:    fn make_data_v2_6<'a>() -> [<Self as redb2_6::Value>::SelfType<'a>; ELEMENTS] {
+321:    fn make_data<'a>() -> [<Self as redb::Value>::SelfType<'a>; ELEMENTS] {
+326:fn create_tempfile() -> tempfile::NamedTempFile {

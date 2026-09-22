@@ -1,0 +1,36 @@
+crates/atuin-common/src/shell.rs:10:pub enum Shell {
+crates/atuin-common/src/shell.rs:30:pub enum ShellError {
+crates/atuin-common/src/url.rs:7:pub enum UrlAppendError {
+crates/atuin-common/src/units/percent.rs:136:pub enum PercentParseError {
+crates/atuin-common/src/string.rs:91:pub enum Measure {
+crates/atuin-common/src/time/offset_date_time.rs:70:pub enum OffsetDateTimeStyle {
+crates/atuin-common/src/rmp/encode.rs:16:pub enum EncodeError<E: RmpWriteErr = Infallible> {
+crates/atuin-common/src/rmp/encode.rs:84:pub enum TryEncodeError<E: RmpWriteErr, Inner> {
+crates/atuin-common/src/logs.rs:9:pub enum LogLevel {
+crates/atuin-common/src/time/duration.rs:46:pub enum DurationStyle {
+crates/atuin-common/src/rmp/decode.rs:23:pub enum DecodeError<'a, E: RmpReadErr = BytesReadError> {
+crates/atuin-common/src/filter.rs:211:pub enum Items<L> {
+crates/atuin-common/src/filter.rs:275:enum ComparerInner<'a, T, I> {
+crates/atuin-common/src/time/utc_offset.rs:89:pub enum TimezoneDecodingError {
+crates/atuin-common/src/futures/mod.rs:10:pub enum Backoff {
+crates/atuin-common/src/db/mod.rs:20:enum BannedPattern {
+crates/atuin-common/src/db/mod.rs:186:pub enum DbUrl<S = String, U = Url>
+crates/atuin-common/src/db/mod.rs:238:pub enum DbUrlParseError {
+crates/atuin-common/src/encryption/paseto_v4.rs:31:pub enum KeyDecodingError {
+crates/atuin-common/src/encryption/paseto_v4.rs:47:pub enum MnemonicLoadingError {
+crates/atuin-common/src/encryption/paseto_v4.rs:55:pub enum KeyFileLoadingError {
+crates/atuin-common/src/encryption/paseto_v4.rs:65:pub enum KeyFileStoringError {
+crates/atuin-common/src/encryption/paseto_v4.rs:79:pub enum KeyFileLoadOrGenerateError {
+crates/atuin-common/src/encryption/paseto_v4.rs:449:    pub enum EncryptionError {
+crates/atuin-common/src/encryption/paseto_v4.rs:455:    pub enum DecryptionError {
+crates/atuin-common/src/encryption/paseto_v4.rs:526:pub enum EncryptionError {
+crates/atuin-common/src/string/align.rs:9:pub enum Alignment {
+crates/atuin-common/src/os/unix.rs:45:pub enum SecureTempDirError {
+crates/atuin-common/src/string/ellipsis.rs:14:pub enum Pos {
+crates/atuin-common/src/string/ellipsis.rs:125:enum Repr<'a> {
+crates/atuin-common/src/db/sqlite/info.rs:20:pub enum VersionError {
+crates/atuin-common/src/db/sqlite/info.rs:28:pub enum SqlitePathError {
+crates/atuin-common/src/db/sqlite/compactor.rs:17:enum WalCompactionError {
+crates/atuin-common/src/db/sqlite/compactor.rs:114:enum CompactorInner {
+crates/atuin-common/src/db/sqlite/mod.rs:36:pub enum SqliteOpenOrCreateError {
+crates/atuin-common/src/db/sqlite/builder.rs:15:pub enum Journaling {

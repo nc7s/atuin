@@ -1,0 +1,42 @@
+src/regexset/string.rs:137:impl RegexSet {
+src/regexset/string.rs:449:impl Default for RegexSet {
+src/regexset/string.rs:461:impl SetMatches {
+src/regexset/string.rs:605:impl IntoIterator for SetMatches {
+src/regexset/string.rs:657:impl Iterator for SetMatchesIntoIter {
+src/regexset/string.rs:674:impl DoubleEndedIterator for SetMatchesIntoIter {
+src/regexset/string.rs:685:impl core::iter::FusedIterator for SetMatchesIntoIter {}
+src/regexset/string.rs:720:impl core::fmt::Debug for RegexSet {
+src/regexset/bytes.rs:141:impl RegexSet {
+src/regexset/bytes.rs:453:impl Default for RegexSet {
+src/regexset/bytes.rs:465:impl SetMatches {
+src/regexset/bytes.rs:609:impl IntoIterator for SetMatches {
+src/regexset/bytes.rs:661:impl Iterator for SetMatchesIntoIter {
+src/regexset/bytes.rs:678:impl DoubleEndedIterator for SetMatchesIntoIter {
+src/regexset/bytes.rs:689:impl core::iter::FusedIterator for SetMatchesIntoIter {}
+src/regexset/bytes.rs:724:impl core::fmt::Debug for RegexSet {
+src/error.rs:34:impl Error {
+src/error.rs:57:impl std::error::Error for Error {
+src/error.rs:68:impl core::fmt::Display for Error {
+src/error.rs:84:impl core::fmt::Debug for Error {
+src/regex/string.rs:155:impl core::fmt::Display for Regex {
+src/regex/string.rs:162:impl core::fmt::Debug for Regex {
+src/regex/string.rs:169:impl core::str::FromStr for Regex {
+src/regex/string.rs:178:impl TryFrom<&str> for Regex {
+src/regex/string.rs:187:impl TryFrom<String> for Regex {
+src/regex/string.rs:197:impl Regex {
+src/regex/string.rs:834:    ///     replacement: impl Fn(&Captures) -> Result<String, E>,
+src/regex/string.rs:1017:impl Regex {
+src/builders.rs:50:impl Default for Builder {
+src/builders.rs:59:impl Builder {
+src/builders.rs:216:    impl RegexBuilder {
+src/builders.rs:791:    impl RegexSetBuilder {
+src/builders.rs:1376:    impl RegexBuilder {
+src/builders.rs:1970:    impl RegexSetBuilder {
+src/regex/bytes.rs:157:impl core::fmt::Display for Regex {
+src/regex/bytes.rs:164:impl core::fmt::Debug for Regex {
+src/regex/bytes.rs:171:impl core::str::FromStr for Regex {
+src/regex/bytes.rs:180:impl TryFrom<&str> for Regex {
+src/regex/bytes.rs:189:impl TryFrom<String> for Regex {
+src/regex/bytes.rs:199:impl Regex {
+src/regex/bytes.rs:851:    ///     replacement: impl Fn(&Captures) -> Result<Vec<u8>, E>,
+src/regex/bytes.rs:1034:impl Regex {

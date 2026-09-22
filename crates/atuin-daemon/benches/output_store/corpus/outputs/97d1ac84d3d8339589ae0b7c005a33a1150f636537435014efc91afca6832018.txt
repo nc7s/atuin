@@ -1,0 +1,40 @@
+7:use crate::{Result, StorageError, TypeName, Value};
+29:pub struct Savepoint {
+39:impl Savepoint {
+40:    pub(crate) fn new_ephemeral(
+56:    pub(crate) fn get_version(&self) -> u8 {
+60:    pub(crate) fn get_id(&self) -> SavepointId {
+64:    pub(crate) fn get_local_id(&self) -> LocalSavepointId {
+68:    pub(crate) fn get_transaction_id(&self) -> TransactionId {
+72:    pub(crate) fn get_user_root(&self) -> Option<BtreeHeader> {
+76:    pub(crate) fn db_address(&self) -> *const TransactionTracker {
+80:    pub(crate) fn set_persistent(&mut self) {
+85:impl Drop for Savepoint {
+86:    fn drop(&mut self) {
+99:pub(crate) enum SerializedSavepoint<'a> {
+104:struct PersistentSavepoint {
+111:impl SerializedSavepoint<'_> {
+112:    pub(crate) fn from_savepoint(savepoint: &Savepoint) -> Self {
+113:        assert_eq!(savepoint.version, FILE_FORMAT_VERSION3);
+129:    fn data(&self) -> &[u8] {
+136:    pub(crate) fn to_savepoint(
+144:                StorageError::Corrupted("Unregistered persistent savepoint".to_string())
+158:    pub(crate) fn get_ids(&self) -> Result<(SavepointId, TransactionId)> {
+163:    fn parse(&self) -> Result<PersistentSavepoint> {
+168:            return Err(StorageError::Corrupted(
+175:            return Err(StorageError::Corrupted(format!(
+197:            return Err(StorageError::Corrupted(
+212:        debug_assert_eq!(offset, data.len());
+223:impl Value for SerializedSavepoint<'_> {
+233:    fn fixed_width() -> Option<usize> {
+237:    fn from_bytes<'a>(data: &'a [u8]) -> Self::SelfType<'a>
+244:    fn as_bytes<'a, 'b: 'a>(value: &'a Self::SelfType<'b>) -> Self::AsBytes<'a>
+251:    fn type_name() -> TypeName {
+263:    fn corrupted_record_errors() {
+274:        assert!(
+281:        assert!(matches!(
+283:            Err(StorageError::Corrupted(_))
+288:        assert!(matches!(
+290:            Err(StorageError::Corrupted(_))
+295:        assert!(matches!(
+297:            Err(StorageError::Corrupted(_))

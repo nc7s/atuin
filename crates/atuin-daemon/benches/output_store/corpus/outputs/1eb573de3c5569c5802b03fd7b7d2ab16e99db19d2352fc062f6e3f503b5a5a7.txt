@@ -1,0 +1,94 @@
+src/v3.rs:42:#[cfg(test)]
+src/v3.rs:46:    #[cfg(all(target_arch = "wasm32", any(target_os = "unknown", target_os = "none")))]
+src/v3.rs:135:    #[cfg_attr(
+src/v3.rs:148:    #[cfg_attr(
+src/v8.rs:33:#[cfg(test)]
+src/v8.rs:39:    #[cfg(all(target_arch = "wasm32", any(target_os = "unknown", target_os = "none")))]
+src/v8.rs:43:    #[cfg_attr(
+src/parser.rs:22:#[cfg(feature = "std")]
+src/parser.rs:41:#[cfg(feature = "std")]
+src/parser.rs:324:#[cfg(test)]
+src/v1.rs:22:    #[cfg(all(feature = "std", feature = "rng"))]
+src/v1.rs:99:#[cfg(test)]
+src/v1.rs:105:    #[cfg(all(target_arch = "wasm32", any(target_os = "unknown", target_os = "none")))]
+src/v1.rs:109:    #[cfg_attr(
+src/v1.rs:146:    #[cfg_attr(
+src/v1.rs:150:    #[cfg(all(feature = "std", feature = "rng"))]
+src/v7.rs:16:    #[cfg(feature = "std")]
+src/v7.rs:121:#[cfg(test)]
+src/v7.rs:127:    #[cfg(all(target_arch = "wasm32", any(target_os = "unknown", target_os = "none")))]
+src/v7.rs:131:    #[cfg_attr(
+src/v7.rs:155:    #[cfg_attr(
+src/v7.rs:159:    #[cfg(feature = "std")]
+src/v7.rs:168:    #[cfg_attr(
+src/v7.rs:187:    #[cfg_attr(
+src/non_nil.rs:134:#[cfg(test)]
+src/v6.rs:18:    #[cfg(all(feature = "std", feature = "rng"))]
+src/v6.rs:99:#[cfg(test)]
+src/v6.rs:106:    #[cfg(all(target_arch = "wasm32", any(target_os = "unknown", target_os = "none")))]
+src/v6.rs:110:    #[cfg_attr(
+src/v6.rs:147:    #[cfg_attr(
+src/v6.rs:151:    #[cfg(all(feature = "std", feature = "rng"))]
+src/timestamp.rs:54:    #[cfg(feature = "std")]
+src/timestamp.rs:142:    #[cfg(feature = "v7")]
+src/timestamp.rs:198:#[cfg(feature = "std")]
+src/timestamp.rs:222:#[cfg(feature = "std")]
+src/timestamp.rs:358:#[cfg(all(
+src/timestamp.rs:381:#[cfg(all(
+src/timestamp.rs:397:#[cfg(all(feature = "std", miri))]
+src/timestamp.rs:490:    #[cfg(any(feature = "v1", feature = "v6"))]
+src/md5.rs:1:#[cfg(feature = "v3")]
+src/v5.rs:41:#[cfg(test)]
+src/v5.rs:45:    #[cfg(all(target_arch = "wasm32", any(target_os = "unknown", target_os = "none")))]
+src/v5.rs:134:    #[cfg_attr(
+src/v5.rs:146:    #[cfg_attr(
+src/v5.rs:159:    #[cfg_attr(
+src/macros.rs:52:#[cfg(not(all(uuid_unstable, feature = "zerocopy")))]
+src/macros.rs:58:#[cfg(all(uuid_unstable, feature = "zerocopy"))]
+src/macros.rs:64:#[cfg(not(all(uuid_unstable, feature = "zerocopy")))]
+src/macros.rs:70:#[cfg(all(uuid_unstable, feature = "zerocopy"))]
+src/sha1.rs:1:#[cfg(feature = "v5")]
+src/v4.rs:42:#[cfg(test)]
+src/v4.rs:47:    #[cfg(all(target_arch = "wasm32", any(target_os = "unknown", target_os = "none")))]
+src/v4.rs:51:    #[cfg_attr(
+src/v4.rs:63:    #[cfg_attr(
+src/lib.rs:52://! # #[cfg(feature = "v4")]
+src/lib.rs:193://! # #[cfg(feature = "v4")] {
+src/lib.rs:218:#[cfg(any(feature = "std", test))]
+src/lib.rs:222:#[cfg(all(not(feature = "std"), not(test)))]
+src/lib.rs:240:#[cfg(any(feature = "v1", feature = "v6"))]
+src/lib.rs:244:#[cfg(any(feature = "v1", feature = "v6"))]
+src/lib.rs:247:#[cfg(feature = "v7")]
+src/lib.rs:250:#[cfg(feature = "v1")]
+src/rng.rs:21:#[cfg(not(all(target_arch = "wasm32", any(target_os = "unknown", target_os = "none"))))]
+src/rng.rs:30:    #[cfg(any(feature = "rng-rand", feature = "fast-rng"))]
+src/rng.rs:33:    #[cfg(any(feature = "rng-rand", feature = "fast-rng"))]
+src/rng.rs:49:    #[cfg(all(not(feature = "fast-rng"), not(feature = "rng-rand")))]
+src/rng.rs:52:    #[cfg(all(not(feature = "fast-rng"), not(feature = "rng-rand")))]
+src/rng.rs:89:#[cfg(all(target_arch = "wasm32", any(target_os = "unknown", target_os = "none")))]
+src/rng.rs:99:    #[cfg(all(
+src/rng.rs:107:    #[cfg(feature = "rng-rand")]
+src/fmt.rs:21:#[cfg(feature = "std")]
+src/fmt.rs:37:#[cfg(feature = "std")]
+src/fmt.rs:71:#[cfg_attr(
+src/fmt.rs:87:#[cfg_attr(
+src/fmt.rs:103:#[cfg_attr(
+src/fmt.rs:119:#[cfg_attr(
+src/fmt.rs:298:    #[cfg_attr(all(uuid_unstable, feature = "zerocopy"), derive(zerocopy::IntoBytes))]
+src/fmt.rs:1238:#[cfg(test)]
+src/external/arbitrary_support.rs:30:#[cfg(test)]
+src/external/slog_support.rs:36:#[cfg(test)]
+src/error.rs:36:    #[cfg(feature = "std")]
+src/error.rs:198:            #[cfg(feature = "std")]
+src/external.rs:1:#[cfg(feature = "arbitrary")]
+src/external.rs:3:#[cfg(feature = "borsh")]
+src/external.rs:5:#[cfg(feature = "serde")]
+src/external.rs:7:#[cfg(feature = "slog")]
+src/external/serde_support.rs:310:    #[cfg(test)]
+src/external/serde_support.rs:410:    #[cfg(test)]
+src/external/serde_support.rs:503:    #[cfg(test)]
+src/external/serde_support.rs:630:    #[cfg(test)]
+src/external/serde_support.rs:759:    #[cfg(test)]
+src/external/serde_support.rs:887:    #[cfg(test)]
+src/external/serde_support.rs:954:#[cfg(test)]
+src/external/borsh_support.rs:1:#[cfg(test)]

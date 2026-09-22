@@ -1,0 +1,5 @@
+20:struct TestServer {
+27:impl TestServer {
+29:    async fn register(&self) -> api_client::Client {
+51:impl Drop for TestServer {
+52:    fn drop(&mut self) {

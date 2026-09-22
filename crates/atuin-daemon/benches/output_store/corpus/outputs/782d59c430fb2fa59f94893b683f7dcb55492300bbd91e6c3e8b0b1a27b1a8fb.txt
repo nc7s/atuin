@@ -1,0 +1,40 @@
+crates/atuin-common/src/shell.rs:9:#[derive(PartialEq, Eq, derive_more::Display)]
+crates/atuin-common/src/units/percent.rs:8:use serde_with::{DeserializeFromStr, SerializeDisplay};
+crates/atuin-common/src/units/percent.rs:19:    SerializeDisplay,
+crates/atuin-common/src/units/percent.rs:22:    derive_more::Display,
+crates/atuin-common/src/time.rs:7:pub use duration::{DurationDisplay, DurationExt, DurationOverflow, DurationStyle};
+crates/atuin-common/src/time.rs:9:    OffsetDateTimeDisplay, OffsetDateTimeExt, OffsetDateTimeStyle, TimespecOutOfRange,
+crates/atuin-common/src/time/offset_date_time.rs:57:    /// Pick a style with [`OffsetDateTimeDisplay::ymd_hms`] or
+crates/atuin-common/src/time/offset_date_time.rs:58:    /// [`OffsetDateTimeDisplay::ymd_hm`]; the result implements
+crates/atuin-common/src/time/offset_date_time.rs:59:    /// [`Display`](fmt::Display).
+crates/atuin-common/src/time/offset_date_time.rs:65:    fn display(self) -> OffsetDateTimeDisplay;
+crates/atuin-common/src/time/offset_date_time.rs:68:/// How an [`OffsetDateTimeDisplay`] renders.
+crates/atuin-common/src/time/offset_date_time.rs:78:/// [`Display`](fmt::Display) adapter produced by [`OffsetDateTimeExt::display`].
+crates/atuin-common/src/time/offset_date_time.rs:80:pub struct OffsetDateTimeDisplay {
+crates/atuin-common/src/time/offset_date_time.rs:85:impl OffsetDateTimeDisplay {
+crates/atuin-common/src/path/mod.rs:7:pub use display_rich::{DisplayRichExt, RichDisplay};
+crates/atuin-common/src/string/non_nul_str.rs:49:impl<T: AsRef<str>> fmt::Display for NonNulStr<T> {
+crates/atuin-common/src/path/display_rich.rs:5:/// A [`Display`](fmt::Display) adapter for a path with optional enrichments, built via
+crates/atuin-common/src/path/display_rich.rs:6:/// [`DisplayRichExt::display_rich`].
+crates/atuin-common/src/path/display_rich.rs:8:/// With no options set, the `Display` output is byte-identical to [`Path::display`]. You can also:
+crates/atuin-common/src/path/display_rich.rs:16:pub struct RichDisplay<'a> {
+crates/atuin-common/src/path/display_rich.rs:23:impl<'a> RichDisplay<'a> {
+crates/atuin-common/src/path/display_rich.rs:42:    /// for the lifetime of this `RichDisplay`, so no allocation occurs.
+crates/atuin-common/src/path/display_rich.rs:64:    /// `home`. Borrows `home` for the lifetime of this `RichDisplay`, so no
+crates/atuin-common/src/path/display_rich.rs:90:impl fmt::Display for RichDisplay<'_> {
+crates/atuin-common/src/string/ellipsis.rs:120:/// Cheap `Copy`. `Display` writes the pieces straight to the formatter.
+crates/atuin-common/src/string/ellipsis.rs:189:impl fmt::Display for Ellipsized<'_> {
+crates/atuin-common/src/test_utils/capture.rs:55:                    // `Debug` impl is the same as `Display`.
+crates/atuin-common/src/time/duration.rs:34:    /// Pick a style with [`DurationDisplay::largest_unit`] or [`DurationDisplay::stopwatch`];
+crates/atuin-common/src/time/duration.rs:35:    /// the result implements [`Display`](fmt::Display).
+crates/atuin-common/src/time/duration.rs:41:    fn display(self) -> DurationDisplay;
+crates/atuin-common/src/time/duration.rs:44:/// How a [`DurationDisplay`] renders.
+crates/atuin-common/src/time/duration.rs:58:/// [`Display`](fmt::Display) adapter produced by [`DurationExt::display`].
+crates/atuin-common/src/time/duration.rs:60:pub struct DurationDisplay {
+crates/atuin-common/src/time/duration.rs:65:impl DurationDisplay {
+crates/atuin-common/src/time/duration.rs:156:impl fmt::Display for DurationDisplay {
+crates/atuin-common/src/time/utc_offset.rs:67:    derive_more::Display,
+crates/atuin-common/src/rmp/decode.rs:12:/// functions. Unlike those types, this type implements [`Display`] with an error message that
+crates/atuin-common/src/rmp/decode.rs:14:/// print a static string and others don't even implement [`Display`] for all `E`).
+crates/atuin-common/src/rmp/decode.rs:20:/// [`Display`]: std::fmt::Display
+crates/atuin-common/src/rmp/decode.rs:21:#[derive(Debug, derive_more::Display, derive_more::From)]

@@ -1,0 +1,6 @@
+8:use super::{Database, DbError, DbResult, OrdinalBindingDialect};
+11:pub struct Sqlite {
+16:impl Database for Sqlite {
+21:    fn pool(&self) -> &sqlx::Pool<Self::Db> {
+25:    async fn connect(url: SqliteDbUrl) -> DbResult<Self> {
+34:            .map_err(|error| DbError::Other(error.into()))?;
